@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memento App</title>
+    <link rel="stylesheet" href="resources/css/index.css">
+    <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+    
+    <!-- import the click-counter -->
+    <link rel="import" href="../dart/lib/components/mementoApp.html">
+    <link rel="import" href="packages/polymer/polymer.html">
+    <!-- <script type="application/dart">export 'package:polymer/init.dart';</script> -->
+    <script src="packages/browser/dart.js"></script>
+  </head>
+  <body>
+  
+    <!-- Main container -->
+    <div class="container" id="masterContainer">
+    
+    <header>
+     <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Memento</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Help</a></li>
+              <li><a href="#">About</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+        </div>
+      </header>
+    
+    <div id="container-id">
+      <memento-app></memento-app>
+    </div>
+  </div>
+
+  </body>
+</html>

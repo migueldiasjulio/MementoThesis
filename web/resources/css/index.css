@@ -1,0 +1,33 @@
+body {
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+h1, p {
+  color: #333;
+}
+
+#container-id {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius:3px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.max-height {
+  height: 80%;
+}
+
+

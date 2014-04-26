@@ -1,0 +1,38 @@
+<link rel="import" href="dragAndDrop.html">
+<link rel="import" href="allPhotos.html">
+<link rel="import" href="summaryDone.html">
+<link rel="import" href="bigSizePhoto.html">
+<link rel="stylesheet" href="../../../../dar/lib/components/auxiliar/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../../../../dar/lib/components/auxiliar/bootstrap.min.css">
+<polymer-element name="memento-app">
+  <template>
+    <style>
+      div {
+        font-size: 24pt;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      
+    </style>
+  
+   <template if="{{module == null}}">
+    <div class="jumbotron">
+      <h1>Memento</h1>
+      <p> 
+      Sumariza&ccedil;&atilde;o interativa e flex&iacute;vel de cole&ccedil;&otilde;es fotogr&aacute;ficas.
+        </p>
+        <p>
+          <a class="btn btn-lg btn-primary" 
+          on-click="{{navigate}}" data-target="{{modules.values.first}}">Start Summary &raquo;</a>
+        </p>
+      </div>
+  </template>
+  
+    <!-- Module   -->
+  <div id="module"></div>
+
+  </template>
+  <script type="application/dart;component=1" src="mementoApp.dart"></script>
+</polymer-element>
+
