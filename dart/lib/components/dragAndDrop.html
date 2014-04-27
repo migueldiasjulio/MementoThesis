@@ -6,11 +6,13 @@
   <div class="container" id="main">
   
     <div id="loadingPhotos">
-       <h3>Adding photos to create the summary</h3>
-        <form id="read">
+      <div id="header">
+         <h3>Adding photos to create the summary</h3>
+         <form id="read">
           <input type="file" id="files" name="files[]" multiple />
-        </form>
-        <div id="drop-zone">Drag and Drop your photos here</div>
+          </form>
+          <div id="drop-zone">Drag and Drop your photos here</div>
+        </div>
         <div id="outputZone">
           <output id="list"></output>
         </div>
@@ -22,10 +24,10 @@
 
     <div id="someButtons">  
       <div class="row">
-        <div id="cleanSelectionButton" class="col-xs-5 col-sm-5 col-md-5 col-lg-5 btn-group">
-          <button type="button" on-click="{{goHome}}" class="btn btn-primary btn-lg">Clean selection</button>  
+        <div id="cleanSelectionButton" class="col-xs-4 col-sm-5 col-md-5 col-lg-5 btn-group">
+          <button type="button" on-click="{{cleaner}}" class="btn btn-primary btn-lg">Clean selection</button>  
         </div>
-        <div id="doneButton" class=" col-xs-1 col-xs-offset-5 col-sm-1 col-md-2 col-md-offset-4 col-lg-1 col-lg-offset-5 btn-group">
+        <div id="doneButton" class=" col-xs-6 col-xs-offset-2  col-sm-1 col-md-2 col-md-offset-4 col-lg-1 col-lg-offset-5 btn-group">
           <button type="button" on-click="{{goAllPhotos}}" class="btn btn-success btn-lg">Show selection</button>
         </div>
       </div> 

@@ -7798,3 +7798,1706 @@ import 'package:polymer/builder.dart';
 ^
 build.dart finished [339 ms]
 
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [360 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [333 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [375 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [337 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [343 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [329 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [327 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [337 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [347 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [338 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [329 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [338 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [338 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [323 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [352 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [339 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [322 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [397 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.css
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [344 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/mementoApp.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [319 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [358 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [333 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [341 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [398 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [339 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [336 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [404 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [514 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [339 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.html
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [337 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [407 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [333 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [347 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [347 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [342 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [333 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [350 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [345 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [378 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [356 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [366 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [353 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [335 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [355 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [336 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [465 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [343 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [362 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [347 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [371 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [348 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [368 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [360 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [351 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [353 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [333 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [374 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [369 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [365 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [358 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [345 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [330 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [333 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [330 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [333 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [337 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [346 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [351 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [361 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [347 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [350 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [344 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [395 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [344 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [371 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [358 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [342 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [338 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [338 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [351 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [331 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [343 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [373 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [373 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [357 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [336 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [332 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [340 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [352 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [344 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [336 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/mementoApp.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [360 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/mementoApp.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [368 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/mementoApp.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [354 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [354 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [489 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [382 ms]
+
+---
+build.dart --machine --clean
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [354 ms]
+
+---
+build.dart --machine --full
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [431 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [369 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/mementoApp.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [380 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [383 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/mementoApp.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [363 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/resources/screenModule.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [335 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/resources/screenModule.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [386 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/resources/screenModule.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [342 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [337 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/resources/screenModule.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [386 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [375 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [374 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/dragAndDrop.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [343 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [342 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [368 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/dataBase.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [382 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [362 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [352 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [351 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [350 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [327 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [373 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [365 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [355 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [379 ms]
+
+---
+build.dart --machine --changed=dart/lib/components/core/photoType.dart
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [328 ms]
+

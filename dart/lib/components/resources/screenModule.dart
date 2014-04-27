@@ -5,6 +5,7 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
+import '../core/dataBase.dart';
 
 /**
  * TODO
@@ -39,6 +40,7 @@ abstract class screen extends screenModule {
   String title, description;
   String path;
   Router router;
+  dataBase myDataBase;
 
   /**
    * TODO
@@ -62,7 +64,7 @@ abstract class screen extends screenModule {
   /**
    * TODO
    */
-  void runStartStuff();
+  void runStartStuff(dataBase myDataBase);
 
   /**
    * TODO

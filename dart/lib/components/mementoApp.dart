@@ -8,6 +8,7 @@ import 'allPhotos.dart';
 import 'summaryDone.dart';
 import 'bigSizePhoto.dart';
 import 'resources/screenModule.dart';
+import 'core/dataBase.dart';
 
 /**
  * TODO
@@ -33,6 +34,7 @@ class mementoApp extends PolymerElement {
   static Map<String, screen> get myModules => MODULES;
   @observable screen module = null;
   var router;
+  dataBase myDataBase = null;
 
   /**
    * TODO
@@ -47,6 +49,7 @@ class mementoApp extends PolymerElement {
    * TODO
    */
   mementoApp.created() : super.created() {
+    myDataBase = new dataBase(true);
     router = new Router(useFragment: true);
 
     // Add a route for each module along with each module's custom subroutes
@@ -101,7 +104,7 @@ class mementoApp extends PolymerElement {
           name: path,
           preEnter: (_) {
             this.module = modules[path];
-            modules[path].runStartStuff();
+            modules[path].runStartStuff(myDataBase);
           },
           path: '/$path',
           mount: module.mount(path, router));
