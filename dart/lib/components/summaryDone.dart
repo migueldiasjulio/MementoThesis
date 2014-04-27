@@ -4,21 +4,36 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
 
+/**
+ * TODO
+ */
 @CustomTag(TAG)
 class summaryDone extends screen {
 
+  /**
+   * TODO
+   */
   static const String TAG = "summary-done";
-
   String title = "Summary Done",
          description = "Summary results";
-
   @observable Selection selection = null;
-
   factory summaryDone() => new Element.tag(TAG);
 
-  summaryDone.created() : super.created() {
+  /**
+   * TODO
+   */
+  summaryDone.created() : super.created() {}
+  
+  /**
+   * TODO
+   */
+  void runStartStuff(){
+    //TODO
   }
 
+  /**
+   * TODO
+   */
   @override
    void setupRoutes(Route route) {
     route.addRoute(
@@ -27,9 +42,10 @@ class summaryDone extends screen {
         enter: home);
    }
 
-  home(_) {
-
-  }
+  /**
+   * TODO
+   */
+  home(_) {}
     /*
      route.addRoute(
          name: 'view',
@@ -45,6 +61,9 @@ class summaryDone extends screen {
      );
      */
 
+  /**
+   * TODO
+   */
   select(event, detail, target) {
     // <type>-<id>
     var id = target.dataset["id"].split("-");

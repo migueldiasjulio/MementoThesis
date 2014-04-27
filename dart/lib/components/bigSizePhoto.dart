@@ -4,21 +4,48 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
 
+/**
+ * TODO
+ */
 @CustomTag(TAG)
 class bigSizePhoto extends screen {
 
+  /**
+   * TODO
+   */
   static const String TAG = "big-size-photo";
 
+  /**
+   * TODO
+   */
   String title = "Big Size Photo",
          description = "Photo big size";
 
+  /**
+   * TODO
+   */
   @observable Selection selection = null;
 
+  /**
+   * TODO
+   */
   factory bigSizePhoto() => new Element.tag(TAG);
 
-  bigSizePhoto.created() : super.created() {
+  /**
+   * TODO
+   */
+  bigSizePhoto.created() : super.created() {}
+  
+  /**
+   * TODO
+   */
+  void runStartStuff(){
+    //TODO
   }
 
+  /**
+   * TODO
+   */
   @override
    void setupRoutes(Route route) {
     route.addRoute(
@@ -27,9 +54,10 @@ class bigSizePhoto extends screen {
         enter: home);
    }
 
-  home(_) {
-
-  }
+  /**
+   * TODO
+   */
+  home(_) {}
     /*
      route.addRoute(
          name: 'view',
@@ -45,6 +73,9 @@ class bigSizePhoto extends screen {
      );
      */
 
+  /**
+   * TODO
+   */
   select(event, detail, target) {
     // <type>-<id>
     var id = target.dataset["id"].split("-");

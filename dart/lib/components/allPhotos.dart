@@ -4,21 +4,49 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
 
+/**
+ * TODO
+ */
 @CustomTag(TAG)
 class allPhotos extends screen {
 
+  /**
+   * TODO
+   */
   static const String TAG = "all-photos";
 
+  /**
+   * TODO
+   */
   String title = "All Photos",
          description = "Showing all photos";
 
+  /**
+   * TODO
+   */
   @observable Selection selection = null;
 
+  /**
+   * TODO
+   */
   factory allPhotos() => new Element.tag(TAG);
 
+  /**
+   * TODO
+   */
   allPhotos.created() : super.created() {
   }
+  
+  /**
+   * TODO
+   */
+  void runStartStuff(){
+    //TODO
+  }
 
+  /**
+   * TODO
+   */
   @override
    void setupRoutes(Route route) {
     route.addRoute(
@@ -27,27 +55,17 @@ class allPhotos extends screen {
         enter: home);
    }
 
-  home(_) {
+  /**
+   * TODO
+   */
+  home(_) {}
 
-  }
-    /*
-     route.addRoute(
-         name: 'view',
-         path: '/:type/:id',
-         enter: (e) {
-           selection = new Selection()
-           ..type = e.parameters['type']
-           ..id = e.parameters['id'];
-         },
-         leave: (e) {
-           jQuery('#diagram').callMethod('popup', ['remove']);
-         }
-     );
-     */
-
+  /**
+   * TODO
+   */
   select(event, detail, target) {
     // <type>-<id>
     var id = target.dataset["id"].split("-");
     router.go("$path.view", {"type": id[0], "id": id[1]});
   }
-}
+}//allPhotos

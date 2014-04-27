@@ -1,10 +1,37 @@
 <polymer-element name="drag-and-drop">
-  <template>
-    <style>
-    </style>
+    <link href="packages/yaml/css/bootstrap.min.css" rel="stylesheet"
+      media="screen">
+      <link rel="stylesheet" href="dragAndDrop.css">
+  <template> 
+  <div class="container" id="main">
   
-  <p>Drag and Drop</p>
-  
+    <div id="loadingPhotos">
+       <h3>Adding photos to create the summary</h3>
+        <form id="read">
+          <input type="file" id="files" name="files[]" multiple />
+        </form>
+        <div id="drop-zone">Drag and Drop your photos here</div>
+        <div id="outputZone">
+          <output id="list"></output>
+        </div>
+    </div>
+    
+    <div id="line">
+    <hr>
+    </div>
+
+    <div id="someButtons">  
+      <div class="row">
+        <div id="cleanSelectionButton" class="col-xs-5 col-sm-5 col-md-5 col-lg-5 btn-group">
+          <button type="button" on-click="{{goHome}}" class="btn btn-primary btn-lg">Clean selection</button>  
+        </div>
+        <div id="doneButton" class=" col-xs-1 col-xs-offset-5 col-sm-1 col-md-2 col-md-offset-4 col-lg-1 col-lg-offset-5 btn-group">
+          <button type="button" on-click="{{goAllPhotos}}" class="btn btn-success btn-lg">Show selection</button>
+        </div>
+      </div> 
+    </div>
+    
+  </div>
   </template>
   <script type="application/dart;component=1" src="dragAndDrop.dart"></script>
 </polymer-element>

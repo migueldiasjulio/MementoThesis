@@ -2,22 +2,25 @@
 <link rel="import" href="allPhotos.html">
 <link rel="import" href="summaryDone.html">
 <link rel="import" href="bigSizePhoto.html">
-<link rel="stylesheet" href="../../../../dar/lib/components/auxiliar/bootstrap-theme.min.css">
-<link rel="stylesheet" href="../../../../dar/lib/components/auxiliar/bootstrap.min.css">
 <polymer-element name="memento-app">
+    <link href="packages/yaml/css/bootstrap.min.css" rel="stylesheet"
+      media="screen">
   <template>
     <style>
-      div {
-        font-size: 24pt;
-        text-align: center;
-        margin-top: 10px;
-        margin-bottom: 10px;
+    #default {
+    backgroud-color: #DCDCDC;
+    }
+    
+    .jumbotron {
+     margin-bottom: 0px;
+     height: 500px;
+     background-color:#DCDCDC;
       }
-      
     </style>
   
    <template if="{{module == null}}">
-    <div class="jumbotron">
+   <div id="default">
+    <div class="jumbotron" id="presentation">
       <h1>Memento</h1>
       <p> 
       Sumariza&ccedil;&atilde;o interativa e flex&iacute;vel de cole&ccedil;&otilde;es fotogr&aacute;ficas.
@@ -27,6 +30,7 @@
           on-click="{{navigate}}" data-target="{{modules.values.first}}">Start Summary &raquo;</a>
         </p>
       </div>
+   </div>
   </template>
   
     <!-- Module   -->
