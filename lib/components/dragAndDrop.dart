@@ -1,21 +1,24 @@
 library dragAndDrop;
 
-import 'dart:html' show Element;
+import 'dart:async';
+import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'resources/screenModule.dart';
+import 'resources/screenModule.dart' as memento;
 import 'dart:convert' show HtmlEscape;
 import 'core/dataBase.dart';
 
-/*
-Map<String, screen> screens = {
-  "all-photos": new dragAndDrop()
-};*/
+/// A [Thumbnail] model
+class Thumbnail {
+  String src, title;
+  int width, height;
 
+  Thumbnail(this.src, {this.title, this.width: 140, this.height: 140});
+}
 /**
  * TODO
  */
 @CustomTag(DragAndDrop.TAG)
-class DragAndDrop extends Screen {
+class DragAndDrop extends memento.Screen {
   /**
    * TODO
    */
@@ -60,61 +63,21 @@ class DragAndDrop extends Screen {
   /**
    *     Photo database
    */
-  List<File> photoLoaded = new List<File>(); 
-  List<ImageElement> photoLoadedThumbnail = new List<ImageElement>();
-  
-  /**
-   * TODO
-   */
-  void cleanPhotoLoaded(){
-    photoLoaded = new List<File>();
-    photoLoadedThumbnail = new List<ImageElement>();
-  }
-  
-  /**
-   * TODO
-   */
-  void addPhotosToList(List<File> files){
-    photoLoaded.addAll(files);
-  }
-  
-  /**
-   * TODO
-   */
-  void addThumbnailsToList(List<ImageElement> files){
-    photoLoadedThumbnail.addAll(files);
-  }
-  
+  final List<File> photos = toObservable([]);
+  final List<Thumbnail> thumbnails = toObservable([]);
 
   /**
    * TODO
    */
   void cleaner(){
-    //clean string
-    cleanOutputList();
-  }
-  
-  /**
-   * TODO
-   */
-  void cleanOutputList(){
-    _output.nodes.clear();
-    cleanPhotoLoaded();   
-  }
-  
-  /**
-   * TODO
-   */
-  void cleanAuxLists(){
-    this.photoLoaded = new List<File>();
-    this.photoLoadedThumbnail = new List<ImageElement>();
+    photos.clear();
+    thumbnails.clear();
   }
 
   /**
    * TODO
    */
    DragAndDrop.created() : super.created() {
-    _output = $["list"];
     _readForm = $['read'];
     _fileInput = $['files'];
     _dropZone = $['drop-zone'];
@@ -123,7 +86,7 @@ class DragAndDrop extends Screen {
     _dropZone.onDragOver.listen(_onDragOver);
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
-    _dropZone.onDrop.listen(_onDrop);  
+    _dropZone.onDrop.listen(_onDrop);
   }
   
   void sendInformation(){
@@ -192,17 +155,17 @@ class DragAndDrop extends Screen {
    * TODO
    */
    void _onDragOver(MouseEvent event) {
-     event.stopPropagation();
-     event.preventDefault();
-     event.dataTransfer.dropEffect = 'copy';
+     event
+     ..stopPropagation()
+     ..preventDefault()
+     ..dataTransfer.dropEffect = 'copy';
    }
 
    /**
     * TODO
     */
    void _onDrop(MouseEvent event) {
-     event.stopPropagation();
-     event.preventDefault();
+     event..stopPropagation()..preventDefault();
      _dropZone.classes.remove('hover');
      _readForm.reset();
      _onFilesSelected(event.dataTransfer.files);
@@ -216,59 +179,28 @@ class DragAndDrop extends Screen {
    }
    
    void addPhotosToDataBase(){
-     this.myDataBase.addNewElementsToDataBase(this.photoLoaded, this.photoLoadedThumbnail);
+     myDataBase.addNewElementsToDataBase(photos, thumbnails);
    }
 
    /**
     * TODO
     */
    void _onFilesSelected(List<File> files) {
-     print("Original photos list size: " + this.photoLoaded.length.toString());
-     print("Thumbnail photos list size: " + this.photoLoadedThumbnail.length.toString());
-     //original files added
-     this.addPhotosToList(files);
-     
-     List<ImageElement> thumb = new List<ImageElement>();
-     
-     var list = new Element.tag('ul');
-     for (var file in files) {
-       var item = new Element.tag('li');
-       var thumbnail = new ImageElement();
+     print("${photos.length} original photos");
+     print("${thumbnails.length} thumbnail photos");
 
-       // If the file is an image, read and display its thumbnail.
-       if (file.type.startsWith('image')) {
-         var thumbHolder = new Element.tag('span');
-         var reader = new FileReader();
-         reader.onLoad.listen((e) {
-           
-           thumbnail.src = reader.result;
-           thumbnail.width = 140;
-           thumbnail.width = 140;
-           thumbnail.classes.add('thumb');
-           
-           thumbnail.title = sanitizer.convert(file.name);
-           thumbHolder.nodes.add(thumbnail);       
-         });
-         reader.readAsDataUrl(file);
-         item.nodes.add(thumbHolder);
-       }
+     var photoFiles = files.where((file) => file.type.startsWith('image'));
 
-       /**
-        * For all file types, display some properties.
-        */
-       var properties = new Element.tag('span');
-       properties.innerHtml = (new StringBuffer('<strong>')
-           ..write(sanitizer.convert(file.name))
-       ).toString();
-       item.nodes.add(properties);
-       list.nodes.add(item);
-       //adding
-       thumb.add(thumbnail);
-     }
-     this.addThumbnailsToList(thumb);
-     print("Original photos list size: " + this.photoLoaded.length.toString());
-     print("Thumbnail photos list size: " + this.photoLoadedThumbnail.length.toString());
-     
-     _output.nodes.add(list);
+     // Add original files
+     photos.addAll(photoFiles);
+
+     // read and display its thumbnail.
+     photoFiles.forEach((file) {
+       var reader = new FileReader();
+       reader.onLoad.listen((e) {
+          thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
+       });
+       reader.readAsDataUrl(file);
+     });
    } 
  }

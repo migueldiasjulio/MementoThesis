@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="dragAndDrop.css">
   <template> 
   <div class="container" id="main">
-  
+
     <div id="loadingPhotos">
       <div id="header">
          <h3>Adding photos to create the summary</h3>
@@ -12,7 +12,14 @@
           <div id="drop-zone">Drag and Drop your photos here</div>
         </div>
         <div id="outputZone">
-          <output id="list"></output>
+          <ul>
+            <template repeat="{{thumbnail in thumbnails}}">
+              <li>
+                <span><img src="{{thumbnail.src}}" width="{{thumbnail.width}}" class="thumb" title="{{thumbnail.title}}"></span>
+                <span><strong>{{thumbnail.title}}</strong></span>
+              </li>
+            </template>
+          </ul>
         </div>
     </div>
     
