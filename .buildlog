@@ -11269,3 +11269,16 @@ import 'package:polymer/builder.dart';
 ^
 build.dart finished [326 ms]
 
+---
+build.dart --machine --changed=README.md
+Unable to open file: /Users/migueljulio/Documents/workspace/MementoThesis/packages/yaml/yaml.dart'package:polymer/src/build/runner.dart': error: line 16 pos 1: library handler failed
+import 'package:yaml/yaml.dart';
+^
+'package:polymer/builder.dart': error: line 88 pos 1: library handler failed
+import 'src/build/runner.dart';
+^
+'file:///Users/migueljulio/Documents/workspace/MementoThesis/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [315 ms]
+
