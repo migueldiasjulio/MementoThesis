@@ -1,7 +1,5 @@
 library screenModule;
 
-import 'dart:js' as js;
-import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
@@ -15,19 +13,8 @@ abstract class screenModule extends PolymerElement {
   /**
    * TODO
    */
-  @published String pageName;
+  screenModule.created() : super.created() {}
 
-  /**
-   * TODO
-   */
-  screenModule.created() : super.created() {
-    print("[Screen] $this created with pageName $pageName");
-  }
-
-  /**
-   * TODO
-   */
-  pageNameChanged() {}
 }//class screen Module
 
 /**

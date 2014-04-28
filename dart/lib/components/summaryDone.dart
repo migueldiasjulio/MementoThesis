@@ -3,6 +3,7 @@ library summaryDone;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
+import 'core/dataBase.dart';
 
 /**
  * TODO
@@ -27,7 +28,8 @@ class summaryDone extends screen {
   /**
    * TODO
    */
-  void runStartStuff(){
+  void runStartStuff(dataBase _dataBase){
+    this.myDataBase = _dataBase;
     //TODO
   }
 

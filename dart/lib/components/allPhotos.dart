@@ -3,6 +3,7 @@ library allPhotos;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
+import 'core/dataBase.dart';
 
 /**
  * TODO
@@ -40,7 +41,8 @@ class allPhotos extends screen {
   /**
    * TODO
    */
-  void runStartStuff(){
+  void runStartStuff(dataBase _dataBase){
+    this.myDataBase = _dataBase;
     //TODO
   }
 

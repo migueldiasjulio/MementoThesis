@@ -1,6 +1,5 @@
 library app;
 
-import 'dart:html';
 import 'package:route_hierarchical/client.dart';
 import 'package:polymer/polymer.dart';
 import 'dragAndDrop.dart';
@@ -13,7 +12,7 @@ import 'core/dataBase.dart';
 /**
  * TODO
  */
-Map<String, screen> MODULES = {
+Map<String, screen> myScreens = {
   "drag-and-drop": new dragAndDrop(),
   "all-photos": new allPhotos(),
   "summary-done": new summaryDone(),
@@ -30,26 +29,16 @@ class mementoApp extends PolymerElement {
    * TODO
    */
   @published String pageName;
-  Map<String, screen> get modules => MODULES;
-  static Map<String, screen> get myModules => MODULES;
-  @observable screen module = null;
+  Map<String, screen> get screens => myScreens;
+  @observable screen myScreen = null;
   var router;
   dataBase myDataBase = null;
 
   /**
    * TODO
    */
-  pageNameChanged() {
-    print("Page Name changed");
-    // Setup the connectionId for all the modules
-    modules.values.forEach((m) { m.setAttribute("pageName", pageName); });
-  }
-
-  /**
-   * TODO
-   */
   mementoApp.created() : super.created() {
-    myDataBase = new dataBase(true);
+    myDataBase = new dataBase(true); //TODO change to Singleton
     router = new Router(useFragment: true);
 
     // Add a route for each module along with each module's custom subroutes
@@ -98,13 +87,13 @@ class mementoApp extends PolymerElement {
                  name: 'all-photos',
                  path: '/all-photos'));
     */            
-    modules.forEach((path, module) {
+    screens.forEach((path, module) {
       print(path);
       router.root.addRoute(
           name: path,
           preEnter: (_) {
-            this.module = modules[path];
-            modules[path].runStartStuff(myDataBase);
+            this.myScreen = screens[path];
+            screens[path].runStartStuff(myDataBase);
           },
           path: '/$path',
           mount: module.mount(path, router));
@@ -117,14 +106,7 @@ class mementoApp extends PolymerElement {
    * TODO
    */
   void showHome(RouteEvent e) {
-    module = null;
-  }
-  
-  /**
-   * TODO
-   */
-  void changeDragAndDropInstance(){
-    modules['drag-and-drop'] = new dragAndDrop();
+    this.myScreen = null;
   }
 
   /**
@@ -139,11 +121,11 @@ class mementoApp extends PolymerElement {
   /**
    * TODO
    */
-  void moduleChanged() {
-    $['module'].children..clear();
-     if (module != null) {
-       print('Element: ${module.tagName}');
-       $['module'].children.add(module);
+  void myScreenChanged() {
+    $['myScreen'].children..clear();
+     if (this.myScreen != null) {
+       print('Element: ${this.myScreen.tagName}');
+       $['myScreen'].children.add(this.myScreen);
      }
   }
 }

@@ -21,3 +21,9 @@ TODO: Solve some bugs in the transition
 Done: DataBase class added. 
 TODO: Solve some bugs in the transition; Link dragAndDrop with database
 -------------
+-------------
+28 Abril - 1
+
+Done: DataBase updated - Ready for container. 
+TODO: Solve some bugs in the transition; Link dragAndDrop with database
+-------------

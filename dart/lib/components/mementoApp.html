@@ -18,12 +18,12 @@
      background-color:#DCDCDC;
       }
       
-    #module{
+    #myScreen{
     overflow: hidden;
     }  
     </style>
   
-   <template if="{{module == null}}">
+   <template if="{{myScreen == null}}">
    <div id="default">
     <div class="jumbotron" id="presentation">
       <h1>Memento</h1>
@@ -32,14 +32,14 @@
         </p>
         <p>
           <a class="btn btn-lg btn-primary" 
-          on-click="{{navigate}}" data-target="{{modules.values.first}}">Start Summary &raquo;</a>
+          on-click="{{navigate}}" data-target="{{screens.values.first}}">Start Summary &raquo;</a>
         </p>
       </div>
    </div>
   </template>
   
     <!-- Module   -->
-  <div id="module"></div>
+  <div id="myScreen"></div>
 
   </template>
   <script type="application/dart;component=1" src="mementoApp.dart"></script>

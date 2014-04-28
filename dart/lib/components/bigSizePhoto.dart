@@ -3,6 +3,7 @@ library bigSize;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
+import 'core/dataBase.dart';
 
 /**
  * TODO
@@ -39,7 +40,8 @@ class bigSizePhoto extends screen {
   /**
    * TODO
    */
-  void runStartStuff(){
+  void runStartStuff(dataBase dataBase){
+    this.myDataBase = dataBase;
     //TODO
   }
 

@@ -2,23 +2,23 @@ import 'dart:html';
 
 class photoType {
   
-  File originalPhotoPath;
-  ImageElement thumbnailPhotoPath;
+  File myFile;
+  ImageElement myThumbnail;
   
   //TODO I need to change this to an enumerator!!!!!!!
-  String classification;
+  //String classification = "STANDBY";
   List<String> category;
   
-  photoType(File originalPhotoPath, ImageElement thumbnailPhotoPath){
-    this.originalPhotoPath = originalPhotoPath;
-    this.thumbnailPhotoPath = thumbnailPhotoPath;
+  photoType(File myFile, ImageElement myThumbnail){
+    this.myFile = myFile;
+    this.myThumbnail = myThumbnail;
   }
   
-  String get returnClassification => this.classification;
+  //String get returnClassification => this.classification;
   
-  void set setClassification(String classification) {
+  /*void set setClassification(String classification) {
     this.classification = classification;
-  }
+  }*/
   
   List<String> get returnCategory => this.category;
   

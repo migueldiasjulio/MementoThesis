@@ -7,7 +7,7 @@ import 'dart:html';
 import 'core/dataBase.dart';
 
 /*
-Map<String, screen> MODULES = {
+Map<String, screen> screens = {
   "all-photos": new dragAndDrop()
 };*/
 
@@ -32,7 +32,7 @@ class dragAndDrop extends screen {
     */
    static const String TAG = "drag-and-drop";
   
-  //Map<String, screen> get modules => MODULES;
+  //Map<String, screen> get screens => screens;
   
   //Map<String, screen> modulesApp = mementoApp.modules;
   
@@ -184,6 +184,7 @@ class dragAndDrop extends screen {
    * TODO
    */
   goAllPhotos(){
+    this.addPhotosToDataBase();
     router.go('all-photos', {});
   }
   
@@ -212,6 +213,10 @@ class dragAndDrop extends screen {
     */
    void _onFileInputChange() {
      _onFilesSelected(_fileInput.files);
+   }
+   
+   void addPhotosToDataBase(){
+     this.myDataBase.addNewElementsToDataBase(this.photoLoaded, this.photoLoadedThumbnail);
    }
 
    /**
@@ -254,19 +259,6 @@ class dragAndDrop extends screen {
        var properties = new Element.tag('span');
        properties.innerHtml = (new StringBuffer('<strong>')
            ..write(sanitizer.convert(file.name))
-           /*
-           ..write('</strong> (')
-           ..write(file.type != null ? sanitizer.convert(file.type) : 'n/a')
-           ..write(') ')
-           ..write(file.size)
-           ..write(' bytes')
-           */
-           // TODO(jason9t): Re-enable this when issue 5070 is resolved.
-           // http://code.google.com/p/dart/issues/detail?id=5070
-           // ..add(', last modified: ')
-           // ..add(file.lastModifiedDate != null ?
-           //       file.lastModifiedDate.toLocal().toString() :
-           //       'n/a')
        ).toString();
        item.nodes.add(properties);
        list.nodes.add(item);
