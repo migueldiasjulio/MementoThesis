@@ -1,40 +1,42 @@
-import 'photoType.dart';
+library database;
+
+import 'PhotoType.dart';
 import 'dart:html';
+import 'Thumbnail.dart';
 
 class dataBase {
   
-  //?
-  bool start;
   
-  dataBase.created();
-  
-  dataBase(bool start);
-  
-  //Save photoType elements
+  bool start;//?
   List<String> newNameToAddToMap;
-  //List<photoType> dataBaseImage = new List<photoType>();
   Map<String, photoType> helpSearching = new Map<String, photoType>();
-  
   //Containers (Just contain file names)
   List<String> summaryContainer = new List<String>();
   List<String> standByContainer = new List<String>();
   List<String> excludedContainer = new List<String>();
-  
   //Aux
   Map<String, photoType> map = null;
   List<String> namesToAdd = new List<String>();
   List<photoType> newDataBaseElementsToAdd = new List <photoType>();
   photoType newDataBaseElement = null;
+  
+  /**
+   * Constructors
+   */
+  dataBase.created();
+  dataBase(bool start);
 
-  void addNewElementsToDataBase(List<File> originalFiles, List<ImageElement> thumbnailFiles){
-  int fileListSize = originalFiles.length;
-  for(int i = 0; i < fileListSize; i++){
-    //if does not exists in the library
-    if(!alreadyExistsInTheDataBase(originalFiles.elementAt(i))){
-      this.namesToAdd.add(originalFiles.elementAt(i).name);
-      this.newDataBaseElement = new photoType(originalFiles.elementAt(i), thumbnailFiles.elementAt(i));        
-      this.newDataBaseElementsToAdd.add(this.newDataBaseElement);
-    }
+  /**
+   * Add a new element to the database
+   */
+  void addNewElementsToDataBase(List<File> originalFiles, List<Thumbnail> thumbnailFiles){
+    var fileListSize = originalFiles.length;
+    for(var i = 0; i < fileListSize; i++){
+      if(!alreadyExistsInTheDataBase(originalFiles.elementAt(i))){
+        this.namesToAdd.add(originalFiles.elementAt(i).name);
+        this.newDataBaseElement = new photoType(originalFiles.elementAt(i), thumbnailFiles.elementAt(i));        
+        this.newDataBaseElementsToAdd.add(this.newDataBaseElement);
+      }
   }//ciclo for
     
   print("---------- Before update --------");
@@ -43,12 +45,10 @@ class dataBase {
   print("New element is null? " + this.newDataBaseElement.toString());
   print("---------- Before update --------");
   
-    //Updating the dataBase
     this.updateMap(this.namesToAdd, this.newDataBaseElementsToAdd);
-    //this.updateListDataBaseElements(this.newDataBaseElementsToAdd);
     
     //TODO CHANGE THIS
-    this.addToStandByContainer(this.namesToAdd);
+    this.addToContainer("STANDBY", this.namesToAdd);
     
     //Cleaning
     this.namesToAdd.clear();
@@ -70,34 +70,6 @@ class dataBase {
     //Testing
 }//addNewElementsToDataBase
   
-  //TODO test
-  void printContainersState(){
-    print("<<<<<<<<<< Containers >>>>>>>>>>");
-    int sizeOf;
-    print("-> Summary Container <-");
-    sizeOf = this.summaryContainer.length;
-    print("Summary container size: " + this.summaryContainer.length.toString());   
-    for(int i = 0; i < sizeOf; i++){
-      print("Element: " + this.summaryContainer.elementAt(i));
-    }
-    print("-> Summary Container <-");
-    print("-> Stand by Container <-");
-    sizeOf = this.standByContainer.length;
-    print("Stand-by container size: " + this.standByContainer.length.toString());   
-    for(int i = 0; i < sizeOf; i++){
-      print("Element: " + this.standByContainer.elementAt(i));
-    }
-    print("-> Stand by Container <-");
-    print("-> Excluded Container <-");
-    sizeOf = this.excludedContainer.length;
-    print("Excluded container size: " + this.excludedContainer.length.toString());   
-    for(int i = 0; i < sizeOf; i++){
-      print("Element: " + this.excludedContainer.elementAt(i));
-    }
-    print("-> Excluded Container <-");
-    print("<<<<<<<<<< Containers >>>>>>>>>>");
-  }
-  
   /**
    * Update Map
    */
@@ -108,160 +80,137 @@ class dataBase {
   }
   
   /**
-     * Update List of dataBase Elements
-     */
-  /*
-  void updateListDataBaseElements(List<photoType> newElementsToAdd){
-    this.dataBaseImage.addAll(newElementsToAdd);
-  }*/
-  
-  /**
    * Check if already exists in the database
    */
   bool alreadyExistsInTheDataBase(File file){
     return this.helpSearching.containsKey(file.name);
   }
   
-  //Containers area
-  
-  List<photoType> giveYourSummaryPhotos(){
-    List<photoType> summaryPhotos = new List<photoType>();  
-    List<String> inSummary = this.summaryContainer;
-    int inSummarySize = inSummary.length;
-      for(int i = 0; i < inSummarySize; i++){
-        summaryPhotos.add(this.helpSearching[inSummary.elementAt(i)]);
-      }
-    return summaryPhotos;  
-  }
-  
-  List<photoType> giveYourStandByPhotos(){
-    List<photoType> standByPhotos = new List<photoType>();  
-    List<String> inStandBy = this.standByContainer;
-    int inStandBySize = inStandBy.length;
-      for(int i = 0; i < inStandBySize; i++){
-        standByPhotos.add(this.helpSearching[inStandBy.elementAt(i)]);
-      }
-    return standByPhotos;  
-  }
-  
-  List<photoType> giveYourExcludedPhotos(){
-    List<photoType> excludedPhotos = new List<photoType>();  
-    List<String> inExcluded = this.excludedContainer;
-    int inSummarySize = inExcluded.length;
-      for(int i = 0; i < inSummarySize; i++){
-        excludedPhotos.add(this.helpSearching[inExcluded.elementAt(i)]);
-      }
-    return excludedPhotos;  
-  }
-  
-  void addToSummaryContainer(List<String> imagesToAdd){
-    this.summaryContainer.addAll(imagesToAdd);
-    print(" << ADDING TO SUMMARY CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << ADDING TO SUMMARY CONTAINER >>");
-  }
-  
-  void addToStandByContainer(List<String> imagesToAdd){
-    this.standByContainer.addAll(imagesToAdd);
-    print(" << ADDING TO STAND-BY CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << ADDING TO STAND-BY CONTAINER >>");
-  }
-  
-  void addToExcludedContainer(List<String> imagesToAdd){
-    this.excludedContainer.addAll(imagesToAdd);
-    print(" << ADDING TO EXCLUDED CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << ADDING TO EXCLUDED CONTAINER >>");
-  }
-  
-  //TODO REFACTORIZAR
   /**
-   * 
+   * giveContainerPhotos - Returns all photos from specified container
    */
-  void fromSummaryToStandBy(List<String> summaryToStandBy){
-    this.standByContainer.addAll(summaryToStandBy); 
-    print(" << FROM SUMMARY TO STANDBY CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << FROM SUMMARY TO STANDBY CONTAINER >>");
-  }
-  
-  /**
-   * 
-   */
-  void fromSummaryToExcluded(List<String> summaryToExcluded){
-    this.excludedContainer.addAll(summaryToExcluded); 
-    print(" << FROM SUMMARY TO EXCLUDED CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << FROM SUMMARY TO EXCLUDED CONTAINER >>");
+  List<photoType> giveContainerPhotos(String _nameOfContainer){
+    var _photosToReturn = new List<photoType>();  
+    var _photosContainer = null;
+    var _inContainerSize = 0;
     
-  }
-  /**
-   * 
-   */
-  void fromStandByToSummary(List<String> standByToSummary){
-    this.summaryContainer.addAll(standByToSummary);
-    print(" << FROM STANDBY TO SUMMARY CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << FROM STANDBY TO SUMMARY CONTAINER >>");
-  }
-  
-  /**
-   * 
-   */
-  void fromStandByToExcluded(List<String> standByToExcluded){
-    this.excludedContainer.addAll(standByToExcluded);   
-    print(" << FROM STANDBY TO EXCLUDED CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << FROM STANDBY TO EXCLUDED CONTAINER >>");
-  }
-  /**
-   * 
-   */
-  void fromExcludedToSummary(List<String> excludedToSummary){
-    this.summaryContainer.addAll(excludedToSummary); 
-    print(" << FROM EXCLUDED TO SUMMARY CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << FROM EXCLUDED TO SUMMARY CONTAINER >>");
-  }
-  
-  /**
-   * 
-   */
-  void fromExcludedToStandBy(List<String> excludedToStandBy){
-    this.standByContainer.addAll(excludedToStandBy); 
-    print(" << FROM EXCLUDED TO STANDBY CONTAINER >>");
-    this.printContainersState(); //TODO
-    print(" << FROM EXCLUDED TO STANDBY CONTAINER >>");
-  }
-  
-  
-  //TODO REFACTORIZAR 
-  /*
-  void removeFromSummaryContainer(List<photoType> imagesToRemove){
-    int imagesToRemoveSize = imagesToRemove.length;
-    File file;
-    for(int i = 0; i < imagesToRemoveSize; i++){
-      file = imagesToRemove.elementAt(i).myFile;
-      this.summaryContainer.remove(file.name);
+    switch(_nameOfContainer){
+      case("SUMMARY") : 
+        _photosContainer = this.summaryContainer;
+        _inContainerSize = _photosContainer.length;
+        for(var i = 0; i < _inContainerSize; i++){
+          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)]);
+             }
+        break;
+      case("STANDBY") : 
+        _photosContainer = this.standByContainer;
+        _inContainerSize = _photosContainer.length;
+        for(var i = 0; i < _inContainerSize; i++){
+         _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)]);
+        }
+        break;
+      case("EXCLUDED") :
+        _photosContainer = this.standByContainer;
+        _inContainerSize = _photosContainer.length;
+        for(var i = 0; i < _inContainerSize; i++){
+          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)]);
+        }
+        break;
+      default: break;
     }
+    
+    return _photosToReturn; 
   }
   
-  void removeFromStandByContainer(List<photoType> imagesToRemove){
-    int imagesToRemoveSize = imagesToRemove.length;
-    File file;
-    for(int i = 0; i < imagesToRemoveSize; i++){
-      file = imagesToRemove.elementAt(i).myFile;
-      this.standByContainer.remove(file.name);
+  /**
+   * Add to container
+   */
+  void addToContainer(String _nameOfContainer, List<String> _imagesToAdd){
+    
+    switch(_nameOfContainer){
+      case("SUMMARY") : 
+        this.summaryContainer.addAll(_imagesToAdd);
+        break;
+      case("STANDBY") : 
+        this.standByContainer.addAll(_imagesToAdd);
+        break;
+      case("EXCLUDED") :
+        this.excludedContainer.addAll(_imagesToAdd);
+        break;
+      default: break;
     }
+    this.printContainersState(); //TODO
   }
   
-  void removeFromExcludedContainer(List<photoType> imagesToRemove){
-    int imagesToRemoveSize = imagesToRemove.length;
-    File file;
-    for(int i = 0; i < imagesToRemoveSize; i++){
-      file = imagesToRemove.elementAt(i).myFile;
-      this.excludedContainer.remove(file.name);
+  /**
+   * Add to container
+   */
+  void moveFromTo(String _origin, String _destination , List<String> _imagesToMove){
+    
+    switch(_origin){
+      case("SUMMARY") : 
+        switch(_destination) {
+          case("STANDBY") :
+            this.standByContainer.addAll(_imagesToMove); 
+            break;
+          case("EXCLUDED") : 
+            this.excludedContainer.addAll(_imagesToMove);
+            break;
+        }
+        break;
+      case("STANDBY") : 
+        switch(_destination) {
+          case("SUMMARY") : 
+            this.summaryContainer.addAll(_imagesToMove);
+            break;
+          case("EXCLUDED") : 
+            this.excludedContainer.addAll(_imagesToMove);  
+            break;
+        }
+        break;
+      case("EXCLUDED") :
+        switch(_destination) {
+          case("SUMMARY") :
+            this.summaryContainer.addAll(_imagesToMove); 
+            break;
+          case("STANDBY") : 
+            this.standByContainer.addAll(_imagesToMove);
+            break;
+        }
+        break;
+      default: break;
     }
-  }*/ 
+    this.printContainersState(); //TODO
+  }
+  
+  /**
+   * Just Testing
+   */
+  void printContainersState(){
+    print("<<<<<<<<<< Containers >>>>>>>>>>");
+    var sizeOf;
+    print("-> Summary Container <-");
+    sizeOf = this.summaryContainer.length;
+    print("Summary container size: " + this.summaryContainer.length.toString());   
+    for(var i = 0; i < sizeOf; i++){
+      print("Element: " + this.summaryContainer.elementAt(i));
+    }
+    print("-> Summary Container <-");
+    print("-> Stand by Container <-");
+    sizeOf = this.standByContainer.length;
+    print("Stand-by container size: " + this.standByContainer.length.toString());   
+    for(var i = 0; i < sizeOf; i++){
+      print("Element: " + this.standByContainer.elementAt(i));
+    }
+    print("-> Stand by Container <-");
+    print("-> Excluded Container <-");
+    sizeOf = this.excludedContainer.length;
+    print("Excluded container size: " + this.excludedContainer.length.toString());   
+    for(var i = 0; i < sizeOf; i++){
+      print("Element: " + this.excludedContainer.elementAt(i));
+    }
+    print("-> Excluded Container <-");
+    print("<<<<<<<<<< Containers >>>>>>>>>>");
+  }
+  
 }//dataBase

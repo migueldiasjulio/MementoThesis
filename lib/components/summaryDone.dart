@@ -1,15 +1,16 @@
 library summaryDone;
 
-import 'dart:html' show Element;
+import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'resources/screenModule.dart';
-import 'core/dataBase.dart';
+import 'package:route_hierarchical/client.dart';
+import 'resources/ScreenModule.dart' as screenhelper;
+import 'core/DataBase.dart';
 
 /**
  * TODO
  */
 @CustomTag(SummaryDone.TAG)
-class SummaryDone extends Screen {
+class SummaryDone extends screenhelper.Screen {
 
   /**
    * TODO
@@ -23,7 +24,7 @@ class SummaryDone extends Screen {
   /**
    * TODO
    */
-  SummaryDone.created() : super.created() {}
+  SummaryDone.created() : super.created();
   
   /**
    * TODO

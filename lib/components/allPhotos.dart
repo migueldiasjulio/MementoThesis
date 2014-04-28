@@ -1,15 +1,16 @@
 library allPhotos;
 
-import 'dart:html' show Element;
+import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'resources/screenModule.dart';
-import 'core/dataBase.dart';
+import 'package:route_hierarchical/client.dart';
+import 'resources/ScreenModule.dart' as screenhelper;
+import 'core/DataBase.dart';
 
 /**
  * TODO
  */
 @CustomTag(AllPhotos.TAG)
-class AllPhotos extends Screen {
+class AllPhotos extends screenhelper.Screen {
 
   /**
    * TODO
@@ -35,8 +36,7 @@ class AllPhotos extends Screen {
   /**
    * TODO
    */
-  AllPhotos.created() : super.created() {
-  }
+  AllPhotos.created() : super.created();
   
   /**
    * TODO

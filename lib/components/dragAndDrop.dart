@@ -1,24 +1,18 @@
 library dragAndDrop;
 
-import 'dart:async';
 import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'resources/screenModule.dart' as memento;
+import 'package:route_hierarchical/client.dart';
+import 'resources/ScreenModule.dart' as screenmodule;
 import 'dart:convert' show HtmlEscape;
-import 'core/dataBase.dart';
+import 'core/DataBase.dart';
+import 'core/Thumbnail.dart';
 
-/// A [Thumbnail] model
-class Thumbnail {
-  String src, title;
-  int width, height;
-
-  Thumbnail(this.src, {this.title, this.width: 140, this.height: 140});
-}
 /**
  * TODO
  */
 @CustomTag(DragAndDrop.TAG)
-class DragAndDrop extends memento.Screen {
+class DragAndDrop extends screenmodule.Screen {
   /**
    * TODO
    */
@@ -26,18 +20,12 @@ class DragAndDrop extends memento.Screen {
    InputElement _fileInput;
    Element _dropZone;
    OutputElement _output;
-   HtmlEscape sanitizer = new HtmlEscape();
-   String myPhotosPath;
-   String myThumbnailsPath;   
+   HtmlEscape sanitizer = new HtmlEscape(); 
 
    /**
     * TODO
     */
    static const String TAG = "drag-and-drop";
-  
-  //Map<String, screen> get screens => screens;
-  
-  //Map<String, screen> modulesApp = mementoApp.modules;
   
    /**
     * TODO
@@ -137,11 +125,6 @@ class DragAndDrop extends memento.Screen {
   /**
    * TODO
    */
-  select(event, detail, target) {
-    // <type>-<id>
-    var id = target.dataset["id"].split("-");
-    router.go("$path.view", {"type": id[0], "id": id[1]});
-  }
   
   /**
    * TODO

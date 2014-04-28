@@ -1,15 +1,16 @@
 library bigSize;
 
-import 'dart:html' show Element;
+import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'resources/screenModule.dart';
-import 'core/dataBase.dart';
+import 'package:route_hierarchical/client.dart';
+import 'resources/ScreenModule.dart' as screenhelper;
+import 'core/DataBase.dart';
 
 /**
  * TODO
  */
 @CustomTag(BigSizePhoto.TAG)
-class BigSizePhoto extends Screen {
+class BigSizePhoto extends screenhelper.Screen {
 
   /**
    * TODO
@@ -35,7 +36,7 @@ class BigSizePhoto extends Screen {
   /**
    * TODO
    */
-  BigSizePhoto.created() : super.created() {}
+  BigSizePhoto.created() : super.created();
   
   /**
    * TODO

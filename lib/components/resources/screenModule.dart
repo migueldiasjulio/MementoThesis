@@ -3,7 +3,7 @@ library screenModule;
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
-import '../core/dataBase.dart';
+import '../core/DataBase.dart';
 
 /**
  * TODO
@@ -13,8 +13,7 @@ abstract class ScreenModule extends PolymerElement {
   /**
    * TODO
    */
-  ScreenModule.created() : super.created() {}
-
+  ScreenModule.created() : super.created();
 }//class screen Module
 
 /**
@@ -60,7 +59,7 @@ abstract class Screen extends ScreenModule {
    * TODO
    */
   navigate(event, detail, target) {
-     router.go("${target.dataset["path"]}", {});
+     router.go("${target.dataset["target"]}", {});
   }
 
   /**

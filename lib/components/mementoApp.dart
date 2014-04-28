@@ -6,13 +6,13 @@ import 'dragAndDrop.dart';
 import 'allPhotos.dart';
 import 'summaryDone.dart';
 import 'bigSizePhoto.dart';
-import 'resources/screenModule.dart';
-import 'core/dataBase.dart';
+import 'resources/ScreenModule.dart' as screenmodule;
+import 'core/DataBase.dart';
 
 /**
  * TODO
  */
-Map<String, screen> myScreens = {
+Map<String, screenmodule.Screen> myScreens = {
   "drag-and-drop": new DragAndDrop(),
   "all-photos": new AllPhotos(),
   "summary-done": new SummaryDone(),
@@ -29,8 +29,8 @@ class MementoApp extends PolymerElement {
    * TODO
    */
   @published String pageName;
-  Map<String, screen> get screens => myScreens;
-  @observable screen myScreen = null;
+  Map<String, screenmodule.Screen> get screens => myScreens;
+  @observable screenmodule.Screen myScreen = null;
   var router;
   dataBase myDataBase = null;
 
@@ -43,7 +43,6 @@ class MementoApp extends PolymerElement {
   MementoApp.created() : super.created() {
     myDataBase = new dataBase(true); //TODO change to Singleton
     router = new Router(useFragment: true);
-
     // Add a route for each module along with each module's custom subroutes
     /*
      * router.root
