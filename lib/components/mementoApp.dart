@@ -13,17 +13,17 @@ import 'core/dataBase.dart';
  * TODO
  */
 Map<String, screen> myScreens = {
-  "drag-and-drop": new dragAndDrop(),
-  "all-photos": new allPhotos(),
-  "summary-done": new summaryDone(),
-  "big-size-photo": new bigSizePhoto()
+  "drag-and-drop": new DragAndDrop(),
+  "all-photos": new AllPhotos(),
+  "summary-done": new SummaryDone(),
+  "big-size-photo": new BigSizePhoto()
 };
 
 /**
  * Memento App
  */
 @CustomTag('memento-app')
-class mementoApp extends PolymerElement {
+class MementoApp extends PolymerElement {
  
   /**
    * TODO
@@ -34,10 +34,13 @@ class mementoApp extends PolymerElement {
   var router;
   dataBase myDataBase = null;
 
+  // This lets the CSS "bleed through" into the Shadow DOM of this element.
+  bool get applyAuthorStyles => true;
+
   /**
    * TODO
    */
-  mementoApp.created() : super.created() {
+  MementoApp.created() : super.created() {
     myDataBase = new dataBase(true); //TODO change to Singleton
     router = new Router(useFragment: true);
 

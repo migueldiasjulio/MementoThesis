@@ -1,6 +1,6 @@
 library summaryDone;
 
-import 'dart:html';
+import 'dart:html' show Element;
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
 import 'core/dataBase.dart';
@@ -8,8 +8,8 @@ import 'core/dataBase.dart';
 /**
  * TODO
  */
-@CustomTag(TAG)
-class summaryDone extends screen {
+@CustomTag(SummaryDone.TAG)
+class SummaryDone extends Screen {
 
   /**
    * TODO
@@ -18,12 +18,12 @@ class summaryDone extends screen {
   String title = "Summary Done",
          description = "Summary results";
   @observable Selection selection = null;
-  factory summaryDone() => new Element.tag(TAG);
+  factory SummaryDone() => new Element.tag(TAG);
 
   /**
    * TODO
    */
-  summaryDone.created() : super.created() {}
+  SummaryDone.created() : super.created() {}
   
   /**
    * TODO

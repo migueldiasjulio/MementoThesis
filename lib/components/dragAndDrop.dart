@@ -1,9 +1,9 @@
 library dragAndDrop;
 
+import 'dart:html' show Element;
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
 import 'dart:convert' show HtmlEscape;
-import 'dart:html';
 import 'core/dataBase.dart';
 
 /*
@@ -14,8 +14,8 @@ Map<String, screen> screens = {
 /**
  * TODO
  */
-@CustomTag(TAG)
-class dragAndDrop extends screen {
+@CustomTag(DragAndDrop.TAG)
+class DragAndDrop extends Screen {
   /**
    * TODO
    */
@@ -55,7 +55,7 @@ class dragAndDrop extends screen {
   /**
    * TODO
    */
-  factory dragAndDrop() => new Element.tag(TAG);
+  factory DragAndDrop() => new Element.tag(TAG);
   
   /**
    *     Photo database
@@ -113,11 +113,11 @@ class dragAndDrop extends screen {
   /**
    * TODO
    */
-  dragAndDrop.created() : super.created() { 
-    _output = shadowRoot.querySelector("#list"); 
-    _readForm = shadowRoot.querySelector('#read');
-    _fileInput = shadowRoot.querySelector('#files');  
-    _dropZone = shadowRoot.querySelector('#drop-zone');
+   DragAndDrop.created() : super.created() {
+    _output = $["list"];
+    _readForm = $['read'];
+    _fileInput = $['files'];
+    _dropZone = $['drop-zone'];
     
     _fileInput.onChange.listen((e) => _onFileInputChange());
     _dropZone.onDragOver.listen(_onDragOver);

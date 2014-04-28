@@ -1,6 +1,6 @@
 library bigSize;
 
-import 'dart:html';
+import 'dart:html' show Element;
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
 import 'core/dataBase.dart';
@@ -8,8 +8,8 @@ import 'core/dataBase.dart';
 /**
  * TODO
  */
-@CustomTag(TAG)
-class bigSizePhoto extends screen {
+@CustomTag(BigSizePhoto.TAG)
+class BigSizePhoto extends Screen {
 
   /**
    * TODO
@@ -30,12 +30,12 @@ class bigSizePhoto extends screen {
   /**
    * TODO
    */
-  factory bigSizePhoto() => new Element.tag(TAG);
+  factory BigSizePhoto() => new Element.tag(TAG);
 
   /**
    * TODO
    */
-  bigSizePhoto.created() : super.created() {}
+  BigSizePhoto.created() : super.created() {}
   
   /**
    * TODO

@@ -8,19 +8,19 @@ import '../core/dataBase.dart';
 /**
  * TODO
  */
-abstract class screenModule extends PolymerElement {
+abstract class ScreenModule extends PolymerElement {
 
   /**
    * TODO
    */
-  screenModule.created() : super.created() {}
+  ScreenModule.created() : super.created() {}
 
 }//class screen Module
 
 /**
  * TODO
  */
-abstract class screen extends screenModule {
+abstract class Screen extends ScreenModule {
   /**
    * TODO
    */
@@ -32,7 +32,10 @@ abstract class screen extends screenModule {
   /**
    * TODO
    */
-  screen.created() : super.created();
+  Screen.created() : super.created();
+
+  // This lets the CSS "bleed through" into the Shadow DOM of this element.
+  bool get applyAuthorStyles => true;
 
   /**
    * Store the root router and return the mountFn

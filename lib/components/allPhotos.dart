@@ -1,6 +1,6 @@
 library allPhotos;
 
-import 'dart:html';
+import 'dart:html' show Element;
 import 'package:polymer/polymer.dart';
 import 'resources/screenModule.dart';
 import 'core/dataBase.dart';
@@ -8,8 +8,8 @@ import 'core/dataBase.dart';
 /**
  * TODO
  */
-@CustomTag(TAG)
-class allPhotos extends screen {
+@CustomTag(AllPhotos.TAG)
+class AllPhotos extends Screen {
 
   /**
    * TODO
@@ -30,12 +30,12 @@ class allPhotos extends screen {
   /**
    * TODO
    */
-  factory allPhotos() => new Element.tag(TAG);
+  factory AllPhotos() => new Element.tag(TAG);
 
   /**
    * TODO
    */
-  allPhotos.created() : super.created() {
+  AllPhotos.created() : super.created() {
   }
   
   /**
