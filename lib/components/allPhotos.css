@@ -1,0 +1,57 @@
+#main {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+#thumbnailsHere {
+  width: 100%;
+  height: 70%; 
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#outputZone{
+  width: 100%;
+  height: 100%; 
+  overflow-y: scroll; overflow-x:hidden;
+}
+
+#line {
+  width: 100%;
+  height: 4%;
+  margin-top: 20px;
+}
+  
+#someButtons {
+  width: 100%;
+  height: 26%;
+  }  
+
+#progress-bar {
+  background-color: #9cf;
+  border: 1px solid #000;
+  font-size: 14px;
+  margin: 10px 0;
+  opacity: 0;
+  -webkit-transition: opacity 0.5s linear;
+  -moz-transition: opacity 0.5s linear;
+  -o-transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;
+  padding: 3px;
+}
+
+#progress-bar.loading {
+  opacity: 1.0;
+}
+
+.thumb {
+  border: 1px solid #000;
+  height: 140px;
+  margin: 10px 5px 0 0;
+}

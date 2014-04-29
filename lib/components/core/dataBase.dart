@@ -213,4 +213,14 @@ class dataBase {
     print("<<<<<<<<<< Containers >>>>>>>>>>");
   }
   
+  List<Thumbnail> getAllThumbnails(){
+    var thumbnails = new List<Thumbnail>();
+    var allPhotos = this.helpSearching.values;
+    var allPhotosSize = allPhotos.length;
+    for(int i = 0; i < allPhotosSize; i++){
+      thumbnails.add(allPhotos.elementAt(i).myThumbnail);
+    }
+    return thumbnails;
+  }
+  
 }//dataBase

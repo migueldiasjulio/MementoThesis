@@ -27,3 +27,9 @@ TODO: Route bug; Link dragAndDrop with database
 Done: DataBase updated - Ready for container. 
 TODO: Route bug; Link dragAndDrop with database
 -------------
+-------------
+29 Abril - 1
+
+Done: Showing all photos. 
+TODO: ProgressBar needs to be corrected.
+-------------

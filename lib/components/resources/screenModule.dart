@@ -75,8 +75,4 @@ abstract class Screen extends ScreenModule {
   goRoot() {
     router.go(path, {});
   } 
-  /*
-  goAllPhotos(){
-    router.go("all-photos", {});
-  }*/
 }

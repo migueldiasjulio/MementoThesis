@@ -5,21 +5,23 @@
 
     <div id="loadingPhotos">
       <div id="header">
-         <h3>Adding photos to create the summary</h3>
+         <h4>Adding photos to create the summary</h4>
          <form id="read">
           <input type="file" id="files" name="files[]" multiple />
           </form>
           <div id="drop-zone">Drag and Drop your photos here</div>
         </div>
         <div id="outputZone">
-          <ul>
-            <template repeat="{{thumbnail in thumbnails}}">
-              <li>
-                <span><img src="{{thumbnail.src}}" width="{{thumbnail.width}}" class="thumb" title="{{thumbnail.title}}"></span>
-                <span><strong>{{thumbnail.title}}</strong></span>
-              </li>
-            </template>
-          </ul>
+        <p id="numberOfPhotos">0 photos selected.</p>
+          <br />
+          <div id="loadBarAndText">
+          <h4>Loading...</h4>
+          <div id="loadingBarPhotos" class="progress progress-striped active">
+            <div id="progressBarElement" class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" 
+               aria-valuemax="100" style="width: 45%">
+            </div>
+          </div>
+          </div>
         </div>
     </div>
     
@@ -33,7 +35,7 @@
           <button type="button" on-click="{{cleaner}}" class="btn btn-primary btn-lg">Clean selection</button>  
         </div>
         <div id="doneButton" class=" col-xs-6 col-xs-offset-2  col-sm-1 col-md-2 col-md-offset-4 col-lg-1 col-lg-offset-5 btn-group">
-          <button type="button" on-click="{{navigate}}" data-target="{{'all-photos'}}" class="btn btn-success btn-lg">Show selection</button>
+          <button type="button" on-click="{{goToAllPhotos}}" class="btn btn-success btn-lg">Show selection</button>
         </div>
       </div> 
     </div>

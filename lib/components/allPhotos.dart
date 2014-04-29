@@ -5,6 +5,7 @@ import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import 'resources/ScreenModule.dart' as screenhelper;
 import 'core/DataBase.dart';
+import 'core/Thumbnail.dart';
 
 /**
  * TODO
@@ -12,37 +13,26 @@ import 'core/DataBase.dart';
 @CustomTag(AllPhotos.TAG)
 class AllPhotos extends screenhelper.Screen {
 
-  /**
-   * TODO
-   */
+  List<Thumbnail> _thumbnailsToShow; 
   static const String TAG = "all-photos";
-
-  /**
-   * TODO
-   */
   String title = "All Photos",
          description = "Showing all photos";
-
-  /**
-   * TODO
-   */
-  @observable Selection selection = null;
-
-  /**
-   * TODO
-   */
   factory AllPhotos() => new Element.tag(TAG);
+  final List<Thumbnail> thumbnails = toObservable([]);
 
   /**
    * TODO
    */
-  AllPhotos.created() : super.created();
+  AllPhotos.created() : super.created(){
+    _thumbnailsToShow = new List<Thumbnail>();
+  }
   
   /**
    * TODO
    */
   void runStartStuff(dataBase _dataBase){
     this.myDataBase = _dataBase;
+    this.importThumbnailPhotos();
     //TODO
   }
 
@@ -61,13 +51,16 @@ class AllPhotos extends screenhelper.Screen {
    * TODO
    */
   home(_) {}
-
+  
+  ///
+  void importThumbnailPhotos(){
+    thumbnails.addAll(myDataBase.getAllThumbnails());
+  }
   /**
    * TODO
    */
-  select(event, detail, target) {
-    // <type>-<id>
-    var id = target.dataset["id"].split("-");
-    router.go("$path.view", {"type": id[0], "id": id[1]});
+  void cleaner(){
+    thumbnails.clear();
   }
-}//allPhotos
+
+}///allPhotos

@@ -21,6 +21,9 @@ class DragAndDrop extends screenmodule.Screen {
    Element _dropZone;
    OutputElement _output;
    HtmlEscape sanitizer = new HtmlEscape(); 
+   var _numberOfPhotosToAdd = 0;
+   Element _loadingBarPhotosDiv;
+   var _numberOfPhotosToAddElement;
 
    /**
     * TODO
@@ -60,6 +63,15 @@ class DragAndDrop extends screenmodule.Screen {
   void cleaner(){
     photos.clear();
     thumbnails.clear();
+    resetNumberOfPhotos();
+  }
+  
+  void resetNumberOfPhotos(){
+    $['numberOfPhotos'].text = '0 photos selected.'; 
+  }
+  
+  void setNewNumberOfPhotos(int newNumber){
+    $['numberOfPhotos'].text = newNumber.toString() + " photos selected.";
   }
 
   /**
@@ -69,12 +81,14 @@ class DragAndDrop extends screenmodule.Screen {
     _readForm = $['read'];
     _fileInput = $['files'];
     _dropZone = $['drop-zone'];
+    _loadingBarPhotosDiv = $['loadBarAndText'];
     
     _fileInput.onChange.listen((e) => _onFileInputChange());
     _dropZone.onDragOver.listen(_onDragOver);
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
+    _loadingBarPhotosDiv.hidden = true;
   }
   
   void sendInformation(){
@@ -107,32 +121,12 @@ class DragAndDrop extends screenmodule.Screen {
         name: 'home',
         path: '',
         enter: home);
-    /*
-    route.addRoute(
-        name: nome,
-         path: '/$nome',
-         mount: new allPhotos().mount(nome, router),
-         enter: (e) {
-           new allPhotos();});
-           */
    }
  
   /**
    * TODO
    */
   home(_) {}
-
-  /**
-   * TODO
-   */
-  
-  /**
-   * TODO
-   */
-  goAllPhotos(){
-    this.addPhotosToDataBase();
-    router.go('all-photos', {});
-  }
   
   /**
    * TODO
@@ -161,29 +155,64 @@ class DragAndDrop extends screenmodule.Screen {
      _onFilesSelected(_fileInput.files);
    }
    
+   /**
+    * 
+    */
    void addPhotosToDataBase(){
      myDataBase.addNewElementsToDataBase(photos, thumbnails);
+   }
+   
+   void goToAllPhotos(){
+     addPhotosToDataBase();
+     router.go("all-photos", {});
+   }
+   
+   void activateProgressBar(){
+     _loadingBarPhotosDiv.hidden = false;
+   }
+   
+   void inactiveProgressBar(){
+     _loadingBarPhotosDiv.hidden = true;
+   }
+   
+   void setInitialProgressBarValues(String finalValue){
+     $['numberOfPhotos'].setAttribute("aria-valuemax", finalValue);  
+   }
+   
+   void updateLiveValueOfProgressBar(String valueNow){
+     $['numberOfPhotos'].setAttribute("aria-valuenow", valueNow);
+     var numberX = int.parse(valueNow)/(int.parse($['numberOfPhotos'].getAttribute("aria-valuemax")));
+     $['numberOfPhotos'].setAttribute("style", "width: " + numberX.toString() + "%");
+     
    }
 
    /**
     * TODO
     */
    void _onFilesSelected(List<File> files) {
+     activateProgressBar();
+
      print("${photos.length} original photos");
      print("${thumbnails.length} thumbnail photos");
 
      var photoFiles = files.where((file) => file.type.startsWith('image'));
-
+       
      // Add original files
      photos.addAll(photoFiles);
+     setNewNumberOfPhotos(photos.length);
+     setInitialProgressBarValues(photos.length.toString());
 
+     var aux = 0;
      // read and display its thumbnail.
      photoFiles.forEach((file) {
+       updateLiveValueOfProgressBar(aux.toString());
        var reader = new FileReader();
        reader.onLoad.listen((e) {
           thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
        });
        reader.readAsDataUrl(file);
      });
+     
+     //inactiveProgressBar();
    } 
  }
