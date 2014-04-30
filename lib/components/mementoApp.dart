@@ -31,6 +31,7 @@ class MementoApp extends PolymerElement {
   @published String pageName;
   Map<String, screenmodule.Screen> get screens => myScreens;
   @observable screenmodule.Screen myScreen = null;
+  //@observable bool defaultScreen = true;
   var router;
   dataBase myDataBase = null;
 

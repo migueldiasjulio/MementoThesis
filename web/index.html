@@ -3,46 +3,69 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <title>Memento App</title>
+    <link rel="stylesheet" href="resources/css/font-face.css">
     <link rel="stylesheet" href="resources/css/index.css">
     <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-
     <link rel="import" href="packages/polymer/polymer.html">
     <link rel="import" href="packages/memento/components/mementoApp.html">
   </head>
-  <body>
+  <body style="background-color: #333333">
+    
+    <div id="main" class="container">
+
+    <header style="height: 6%">
+        <nav id="headerBar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand logo-nav" href="#">
+                      <img src="resources/css/memento_logo.svg" style="width: 140px; height: 50px; margin-top: -15px" />
+                  </a>
+              </div>
   
-    <!-- Main container -->
-    <div class="container" id="masterContainer">
-    
-    <header>
-     <div class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Memento</a>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse navbar-ex1-collapse">
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="#help">Help</a>
+                      </li>
+                      <li><a href="#about">About</a>
+                      </li>
+                  </ul>
+              </div>
+              <!-- /.navbar-collapse -->
           </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Help</a></li>
-              <li><a href="#">About</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-        </div>
+          <!-- /.container -->
+        </nav>
+        <!-- nav -->
       </header>
-    
-    <div id="container-id">
+      <!-- header -->
+   
+    <div class="container" id="container-id" style=" height: 86%">
       <memento-app></memento-app>
     </div>
-  </div>
+    
+    <footer style=" height: 10%; margin-top: 10px; margin-bottom: 10px">
+      <p style="color:white">&copy; Memento 2014</p>
+    </footer>
+    
+    </div>
 
+    <!-- Auto resize -->
+    <script lang="javascript">
+        function autoResizeDiv()
+        {
+         document.getElementById('main').style.height = window.innerHeight +'px';
+        }
+        window.onresize = autoResizeDiv;
+        autoResizeDiv();
+    </script>
   </body>
 </html>

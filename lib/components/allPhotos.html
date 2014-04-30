@@ -9,25 +9,28 @@
               <template repeat="{{thumbnail in thumbnails}}">
                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                   <!-- <a href="#" class="thumbnail"> -->
-                    <img src="{{thumbnail.src}}" width="{{thumbnail.width}}" height="{{thumbnail.height}}" class="thumb" title="{{thumbnail.title}}">
+                    <img src="{{thumbnail.src}}" width="{{thumbnail.width}}" height="{{thumbnail.height}}" 
+                    class="img-thumbnail" title="{{thumbnail.title}}">
                   <!-- </a> -->
                 </div>
+                
+                
               </template>
               </div>
               </div>
           </section>
       
       <div id="line">
-      <hr>
+      <hr style="border-top: 1px solid #35302c">
       </div>
   
       <div class="container" id="someButtons">  
-        <div class="row">
+        <div style="float: right" class="row">
           <div id="addMorePhotos" class="btn-group">
-            <button type="button" class="btn btn-primary btn-lg">Add Photos</button>  
+            <button type="button" on-click="{{goToAddPhotos}}" class="btn btn-default btn-lg">Add Photos</button>  
           </div>
-          <div id="startSummary" class="btn-group">
-            <button type="button" class="btn btn-success btn-lg">Start Summary</button>
+          <div class="btn-group">
+            <button id="startSummary" type="button" class="btn btn-success btn-lg">Start Summary</button>
           </div>
         </div> 
       </div>

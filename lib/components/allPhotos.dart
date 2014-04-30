@@ -52,6 +52,10 @@ class AllPhotos extends screenhelper.Screen {
    */
   home(_) {}
   
+  void goToAddPhotos(){
+    router.go("drag-and-drop", {});
+  }
+  
   ///
   void importThumbnailPhotos(){
     thumbnails.addAll(myDataBase.getAllThumbnails());

@@ -6,33 +6,61 @@
   <template>
     <style>
     #default {
-    backgroud-color: #DCDCDC;
+    backgroud-color: #333333;
+    }
+    
+    #presentation{
     overflow: hidden;
     }
     
     .jumbotron {
-     margin-bottom: 0px;
-     height: 500px;
-     background-color:#DCDCDC;
+     background-color:#bdb8ad;
       }
       
     #myScreen{
     overflow: hidden;
-    }  
+    }
+    
+    .centerfy{
+    text-align: center;
+    }
+    
+    #information{
+    margin-bottom: 2%;
+    }
     </style>
   
    <template if="{{myScreen == null}}">
    <div id="default">
-    <div class="jumbotron" id="presentation">
-      <h1>Memento</h1>
+   
+    <div class="jumbotron centerfy" id="presentation">
+      <img src="resources/images/image2.svg" style="width: 300px; height: 70px"/>
+      <h2>Your Moments. Your Life.</h2>
       <p> 
-      Sumariza&ccedil;&atilde;o interativa e flex&iacute;vel de cole&ccedil;&otilde;es fotogr&aacute;ficas.
+      Create and share summaries of your photo collections in an easy way with Memento. 
         </p>
-        <p>
-          <a class="btn btn-lg btn-primary" 
+          <a class="btn btn-lg btn-success" style="background-color: #74d9ae; border: #74d9ae" 
           on-click="{{navigate}}" data-target="{{screens.keys.first}}">Start Summary &raquo;</a>
-        </p>
-      </div>
+    </div>
+    
+    <div id="line">
+      <hr style="border-top: 1px solid #35302c">
+    </div>
+        
+    <div id="information">
+      <div class="row">
+         <div class="col-xs-6 col-sm-6 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
+           <h2>How to</h2>
+             <p> Learn how to summarize your collection! </p>
+             <p><a class="btn btn-default" href="#">Change this later &raquo;</a></p>
+          </div>
+         <div class="col-xs-6 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
+           <h2>How to</h2>
+             <p> Learn how to summarize your collection! </p>
+             <p><a class="btn btn-default" href="#">Change this later &raquo;</a></p>
+          </div>
+       </div>
+     </div> <!-- information -->
    </div>
   </template>
   

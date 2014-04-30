@@ -1,46 +1,46 @@
 <polymer-element name="drag-and-drop">
   <link rel="stylesheet" href="dragAndDrop.css">
   <template> 
-  <div class="container" id="main">
-
-    <div id="loadingPhotos">
+  <div id="main" class="container" style="height: 100%">
+  
+    <section id="loadingPhotos" style="height: 81%">
       <div id="header">
          <h4>Adding photos to create the summary</h4>
          <form id="read">
           <input type="file" id="files" name="files[]" multiple />
           </form>
           <div id="drop-zone">Drag and Drop your photos here</div>
-        </div>
+        </div> <!-- header -->
         <div id="outputZone">
-        <p id="numberOfPhotos">0 photos selected.</p>
+          <p id="numberOfPhotos">0 photos selected.</p>
           <br />
           <div id="loadBarAndText">
-          <h4>Loading...</h4>
-          <div id="loadingBarPhotos" class="progress progress-striped active">
-            <div id="progressBarElement" class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" 
-               aria-valuemax="100" style="width: 45%">
+            <h4>Loading...</h4>
+            <div id="loadingBarPhotos" class="progress progress-striped active">
+              <div id="progressBarElement" class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" 
+              aria-valuemax="100" style="width: 45%">
+              </div>
             </div>
-          </div>
-          </div>
-        </div>
-    </div>
+          </div> <!-- loadbar -->
+        </div> <!-- output zone -->
+    </section> <!-- section -->
     
-    <div id="line">
-    <hr>
+    <div id="line" style="height: 4%">
+    <hr style="border-top: 1px solid #35302c">
     </div>
 
-    <div id="someButtons">  
-      <div class="row">
-        <div id="cleanSelectionButton" class="col-xs-4 col-sm-5 col-md-5 col-lg-5 btn-group">
-          <button type="button" on-click="{{cleaner}}" class="btn btn-primary btn-lg">Clean selection</button>  
+    <div id="someButtons" style="height: 15%">  
+      <div style="float: right" class="row">
+        <div class="btn-group">
+          <button type="button" on-click="{{cleaner}}" style="width: 160px" class="btn btn-default btn-lg">Clean selection</button>  
         </div>
-        <div id="doneButton" class=" col-xs-6 col-xs-offset-2  col-sm-1 col-md-2 col-md-offset-4 col-lg-1 col-lg-offset-5 btn-group">
-          <button type="button" on-click="{{goToAllPhotos}}" class="btn btn-success btn-lg">Show selection</button>
+        <div class="btn-group">
+          <button id="doneButton" type="button" on-click="{{goToAllPhotos}}" style="width: 160px" class="btn btn-success btn-lg">Done</button>
         </div>
       </div> 
     </div>
     
-  </div>
+  </div> <!-- main -->
   </template>
   <script type="application/dart;component=1" src="dragAndDrop.dart"></script>
 </polymer-element>
