@@ -1,41 +1,44 @@
 <polymer-element name="all-photos">
 <link rel="stylesheet" href="allPhotos.css">
   <template>
-    <div class="container" id="main">
+    <div id="main" class="container" style="height: 100%">
     
-          <section id="thumbnailsHere">
-          <div id="outputZone">
-            <div class="row">
-              <template repeat="{{thumbnail in thumbnails}}">
-                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                  <!-- <a href="#" class="thumbnail"> -->
-                    <img src="{{thumbnail.src}}" width="{{thumbnail.width}}" height="{{thumbnail.height}}" 
-                    class="img-thumbnail" title="{{thumbnail.title}}">
-                  <!-- </a> -->
-                </div>
-                
-                
-              </template>
+      <section id="firstSection" style="height: 83%; overflow-y: scroll">
+        <div id="header">
+            <div id="line_S">
+                <hr style="border-top: 1px solid #35302c">
+            </div>
+        </div>
+          <div id="thumbnailsHere">
+              <div class="row" id="theRow">
+                <template repeat="{{thumbnail in thumbnails}}">
+                  <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2" id="{{thumbnail.title}}">
+                    <!-- <a href="#" class="thumbnail"> -->
+                      <img src="{{thumbnail.src}}" width="{{thumbnail.width}}" height="{{thumbnail.height}}" 
+                      class="img-thumbnail" title="{{thumbnail.title}}" >
+                    <!-- </a> -->
+                  </div>
+                 </template>
               </div>
-              </div>
-          </section>
+          </div> <!-- thumbnails here -->
+        </section> <!-- firstSection -->
       
-      <div id="line">
+      <div id="line" style="height: 2%">
       <hr style="border-top: 1px solid #35302c">
       </div>
   
-      <div class="container" id="someButtons">  
-        <div style="float: right" class="row">
-          <div id="addMorePhotos" class="btn-group">
-            <button type="button" on-click="{{goToAddPhotos}}" class="btn btn-default btn-lg">Add Photos</button>  
+      <div id="someButtons" style="height: 15%; float: right">  
+        <div class="row">
+          <div class="btn-group">
+            <button type="button" on-click="{{goToAddPhotos}}" style="width: 160px" class="btn btn-default btn-lg">Add Photos</button>  
           </div>
           <div class="btn-group">
-            <button id="startSummary" type="button" class="btn btn-success btn-lg">Start Summary</button>
+            <button id="startSummary" type="button"  on-click="{{doSummary}}" style="width: 160px" class="btn btn-success btn-lg">Start Summary</button>
           </div>
-        </div> 
-      </div>
+        </div> <!-- row -->
+      </div> <!-- some Buttons --> 
       
-    </div>
+    </div> <!-- main -->
   </template>
   <script type="application/dart;component=1" src="allPhotos.dart"></script>
 </polymer-element>

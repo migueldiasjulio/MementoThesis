@@ -1,9 +1,67 @@
 <polymer-element name="summary-done">
-  <template>
-    <style>
-    </style>
+  <template> 
+  <div id="main" class="container" style="height: 100%">
   
-  <p>Summary Done</p>
+    <section id="bigPhoto" style="height: 52%">
+      <div id="header">
+          <div id="line_S">
+              <hr style="border-top: 1px solid #35302c">
+          </div>
+      </div>
+    </section> <!-- section -->
+    
+    <div id="line" style="height: 1%">
+    <hr style="border-top: 1px solid #35302c">
+    </div>
+    
+    <div id="categoriesHere" style="height: 3%" >
+    
+    </div>
+    
+    <div id="second-line" style="height: 1%">
+    <hr style="border-top: 1px solid #35302c">
+    </div>
+
+    <div class="row" id="bottomRow">
+    
+      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+    
+        <div id="someButtons" style="height: 29%;">  
+          <div class="row">
+            <div class="btn-group-vertical">
+              <button id="summaryPhotos" type="button" style="width: 160px" class="btn btn-success btn-lg">Summary</button>  
+              <button id="standByPhotos" type="button" style="width: 160px" class="btn btn-default btn-lg">Stand-by</button>
+              <button id="excludedPhotos" type="button" style="width: 160px" class="btn btn-danger btn-lg">Excluded</button>
+            </div> <!-- btn-group -->
+          </div> 
+        </div> <!-- someButtons -->
+      
+      </div> <!-- first part of the row -->
+      
+      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+        <div id="horizontalPhotos">
+              <div class="row">
+                <div class="col-lg-6">
+                  <p>OLA!</p>
+                </div>
+                <div class="col-lg-6">
+                  <p>OLA 2!</p>
+                </div>
+                <div class="col-lg-6">
+                  <p>OLA 3!</p>
+                </div>
+              </div>
+      </div> <!-- HorizontalPhotos -->
+      
+      </div> <!-- Second part of the row -->
+    
+    </div> <!-- bottom row -->
+    
+    <div id="third-line" style="height: 3%">
+    <hr style="border-top: 1px solid #35302c">
+    </div>
+    
+  </div> <!-- main --> 
   
   </template>
   <script type="application/dart;component=1" src="summaryDone.dart"></script>

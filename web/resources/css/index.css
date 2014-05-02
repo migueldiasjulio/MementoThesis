@@ -9,8 +9,8 @@ body {
 }
 
 #headerBar {
-  background-color: #35302c;
-  border: 1px solid #35302c;
+  background-color: #333333;
+  border: 1px solid #333333;
 }
 
 h1, p {
@@ -22,7 +22,7 @@ h1, p {
   height: 100%;
   position: relative;
   border: 1px solid #ccc;
-  background-color: #bdb8ad;
+  background-color: #cbcbcb; /*#bdb8ad; */
   border-radius:3px;
   overflow: hidden;
   /*margin-top: 6%;*/

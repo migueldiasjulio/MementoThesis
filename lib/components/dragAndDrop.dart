@@ -19,11 +19,13 @@ class DragAndDrop extends screenmodule.Screen {
    FormElement _readForm;
    InputElement _fileInput;
    Element _dropZone;
-   OutputElement _output;
    HtmlEscape sanitizer = new HtmlEscape(); 
    var _numberOfPhotosToAdd = 0;
    Element _loadingBarPhotosDiv;
    var _numberOfPhotosToAddElement;
+   Element _modalPopUp;
+   @observable bool visible = true;
+   int dataBaseVersion;  
 
    /**
     * TODO
@@ -66,6 +68,10 @@ class DragAndDrop extends screenmodule.Screen {
     resetNumberOfPhotos();
   }
   
+  void runAgain(){
+    _readForm.reset();
+  }
+  
   void resetNumberOfPhotos(){
     $['numberOfPhotos'].text = '0 photos selected.'; 
   }
@@ -88,10 +94,6 @@ class DragAndDrop extends screenmodule.Screen {
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
-    _loadingBarPhotosDiv.hidden = true;
-  }
-  
-  void sendInformation(){
     
   }
   
@@ -108,6 +110,8 @@ class DragAndDrop extends screenmodule.Screen {
    */
   @override
   void enteredView() {
+    runAgain(); ///reseting form
+    dataBaseVersion = this.myDataBase.returnVersion();
     super.enteredView();
   }
   
@@ -115,9 +119,9 @@ class DragAndDrop extends screenmodule.Screen {
    * TODO
    */
   @override
-   void setupRoutes(Route route) {
-    String nome = "all-photos";
-    route.addRoute(
+   void setupRoutes(Route route){
+    route.
+    addRoute(
         name: 'home',
         path: '',
         enter: home);
@@ -163,7 +167,11 @@ class DragAndDrop extends screenmodule.Screen {
    }
    
    void goToAllPhotos(){
+    visible = true;
+    /// activateProgressBar();
      addPhotosToDataBase();
+     cleaner();
+    /// inactiveProgressBar();
      router.go("all-photos", {});
    }
    
@@ -190,10 +198,6 @@ class DragAndDrop extends screenmodule.Screen {
     * TODO
     */
    void _onFilesSelected(List<File> files) {
-     activateProgressBar();
-
-     print("${photos.length} original photos");
-     print("${thumbnails.length} thumbnail photos");
 
      var photoFiles = files.where((file) => file.type.startsWith('image'));
        
@@ -202,13 +206,14 @@ class DragAndDrop extends screenmodule.Screen {
      setNewNumberOfPhotos(photos.length);
      setInitialProgressBarValues(photos.length.toString());
 
-     var aux = 0;
+     var aux = 0;  
      // read and display its thumbnail.
      photoFiles.forEach((file) {
        updateLiveValueOfProgressBar(aux.toString());
        var reader = new FileReader();
        reader.onLoad.listen((e) {
-          thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
+          thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name), 
+              dataBaseVersion: dataBaseVersion));
        });
        reader.readAsDataUrl(file);
      });

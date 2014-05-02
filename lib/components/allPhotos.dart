@@ -13,29 +13,50 @@ import 'core/Thumbnail.dart';
 @CustomTag(AllPhotos.TAG)
 class AllPhotos extends screenhelper.Screen {
 
-  List<Thumbnail> _thumbnailsToShow; 
+  List<String> _thumbnailsToShow; 
   static const String TAG = "all-photos";
   String title = "All Photos",
          description = "Showing all photos";
   factory AllPhotos() => new Element.tag(TAG);
   final List<Thumbnail> thumbnails = toObservable([]);
+  int dataBaseVersion = 0;
 
   /**
    * TODO
    */
   AllPhotos.created() : super.created(){
-    _thumbnailsToShow = new List<Thumbnail>();
+    _thumbnailsToShow = new List<String>();
+  }
+  
+  @override
+  void enteredView() {
+    //dataBaseVersion = this.myDataBase.returnVersion();
+    this.importThumbnailPhotos();
+    super.enteredView();
   }
   
   /**
    * TODO
    */
   void runStartStuff(dataBase _dataBase){
-    this.myDataBase = _dataBase;
-    this.importThumbnailPhotos();
-    //TODO
+    if(myDataBase == null){
+      this.myDataBase = _dataBase;
+    }
   }
-
+  
+  ///
+  ///
+  void setImgClickEvent(){
+    print("ESTOU A ENTRAR!");
+    var imgs = $['theRow'];
+    print(imgs.toString());
+    imgs.children.forEach((childElement) => _thumbnailsToShow.add(childElement.id));
+    print("STARTING " + _thumbnailsToShow.toString()); 
+  }
+  
+  
+  
+  
   /**
    * TODO
    */
@@ -56,9 +77,24 @@ class AllPhotos extends screenhelper.Screen {
     router.go("drag-and-drop", {});
   }
   
+  void doSummary(){
+    router.go("summary-done", {});
+  }
+  
   ///
   void importThumbnailPhotos(){
-    thumbnails.addAll(myDataBase.getAllThumbnails());
+    List<Thumbnail> auxiliar; ///
+    int dbVersion = myDataBase.returnVersion();
+    if(dbVersion != dataBaseVersion){
+      auxiliar = myDataBase.getAllThumbnails(this.dataBaseVersion);   
+      for(Thumbnail thumb in auxiliar){
+        if(!(thumbnails.contains(thumb))){
+        thumbnails.add(thumb);
+        }
+      }
+      dataBaseVersion = auxiliar.first.dataBaseVersion;
+    }
+    setImgClickEvent();
   }
   /**
    * TODO

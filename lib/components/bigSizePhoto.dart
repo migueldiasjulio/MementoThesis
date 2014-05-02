@@ -12,31 +12,18 @@ import 'core/DataBase.dart';
 @CustomTag(BigSizePhoto.TAG)
 class BigSizePhoto extends screenhelper.Screen {
 
-  /**
-   * TODO
-   */
-  static const String TAG = "big-size-photo";
 
-  /**
-   * TODO
-   */
+  static const String TAG = "big-size-photo";
   String title = "Big Size Photo",
          description = "Photo big size";
-
-  /**
-   * TODO
-   */
-  @observable Selection selection = null;
-
-  /**
-   * TODO
-   */
   factory BigSizePhoto() => new Element.tag(TAG);
+  String photoToDisplay;
+  Element _name;
 
-  /**
-   * TODO
-   */
-  BigSizePhoto.created() : super.created();
+
+  BigSizePhoto.created() : super.created(){
+    _name = $['name'];
+  }
   
   /**
    * TODO
@@ -56,32 +43,24 @@ class BigSizePhoto extends screenhelper.Screen {
         path: '',
         enter: home);
    }
+  /**
+   * TODO
+   */
+  @override
+  void enteredView() {
+    checkWhatPhotoToDisplay();
+    super.enteredView();
+  }
+  
+  void checkWhatPhotoToDisplay(){
+    this.photoToDisplay = this.myDataBase.givephotoName;
+    _name.text = this.photoToDisplay;
+  }
 
   /**
    * TODO
    */
   home(_) {}
-    /*
-     route.addRoute(
-         name: 'view',
-         path: '/:type/:id',
-         enter: (e) {
-           selection = new Selection()
-           ..type = e.parameters['type']
-           ..id = e.parameters['id'];
-         },
-         leave: (e) {
-           jQuery('#diagram').callMethod('popup', ['remove']);
-         }
-     );
-     */
 
-  /**
-   * TODO
-   */
-  select(event, detail, target) {
-    // <type>-<id>
-    var id = target.dataset["id"].split("-");
-    router.go("$path.view", {"type": id[0], "id": id[1]});
-  }
+
 }

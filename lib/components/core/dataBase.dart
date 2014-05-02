@@ -6,6 +6,15 @@ import 'Thumbnail.dart';
 
 class dataBase {
   
+  ///CHANGE THIS
+  String photoName = null;
+  
+  String get givephotoName => this.photoName;
+  
+  void set setPhotoName(String photoName) {
+    this.photoName = photoName;
+  }
+  /// CHANGE THIS
   
   bool start;//?
   List<String> newNameToAddToMap;
@@ -19,6 +28,15 @@ class dataBase {
   List<String> namesToAdd = new List<String>();
   List<photoType> newDataBaseElementsToAdd = new List <photoType>();
   photoType newDataBaseElement = null;
+  int version = 1;
+  
+  int returnVersion(){
+    return version;
+  }
+  
+  void incVersion(){ ///should be private
+    version++;
+  }
   
   /**
    * Constructors
@@ -38,6 +56,8 @@ class dataBase {
         this.newDataBaseElementsToAdd.add(this.newDataBaseElement);
       }
   }//ciclo for
+    
+  incVersion();
     
   print("---------- Before update --------");
   print("Names To add size: " + this.namesToAdd.length.toString());
@@ -213,12 +233,16 @@ class dataBase {
     print("<<<<<<<<<< Containers >>>>>>>>>>");
   }
   
-  List<Thumbnail> getAllThumbnails(){
+  List<Thumbnail> getAllThumbnails(int moreThanThis){ ///return just thumbnails with dataBaseVersion > arg
     var thumbnails = new List<Thumbnail>();
+    Thumbnail thumb;
+    int version;
     var allPhotos = this.helpSearching.values;
-    var allPhotosSize = allPhotos.length;
-    for(int i = 0; i < allPhotosSize; i++){
-      thumbnails.add(allPhotos.elementAt(i).myThumbnail);
+    for(photoType photo in allPhotos){
+      thumb = photo.myThumbnail;
+      if(thumb.dataBaseVersion > moreThanThis){
+        thumbnails.add(photo.myThumbnail);
+      }
     }
     return thumbnails;
   }

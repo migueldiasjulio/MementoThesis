@@ -35,6 +35,8 @@ abstract class Screen extends ScreenModule {
 
   // This lets the CSS "bleed through" into the Shadow DOM of this element.
   bool get applyAuthorStyles => true;
+  
+  bool get preventDispose => true;
 
   /**
    * Store the root router and return the mountFn

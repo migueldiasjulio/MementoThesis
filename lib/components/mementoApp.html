@@ -14,7 +14,7 @@
     }
     
     .jumbotron {
-     background-color:#bdb8ad;
+     background-color: #cbcbcb;/*#bdb8ad;*/
       }
       
     #myScreen{
@@ -31,23 +31,23 @@
     </style>
   
    <template if="{{myScreen == null}}">
-   <div id="default">
+   <div id="default" style="height: 100%">
    
-    <div class="jumbotron centerfy" id="presentation">
+    <div class="jumbotron centerfy" id="presentation" style="height: 62%" >
       <img src="resources/images/image2.svg" style="width: 300px; height: 70px"/>
       <h2>Your Moments. Your Life.</h2>
       <p> 
       Create and share summaries of your photo collections in an easy way with Memento. 
         </p>
-          <a class="btn btn-lg btn-success" style="background-color: #74d9ae; border: #74d9ae" 
+          <a class="btn btn-lg btn-success" style="background-color: #70d0a7; border-color: #70d0a7" 
           on-click="{{navigate}}" data-target="{{screens.keys.first}}">Start Summary &raquo;</a>
     </div>
     
-    <div id="line">
+    <div id="line" style="height: 1%">
       <hr style="border-top: 1px solid #35302c">
     </div>
         
-    <div id="information">
+    <div id="information" style="height: 32%">
       <div class="row">
          <div class="col-xs-6 col-sm-6 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
            <h2>How to</h2>
@@ -65,7 +65,7 @@
   </template>
   
     <!-- Module   -->
-  <div id="myScreen"></div>
+  <div id="myScreen" style="height: 100%"></div>
 
   </template>
   <script type="application/dart;component=1" src="mementoApp.dart"></script>
