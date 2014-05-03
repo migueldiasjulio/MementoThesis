@@ -3,7 +3,7 @@
   <template>
     <div id="main" class="container" style="height: 100%">
     
-      <section id="firstSection" style="height: 83%; overflow-y: scroll">
+      <section id="firstSection" style="height: 86%; overflow-y: scroll">
         <div id="header">
             <div id="line_S">
                 <hr style="border-top: 1px solid #35302c">
@@ -14,7 +14,8 @@
                 <template repeat="{{thumbnail in thumbnails}}">
                   <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2" id="{{thumbnail.title}}">
                     <!-- <a href="#" class="thumbnail"> -->
-                      <img src="{{thumbnail.src}}" width="{{thumbnail.width}}" height="{{thumbnail.height}}" 
+                      <img src="{{thumbnail.src}}" on-click="{{showImage}}"
+                       width="{{thumbnail.width}}" height="{{thumbnail.height}}" 
                       class="img-thumbnail" title="{{thumbnail.title}}" >
                     <!-- </a> -->
                   </div>
@@ -26,17 +27,31 @@
       <div id="line" style="height: 2%">
       <hr style="border-top: 1px solid #35302c">
       </div>
-  
-      <div id="someButtons" style="height: 15%; float: right">  
-        <div class="row">
+      
+      <div class="container row" id="screenFooter" style="height: 12%">
+      
+        <div  class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="float: left">
+              <div class="btn-group">
+                <button type="button" on-click="{{goToAddPhotos}}" style="width: 120px;" class="btn btn-default btn-md">Add Photos</button>  
+              </div>
+        </div> <!-- add photos -->
+    
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" id="formInput">  
+          <h5>Number of photos: </h5>
+            <div class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+              <form role="form" style="width: 70px">
+                <input id="numberOfPhotos" class="form-control" type="number" placeholder="20"></input>
+              </form> 
+            </div>
+        </div> <!-- some Buttons --> 
+        
+        <div  class="col-xs-2 col-sm-2 col-md-2 col-lg-1 col-lg-offset-1" style="float: right">
           <div class="btn-group">
-            <button type="button" on-click="{{goToAddPhotos}}" style="width: 160px" class="btn btn-default btn-lg">Add Photos</button>  
-          </div>
-          <div class="btn-group">
-            <button id="startSummary" type="button"  on-click="{{doSummary}}" style="width: 160px" class="btn btn-success btn-lg">Start Summary</button>
-          </div>
-        </div> <!-- row -->
-      </div> <!-- some Buttons --> 
+            <button id="startSummary" type="button"  on-click="{{doSummary}}" style="width: 120px" class="btn btn-success btn-md">Start Summary</button>  
+          </div> 
+        </div> <!-- do summary -->
+            
+       </div> <!-- screen footer -->
       
     </div> <!-- main -->
   </template>

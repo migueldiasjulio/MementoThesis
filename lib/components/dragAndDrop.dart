@@ -7,6 +7,7 @@ import 'resources/ScreenModule.dart' as screenmodule;
 import 'dart:convert' show HtmlEscape;
 import 'core/DataBase.dart';
 import 'core/Thumbnail.dart';
+import 'package:bootjack/bootjack.dart';
 
 /**
  * TODO
@@ -24,9 +25,9 @@ class DragAndDrop extends screenmodule.Screen {
    Element _loadingBarPhotosDiv;
    var _numberOfPhotosToAddElement;
    Element _modalPopUp;
-   @observable bool visible = true;
+   @published bool visible = true;
    int dataBaseVersion;  
-
+   Modal modal;
    /**
     * TODO
     */
@@ -66,10 +67,19 @@ class DragAndDrop extends screenmodule.Screen {
     photos.clear();
     thumbnails.clear();
     resetNumberOfPhotos();
+    runAgain();
   }
   
   void runAgain(){
     _readForm.reset();
+  }
+  
+  void nothingToAddMessage(){
+    $['messageBeforeImport'].text = "You dind't select any photo. Continue anway?";  
+  }
+  
+  void beforeImport(){
+    $['messageBeforeImport'].text = photos.length.toString() + " photos to import. Continue?";
   }
   
   void resetNumberOfPhotos(){
@@ -94,6 +104,10 @@ class DragAndDrop extends screenmodule.Screen {
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
+    
+    Modal.use();
+    Transition.use();
+    modal = Modal.wire(this.shadowRoot.querySelector("#modal"));
     
   }
   
@@ -126,6 +140,8 @@ class DragAndDrop extends screenmodule.Screen {
         path: '',
         enter: home);
    }
+  
+  
  
   /**
    * TODO
@@ -166,13 +182,29 @@ class DragAndDrop extends screenmodule.Screen {
      myDataBase.addNewElementsToDataBase(photos, thumbnails);
    }
    
+   void show(){
+     if(photos.length == 0){
+       nothingToAddMessage();
+     }else{
+       beforeImport();
+     }
+     modal.show();
+     
+     //
+   }
+   
+   void reallyGoAllPhotos(){
+     $['messageBeforeImport'].text = "Working your photos. Please wait...";
+     router.go("all-photos", {});
+     modal.hide();
+   }
+   
    void goToAllPhotos(){
-    visible = true;
+     show();
     /// activateProgressBar();
      addPhotosToDataBase();
      cleaner();
     /// inactiveProgressBar();
-     router.go("all-photos", {});
    }
    
    void activateProgressBar(){

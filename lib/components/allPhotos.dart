@@ -46,16 +46,11 @@ class AllPhotos extends screenhelper.Screen {
   
   ///
   ///
-  void setImgClickEvent(){
-    print("ESTOU A ENTRAR!");
-    var imgs = $['theRow'];
-    print(imgs.toString());
-    imgs.children.forEach((childElement) => _thumbnailsToShow.add(childElement.id));
-    print("STARTING " + _thumbnailsToShow.toString()); 
+
+  
+  void showImage(Event e){
+    print(e.target.toString()); //TODO
   }
-  
-  
-  
   
   /**
    * TODO
@@ -94,7 +89,6 @@ class AllPhotos extends screenhelper.Screen {
       }
       dataBaseVersion = auxiliar.first.dataBaseVersion;
     }
-    setImgClickEvent();
   }
   /**
    * TODO
