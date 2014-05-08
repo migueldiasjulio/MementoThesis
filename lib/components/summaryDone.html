@@ -1,68 +1,148 @@
+<link href='http://fonts.googleapis.com/css?family=Dosis|Open+Sans' rel='stylesheet' type='text/css' />
+<!-- Font Awesome -->
+<link rel="stylesheet" href="resources/css/font-awesome.min.css" type="text/css" />
+<!-- Tabion CSS Pack -->
+<link rel="stylesheet" href="resources/css/tabion-css.css" type="text/css" />
 <polymer-element name="summary-done">
-  <template> 
-  <div id="main" class="container" style="height: 100%">
-  
-    <section id="bigPhoto" style="height: 52%">
-      <div id="header">
-          <div id="line_S">
-              <hr style="border-top: 1px solid #35302c">
-          </div>
-      </div>
-    </section> <!-- section -->
-    
-    <div id="line" style="height: 1%">
-    <hr style="border-top: 1px solid #35302c">
-    </div>
-    
-    <div id="categoriesHere" style="height: 3%" >
-    
-    </div>
-    
-    <div id="second-line" style="height: 1%">
-    <hr style="border-top: 1px solid #35302c">
-    </div>
+<link rel="stylesheet" href="summaryDone.css">
+<template>
+<div id="main" class="container" style="height: 100%">
 
-    <div class="row-fluid" id="bottomRow">
-    
-      <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-    
-        <div id="someButtons" style="height: 29%;">  
-          <div class="row">
-            <div class="btn-group-vertical">
-              <button id="summaryPhotos" type="button" style="width: 160px" class="btn btn-success btn-lg">Summary</button>  
-              <button id="standByPhotos" type="button" style="width: 160px" class="btn btn-default btn-lg">Stand-by</button>
-              <button id="excludedPhotos" type="button" style="width: 160px" class="btn btn-danger btn-lg">Excluded</button>
-            </div> <!-- btn-group -->
-          </div> 
-        </div> <!-- someButtons -->
-      
-      </div> <!-- first part of the row -->
-      
-      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-        <div id="horizontalPhotos">
-              <div class="row">
-                <div class="col-lg-6">
-                  <p>OLA!</p>
-                </div>
-                <div class="col-lg-6">
-                  <p>OLA 2!</p>
-                </div>
-                <div class="col-lg-6">
-                  <p>OLA 3!</p>
-                </div>
-              </div>
-      </div> <!-- HorizontalPhotos -->
-      
-      </div> <!-- Second part of the row -->
-    
-    </div> <!-- bottom row -->
-    
-    <div id="third-line" style="height: 3%">
-    <hr style="border-top: 1px solid #35302c">
+  <section id="firstSection" style="height: 85%">
+    <div id="header" style="height: 5%; margin-top: 1%">
+      <div id="line_S">
+        <hr style="border-top: 1px solid #35302c">
+      </div>
     </div>
+    <div id="tabs" style="height: 87%; overflow-y: scroll; overflow-x:hidden">
+      
+     
+      <ul class="tabion" style="width: 100%">
+
+        <!-- Start Tab 1 -->
+        <li style="width: 100%">
+          <!-- Start Tab Button --> 
+          <label for="tab1" class="tabtile tabtile-med solid-green-3 light-text">
+            <span class="light-text">Summary 
+            <span id="summaryNumber" class="badge">0</span>
+            </span>
+                       
+          </label> 
+          <input type="radio" name="tabion" id="tab1" checked> <!-- End Tab Button -->
+
+          <!-- Start Tab Content -->
+          <div style="width: 100%" class="tab-content solid-green-3 light-text pos-top-100">
+            <p class="title">Summary Photos.</p>
+            <template repeat="{{thumbnail in thumbnailsSummary}}">
+              <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
+                      id="{{thumbnail.title}}">
+                <img src="{{thumbnail.src}}" on-click="{{showImage}}"
+                  width="{{thumbnail.width}}" height="{{thumbnail.height}}"
+                  class="img-thumbnail" title="{{thumbnail.title}}">
+                <!-- </a> -->
+              </div>
+            </template>
+          </div> <!-- End Tab Content -->
+        </li>
+        <!-- End Tab 1 -->
+
+
+        <!-- Start Tab 2 -->
+        <li style="width: 100%">
+          <!-- Start Tab Button --> 
+          <label for="tab2" class="tabtile tabtile-med solid-orange-4 light-text pos-left-210">
+            <span class="light-text">Stand-by <span id="standByNumber" class="badge">0</span></span>
+        </label> 
+        <input type="radio" name="tabion" id="tab2"> 
+        <!-- End Tab Button -->
+
+          <!-- Start Tab Content -->
+          <div style="width: 100%"
+            class="tab-content solid-orange-4 light-text pos-top-100">
+            <p class="title">Standy-by photos.</p>
+            <template repeat="{{thumbnail in thumbnailsStandBy}}">
+              <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
+                      id="{{thumbnail.title}}">
+                <img src="{{thumbnail.src}}" on-click="{{showImage}}"
+                  width="{{thumbnail.width}}" height="{{thumbnail.height}}"
+                  class="img-thumbnail" title="{{thumbnail.title}}">
+                <!-- </a> -->
+              </div>
+            </template>
+
+          </div> <!-- End Tab Content -->
+        </li>
+        <!-- End Tab 2 -->
+        
+        <!-- Start Tab 3 -->
+        <li style="width: 100%">
+          <!-- Start Tab Button --> 
+          <label for="tab3" class="tabtile tabtile-med solid-red-3 light-text pos-left-410"> 
+            <span class="light-text">Excluded <span id="excludedNumber" class="badge">0</span></span>
+        </label> 
+        <input type="radio" name="tabion" id="tab3"> 
+        <!-- End Tab Button -->
+
+          <!-- Start Tab Content -->
+          <div style="width: 100%"
+            class="tab-content solid-red-3 light-text pos-top-100">
+            <p class="title">Excluded photos here. function</p>
+             <template repeat="{{thumbnail in thumbnailsExcluded}}">
+              <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
+                      id="{{thumbnail.title}}">
+                <img src="{{thumbnail.src}}" on-click="{{showImage}}"
+                  width="{{thumbnail.width}}" height="{{thumbnail.height}}"
+                  class="img-thumbnail" title="{{thumbnail.title}}">
+                <!-- </a> -->
+              </div>
+            </template>
+
+          </div> <!-- End Tab Content -->
+        </li>
+        <!-- End Tab 3 -->
+      </ul>
+
+    </div>
+    <!-- tabs here -->
     
-  </div> <!-- main --> 
+   <div id="line" style="height: 2%">
+    <hr style="border-top: 1px solid #35302c">
+  </div>
   
-  </template>
-  <script type="application/dart;component=1" src="summaryDone.dart"></script>
+  <div id="categories" style="height: 6%">
+  <!-- categories go here --> <p>Categories</p>
+  </div>
+  
+  </section>
+  <!-- firstSection -->
+
+  <div id="line" style="height: 0.5%">
+    <hr style="border-top: 1px solid #35302c">
+  </div>
+
+  <div class="" id="screenFooter" style="height: 13%; margin-top: 1%">
+  <div style="float: right">
+      <div class="btn-group">
+        <button type="button" on-click="{{}}" style="width: 120px;" class="btn btn-default btn-md">Select</button>
+      </div>
+      <div class="btn-group">
+        <button id="startSummary" 
+              type="button"
+          on-click="{{doSummary}}" 
+             style="width: 120px"
+            class="btn btn-success btn-md">Export</button>
+        </div>
+      </div>
+  </div>
+
+</div>
+<!-- main --> 
+</template>
+<style>
+li {
+  display:inline-block;
+}
+</style>
+
+<script type="application/dart;component=1" src="summaryDone.dart"></script>
 </polymer-element>

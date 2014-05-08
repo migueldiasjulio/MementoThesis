@@ -5,6 +5,8 @@ import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import 'resources/ScreenModule.dart' as screenhelper;
 import 'core/DataBase.dart';
+import 'core/Thumbnail.dart';
+import 'package:bootjack/bootjack.dart';
 
 /**
  * TODO
@@ -20,17 +22,46 @@ class SummaryDone extends screenhelper.Screen {
          description = "Summary results";
   @observable Selection selection = null;
   factory SummaryDone() => new Element.tag(TAG);
+  final List<Thumbnail> thumbnailsSummary = toObservable([]);
+  final List<Thumbnail> thumbnailsStandBy = toObservable([]);
+  final List<Thumbnail> thumbnailsExcluded = toObservable([]);
 
   @override
   void enteredView() {
-
     super.enteredView();
+    syncSummaryPhotos();
+    syncStandByPhotos();
+    syncExcludedPhotos();
   }
   
   /**
    * TODO
    */
-  SummaryDone.created() : super.created();
+  SummaryDone.created() : super.created(){
+    
+  }
+  
+  void syncSummaryPhotos(){
+    thumbnailsSummary.clear();
+    thumbnailsSummary.addAll(this.myDataBase.giveContainerPhotos("SUMMARY"));
+    $['summaryNumber'].contentEditable = thumbnailsSummary.length.toString();
+  }
+  
+  void syncStandByPhotos(){
+    thumbnailsStandBy.clear();
+    thumbnailsStandBy.addAll(this.myDataBase.giveContainerPhotos("STANDBY"));
+    $['standByNumber'].contentEditable = thumbnailsSummary.length.toString();
+  }
+  
+  void syncExcludedPhotos(){
+    thumbnailsExcluded.clear();
+    thumbnailsExcluded.addAll(this.myDataBase.giveContainerPhotos("EXCLUDED"));
+    $['excludedNumber'].contentEditable = thumbnailsSummary.length.toString(); 
+  }
+  
+  void showImage(){
+    print("SHOW");
+  }
   
   /**
    * TODO

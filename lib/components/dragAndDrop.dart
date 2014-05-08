@@ -75,7 +75,7 @@ class DragAndDrop extends screenmodule.Screen {
   }
   
   void nothingToAddMessage(){
-    $['messageBeforeImport'].text = "You dind't select any photo. Continue anway?";  
+    $['messageBeforeImport'].text = "0 photos selected. Continue anway?";  
   }
   
   void beforeImport(){
@@ -87,7 +87,8 @@ class DragAndDrop extends screenmodule.Screen {
   }
   
   void setNewNumberOfPhotos(int newNumber){
-    $['numberOfPhotos'].text = newNumber.toString() + " photos selected.";
+    String msg = newNumber.toString() + " photos selected.";
+    $['numberOfPhotos'].text = msg;
   }
 
   /**
@@ -107,7 +108,7 @@ class DragAndDrop extends screenmodule.Screen {
     
     Modal.use();
     Transition.use();
-    modal = Modal.wire(this.shadowRoot.querySelector("#modal"));
+    modal = Modal.wire($['modal']);
     
   }
   

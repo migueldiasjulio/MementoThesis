@@ -14,14 +14,14 @@
   overflow: hidden;
 }
 
-#startSummary{
+#startSummary {
   background-color: #444444;
   border: #444444; /*#74d9ae;*/
 }
 
-#header{
+#header {
   width: 100%;
-  overflow:hidden;
+  overflow: hidden;
   margin-bottom: 5px;
 }
 
@@ -29,7 +29,7 @@
   width: 100%;
   margin-top: 5px;
 }
-    
+
 .img-thumbnail {
   border: 1px solid #000;
   margin-top: 5px;

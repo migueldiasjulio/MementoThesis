@@ -3,47 +3,35 @@
   overflow: hidden;
 }
 
-#bigPhoto {
+#thumbnailsHere {
   width: 100%;
   color: #333;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: normal;
   line-height: 1.2em;
-  overflow: hidden;
   margin-bottom: 5px;
-}
-#someButtons{
-}
-
-#horizontalPhotos{
-  overflow-x: scroll; overflow-y: hidden;
+  overflow: hidden;
 }
 
-.row {
-  overflow-x:scroll;
-  overflow-y:hidden;
-  white-space:nowrap;
-  float:none;
-  display:inline-block;
-} 
+#startSummary {
+  background-color: #444444;
+  border: #444444; /*#74d9ae;*/
+}
 
-#header{
+#header {
   width: 100%;
-  overflow:hidden;
+  overflow: hidden;
   margin-bottom: 5px;
 }
 
 #line {
   width: 100%;
-  margin-top: 1px;
+  margin-top: 5px;
 }
 
-#second-line {
-  width: 100%;
-  margin-top: 1px;
-}
-
-#third-line {
-  width: 100%;
+.img-thumbnail {
+  border: 1px solid #000;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }

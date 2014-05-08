@@ -109,8 +109,8 @@ class dataBase {
   /**
    * giveContainerPhotos - Returns all photos from specified container
    */
-  List<photoType> giveContainerPhotos(String _nameOfContainer){
-    var _photosToReturn = new List<photoType>();  
+  List<Thumbnail> giveContainerPhotos(String _nameOfContainer){
+    var _photosToReturn = new List<Thumbnail>();  
     var _photosContainer = null;
     var _inContainerSize = 0;
     
@@ -119,21 +119,21 @@ class dataBase {
         _photosContainer = this.summaryContainer;
         _inContainerSize = _photosContainer.length;
         for(var i = 0; i < _inContainerSize; i++){
-          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)]);
+          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)].myThumbnail);
              }
         break;
       case("STANDBY") : 
         _photosContainer = this.standByContainer;
         _inContainerSize = _photosContainer.length;
         for(var i = 0; i < _inContainerSize; i++){
-         _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)]);
+         _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)].myThumbnail);
         }
         break;
       case("EXCLUDED") :
         _photosContainer = this.standByContainer;
         _inContainerSize = _photosContainer.length;
         for(var i = 0; i < _inContainerSize; i++){
-          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)]);
+          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)].myThumbnail);
         }
         break;
       default: break;

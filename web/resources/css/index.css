@@ -8,9 +8,11 @@ body {
   overflow: hidden;
 }
 
+#helpButton:hover {
+  background: #bbbbbb;
+}
+
 #headerBar {
-  background-color: #333333;
-  border: 1px solid #333333;
 }
 
 h1, p {
