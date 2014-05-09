@@ -2,9 +2,9 @@ library app;
 
 import 'package:route_hierarchical/client.dart';
 import 'package:polymer/polymer.dart';
-import 'allPhotos.dart';
-import 'summaryDone.dart';
-import 'bigSizePhoto.dart';
+import '../allPhotos/allPhotos.dart';
+import '../summaryDone/summaryDone.dart';
+import '../bigSizePhoto/bigSizePhoto.dart';
 import '../../core/screenModule.dart' as screenmodule;
 import '../../core/dataBase.dart';
 

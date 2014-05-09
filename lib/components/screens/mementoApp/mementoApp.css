@@ -1,5 +1,5 @@
-@import url("../../../../../packages/bootjack/css/bootstrap.min.css");
-@import url("../../../../../packages/bootjack/css/bootstrap-theme.css");
+@import url("../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../packages/bootjack/css/bootstrap-theme.css");
 
 #default {
   backgroud-color: #333333;
@@ -7,6 +7,11 @@
 
 #presentation {
   overflow: hidden;
+}
+
+#startSummary {
+  background-color: #70d0a7;
+  border-color: #70d0a7;
 }
 
 .jumbotron {

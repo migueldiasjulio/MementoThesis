@@ -1,10 +1,11 @@
-<link rel="import" href="allPhotos.html">
-<link rel="import" href="summaryDone.html">
-<link rel="import" href="bigSizePhoto.html">
-<link rel="import" href="modal-dialog.html">
+<link rel="import" href="../allPhotos/allPhotos.html">
+<link rel="import" href="../summaryDone/summaryDone.html">
+<link rel="import" href="../bigSizePhoto/bigSizePhoto.html">
+<link rel="import" href="../resources/modal-dialog.html">
 <polymer-element name="memento-app">
   <template>
-   <link rel="stylesheet" href="../css/mementoApp.css">
+   <link rel="stylesheet" href="mementoApp.css">
+   
    <template if="{{myScreen == null}}">
    <div id="default" style="height: 100%">
    
@@ -14,8 +15,10 @@
       <p> 
       Create and share summaries of your photo collections in an easy way with Memento. 
         </p>
-          <a class="btn btn-lg btn-success" style="background-color: #70d0a7; border-color: #70d0a7" 
-          on-click="{{navigate}}" data-target="{{screens.keys.first}}">Start Summary &raquo;</a>
+          <a class="btn btn-lg btn-success" 
+                id="startSummary"
+          on-click="{{navigate}}" 
+       data-target="{{screens.keys.first}}">Start Summary &raquo;</a>
     </div>
     
     <div id="line" style="height: 1%">
@@ -43,6 +46,6 @@
   <div id="myScreen" style="height: 100%"></div>
 
   </template>
-  <script type="application/dart;component=1" src="../dart/mementoApp.dart"></script>
+  <script type="application/dart;component=1" src="mementoApp.dart"></script>
 </polymer-element>
 

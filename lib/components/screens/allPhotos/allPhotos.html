@@ -1,9 +1,9 @@
 <polymer-element name="all-photos">
 <template>
-  <link rel="stylesheet" href="../css/allPhotos.css">
+  <link rel="stylesheet" href="allPhotos.css">
   <div id="main" class="container" style="height: 100%">
 
-  <section id="firstSection" style="height: 86%">
+  <section id="firstSection" style="height: 80%">
 
       <div id="drop-zone" style="height:100%">
       
@@ -12,20 +12,19 @@
           <div style="height: 20%">
             <p id="helpMessage1">Drag and Drop your photos here</p>
             <small id="helpMessage2"> or press
-              <button type="button"
+              <button id="addPhotos" type="button"
                      style="width: 120px;" 
-                     class="btn btn-default btn-md" disabled>Add Photos</button>
+                     class="btn btn-success btn-md" disabled>Add Photos</button>
             </small>
           </div>
           <div id="nothing" style="height: 40%"></div> <!-- Just space -->
       </template>
         
       <template if="{{thumbnails.length != 0}}">
-        <div class="row" id="theRow" style="height:100%;overflow-y: scroll">
+        <div class="row" id="theRow" style="height:100%; overflow-y: scroll">
           <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">
           <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
             id="{{thumbnail.title}}">
-            <!-- <a href="#" class="thumbnail"> -->
             <img src="{{thumbnail.src}}"
               width="{{thumbnail.width}}" 
               height="{{thumbnail.height}}"
@@ -45,18 +44,19 @@
   </div>
 
   <div id="screenFooter" style="height: 12%">
-  
-        <div>
-        <form id="read">
-          <input type="file" id="files" name="files[]" multiple />
-        </form>
-      </div>
       
     <form class="form-inline" role="form">
       <div class="btn-group">
-        <button type="button"
-          style="width: 120px;" class="btn btn-default btn-md">Add
-          Photos </button>
+
+        <input  type="file" 
+                id="files" 
+                style="display: none;"
+                multiple/>
+        <button id="addPhotos" 
+              type="button" 
+             style="width: 120px" 
+             class="btn btn-success btn-md">Add Photos</button>
+
       </div>
       <div class="row" style="float: right; margin-right: 1%">
         <div class="col-xs-7 col-sm-8 col-md-8 col-lg-8 btn-group"
@@ -70,7 +70,7 @@
           style="float: right">
           <button id="startSummary" type="button"
             on-click="{{doSummary}}" style="width: 120px"
-            class="btn btn-success btn-md">Start Summary</button>
+            class="btn btn-success btn-md" disabled="{{thumbnails.length < convertToInt(numberOfPhotosDefined)}}">Start Summary</button>
         </div>
       </div>
       <!-- right side -->
@@ -82,10 +82,10 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 id="modalTitle" style="margin: 0">Creating the Summary</h3>
+          <p id="modalTitle" style="margin: 0">Creating the Summary</p>
         </div>
         <div class="modal-body">
-          <h5 id="message">Default</h5>
+          <p id="message">Default</p>
         </div>
         <div class="modal-footer" style="margin: 0">
           <button class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -100,5 +100,6 @@
 
 </div>
 <!-- main --> </template> 
-<script type="application/dart;component=1" src="../dart/allPhotos.dart"></script> 
+
+<script type="application/dart;component=1" src="allPhotos.dart"></script> 
 </polymer-element>

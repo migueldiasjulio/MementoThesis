@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memento App</title>
+
     <link rel="import" href="packages/polymer/polymer.html">
-    <link rel="import" href="../lib/components/screens/html/mementoApp.html">
+    <link rel="import" href="../lib/components/screens/mementoApp/mementoApp.html">
     <link rel="stylesheet" href="resources/css/index.css">
     <style>
       /* Font Faces don't work in the shadow DOM yet :( */
@@ -27,6 +28,7 @@
         src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
       }
     </style>
+
   </head>
   
   <body style="background-color: #444444">
@@ -34,7 +36,7 @@
     <div id="main" class="container">
 
     <header style="height: 6%">
-        <nav id="headerBar" style="background-color: #1a1a1a" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <nav id="headerBar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
           <div class="container">
               <div class="navbar-header" >
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">

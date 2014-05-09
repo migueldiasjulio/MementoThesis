@@ -27,10 +27,9 @@ h1, p {
   height: 100%;
   position: relative;
   border: 1px solid #ccc;
-  background-color: #cbcbcb; /*#bdb8ad; */
+  background-color: #cbcbcb;
   border-radius:3px;
   overflow: hidden;
-  /*margin-top: 6%;*/
 }
 
 

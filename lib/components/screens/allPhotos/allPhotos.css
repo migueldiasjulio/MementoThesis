@@ -1,5 +1,5 @@
-@import url("../../../../../packages/bootjack/css/bootstrap.min.css");
-@import url("../../../../../packages/bootjack/css/bootstrap-theme.css");
+@import url("../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../packages/bootjack/css/bootstrap-theme.css");
 
 #main {
   width: 100%;
@@ -29,6 +29,11 @@
 }
 
 #startSummary {
+  background-color: #444444;
+  border: #444444; /*#74d9ae;*/
+}
+
+#addPhotos {
   background-color: #444444;
   border: #444444; /*#74d9ae;*/
 }
