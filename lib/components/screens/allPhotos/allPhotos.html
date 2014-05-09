@@ -3,7 +3,7 @@
   <link rel="stylesheet" href="allPhotos.css">
   <div id="main" class="container" style="height: 100%">
 
-  <section id="firstSection" style="height: 80%">
+  <section id="firstSection" style="height: 86%">
 
       <div id="drop-zone" style="height:100%">
       
@@ -13,8 +13,8 @@
             <p id="helpMessage1">Drag and Drop your photos here</p>
             <small id="helpMessage2"> or press
               <button id="addPhotos" type="button"
-                     style="width: 120px;" 
-                     class="btn btn-success btn-md" disabled>Add Photos</button>
+                     style="width: 130px;" 
+                     class="btn btn-summary btn-md" disabled>Add Photos</button>
             </small>
           </div>
           <div id="nothing" style="height: 40%"></div> <!-- Just space -->
@@ -39,25 +39,24 @@
   </section>
   <!-- firstSection -->
 
-  <div id="line" style="height: 2%">
+  <div id="line" style="height: 1%">
     <hr style="border-top: 1px solid #35302c">
   </div>
 
-  <div id="screenFooter" style="height: 12%">
+  <div id="screenFooter" style="height: 6%">
       
     <form class="form-inline" role="form">
       <div class="btn-group">
-
-        <input  type="file" 
+        <button id="addPhotos" 
+              type="button" 
+             style="width: 130px" 
+             class="btn btn-summary btn-md">Add Photos</button>
+      </div>       
+             <input  type="file" 
                 id="files" 
                 style="display: none;"
                 multiple/>
-        <button id="addPhotos" 
-              type="button" 
-             style="width: 120px" 
-             class="btn btn-success btn-md">Add Photos</button>
-
-      </div>
+                
       <div class="row" style="float: right; margin-right: 1%">
         <div class="col-xs-7 col-sm-8 col-md-8 col-lg-8 btn-group"
           style="float: left">
@@ -69,8 +68,9 @@
         <div class="col-xs-5 col-sm-4 col-md-4 col-lg-4 btn-group"
           style="float: right">
           <button id="startSummary" type="button"
-            on-click="{{doSummary}}" style="width: 120px"
-            class="btn btn-success btn-md" disabled="{{thumbnails.length < convertToInt(numberOfPhotosDefined)}}">Start Summary</button>
+            on-click="{{doSummary}}" style="width: 130px"
+            class="btn btn-summary btn-md" disabled="{{thumbnails.length < convertToInt(numberOfPhotosDefined)}}">
+            Start Summary</button>
         </div>
       </div>
       <!-- right side -->
@@ -89,8 +89,7 @@
         </div>
         <div class="modal-footer" style="margin: 0">
           <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-success"
-            style="background-color: #444444; border: #444444"
+          <button class="btn btn-summary"
             on-click="{{buildSummary}}" id="okButton">Ok</button>
         </div>
       </div>

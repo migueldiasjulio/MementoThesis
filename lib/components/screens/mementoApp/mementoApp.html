@@ -9,13 +9,15 @@
    <template if="{{myScreen == null}}">
    <div id="default" style="height: 100%">
    
-    <div class="jumbotron centerfy" id="presentation" style="height: 62%" >
-      <img src="resources/images/image2.svg" style="width: 300px; height: 70px"/>
+    <div class="jumbotron centerfy" id="presentation" style="height: 67%" >
+      <div class="span12">
+        <img src="resources/images/pipeline.svg" style="width: 40%; height: 20%" />
+      </div>
       <h2>Your Moments. Your Life.</h2>
       <p> 
-      Create and share summaries of your photo collections in an easy way with Memento. 
+      Create and share summaries of your photo collections in an easy way. 
         </p>
-          <a class="btn btn-lg btn-success" 
+          <a class="btn btn-lg btn-summary" 
                 id="startSummary"
           on-click="{{navigate}}" 
        data-target="{{screens.keys.first}}">Start Summary &raquo;</a>
@@ -25,17 +27,17 @@
       <hr style="border-top: 1px solid #35302c">
     </div>
         
-    <div id="information" style="height: 32%">
+    <div id="information" style="height: 27%">
       <div class="row">
          <div class="col-xs-6 col-sm-6 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
-           <h2>How to</h2>
-             <p> Learn how to summarize your collection! </p>
-             <p><a class="btn btn-default" href="#">Change this later &raquo;</a></p>
+           <h3>Create</h3>
+             <p> Learn how to summarize your collection.</p>
+             <p><a style="width: 100px" class="btn btn-default" href="#">Learn &raquo;</a></p>
           </div>
          <div class="col-xs-6 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
-           <h2>How to</h2>
-             <p> Learn how to summarize your collection! </p>
-             <p><a class="btn btn-default" href="#">Change this later &raquo;</a></p>
+           <h3>Export</h3>
+             <p>How can i export my summary?</p>
+             <p><a style="width: 100px" class="btn btn-default" href="#">Learn &raquo;</a></p>
           </div>
        </div>
      </div> <!-- information -->
