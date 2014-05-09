@@ -1,42 +1,10 @@
-<link rel="import" href="dragAndDrop.html">
 <link rel="import" href="allPhotos.html">
 <link rel="import" href="summaryDone.html">
 <link rel="import" href="bigSizePhoto.html">
 <link rel="import" href="modal-dialog.html">
 <polymer-element name="memento-app">
+<link rel="stylesheet" href="../css/mementoApp.css">
   <template>
-    <style>
-    /*
-    .btn {
-      border-radius: 0;
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-    }
-    */
-    #default {
-    backgroud-color: #333333;
-    }
-    
-    #presentation{
-    overflow: hidden;
-    }
-    
-    .jumbotron {
-     background-color: #cbcbcb;/*#bdb8ad;*/
-      }
-      
-    #myScreen{
-    overflow: hidden;
-    }
-    
-    .centerfy{
-    text-align: center;
-    }
-    
-    #information{
-    margin-bottom: 2%;
-    }
-    </style>
   
    <template if="{{myScreen == null}}">
    <div id="default" style="height: 100%">
@@ -76,6 +44,6 @@
   <div id="myScreen" style="height: 100%"></div>
 
   </template>
-  <script type="application/dart;component=1" src="mementoApp.dart"></script>
+  <script type="application/dart;component=1" src="../dart/mementoApp.dart"></script>
 </polymer-element>
 

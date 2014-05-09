@@ -2,18 +2,16 @@ library app;
 
 import 'package:route_hierarchical/client.dart';
 import 'package:polymer/polymer.dart';
-import 'dragAndDrop.dart';
 import 'allPhotos.dart';
 import 'summaryDone.dart';
 import 'bigSizePhoto.dart';
-import 'resources/ScreenModule.dart' as screenmodule;
-import 'core/DataBase.dart';
+import '../../core/screenModule.dart' as screenmodule;
+import '../../core/dataBase.dart';
 
 /**
  * TODO
  */
 Map<String, screenmodule.Screen> myScreens = {
-  "drag-and-drop": new DragAndDrop(),
   "all-photos": new AllPhotos(),
   "summary-done": new SummaryDone(),
   "big-size-photo": new BigSizePhoto()
@@ -70,8 +68,6 @@ class MementoApp extends PolymerElement {
    * Navigate to the home of the selected module
    */
   void navigate(event, detail, target) {
-   // module = 
-    //changeDragAndDropInstance();
     router.go('${target.dataset['target']}', {});  
   }
 

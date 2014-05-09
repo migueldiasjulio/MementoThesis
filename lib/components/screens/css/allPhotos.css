@@ -1,0 +1,58 @@
+#main {
+  width: 100%;
+  overflow: hidden;
+}
+
+#helpMessage1 {
+ font-size: 25px; 
+}
+
+#helpMessage2 {
+ font-size: 15px; 
+}
+
+#drop-zone {
+  border: 2px dashed #35302c;
+  color: #35302c;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  color: #333;
+  font-family: 'Tahoma';
+  line-height: 1.2em;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+#startSummary {
+  background-color: #444444;
+  border: #444444; /*#74d9ae;*/
+}
+
+#header {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+#line {
+  width: 100%;
+  margin-top: 1px;
+}
+
+.img-thumbnail {
+  border: 1px solid #000;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#files{
+  vertical-align:text-top;
+}
+
+#drop-zone.hover {
+  background-color: #def;
+  border-color: #777;
+  color: #777;
+}

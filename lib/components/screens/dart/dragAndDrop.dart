@@ -3,10 +3,10 @@ library dragAndDrop;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
-import 'resources/ScreenModule.dart' as screenmodule;
+import '../../core/screenModule.dart' as screenmodule;
 import 'dart:convert' show HtmlEscape;
-import 'core/DataBase.dart';
-import 'core/Thumbnail.dart';
+import '../../core/dataBase.dart';
+import '../../core/Thumbnail.dart';
 import 'package:bootjack/bootjack.dart';
 
 /**

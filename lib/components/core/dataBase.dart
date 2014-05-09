@@ -1,6 +1,6 @@
 library database;
 
-import 'PhotoType.dart';
+import 'photoType.dart';
 import 'dart:html';
 import 'Thumbnail.dart';
 
@@ -233,17 +233,13 @@ class dataBase {
     print("<<<<<<<<<< Containers >>>>>>>>>>");
   }
   
-  List<Thumbnail> getAllThumbnails(int moreThanThis){ ///return just thumbnails with dataBaseVersion > arg
+  List<Thumbnail> getAllThumbnails(){ ///return just thumbnails with dataBaseVersion > arg
     var thumbnails = new List<Thumbnail>();
     Thumbnail thumb;
-    int version;
     var allPhotos = this.helpSearching.values;
     for(photoType photo in allPhotos){
-      thumb = photo.myThumbnail;
-      if(thumb.dataBaseVersion > moreThanThis){
         thumbnails.add(photo.myThumbnail);
       }
-    }
     return thumbnails;
   }
   

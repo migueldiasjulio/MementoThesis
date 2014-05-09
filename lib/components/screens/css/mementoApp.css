@@ -1,0 +1,23 @@
+#default {
+  backgroud-color: #333333;
+}
+
+#presentation {
+  overflow: hidden;
+}
+
+.jumbotron {
+  background-color: #cbcbcb; /*#bdb8ad;*/
+}
+
+#myScreen {
+  overflow: hidden;
+}
+
+.centerfy {
+  text-align: center;
+}
+
+#information {
+  margin-bottom: 2%;
+}
