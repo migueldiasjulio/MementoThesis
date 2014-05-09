@@ -18,10 +18,11 @@ class Database {
 
   List<String> newNameToAddToMap;
   Map<String, photoType> helpSearching = new Map<String, photoType>();
-  //Containers (Just contain file names)
+  
   List<String> summaryContainer = new List<String>();
   List<String> standByContainer = new List<String>();
   List<String> excludedContainer = new List<String>();
+  
   //Aux
   Map<String, photoType> map = null;
   List<String> namesToAdd = new List<String>();
@@ -73,7 +74,7 @@ class Database {
 
     this.updateMap(this.namesToAdd, this.newDataBaseElementsToAdd);
 
-    //TODO CHANGE THIS
+    //Adding all photos to stand-by container 
     this.addToContainer("STANDBY", this.namesToAdd);
 
     //Cleaning
@@ -165,7 +166,7 @@ class Database {
         break;
       default: break;
     }
-    this.printContainersState(); //TODO
+    this.printContainersState(); 
   }
 
   /**
@@ -206,7 +207,7 @@ class Database {
         break;
       default: break;
     }
-    this.printContainersState(); //TODO
+    this.printContainersState();
   }
 
   /**
@@ -239,7 +240,8 @@ class Database {
     print("<<<<<<<<<< Containers >>>>>>>>>>");
   }
   
-  List<Thumbnail> getAllThumbnails(int moreThanThis){ ///return just thumbnails with dataBaseVersion > arg
+  /*
+  List<Thumbnail> getAllThumbnails(){ ///return just thumbnails with dataBaseVersion > arg
     var thumbnails = new List<Thumbnail>();
     Thumbnail thumb;
     var allPhotos = this.helpSearching.values;
@@ -247,6 +249,45 @@ class Database {
         thumbnails.add(photo.myThumbnail);
       }
     return thumbnails;
+  } */
+  
+  /**
+   * Summary Algorithm 
+   */
+  void workSummary(int numberOfPhotos){
+    //TODO
   }
+  
+  List<Thumbnail> getThumbnails(String fromWhere){
+    List<Thumbnail> list;
+    Thumbnail thumb;
+    List<String> container;
 
+    switch(fromWhere){
+      case("SUMMARY") :
+        container = this.summaryContainer;
+        for(String photo in container){
+            list.add(this.helpSearching[photo].myThumbnail);
+        }
+        return list;
+        break;
+      case("STANDBY") :
+        container = this.standByContainer;
+        for(String photo in container){
+            list.add(this.helpSearching[photo].myThumbnail);
+        }
+        return list;
+        break;
+      case("EXCLUDED") :
+        container = this.excludedContainer;
+        for(String photo in container){
+            list.add(this.helpSearching[photo].myThumbnail);
+        }
+        return list;
+      default: break;
+      
+      return null; //exception ??
+    }
+ }
+  
 }//dataBase

@@ -88,6 +88,19 @@ class AllPhotos extends screenhelper.Screen {
   void show(){
     modal.show();
   }
+  
+  
+  void incSummaryNumber(){
+    int auxiliar = int.parse(numberOfPhotosDefined);
+    auxiliar++;
+    this.numberOfPhotosDefined = auxiliar.toString();
+  }
+  
+  void subSummaryNumber(){
+    int auxiliar = int.parse(numberOfPhotosDefined);
+    auxiliar--;
+    this.numberOfPhotosDefined = auxiliar.toString();
+  }
 
   
   /**
@@ -198,6 +211,7 @@ class AllPhotos extends screenhelper.Screen {
                             reader.onLoad.listen((e) {
                                this.thumbnails.add(new Thumbnail
                                    (reader.result, title: sanitizer.convert(file.name)));
+                               print(this.thumbnails.length.toString());
                             });
                             reader.readAsDataUrl(file);
                             })
