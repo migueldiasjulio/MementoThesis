@@ -4,7 +4,6 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/dataBase.dart';
 
 /**
  * TODO
@@ -23,14 +22,6 @@ class BigSizePhoto extends screenhelper.Screen {
 
   BigSizePhoto.created() : super.created(){
     _name = $['name'];
-  }
-  
-  /**
-   * TODO
-   */
-  void runStartStuff(dataBase dataBase){
-    this.myDataBase = dataBase;
-    //TODO
   }
 
   /**
@@ -51,7 +42,7 @@ class BigSizePhoto extends screenhelper.Screen {
     checkWhatPhotoToDisplay();
     super.enteredView();
   }
-  
+
   void checkWhatPhotoToDisplay(){
     this.photoToDisplay = this.myDataBase.givephotoName;
     _name.text = this.photoToDisplay;

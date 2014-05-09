@@ -3,7 +3,7 @@ library screenModule;
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
-import 'dataBase.dart';
+import '../core/dataBase.dart';
 
 /**
  * TODO
@@ -26,7 +26,7 @@ abstract class Screen extends ScreenModule {
   String title, description;
   String path;
   Router router;
-  dataBase myDataBase;
+  Database myDataBase = Database.get();
 
   /**
    * TODO
@@ -35,7 +35,7 @@ abstract class Screen extends ScreenModule {
 
   // This lets the CSS "bleed through" into the Shadow DOM of this element.
   bool get applyAuthorStyles => true;
-  
+
   bool get preventDispose => true;
 
   /**
@@ -51,11 +51,11 @@ abstract class Screen extends ScreenModule {
    * TODO
    */
   void setupRoutes(Route route);
-  
+
   /**
    * TODO
    */
-  void runStartStuff(dataBase myDataBase);
+  void runStartStuff() {}
 
   /**
    * TODO
@@ -76,6 +76,6 @@ abstract class Screen extends ScreenModule {
    */
   goRoot() {
     router.go(path, {});
-  } 
-  
+  }
+
 }

@@ -5,18 +5,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memento App</title>
-    
-    <link rel="stylesheet" type="text/css" href="resources/css/font-face.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/index.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
-    
     <link rel="import" href="packages/polymer/polymer.html">
     <link rel="import" href="../lib/components/screens/html/mementoApp.html">
+    <link rel="stylesheet" href="resources/css/index.css">
+    <style>
+      /* Font Faces don't work in the shadow DOM yet :( */
 
-    <script src="packages/browser/dart.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
-    <script src="resources/js/bootstrap.min.js"></script>
+      /* http://fonts.googleapis.com/css?family=Dosis */
+      @font-face {
+        font-family: 'Dosis';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Dosis Regular'), local('Dosis-Regular'), url(http://themes.googleusercontent.com/static/fonts/dosis/v2/xIAtSaglM8LZOYdGmG1JqQ.woff) format('woff');
+      }
+      
+      /* http://fonts.googleapis.com/css?family=Open+Sans */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+      }
+    </style>
   </head>
   
   <body style="background-color: #444444">
@@ -118,7 +128,6 @@
         </div>
       </div>
     </div>
-
     <!-- Auto resize -->
     <script lang="javascript">
         function autoResizeDiv()

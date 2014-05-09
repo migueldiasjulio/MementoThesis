@@ -1,7 +1,6 @@
 <polymer-element name="modal-dialog" >
-<link rel="stylesheet" href="../../../../../packages/bootjack/css/bootstrap.min.css">
-
   <template>
+    <link rel="stylesheet" href="../../../../../packages/bootjack/css/bootstrap.css">
     <button on-click="{{show}}">Test</button>
     <div id="modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog">
@@ -26,7 +25,7 @@
       }
     </style>
   </template>
-<script type="application/dart">
+<script type="application/dart;component=1">
 import 'package:polymer/polymer.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:html';

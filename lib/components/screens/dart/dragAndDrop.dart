@@ -7,7 +7,6 @@ import '../../core/screenModule.dart' as screenmodule;
 import 'dart:convert' show HtmlEscape;
 import '../../core/dataBase.dart';
 import '../../core/Thumbnail.dart';
-import 'package:bootjack/bootjack.dart';
 
 /**
  * TODO
@@ -20,19 +19,19 @@ class DragAndDrop extends screenmodule.Screen {
    FormElement _readForm;
    InputElement _fileInput;
    Element _dropZone;
-   HtmlEscape sanitizer = new HtmlEscape(); 
+   HtmlEscape sanitizer = new HtmlEscape();
    var _numberOfPhotosToAdd = 0;
    Element _loadingBarPhotosDiv;
    var _numberOfPhotosToAddElement;
    Element _modalPopUp;
    @published bool visible = true;
-   int dataBaseVersion;  
+   int dataBaseVersion;
    Modal modal;
    /**
     * TODO
     */
    static const String TAG = "drag-and-drop";
-  
+
    /**
     * TODO
     */
@@ -53,7 +52,7 @@ class DragAndDrop extends screenmodule.Screen {
    * TODO
    */
   factory DragAndDrop() => new Element.tag(TAG);
-  
+
   /**
    *     Photo database
    */
@@ -69,23 +68,23 @@ class DragAndDrop extends screenmodule.Screen {
     resetNumberOfPhotos();
     runAgain();
   }
-  
+
   void runAgain(){
     _readForm.reset();
   }
-  
+
   void nothingToAddMessage(){
-    $['messageBeforeImport'].text = "0 photos selected. Continue anway?";  
+    $['messageBeforeImport'].text = "0 photos selected. Continue anway?";
   }
-  
+
   void beforeImport(){
     $['messageBeforeImport'].text = photos.length.toString() + " photos to import. Continue?";
   }
-  
+
   void resetNumberOfPhotos(){
-    $['numberOfPhotos'].text = '0 photos selected.'; 
+    $['numberOfPhotos'].text = '0 photos selected.';
   }
-  
+
   void setNewNumberOfPhotos(int newNumber){
     String msg = newNumber.toString() + " photos selected.";
     $['numberOfPhotos'].text = msg;
@@ -99,25 +98,25 @@ class DragAndDrop extends screenmodule.Screen {
     _fileInput = $['files'];
     _dropZone = $['drop-zone'];
     _loadingBarPhotosDiv = $['loadBarAndText'];
-    
+
     _fileInput.onChange.listen((e) => _onFileInputChange());
     _dropZone.onDragOver.listen(_onDragOver);
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
-    
+
     Modal.use();
     Transition.use();
     modal = Modal.wire($['modal']);
-    
+
   }
-  
+
   /**
    * TODO
    */
-  void runStartStuff(dataBase _myDataBase){
-    this.myDataBase = _myDataBase;
-    cleaner();   
+  void runStartStuff(){
+    super.runStartStuff();
+    cleaner();
   }
 
   /**
@@ -129,7 +128,7 @@ class DragAndDrop extends screenmodule.Screen {
     dataBaseVersion = this.myDataBase.returnVersion();
     super.enteredView();
   }
-  
+
   /**
    * TODO
    */
@@ -141,14 +140,14 @@ class DragAndDrop extends screenmodule.Screen {
         path: '',
         enter: home);
    }
-  
-  
- 
+
+
+
   /**
    * TODO
    */
   home(_) {}
-  
+
   /**
    * TODO
    */
@@ -175,14 +174,14 @@ class DragAndDrop extends screenmodule.Screen {
    void _onFileInputChange() {
      _onFilesSelected(_fileInput.files);
    }
-   
+
    /**
-    * 
+    *
     */
    void addPhotosToDataBase(){
      myDataBase.addNewElementsToDataBase(photos, thumbnails);
    }
-   
+
    void show(){
      if(photos.length == 0){
        nothingToAddMessage();
@@ -190,16 +189,16 @@ class DragAndDrop extends screenmodule.Screen {
        beforeImport();
      }
      modal.show();
-     
+
      //
    }
-   
+
    void reallyGoAllPhotos(){
      $['messageBeforeImport'].text = "Working your photos. Please wait...";
      router.go("all-photos", {});
      modal.hide();
    }
-   
+
    void goToAllPhotos(){
      show();
     /// activateProgressBar();
@@ -207,24 +206,24 @@ class DragAndDrop extends screenmodule.Screen {
      cleaner();
     /// inactiveProgressBar();
    }
-   
+
    void activateProgressBar(){
      _loadingBarPhotosDiv.hidden = false;
    }
-   
+
    void inactiveProgressBar(){
      _loadingBarPhotosDiv.hidden = true;
    }
-   
+
    void setInitialProgressBarValues(String finalValue){
-     $['numberOfPhotos'].setAttribute("aria-valuemax", finalValue);  
+     $['numberOfPhotos'].setAttribute("aria-valuemax", finalValue);
    }
-   
+
    void updateLiveValueOfProgressBar(String valueNow){
      $['numberOfPhotos'].setAttribute("aria-valuenow", valueNow);
      var numberX = int.parse(valueNow)/(int.parse($['numberOfPhotos'].getAttribute("aria-valuemax")));
      $['numberOfPhotos'].setAttribute("style", "width: " + numberX.toString() + "%");
-     
+
    }
 
    /**
@@ -233,24 +232,24 @@ class DragAndDrop extends screenmodule.Screen {
    void _onFilesSelected(List<File> files) {
 
      var photoFiles = files.where((file) => file.type.startsWith('image'));
-       
+
      // Add original files
      photos.addAll(photoFiles);
      setNewNumberOfPhotos(photos.length);
      setInitialProgressBarValues(photos.length.toString());
 
-     var aux = 0;  
+     var aux = 0;
      // read and display its thumbnail.
      photoFiles.forEach((file) {
        updateLiveValueOfProgressBar(aux.toString());
        var reader = new FileReader();
        reader.onLoad.listen((e) {
-          thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name), 
+          thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name),
               dataBaseVersion: dataBaseVersion));
        });
        reader.readAsDataUrl(file);
      });
-     
+
      //inactiveProgressBar();
-   } 
+   }
  }

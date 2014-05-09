@@ -5,7 +5,6 @@ import 'dart:core';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/dataBase.dart';
 import '../../core/Thumbnail.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
@@ -17,7 +16,7 @@ import 'dart:async';
 @CustomTag(AllPhotos.TAG)
 class AllPhotos extends screenhelper.Screen {
 
-  List<String> _thumbnailsToShow; 
+  List<String> _thumbnailsToShow;
   static const String TAG = "all-photos";
   String title = "All Photos",
          description = "Showing all photos";
@@ -25,25 +24,25 @@ class AllPhotos extends screenhelper.Screen {
   int dataBaseVersion = 0;
   Modal modal;
   @published String numberOfPhotosDefined = "20";
-  
+
   FormElement _readForm;
   InputElement _fileInput;
   Element _dropZone;
-  HtmlEscape sanitizer = new HtmlEscape(); 
+  HtmlEscape sanitizer = new HtmlEscape();
   var _numberOfPhotosToAdd = 0;
   var _numberOfPhotosToAddElement;
   Element help1;
   Element help2;
-  
+
   /**
    *     Photo database
    */
   final List<File> photos = toObservable([]);
   final List<Thumbnail> thumbnails = toObservable([]);
-  
-  
-  
-  
+
+
+
+
   /**
    * TODO
    */
@@ -52,27 +51,27 @@ class AllPhotos extends screenhelper.Screen {
     Modal.use();
     Transition.use();
     modal = Modal.wire($['modal']);
-    
+
     _readForm = $['read'];
     _fileInput = $['files'];
     _dropZone = $['drop-zone'];
-    
+
     help1 = $['helpMessage1'];
     help2 = $['helpMessage2'];
-    
+
     _fileInput.onChange.listen((e) => _onFileInputChange());
     _dropZone.onDragOver.listen(_onDragOver);
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
   }
-  
+
   @override
   void enteredView() {
     //this.importThumbnailPhotos();
     super.enteredView();
   }
-  
+
   /**
    * TODO
    */
@@ -88,40 +87,31 @@ class AllPhotos extends screenhelper.Screen {
    * TODO
    */
   home(_) {}
-  
+
   void show(){
     modal.show();
   }
-  
-  /**
-   * TODO
-   */
-  void runStartStuff(dataBase _dataBase){
-    if(myDataBase == null){
-      this.myDataBase = _dataBase;
-    }
-  }
-  
+
   /**
    * Messages to be displayed
    */
   void noPhotosMessage(){
-    $['message'].text = "You need to import at least 1 photo to proceed.";  
+    $['message'].text = "You need to import at least 1 photo to proceed.";
   }
-  
+
   void littleNumberMessage(){
     $['message'].text = numberOfPhotosDefined + " photos defined  as the summary size but only "
         + this.thumbnails.length.toString() + " photos were imported. Continue?";
   }
-  
+
   void informativeSummaryMessage(){
     $['message'].text = "A summary with " + numberOfPhotosDefined + " will be created. Continue?";
   }
-  
+
   void setNumberOfPhotosToSummary(int number){
     numberOfPhotosDefined = number.toString();
   }
-  
+
   /**
    * Do Summary
    */
@@ -130,34 +120,34 @@ class AllPhotos extends screenhelper.Screen {
     int thumbSize = this.thumbnails.length;
     show();
     if(thumbSize == 0){
-      noPhotosMessage(); 
-    } else if(thumbSize < int.parse(numberOfPhotosDefined)){  
+      noPhotosMessage();
+    } else if(thumbSize < int.parse(numberOfPhotosDefined)){
       littleNumberMessage();
-    } else { 
+    } else {
       informativeSummaryMessage();
     }
   }
-    
+
   /**
    * Build Summary
    */
-   void buildSummary(){ 
+   void buildSummary(){
      //TODO progressbar
      goSummary();
      modal.hide();
    }
-  
+
   void goSummary(){
     router.go("summary-done", {});
   }
-  
+
   /**
    * TODO
    */
   void cleaner(){
     thumbnails.clear();
   }
-  
+
   /**
    * Input photos
    */
@@ -187,9 +177,9 @@ class AllPhotos extends screenhelper.Screen {
    void _onFileInputChange() {
      _onFilesSelected(_fileInput.files);
    }
-   
+
    /**
-    * 
+    *
     */
    void addPhotosToDataBase(){
      myDataBase.addNewElementsToDataBase(photos, thumbnails);
@@ -198,7 +188,7 @@ class AllPhotos extends screenhelper.Screen {
    /**
     * Future so import and modal can run at the same time
     */
-   Future<bool> readData(var photoFiles){  
+   Future<bool> readData(var photoFiles){
      var completer = new Completer();
      completer.complete(
      photoFiles.forEach((file) {
@@ -210,34 +200,34 @@ class AllPhotos extends screenhelper.Screen {
                           reader.readAsDataUrl(file);
                           })
      );
-     
+
      return completer.future;
    }
-   
+
    void importingTitle(){
-     $['modalTilte'].text = "Importing photos";  
+     $['modalTilte'].text = "Importing photos";
    }
-   
+
    void importingContent(){
      $['message'].text = "Loading...";
    }
-   
+
    void importingPhotosModal(){
      importingTitle();
      importingContent();
      show();
    }
-   
+
    void _onFilesSelected(List<File> files) {
 
      var photoFiles = files.where((file) => file.type.startsWith('image'));
      photos.addAll(photoFiles);
      var aux = 0;
      Future<bool> futureResults = readData(photoFiles);
-     futureResults.then((results) => this.modal.hide() 
+     futureResults.then((results) => this.modal.hide()
                                   /* => setNumberOfPhotosToSummary(this.thumbnails.length) */)
            .catchError((e) => print("UPS!"));
-     
-     importingPhotosModal();  
-   } 
+
+     importingPhotosModal();
+   }
 }///allPhotos

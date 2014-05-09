@@ -1,7 +1,7 @@
 <polymer-element name="all-photos">
-<link rel="stylesheet" href="../css/allPhotos.css">
 <template>
-<div id="main" class="container" style="height: 100%">
+  <link rel="stylesheet" href="../css/allPhotos.css">
+  <div id="main" class="container" style="height: 100%">
 
   <section id="firstSection" style="height: 86%">
 
@@ -21,7 +21,7 @@
       </template>
         
       <template if="{{thumbnails.length != 0}}">
-        <div style="height:100%" class="row" id="theRow" style="overflow-y: scroll">
+        <div class="row" id="theRow" style="height:100%;overflow-y: scroll">
           <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">
           <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
             id="{{thumbnail.title}}">
@@ -54,7 +54,7 @@
       
     <form class="form-inline" role="form">
       <div class="btn-group">
-        <button type="button" on-click="{{}}"
+        <button type="button"
           style="width: 120px;" class="btn btn-default btn-md">Add
           Photos </button>
       </div>

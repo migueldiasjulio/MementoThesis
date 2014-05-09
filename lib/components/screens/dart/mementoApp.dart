@@ -22,7 +22,7 @@ Map<String, screenmodule.Screen> myScreens = {
  */
 @CustomTag('memento-app')
 class MementoApp extends PolymerElement {
- 
+
   /**
    * TODO
    */
@@ -31,30 +31,26 @@ class MementoApp extends PolymerElement {
   @observable screenmodule.Screen myScreen = null;
   //@observable bool defaultScreen = true;
   var router;
-  dataBase myDataBase = null;
-
-  // This lets the CSS "bleed through" into the Shadow DOM of this element.
-  bool get applyAuthorStyles => true;
+  Database myDataBase = Database.get();
 
   /**
    * TODO
    */
   MementoApp.created() : super.created() {
-    myDataBase = new dataBase(true); //TODO change to Singleton
-    router = new Router(useFragment: true);           
+    router = new Router(useFragment: true);
     screens.forEach((path, module) {
       print(path);
       router.root.addRoute(
           name: path,
           preEnter: (_) {
             this.myScreen = screens[path];
-            this.myScreen.runStartStuff(myDataBase);
+            this.myScreen.runStartStuff();
           },
           path: '/$path',
           mount: module.mount(path, router));
     });
     router.root.addRoute(name: 'home', defaultRoute: true, path: '', enter: showHome);
-    router.listen();  
+    router.listen();
   }
 
   /**
