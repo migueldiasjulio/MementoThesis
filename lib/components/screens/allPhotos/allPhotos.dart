@@ -107,9 +107,8 @@ class AllPhotos extends screenhelper.Screen {
     * TODO
     */
    void _onFileInputChange() {
-     showLoading();
      _onFilesSelected(_fileInput.files);
-     hiddeLoading();
+     //hiddeLoading();
    }
    
    /**
@@ -123,6 +122,7 @@ class AllPhotos extends screenhelper.Screen {
                             FileReader reader = new FileReader();
                             reader.onLoad.listen((e) {
                                this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
+                               print("Thumbs size: " + this.thumbnails.length.toString());
                             });
                             reader.readAsDataUrl(file);
                    });
@@ -138,13 +138,13 @@ class AllPhotos extends screenhelper.Screen {
      
      photos.addAll(photoFiles);
      
-     
      //RUN THIS
      Future future = getData(photoFiles);
      //THEN
      future  
        .then((workToDo) => closeAndUpdateNumber())  
        .catchError((e) => print(e));  
+     showLoading();
    }
    
    void closeAndUpdateNumber(){
@@ -213,12 +213,17 @@ class AllPhotos extends screenhelper.Screen {
     * Build Summary
     */
     void buildSummary(){
+      
+      //SHOW LOADING WINDOW
+      
       //1 enviar dados para a db
       addPhotosToDataBase();
       //2 construir sumario
       this.myDataBase.workSummary(int.parse(this.numberOfPhotosDefined));
       //ir para o ecra
       goSummary();
+      
+      //HIDDE LOADING WINDOW
     }
     
     /**
