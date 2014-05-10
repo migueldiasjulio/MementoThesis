@@ -5,12 +5,12 @@ import 'Thumbnail.dart';
 
 class photoType {
   
-  File myFile;
+  String mySrc;
   Thumbnail myThumbnail;
   List<String> category;
   
-  photoType(File myFile, Thumbnail myThumbnail){
-    this.myFile = myFile;
+  photoType(String mySrc, Thumbnail myThumbnail){
+    this.mySrc = mySrc;
     this.myThumbnail = myThumbnail;
   }
   

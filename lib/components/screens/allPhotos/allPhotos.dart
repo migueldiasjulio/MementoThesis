@@ -37,7 +37,7 @@ class AllPhotos extends screenhelper.Screen {
   /**
    *     Photo database
    */
-  final List<File> photos = toObservable([]);
+  final List<String> photoSources = toObservable([]);
   final List<Thumbnail> thumbnails = toObservable([]);
   
   /**
@@ -121,6 +121,9 @@ class AllPhotos extends screenhelper.Screen {
      var workToDo = photoFiles.forEach((file) {
                             FileReader reader = new FileReader();
                             reader.onLoad.listen((e) {
+                              //FILE SRC
+                              this.photoSources.add(reader.result);
+                              //FILE THUMBNAIL
                                this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
                                print("Thumbs size: " + this.thumbnails.length.toString());
                             });
@@ -136,7 +139,7 @@ class AllPhotos extends screenhelper.Screen {
      
      var photoFiles = files.where((file) => file.type.startsWith('image'));
      
-     photos.addAll(photoFiles);
+     //photos.addAll(photoFiles);
      
      //RUN THIS
      Future future = getData(photoFiles);
@@ -230,7 +233,7 @@ class AllPhotos extends screenhelper.Screen {
      *
      */
     void addPhotosToDataBase(){
-      myDataBase.addNewElementsToDataBase(photos, thumbnails);
+      myDataBase.addNewElementsToDataBase(photoSources, thumbnails);
     }
 
     /**

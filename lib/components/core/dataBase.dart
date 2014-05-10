@@ -1,7 +1,6 @@
 library database;
 
 import 'PhotoType.dart';
-import 'dart:html';
 import 'Thumbnail.dart';
 
 class Database {
@@ -54,11 +53,11 @@ class Database {
   /**
    * Add a new element to the database
    */
-  void addNewElementsToDataBase(List<File> originalFiles, List<Thumbnail> thumbnailFiles){
-    var fileListSize = originalFiles.length;
+  void addNewElementsToDataBase(List<String> originalFiles, List<Thumbnail> thumbnailFiles){
+    var fileListSize = thumbnailFiles.length;
     for(var i = 0; i < fileListSize; i++){
-      if(!alreadyExistsInTheDataBase(originalFiles.elementAt(i))){
-        this.namesToAdd.add(originalFiles.elementAt(i).name);
+      if(!alreadyExistsInTheDataBase(thumbnailFiles.elementAt(i).title)){
+        this.namesToAdd.add(thumbnailFiles.elementAt(i).title);
         this.newDataBaseElement = new photoType(originalFiles.elementAt(i), thumbnailFiles.elementAt(i));
         this.newDataBaseElementsToAdd.add(this.newDataBaseElement);
       }
@@ -109,8 +108,8 @@ class Database {
   /**
    * Check if already exists in the database
    */
-  bool alreadyExistsInTheDataBase(File file){
-    return this.helpSearching.containsKey(file.name);
+  bool alreadyExistsInTheDataBase(String file){
+    return this.helpSearching.containsKey(file);
   }
 
   /**
