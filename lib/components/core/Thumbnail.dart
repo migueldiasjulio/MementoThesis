@@ -6,4 +6,5 @@ class Thumbnail {
   int width, height;
 
   Thumbnail(this.src, {this.title, this.width: 256, this.height: 256});
+  
 }

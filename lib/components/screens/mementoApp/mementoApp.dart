@@ -5,8 +5,8 @@ import 'package:polymer/polymer.dart';
 import '../allPhotos/allPhotos.dart';
 import '../summaryDone/summaryDone.dart';
 import '../bigSizePhoto/bigSizePhoto.dart';
-import '../../core/screenModule.dart' as screenmodule;
-import '../../core/dataBase.dart';
+import '../../core/ScreenModule.dart' as screenmodule;
+import '../../core/DataBase.dart';
 
 /**
  * TODO

@@ -3,7 +3,7 @@ library bigSize;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
-import '../../core/screenModule.dart' as screenhelper;
+import '../../core/ScreenModule.dart' as screenhelper;
 
 /**
  * TODO

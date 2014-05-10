@@ -1,6 +1,6 @@
 library database;
 
-import 'photoType.dart';
+import 'PhotoType.dart';
 import 'dart:html';
 import 'Thumbnail.dart';
 
