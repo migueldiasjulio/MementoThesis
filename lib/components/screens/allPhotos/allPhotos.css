@@ -24,19 +24,13 @@
   font-family: 'Tahoma';
   line-height: 1.2em;
   margin-top: 15px;
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-
-#header {
-  width: 100%;
-  overflow: hidden;
   margin-bottom: 5px;
+  overflow: hidden;
 }
 
 #line {
   width: 100%;
-  margin-top: 1px;
+  margin-bottom: 2px;
 }
 
 .img-thumbnail {

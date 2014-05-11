@@ -139,8 +139,8 @@ class AllPhotos extends screenhelper.Screen {
      
      var photoFiles = files.where((file) => file.type.startsWith('image'));
      
-     //photos.addAll(photoFiles);
-     
+     //photos.addAll(photoFiles);     
+
      //RUN THIS
      Future future = getData(photoFiles);
      //THEN
@@ -152,8 +152,8 @@ class AllPhotos extends screenhelper.Screen {
    
    void closeAndUpdateNumber(){
      hiddeLoading();
-     String thumbSize = this.thumbnails.length.toString();
-     setNumberOfPhotosToSummary(thumbSize);
+     //String thumbSize = this.thumbnails.length.toString();
+     //setNumberOfPhotosToSummary(thumbSize);
    }
      
    void setNumberOfPhotosToSummary(String number){
