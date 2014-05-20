@@ -119,6 +119,7 @@ class AllPhotos extends screenhelper.Screen {
      var completer = new Completer();
      
      var workToDo = photoFiles.forEach((file) {
+                            FileWriter writer;
                             FileReader reader = new FileReader();
                             reader.onLoad.listen((e) {
                               //FILE SRC

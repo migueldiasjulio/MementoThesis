@@ -77,10 +77,40 @@ class SummaryDone extends screenhelper.Screen {
   
   void exportSummary(){
     this.exportMenu.show();
+    exportToHardDrive();
   }
   
   void exportToHardDrive(){
+    List<Thumbnail> thumbToExport = this.thumbnailsSummary;
+    List<String> names = new List<String>();
     
+    for(Thumbnail thumb in thumbToExport){
+      names.add(thumb.title);
+    }
+    List test = new List();
+    test.addAll(names);
+    List body = [ 'This list is the text\n',
+                   'which our final output\n',
+                   'file will contain.\n\n',
+                   "It's really nothing\n",
+                   'special in any way.\n',
+                   'Normally this stuff would\n',
+                   'be dynamically generated\n',
+                   'in some way.\n\n'];
+    
+    // Create a new blob from the data.
+    Blob blob = new Blob(test, 'text/plain', 'native');
+    // Create a data:url which points to that data.
+    String url = Url.createObjectUrlFromBlob(blob);
+    // Create a link to navigate to that data and download it.
+    AnchorElement link = new AnchorElement()
+        ..href = url
+        ..download = 'Memento.txt'
+        ..text = 'My Device';
+    
+    // Insert the link into the DOM.
+    var myDevice = $['myDeviceDownload'];
+    myDevice.append(link);
   }
   
   void exportToFacebook(){
