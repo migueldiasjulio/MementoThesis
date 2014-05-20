@@ -87,6 +87,70 @@ class SummaryDone extends screenhelper.Screen {
     
   }
 
+  /**
+   * When we already know the photo/photos new destination we change them localy to the page
+   * and we inform the database about that changes
+   * @param from
+   * @param to
+   * @param thumbs
+   * @param origin
+   * @param destination 
+   */
+  void moveFunction(String from, String to, 
+      List<Thumbnail> thumbs, List<Thumbnail> origin, List<Thumbnail> destination){
+    
+    List<String> thumbNames = new List<String>();
+    for(Thumbnail thumb in thumbs){
+      origin.remove(thumb);
+      destination.add(thumb);
+      thumbNames.add(thumb.title);
+    }
+    this.myDataBase.moveFromTo(from, to, thumbNames);
+  }
+  
+  /**
+   * Function created to help the moving action of a photo from a "from" container
+   * to a "to" container.
+   * @param from - String
+   * @param to - String
+   * @param thumbnails - List<Thumbnail>
+   */
+  void moveFromTo(String from, String to, List<Thumbnail> thumbnails){
+    switch(from){
+         case("SUMMARY") :
+           switch(to) {
+             case("STANDBY") :
+               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsStandBy); 
+               break;
+             case("EXCLUDED") :
+               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsExcluded);
+               break;
+           }
+           break;
+         case("STANDBY") :
+           switch(to) {
+             case("SUMMARY") :
+               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsSummary); 
+               break;
+             case("EXCLUDED") :
+               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsExcluded); 
+               break;
+           }
+           break;
+         case("EXCLUDED") :
+           switch(to) {
+             case("SUMMARY") :
+               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsSummary); 
+               break;
+             case("STANDBY") :
+               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsStandBy); 
+               break;
+           }
+           break;
+         default: break;
+       }
+  }
+
   void syncSummaryPhotos(){
     thumbnailsSummary.clear();
     thumbnailsSummary.addAll(this.myDataBase.giveContainerPhotos("SUMMARY"));
