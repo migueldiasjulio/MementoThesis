@@ -13,7 +13,7 @@
           <!-- Start Tab Button --> 
           <label id="summaryLabel" for="tab1" class="tabtile tabtile-med solid-green-3 light-text">
             <span class="light-text">Summary 
-            <span id="summaryNumber" class="badge">0</span>
+            <span id="summaryNumber" class="badge">{{thumbnailsSummary.length}}</span>
             </span>
                        
           </label> 
@@ -39,7 +39,7 @@
         <li style="width: 100%;">
           <!-- Start Tab Button --> 
           <label id="standByLabel" for="tab2" class="tabtile tabtile-med solid-orange-4 light-text pos-left-210">
-            <span class="light-text">Stand-by <span id="standByNumber" class="badge">0</span></span>
+            <span class="light-text">Stand-by <span id="standByNumber" class="badge">{{thumbnailsStandBy.length}}</span></span>
         </label> 
         <input type="radio" name="tabion" id="tab2"> 
         <!-- End Tab Button -->
@@ -65,7 +65,7 @@
         <li style="width: 100%;">
           <!-- Start Tab Button --> 
           <label id="excludedLabel" for="tab3" class="tabtile tabtile-med solid-red-3 light-text pos-left-410"> 
-            <span class="light-text">Excluded <span id="excludedNumber" class="badge">0</span></span>
+            <span class="light-text">Excluded <span id="excludedNumber" class="badge">{{thumbnailsExcluded.length}}</span></span>
         </label> 
         <input type="radio" name="tabion" id="tab3"> 
         <!-- End Tab Button -->

@@ -113,42 +113,6 @@ class Database {
   }
 
   /**
-   * giveContainerPhotos - Returns all photos from specified container
-   */
-  List<Thumbnail> giveContainerPhotos(String _nameOfContainer){
-    var _photosToReturn = new List<Thumbnail>();
-    var _photosContainer = null;
-    var _inContainerSize = 0;
-
-    switch(_nameOfContainer){
-      case("SUMMARY") :
-        _photosContainer = this.summaryContainer;
-        _inContainerSize = _photosContainer.length;
-        for(var i = 0; i < _inContainerSize; i++){
-          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)].myThumbnail);
-             }
-        break;
-      case("STANDBY") :
-        _photosContainer = this.standByContainer;
-        _inContainerSize = _photosContainer.length;
-        for(var i = 0; i < _inContainerSize; i++){
-         _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)].myThumbnail);
-        }
-        break;
-      case("EXCLUDED") :
-        _photosContainer = this.standByContainer;
-        _inContainerSize = _photosContainer.length;
-        for(var i = 0; i < _inContainerSize; i++){
-          _photosToReturn.add(this.helpSearching[_photosContainer.elementAt(i)].myThumbnail);
-        }
-        break;
-      default: break;
-    }
-
-    return _photosToReturn;
-  }
-
-  /**
    * Add to container
    */
   void addToContainer(String _nameOfContainer, List<String> _imagesToAdd){
@@ -255,10 +219,14 @@ class Database {
    */
   void workSummary(int numberOfPhotos){
     //TODO
+    for(int i = 0; i < numberOfPhotos; i++){
+      this.summaryContainer.add(this.standByContainer.elementAt(i));
+      this.standByContainer.removeAt(i);
+    }
   }
   
   List<Thumbnail> getThumbnails(String fromWhere){
-    List<Thumbnail> list;
+    List<Thumbnail> list = new List<Thumbnail>();
     Thumbnail thumb;
     List<String> container;
 

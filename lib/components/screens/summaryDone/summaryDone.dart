@@ -153,20 +153,17 @@ class SummaryDone extends screenhelper.Screen {
 
   void syncSummaryPhotos(){
     thumbnailsSummary.clear();
-    thumbnailsSummary.addAll(this.myDataBase.giveContainerPhotos("SUMMARY"));
-    //$['summaryNumber'].contentEditable = thumbnailsSummary.length.toString();
+    thumbnailsSummary.addAll(this.myDataBase.getThumbnails("SUMMARY"));
   }
 
   void syncStandByPhotos(){
     thumbnailsStandBy.clear();
-    thumbnailsStandBy.addAll(this.myDataBase.giveContainerPhotos("STANDBY"));
-    //$['standByNumber'].contentEditable = thumbnailsSummary.length.toString();
+    thumbnailsStandBy.addAll(this.myDataBase.getThumbnails("STANDBY"));
   }
 
   void syncExcludedPhotos(){
     thumbnailsExcluded.clear();
-    thumbnailsExcluded.addAll(this.myDataBase.giveContainerPhotos("EXCLUDED"));
-    //$['excludedNumber'].contentEditable = thumbnailsSummary.length.toString();
+    thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
   }
 
   void showImage(){
