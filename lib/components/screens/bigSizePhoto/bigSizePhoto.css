@@ -1,0 +1,52 @@
+@import url("../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../packages/bootjack/css/bootstrap-theme.css");
+
+#main {
+  width: 100%;
+  overflow: hidden;
+}
+
+#bigPhoto {
+  width: 100%;
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+#someButtons{
+}
+
+#horizontalPhotos{
+  overflow-x: scroll; overflow-y: hidden;
+}
+
+.row {
+  overflow-x:scroll;
+  overflow-y:hidden;
+  white-space:nowrap;
+  float:none;
+  display:inline-block;
+} 
+
+#header{
+  width: 100%;
+  overflow:hidden;
+  margin-bottom: 5px;
+}
+
+#line {
+  width: 100%;
+  margin-top: 1px;
+}
+
+#second-line {
+  width: 100%;
+  margin-top: 1px;
+}
+
+#third-line {
+  width: 100%;
+}

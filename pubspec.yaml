@@ -1,10 +1,16 @@
-name: memento
+name: Memento
+author: Miguel Julio
 description: Memento
 dependencies:
-    polymer: '>=0.10.0-pre.7 <0.11.0'
+    polymer: '>=0.10.0-pre.10 <0.11.0'
     browser: '>=0.10.0 <1.0.0'
     js: any
     route_hierarchical: '>=0.4.17 <1.0.0'
+    bootjack: any
 transformers:
 - polymer:
     entry_points: web/index.html
+    
+
+
+

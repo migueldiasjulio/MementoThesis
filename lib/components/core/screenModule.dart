@@ -26,7 +26,7 @@ abstract class Screen extends ScreenModule {
   String title, description;
   String path;
   Router router;
-  dataBase myDataBase;
+  Database myDataBase = Database.get();
 
   /**
    * TODO
@@ -35,6 +35,8 @@ abstract class Screen extends ScreenModule {
 
   // This lets the CSS "bleed through" into the Shadow DOM of this element.
   bool get applyAuthorStyles => true;
+
+  bool get preventDispose => true;
 
   /**
    * Store the root router and return the mountFn
@@ -49,11 +51,11 @@ abstract class Screen extends ScreenModule {
    * TODO
    */
   void setupRoutes(Route route);
-  
+
   /**
    * TODO
    */
-  void runStartStuff(dataBase myDataBase);
+  void runStartStuff() {}
 
   /**
    * TODO
@@ -74,9 +76,6 @@ abstract class Screen extends ScreenModule {
    */
   goRoot() {
     router.go(path, {});
-  } 
-  /*
-  goAllPhotos(){
-    router.go("all-photos", {});
-  }*/
+  }
+
 }

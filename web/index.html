@@ -5,44 +5,139 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memento App</title>
-    <link rel="stylesheet" href="resources/css/index.css">
-    <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="resources/css/bootstrap.min.css">
 
     <link rel="import" href="packages/polymer/polymer.html">
-    <link rel="import" href="packages/memento/components/mementoApp.html">
+    <link rel="import" href="../lib/components/screens/mementoApp/mementoApp.html">
+    <link rel="stylesheet" href="resources/css/index.css">
+    <style>
+      /* Font Faces don't work in the shadow DOM yet :( */
+
+      /* http://fonts.googleapis.com/css?family=Dosis */
+      @font-face {
+        font-family: 'Dosis';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Dosis Regular'), local('Dosis-Regular'), url(http://themes.googleusercontent.com/static/fonts/dosis/v2/xIAtSaglM8LZOYdGmG1JqQ.woff) format('woff');
+      }
+      
+      /* http://fonts.googleapis.com/css?family=Open+Sans */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+      }
+    </style>
+
   </head>
-  <body>
   
-    <!-- Main container -->
-    <div class="container" id="masterContainer">
+  <body style="background-color: #444444">
     
-    <header>
-     <div class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Memento</a>
+    <div id="main" class="container">
+
+    <header style="height: 6%">
+        <nav id="headerBar"  style="height: 7%"class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container">
+              <div class="navbar-header" >
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand logo-nav" href="#">
+                    <img src="resources/images/Memento_branco.svg" style="width: 140px; height: 50px; margin-top: -15px" >
+                  </a>
+              </div>
+  
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse navbar-ex1-collapse">
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="#help" data-toggle="modal">Help</a>
+                      </li>
+                      <li><a href="#about" data-toggle="modal">About</a>
+                      </li>
+                      <li><a href="#settings" data-toggle="modal">Settings</a>
+                      </li>
+                  </ul>
+              </div>
+              <!-- /.navbar-collapse -->
           </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Help</a></li>
-              <li><a href="#">About</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-        </div>
+          <!-- /.container -->
+        </nav>
+        <!-- nav -->
       </header>
-    
-    <div id="container-id">
+      <!-- header -->
+   
+    <div class="container" id="container-id" style="height: 88%">
       <memento-app></memento-app>
     </div>
-  </div>
-
+    
+    <footer style=" height: 4%; margin-top: 5px; margin-bottom: 5px">
+      <p style="color:white">&copy; Memento 2014</p>
+    </footer> 
+    </div>
+    
+      <!-- modal for help -->
+      <div id="help" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4>Memento help</h4>
+            </div>
+            <div class="modal-body">
+              <p>Change with the screen</p>
+            </div>
+            <div class="modal-footer" style="margin: 0">
+              <a class="btn btn-default" data-dismiss="modal">Close</a>
+            </div>
+          </div>
+        </div>
+      </div> 
+      <!-- modal for help -->
+    
+    <!-- modal for about -->
+    <div class="modal fade" id="about" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4>About Memento</h4>
+          </div> <!-- modal header -->
+          <div class="modal-body">
+            <p>Miguel Júlio e Manuel Fonseca</p>
+          </div> <!-- modal body -->
+          <div class="modal-footer">
+            <a class="btn btn-default" data-dismiss="modal">Close</a>
+          </div> <!-- modal footer -->
+        </div>
+      </div>
+    </div>
+    
+     <!-- modal for about -->
+    <div class="modal fade" id="settings" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4>Change Settings</h4>
+          </div> <!-- modal header -->
+          <div class="modal-body">
+            <p>Present all settings</p>
+          </div> <!-- modal body -->
+          <div class="modal-footer">
+            <a class="btn btn-default" data-dismiss="modal">Close</a>
+          </div> <!-- modal footer -->
+        </div>
+      </div>
+    </div>
+    <!-- Auto resize -->
+    <script lang="javascript">
+        function autoResizeDiv()
+        {
+         document.getElementById('main').style.height = window.innerHeight +'px';
+        }
+        window.onresize = autoResizeDiv;
+        autoResizeDiv();
+    </script>
   </body>
 </html>

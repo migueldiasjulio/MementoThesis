@@ -1,0 +1,98 @@
+@import url("../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../packages/bootjack/css/bootstrap-theme.css");
+
+#main {
+  width: 100%;
+  overflow: hidden;
+}
+
+#helpMessage1 {
+ font-size: 25px; 
+}
+
+#helpMessage2 {
+ font-size: 15px; 
+}
+
+#drop-zone {
+  border: 2px dashed #35302c;
+  color: #35302c;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  color: #333;
+  font-family: 'Tahoma';
+  line-height: 1.2em;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+#line {
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.img-thumbnail {
+  border: 1px solid #000;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#files{
+  vertical-align:text-top;
+}
+
+#drop-zone.hover {
+  background-color: #def;
+  border-color: #777;
+  color: #777;
+}
+
+.btn-summary {
+  color: #ffffff;
+  background-color: #444444;
+  border-color: #444444;
+}
+
+.btn-summary:hover,
+.btn-summary:focus,
+.btn-summary:active,
+.btn-summary.active,
+.open .dropdown-toggle..btn-summary {
+  color: #ffffff;
+  background-color: #444444;
+  border-color: #444444;
+}
+
+
+.btn-summary:active,
+.btn-summary.active,
+.open .dropdown-toggle..btn-summary{
+  color: #ffffff;
+  background-image: none;
+}
+
+.btn-summary.disabled,
+.btn-summary[disabled],
+fieldset[disabled] .btn-summary,
+.btn-summary.disabled:hover,
+.btn-summary[disabled]:hover,
+fieldset[disabled] .btn-summary:hover,
+.btn-summary.disabled:focus,
+.btn-summary[disabled]:focus,
+fieldset[disabled] .btn-summary:focus,
+.btn-summary.disabled:active,
+.btn-summary[disabled]:active,
+fieldset[disabled] .btn-summary:active,
+.btn-summary.disabled.active,
+.btn-summary[disabled].active,
+fieldset[disabled] .btn-summary.active {
+  background-color: #444444;
+  border-color: #444444;
+}
+
+.btn-summary .badge {
+  color: #5cb85c;
+  background-color: #fff;
+} 
