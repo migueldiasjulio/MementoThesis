@@ -31,7 +31,7 @@ class AllPhotos extends screenhelper.Screen {
   Element _dropZone;
   HtmlEscape sanitizer = new HtmlEscape();
   Element _addPhotos;
-  @published String numberOfPhotosDefined = "20";  
+  @observable String numberOfPhotosDefined = "20";  
   Element startSummary;
  
   /**
@@ -141,25 +141,38 @@ class AllPhotos extends screenhelper.Screen {
      var photoFiles = files.where((file) => file.type.startsWith('image'));
      
      //photos.addAll(photoFiles);     
-
+/*
      //RUN THIS
      Future future = getData(photoFiles);
      //THEN
      future  
        .then((workToDo) => closeAndUpdateNumber())  
-       .catchError((e) => print(e));  
+       .catchError((e) => print(e));  */
+     
      showLoading();
+     
+     photoFiles.forEach((file) {
+                                 FileWriter writer;
+                                 FileReader reader = new FileReader();
+                                 reader.onLoad.listen((e) {
+                                   //FILE SRC
+                                   this.photoSources.add(reader.result);
+                                   //FILE THUMBNAIL
+                                    this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
+                                    print("Thumbs size: " + this.thumbnails.length.toString());
+                                 });
+                                 reader.readAsDataUrl(file);
+                        });
+     
+     closeAndUpdateNumber();
    }
    
    void closeAndUpdateNumber(){
      hiddeLoading();
-     //String thumbSize = this.thumbnails.length.toString();
-     //setNumberOfPhotosToSummary(thumbSize);
+     String thumbSize = this.thumbnails.length.toString();
+     numberOfPhotosDefined = thumbSize;
    }
-     
-   void setNumberOfPhotosToSummary(String number){
-     this.numberOfPhotosDefined = number;
-   }
+
    
    /**
     *
@@ -223,7 +236,7 @@ class AllPhotos extends screenhelper.Screen {
       //1 enviar dados para a db
       addPhotosToDataBase();
       //2 construir sumario
-      this.myDataBase.workSummary(int.parse(this.numberOfPhotosDefined));
+      this.myDataBase.workFirstXSummary(int.parse(this.numberOfPhotosDefined));
       //ir para o ecra
       goSummary();
       

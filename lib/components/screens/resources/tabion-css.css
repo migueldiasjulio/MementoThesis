@@ -221,8 +221,8 @@ Documentation: http://docs.sonhlab.com/tabion-metro-tab-accordion-switcher-css/
 
 .tabtile-med {
 	width:20%;
-	height:90px;
-	line-height:90px;
+	height:45px;
+	line-height:45px;
 	text-align:center;
 	cursor:pointer;
 	margin:0 10px 10px 0;
@@ -264,6 +264,7 @@ Documentation: http://docs.sonhlab.com/tabion-metro-tab-accordion-switcher-css/
 .pos-left-900 { left:900px; }
 
 /* Top Position */
+.pos-top-50  { top:50px;  }
 .pos-top-100 { top:100px; }
 .pos-top-200 { top:200px; }
 .pos-top-300 { top:300px; }

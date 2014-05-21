@@ -29,15 +29,15 @@
 }
 
 #summaryTab{
-  border: 1px solid #7FCA9F; 
+  border: 2px solid #7FCA9F; 
 }
 
 #standByTab{
-  border: 1px solid #F4BA70; 
+  border: 2px solid #F4BA70; 
 }
 
 #excludedTab{
-  border: 1px solid #E96D63; 
+  border: 2px solid #E96D63; 
 }
 
 #line {

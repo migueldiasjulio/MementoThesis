@@ -2,6 +2,7 @@ library database;
 
 import 'PhotoType.dart';
 import 'Thumbnail.dart';
+import 'dart:math';
 
 class Database {
 
@@ -215,14 +216,34 @@ class Database {
   } */
   
   /**
-   * Summary Algorithm 
+   * First X photos 
    */
-  void workSummary(int numberOfPhotos){
-    //TODO
-    for(int i = 0; i < numberOfPhotos; i++){
+  void workFirstXSummary(int numberOfPhotos){
+    var number = numberOfPhotos;
+    for(int i = 0; i < number; i++){
       this.summaryContainer.add(this.standByContainer.elementAt(i));
       this.standByContainer.removeAt(i);
     }
+  }
+  
+  /**
+   * For random tests
+   */
+  void buildRandomSummary(int numberOfPhotos){
+    var randomStuff = new Random();
+    var next;
+    for(int i = 0; i < numberOfPhotos; i++){
+      next = randomStuff.nextInt(this.standByContainer.length);
+      this.summaryContainer.add(this.standByContainer.elementAt(next));
+      this.standByContainer.removeAt(i);
+    }
+  }
+  
+  /**
+   * With cluster algorithm
+   */
+  void buildClusterSummary(int numberOfPhotos){
+    
   }
   
   List<Thumbnail> getThumbnails(String fromWhere){

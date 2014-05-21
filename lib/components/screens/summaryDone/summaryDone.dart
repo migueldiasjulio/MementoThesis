@@ -9,6 +9,7 @@ import '../../core/ScreenModule.dart' as screenhelper;
 import '../../core/DataBase.dart';
 import '../../core/Thumbnail.dart';
 
+
 /**
  * TODO
  */
@@ -82,10 +83,16 @@ class SummaryDone extends screenhelper.Screen {
   
   void exportToHardDrive(){
     List<Thumbnail> thumbToExport = this.thumbnailsSummary;
+    List<ImageElement> imgs = new List<ImageElement>();
+    
+    List<File> filesToExport = new List<File>();
     List<String> names = new List<String>();
     
+    ImageElement img = new ImageElement();
     for(Thumbnail thumb in thumbToExport){
-      names.add(thumb.title);
+      img.setAttribute("src", thumb.src);
+      imgs.add(img);
+      //names.add(thumb.title);
     }
     List test = new List();
     test.addAll(names);
@@ -111,6 +118,7 @@ class SummaryDone extends screenhelper.Screen {
     // Insert the link into the DOM.
     var myDevice = $['myDeviceDownload'];
     myDevice.append(link);
+    
   }
   
   void exportToFacebook(){
@@ -196,9 +204,9 @@ class SummaryDone extends screenhelper.Screen {
     thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
   }
 
-  void showImage(){
-    print("SHOW");
-  }
+    void showImage(String thumbName){
+      print(thumbName);
+    }
 
   /**
    * TODO

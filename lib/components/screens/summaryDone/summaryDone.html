@@ -12,24 +12,29 @@
         <li style="width: 100%;">
           <!-- Start Tab Button --> 
           <label id="summaryLabel" for="tab1" class="tabtile tabtile-med solid-green-3 light-text">
-            <span class="light-text">Summary 
-            <span id="summaryNumber" class="badge">{{thumbnailsSummary.length}}</span>
-            </span>
-                       
+            <span class="light-text">Summary</span>     
+            <small>
+            <span id="summaryNumber" class="badge">{{thumbnailsSummary.length}}</span> 
+            </small>         
           </label> 
           <input type="radio" name="tabion" id="tab1" checked> <!-- End Tab Button -->
 
           <!-- Start Tab Content -->
           <div id="summaryTab"
-          class="tab-content light-text pos-top-100">
+          class="tab-content pos-top-50">
+            <template if="{{thumbnailsSummary.length == 0}}">
+              <h5 style="margin-top: 20px; text-align:center">Summary container is empty.</h5>
+            </template>
+            <template if="{{thumbnailsSummary.length != 0}}">
             <template repeat="{{thumbnail in thumbnailsSummary}}">
               <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                       id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}" on-click="{{showImage}}"
+                <img src="{{thumbnail.src}}" on-click="{{showImage(thumbnail.title)}}"
                   width="{{thumbnail.width}}" height="{{thumbnail.height}}"
                   class="img-thumbnail" title="{{thumbnail.title}}">
               </div>
             </template>
+           </template>
           </div> <!-- End Tab Content -->
         </li>
         <!-- End Tab 1 -->
@@ -39,24 +44,31 @@
         <li style="width: 100%;">
           <!-- Start Tab Button --> 
           <label id="standByLabel" for="tab2" class="tabtile tabtile-med solid-orange-4 light-text pos-left-210">
-            <span class="light-text">Stand-by <span id="standByNumber" class="badge">{{thumbnailsStandBy.length}}</span></span>
+            <span class="light-text">Stand-by</span>
+            <small>
+            <span id="standByNumber" class="badge">{{thumbnailsStandBy.length}}</span> 
+            </small>   
         </label> 
         <input type="radio" name="tabion" id="tab2"> 
         <!-- End Tab Button -->
 
           <!-- Start Tab Content -->
           <div id="standByTab"
-            class="tab-content light-text pos-top-100">
-            <template repeat="{{thumbnail in thumbnailsStandBy}}">
-              <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
-                      id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}" on-click="{{showImage}}"
-                  width="{{thumbnail.width}}" height="{{thumbnail.height}}"
-                  class="img-thumbnail" title="{{thumbnail.title}}">
-                <!-- </a> -->
-              </div>
+            class="tab-content pos-top-50">
+            <template if="{{thumbnailsStandBy.length == 0}}">
+              <h5 style="margin-top: 20px; text-align:center">Stand-by container is empty.</h5>
             </template>
-
+            <template if="{{thumbnailsStandBy.length != 0}}">
+              <template repeat="{{thumbnail in thumbnailsStandBy}}">
+                <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
+                        id="{{thumbnail.title}}">
+                  <img src="{{thumbnail.src}}" on-click="{{showImage(thumbnail.title)}}"
+                    width="{{thumbnail.width}}" height="{{thumbnail.height}}"
+                    class="img-thumbnail" title="{{thumbnail.title}}">
+                  <!-- </a> -->
+                </div>
+              </template>
+            </template>
           </div> <!-- End Tab Content -->
         </li>
         <!-- End Tab 2 -->
@@ -65,24 +77,30 @@
         <li style="width: 100%;">
           <!-- Start Tab Button --> 
           <label id="excludedLabel" for="tab3" class="tabtile tabtile-med solid-red-3 light-text pos-left-410"> 
-            <span class="light-text">Excluded <span id="excludedNumber" class="badge">{{thumbnailsExcluded.length}}</span></span>
+            <span class="light-text">Excluded</span>
+            <small>
+              <span id="excludedNumber" class="badge">{{thumbnailsExcluded.length}}</span> 
+            </small>
         </label> 
         <input type="radio" name="tabion" id="tab3"> 
         <!-- End Tab Button -->
 
           <!-- Start Tab Content -->
           <div id="excludedTab"
-            class="tab-content light-text pos-top-100">
+            class="tab-content pos-top-50">
+            <template if="{{thumbnailsExcluded.length == 0}}">
+              <h5 style="margin-top: 20px; text-align:center">Excluded container is empty.</h5>
+            </template>
+            <template if="{{thumbnailsExcluded.length != 0}}">
              <template repeat="{{thumbnail in thumbnailsExcluded}}">
               <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                       id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}" on-click="{{showImage}}"
+                <img src="{{thumbnail.src}}" on-click="{{showImage(thumbnail.title)}}"
                   width="{{thumbnail.width}}" height="{{thumbnail.height}}"
                   class="img-thumbnail" title="{{thumbnail.title}}">
-                <!-- </a> -->
               </div>
+             </template>
             </template>
-
           </div> <!-- End Tab Content -->
         </li>
         <!-- End Tab 3 -->
@@ -165,7 +183,7 @@
                 <img src="resources/images/facebook.png" style="width: 100px; height: 100px" />
                 <br/>
                 <br/>
-                <strong>Facebook</strong>
+                <strong id="facebookExport"></strong>
               </div>
             </div>
           </div>
