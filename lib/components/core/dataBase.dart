@@ -6,16 +6,6 @@ import 'dart:math';
 
 class Database {
 
-  ///CHANGE THIS
-  String photoName = null;
-
-  String get givephotoName => this.photoName;
-
-  void set setPhotoName(String photoName) {
-    this.photoName = photoName;
-  }
-  /// CHANGE THIS
-
   List<String> newNameToAddToMap;
   Map<String, photoType> helpSearching = new Map<String, photoType>();
   

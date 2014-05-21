@@ -15,6 +15,10 @@
   height: 94%;
 }
 
+img {
+    vertical-align: middle;
+}
+
 #photoArea {
   margin-top: 10px;
 }
