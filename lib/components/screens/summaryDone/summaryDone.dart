@@ -54,10 +54,6 @@ class SummaryDone extends screenhelper.Screen {
     syncSummaryPhotos();
     syncStandByPhotos();
     syncExcludedPhotos();
-    print(this.thumbnailsSummary.length.toString());
-    print(this.thumbnailsStandBy.length.toString());
-    print(this.thumbnailsExcluded.length.toString());
-    
   }
   
   void enableSelection(){
@@ -204,9 +200,11 @@ class SummaryDone extends screenhelper.Screen {
     thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
   }
 
-    void showImage(String thumbName){
-      print(thumbName);
-    }
+  void showImage(Event event, var detail, var target){
+      print(target.attributes['data-incby']);
+      this.myDataBase.setImageToBeDisplayed(target.attributes['data-incby']);
+      displayPhoto();
+  }
 
   /**
    * TODO
@@ -223,5 +221,10 @@ class SummaryDone extends screenhelper.Screen {
    * TODO
    */
   home(_) {}
+  
+  void displayPhoto(){
+    router.go("big-size-photo", {});
+  }
+
 
 }

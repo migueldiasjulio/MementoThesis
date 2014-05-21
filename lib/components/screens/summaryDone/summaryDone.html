@@ -29,7 +29,7 @@
             <template repeat="{{thumbnail in thumbnailsSummary}}">
               <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                       id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}" on-click="{{showImage(thumbnail.title)}}"
+                <img src="{{thumbnail.src}}" on-click="{{showImage}}" data-incby="{{thumbnail.title}}"
                   width="{{thumbnail.width}}" height="{{thumbnail.height}}"
                   class="img-thumbnail" title="{{thumbnail.title}}">
               </div>
@@ -62,7 +62,7 @@
               <template repeat="{{thumbnail in thumbnailsStandBy}}">
                 <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                         id="{{thumbnail.title}}">
-                  <img src="{{thumbnail.src}}" on-click="{{showImage(thumbnail.title)}}"
+                  <img src="{{thumbnail.src}}" on-click="{{showImage}}" data-incby="{{thumbnail.title}}"
                     width="{{thumbnail.width}}" height="{{thumbnail.height}}"
                     class="img-thumbnail" title="{{thumbnail.title}}">
                   <!-- </a> -->
@@ -95,7 +95,7 @@
              <template repeat="{{thumbnail in thumbnailsExcluded}}">
               <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                       id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}" on-click="{{showImage(thumbnail.title)}}"
+                <img src="{{thumbnail.src}}" on-click="{{showImage}}" data-incby="{{thumbnail.title}}"
                   width="{{thumbnail.width}}" height="{{thumbnail.height}}"
                   class="img-thumbnail" title="{{thumbnail.title}}">
               </div>

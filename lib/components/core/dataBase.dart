@@ -29,6 +29,23 @@ class Database {
   List<photoType> newDataBaseElementsToAdd = new List <photoType>();
   photoType newDataBaseElement = null;
   int version = 1;
+  
+  /**
+   * User for BigSizePhoto - Change this maybe?
+   */
+  String ImageToBeDisplayed = "";
+  
+  Thumbnail returnImageToDisplay(){
+    return this.helpSearching[this.ImageToBeDisplayed].myThumbnail;
+  }
+  
+  void setImageToBeDisplayed(String thumbName){
+    this.ImageToBeDisplayed = thumbName;
+  }
+  
+  /**
+   * User for BigSizePhoto - Change this maybe?
+   */
 
   int returnVersion(){
     return version;
@@ -220,9 +237,11 @@ class Database {
    */
   void workFirstXSummary(int numberOfPhotos){
     var number = numberOfPhotos;
+    print(number.toString());
     for(int i = 0; i < number; i++){
-      this.summaryContainer.add(this.standByContainer.elementAt(i));
-      this.standByContainer.removeAt(i);
+      print("Number i is now: " + i.toString());
+      this.summaryContainer.add(this.standByContainer.elementAt(0));
+      this.standByContainer.removeAt(0);
     }
   }
   

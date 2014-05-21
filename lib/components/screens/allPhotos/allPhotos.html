@@ -21,19 +21,27 @@
       </template>
         
       <template if="{{thumbnails.length > 0}}">
-        <div class="row" id="theRow" style="height:100%; overflow-y: scroll">
-          <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">
-          <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
-              id="{{thumbnail.title}}">
-              <img src="{{thumbnail.src}}"
-              width="140" 
-              height="140"
-              class="img-thumbnail">
-            <!-- </a> -->
-          </div>
-          </template>
-         </div>
-       </template>
+        <div class="row" id="mainRow" style="height:100%; overflow-y: scroll">
+         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">
+            
+            <div class="row" id="theRow" style="height:10%; overflow-y: scroll">
+            
+            <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
+                id="{{thumbnail.title}}">
+                <img src="{{thumbnail.src}}"
+                width="140" 
+                height="140"
+                class="img-thumbnail">
+              <!-- </a> -->
+            </div>
+            
+             </div>
+             
+            </template> <!-- inside template -->
+         </div> <!-- col-lg-12-->
+       </div> <!-- main row -->
+      </template>
               
      </div> <!-- drop zone -->
   </section>
@@ -110,6 +118,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
           <h4 id="modalTitle" style="margin: 0">Loading your photos...</h4>
         </div>
