@@ -21,7 +21,7 @@ class SummaryDone extends screenhelper.Screen {
    */
   static const String TAG = "summary-done";
   String title = "Summary Done",
-         description = "Summary results";
+         description = "Summary results"; 
   @observable bool selection = false;
   @observable bool export = false;
   Modal exportMenu;
@@ -29,6 +29,7 @@ class SummaryDone extends screenhelper.Screen {
   final List<Thumbnail> thumbnailsSummary = toObservable([]);
   final List<Thumbnail> thumbnailsStandBy = toObservable([]);
   final List<Thumbnail> thumbnailsExcluded = toObservable([]);
+  final List<String> selectedPhotos = toObservable([]);
 
   /**
    * On enter view
@@ -36,9 +37,14 @@ class SummaryDone extends screenhelper.Screen {
   @override
   void enteredView() {
     super.enteredView();
+    cleanVariables();
     //syncSummaryPhotos();
     //syncStandByPhotos();
     //syncExcludedPhotos();
+  }
+  
+  void cleanVariables(){
+    this.selectedPhotos.clear();
   }
 
   /**
@@ -54,6 +60,7 @@ class SummaryDone extends screenhelper.Screen {
     syncSummaryPhotos();
     syncStandByPhotos();
     syncExcludedPhotos();
+    cleanVariables();
   }
   
   void enableSelection(){
@@ -120,26 +127,55 @@ class SummaryDone extends screenhelper.Screen {
   void exportToFacebook(){
     
   }
-
+  
+  
   /**
-   * When we already know the photo/photos new destination we change them localy to the page
-   * and we inform the database about that changes
-   * @param from
-   * @param to
-   * @param thumbs
-   * @param origin
-   * @param destination 
+   * Return thumbnail with name as argument
+   * We receive the origin container so we can know from where we gonna get the thumbnail
+   * @param photoName - String
+   * @return Thumbnail
    */
-  void moveFunction(String from, String to, 
-      List<Thumbnail> thumbs, List<Thumbnail> origin, List<Thumbnail> destination){
-    
-    List<String> thumbNames = new List<String>();
-    for(Thumbnail thumb in thumbs){
-      origin.remove(thumb);
-      destination.add(thumb);
-      thumbNames.add(thumb.title);
+  Thumbnail returnThumbnail(String origin, String photoName){
+    Thumbnail thumbReturn = null;
+    switch(origin){
+         case("SUMMARY") :            //NOOOOB change this later (for loop to search for thumbnail; change for Map)
+               for(Thumbnail thumb in this.thumbnailsSummary){
+                 if(thumb.title == photoName){
+                   thumbReturn = thumb;
+                   break;
+                 }
+               }
+               break;
+         case("STANDBY") :
+           for(Thumbnail thumb in this.thumbnailsStandBy){
+             if(thumb.title == photoName){
+               thumbReturn = thumb;
+               break;
+             }
+           } 
+           break;
+         case("EXCLUDED") :
+           for(Thumbnail thumb in this.thumbnailsExcluded){
+             if(thumb.title == photoName){
+               thumbReturn = thumb;
+               break;
+             }
+           }
+           break;
+         default: break;
+       }
+    return thumbReturn;
+  }
+  
+  /**
+   * move function front end
+   */
+  void movePhotosFunction(String origin, String destination){
+    List<Thumbnail> thumbsToMove = new List<Thumbnail>();
+    for(String photoToMove in this.selectedPhotos){
+      thumbsToMove.add(returnThumbnail(origin, photoToMove));
     }
-    this.myDataBase.moveFromTo(from, to, thumbNames);
+    moveFromTo(origin, destination, thumbsToMove);
   }
   
   /**
@@ -185,6 +221,28 @@ class SummaryDone extends screenhelper.Screen {
        }
   }
 
+  /**
+   * When we already know the photo/photos new destination we change them localy to the page
+   * and we inform the database about that changes
+   * @param from
+   * @param to
+   * @param thumbs
+   * @param origin
+   * @param destination 
+   */
+  void moveFunction(String from, String to, 
+      List<Thumbnail> thumbs, List<Thumbnail> origin, List<Thumbnail> destination){
+    
+    List<String> thumbNames = new List<String>();
+    for(Thumbnail thumb in thumbs){
+      origin.remove(thumb);
+      destination.add(thumb);
+      thumbNames.add(thumb.title);
+    }
+    this.myDataBase.moveFromTo(from, to, thumbNames);
+  }
+  
+
   void syncSummaryPhotos(){
     thumbnailsSummary.clear();
     thumbnailsSummary.addAll(this.myDataBase.getThumbnails("SUMMARY"));
@@ -199,11 +257,44 @@ class SummaryDone extends screenhelper.Screen {
     thumbnailsExcluded.clear();
     thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
   }
+  
+  /**
+   * Add to selected Photos List
+   */
+  void addToSelectedPhotos(String photoName){
+    this.selectedPhotos.add(photoName);
+  }
+  
+  /**
+   * Remove from selected Photos List
+   */
+  void removeFromSelectedPhotos(String photoName){
+    this.selectedPhotos.remove(photoName);
+  }
 
   void showImage(Event event, var detail, var target){
+    var nameOfPhoto;
+    var isSelected;
+    if(!this.selection){
       print(target.attributes['data-incby']);
       this.myDataBase.setImageToBeDisplayed(target.attributes['data-incby']);
       displayPhoto();
+    }
+    else{
+      nameOfPhoto = target.attributes['data-incby'];
+      isSelected = target.attributes['selected'];
+      if(isSelected == "true"){
+        target.attributes['selected'] = "false";
+        removeFromSelectedPhotos(nameOfPhoto);
+        
+        print(nameOfPhoto + " is selected?" + isSelected);
+      }
+      else{
+        target.attributes['selected'] = "true";
+        addToSelectedPhotos(nameOfPhoto);
+        print(nameOfPhoto + " is selected?" + isSelected);
+      }   
+    }
   }
 
   /**
@@ -225,6 +316,5 @@ class SummaryDone extends screenhelper.Screen {
   void displayPhoto(){
     router.go("big-size-photo", {});
   }
-
 
 }

@@ -30,9 +30,14 @@
             <template repeat="{{thumbnail in thumbnailsSummary}}">
               <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                       id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}" on-click="{{showImage}}" data-incby="{{thumbnail.title}}"
-                  width="{{thumbnail.width}}" height="{{thumbnail.height}}"
-                  class="img-thumbnail" title="{{thumbnail.title}}">
+                <img src="{{thumbnail.src}}" 
+                     on-click="{{showImage}}" 
+                     data-incby="{{thumbnail.title}}"
+                     width="{{thumbnail.width}}" 
+                     height="{{thumbnail.height}}"
+                     class="img-thumbnail" 
+                     title="{{thumbnail.title}}"
+                     selected="false">
               </div>
             </template>
            </template>
@@ -120,8 +125,8 @@
       <div class="row">
         <div class="col col-lg-1">Categories</div>
         <div class="col col-lg-8 col-lg-offset-3">
-          <img src="resources/images/facebook.png" style="width: 25px; height: 25px" />
-          <template>
+         <!--  <img src="resources/images/facebook.png" style="width: 25px; height: 25px" />  -->
+          <template> 
             <!-- insert categories -->
           </template>
       </div>
@@ -141,23 +146,36 @@
    <form class="form-inline" role="form"> <!-- form -->
    
       <template if="{{!selection}}">
-      <div style="float: left" class="btn-group">
-        <button type="button" style="width: 120px;"
-        on-click="{{enableSelection}}"
-          class="btn btn-summary btn-md">Select</button>
-      </div>
-      <div style="float: right" class="btn-group">
-        <button id="export" type="button" on-click="{{exportSummary}}"
-          style="width: 120px" class="btn btn-summary btn-md">Export</button>
-      </div>
+        <div style="float: left" class="btn-group">
+          <button type="button" style="width: 120px;"
+          on-click="{{enableSelection}}"
+            class="btn btn-summary btn-md">Select</button>
+        </div>
+        <div style="float: right" class="btn-group">
+          <button id="export" type="button" on-click="{{exportSummary}}"
+            style="width: 120px" class="btn btn-summary btn-md">Export</button>
+        </div>
       </template> <!-- normal state -->
 
       <template if="{{selection}}">
-      <div style="float: left" class="btn-group">
-        <button type="button" style="width: 120px;"
-        on-click="{{disableSelection}}"
-          class="btn btn-summary btn-md">Cancel</button>
-      </div>
+        <div class="row">
+          <div class="col col-xs-5 col-sm-4 col-md-3 col-lg-2">
+            <div style="float: left" class="btn-group">
+              <button type="button" style="width: 120px;"
+              on-click="{{disableSelection}}"
+                class="btn btn-summary btn-md">Cancel</button>
+            </div>
+          </div>
+          <div class="col col-xs-7 col-sm-8 col-md-9 col-lg-7 col-lg-offset-3">
+            <template if="{{selectedPhotos.length > 0}}">
+              <div class="btn-group" style="margin-top: 10px;">
+              <img src="resources/images/containers/summary.png" on-click="" style="width: 20px; height: 20px;" >
+              <img src="resources/images/containers/standby.png" style="width: 20px; height: 20px;" >
+              <img src="resources/images/containers/excluded.png" style="width: 20px; height: 20px;" >
+              </div>
+            </template> <!-- container to move -->  
+          </div> 
+        </div>    
       </template> <!-- select state -->
 
     </form> <!-- form -->
