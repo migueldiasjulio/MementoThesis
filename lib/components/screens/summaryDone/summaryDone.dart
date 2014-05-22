@@ -30,6 +30,7 @@ class SummaryDone extends screenhelper.Screen {
   final List<Thumbnail> thumbnailsStandBy = toObservable([]);
   final List<Thumbnail> thumbnailsExcluded = toObservable([]);
   final List<String> selectedPhotos = toObservable([]);
+  final List<Element> selectedElements = toObservable([]);
 
   /**
    * On enter view
@@ -69,6 +70,7 @@ class SummaryDone extends screenhelper.Screen {
   
   void disableSelection(){
     this.selection = false;
+    cleanSelection();
   }
   
   void enableExport(){
@@ -271,6 +273,47 @@ class SummaryDone extends screenhelper.Screen {
   void removeFromSelectedPhotos(String photoName){
     this.selectedPhotos.remove(photoName);
   }
+  
+  void cleanSelectedElements(){
+    this.selectedElements.clear();
+  }
+  
+  void addToSelectedElements(Element element){
+    this.selectedElements.add(element);
+  }
+  
+  void removeFromSelectedElements(Element element){
+    this.selectedElements.remove(element);
+  }
+  
+  List<Element> returnAllSelectedElements(){
+    return this.selectedElements;
+  }
+  
+  /**
+   * Clean selected objects _ Used when the user cancel the selection operation
+   */
+  void cleanSelection(){
+    for(Element element in this.selectedElements){
+      element.attributes['selected'] = "false";
+    }
+    this.selectedElements.clear();
+    this.selectedPhotos.clear();
+    
+    /*
+    var imageDivElement = null;
+    var index = 4;
+    var selectedSize = this.selectedPhotos.length + 5;
+    for(String photoName in this.selectedPhotos){
+      print("Photo Selected Name: " + photoName);
+      for(int i = index; i < selectedSize; i++){
+        imageDivElement = $['justTest'].children[index];
+        if(imageDivElement.getAttribute("id") == photoName){
+          imageDivElement.children[0].setAttribute("selected", "false");        
+        }
+      }  
+    }*/
+  }
 
   void showImage(Event event, var detail, var target){
     var nameOfPhoto;
@@ -286,12 +329,13 @@ class SummaryDone extends screenhelper.Screen {
       if(isSelected == "true"){
         target.attributes['selected'] = "false";
         removeFromSelectedPhotos(nameOfPhoto);
-        
+        removeFromSelectedElements(target);
         print(nameOfPhoto + " is selected?" + isSelected);
       }
       else{
         target.attributes['selected'] = "true";
         addToSelectedPhotos(nameOfPhoto);
+        addToSelectedElements(target);
         print(nameOfPhoto + " is selected?" + isSelected);
       }   
     }

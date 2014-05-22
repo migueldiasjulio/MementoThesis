@@ -233,6 +233,7 @@ class Database {
       this.summaryContainer.add(this.standByContainer.elementAt(0));
       this.standByContainer.removeAt(0);
     }
+    this.printContainersState();
   }
   
   /**
@@ -246,13 +247,14 @@ class Database {
       this.summaryContainer.add(this.standByContainer.elementAt(next));
       this.standByContainer.removeAt(i);
     }
+    this.printContainersState();
   }
   
   /**
    * With cluster algorithm
    */
   void buildClusterSummary(int numberOfPhotos){
-    
+    this.printContainersState();
   }
   
   List<Thumbnail> getThumbnails(String fromWhere){

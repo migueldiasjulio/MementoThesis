@@ -22,11 +22,12 @@
           <!-- Start Tab Content -->
           <div id="summaryTab"
           class="tab-content pos-top-50" style="overflow-y: scroll;">
-          <div>
+          <div id="justTest">
             <template if="{{thumbnailsSummary.length == 0}}">
               <h5 style="margin-top: 20px; text-align:center">Summary container is empty.</h5>
             </template>
             <template if="{{thumbnailsSummary.length != 0}}">
+            <div></div>
             <template repeat="{{thumbnail in thumbnailsSummary}}">
               <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                       id="{{thumbnail.title}}">
@@ -69,9 +70,13 @@
               <template repeat="{{thumbnail in thumbnailsStandBy}}">
                 <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                         id="{{thumbnail.title}}">
-                  <img src="{{thumbnail.src}}" on-click="{{showImage}}" data-incby="{{thumbnail.title}}"
-                    width="{{thumbnail.width}}" height="{{thumbnail.height}}"
-                    class="img-thumbnail" title="{{thumbnail.title}}">
+                  <img src="{{thumbnail.src}}" 
+                       on-click="{{showImage}}" 
+                       data-incby="{{thumbnail.title}}"
+                       width="{{thumbnail.width}}" 
+                       height="{{thumbnail.height}}"
+                       class="img-thumbnail" 
+                       title="{{thumbnail.title}}">
                   <!-- </a> -->
                 </div>
               </template>
@@ -102,9 +107,13 @@
              <template repeat="{{thumbnail in thumbnailsExcluded}}">
               <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                       id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}" on-click="{{showImage}}" data-incby="{{thumbnail.title}}"
-                  width="{{thumbnail.width}}" height="{{thumbnail.height}}"
-                  class="img-thumbnail" title="{{thumbnail.title}}">
+                <img src="{{thumbnail.src}}" 
+                     on-click="{{showImage}}" 
+                     data-incby="{{thumbnail.title}}"
+                     width="{{thumbnail.width}}" 
+                     height="{{thumbnail.height}}"
+                     class="img-thumbnail" 
+                     title="{{thumbnail.title}}">
               </div>
              </template>
             </template>
