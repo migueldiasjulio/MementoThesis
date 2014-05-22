@@ -21,11 +21,26 @@
       </template>
         
       <template if="{{thumbnails.length > 0}}">
+      <!--
+      <div id="container" class="js-masonry"
+           data-masonry-options='{ "columnWidth": 900, "itemSelector": ".item" }'>
+        <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">
+          <div class="item">
+            <img src="{{thumbnail.src}}"
+                  width="140" 
+                  height="140"
+                  class="img-thumbnail">
+          </div>
+        </template> 
+        
+      </div>
+      -->
+  
         <div class="row" id="mainRow" style="height:100%; overflow-y: scroll">
          <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">
             
-            <div class="row" id="theRow" style="height:10%; overflow-y: scroll">
+            
             
             <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
                 id="{{thumbnail.title}}">
@@ -33,14 +48,14 @@
                 width="140" 
                 height="140"
                 class="img-thumbnail">
-              <!-- </a> -->
+
             </div>
             
-             </div>
-             
-            </template> <!-- inside template -->
-         </div> <!-- col-lg-12-->
-       </div> <!-- main row -->
+          
+            </template> 
+         </div> 
+       </div> 
+  
       </template>
               
      </div> <!-- drop zone -->
@@ -139,6 +154,6 @@
 </div>
 <!-- main --> 
 </template> 
-
+<script src="../../../../web/resources/js/masonry.pkgd.min.js"></script>
 <script type="application/dart;component=1" src="allPhotos.dart"></script> 
 </polymer-element>

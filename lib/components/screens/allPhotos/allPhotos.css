@@ -6,6 +6,8 @@
   overflow: hidden;
 }
 
+.item { width: 25%; }
+
 #helpMessage1 {
  font-size: 25px; 
 }

@@ -21,7 +21,8 @@
 
           <!-- Start Tab Content -->
           <div id="summaryTab"
-          class="tab-content pos-top-50">
+          class="tab-content pos-top-50" style="overflow-y: scroll;">
+          <div>
             <template if="{{thumbnailsSummary.length == 0}}">
               <h5 style="margin-top: 20px; text-align:center">Summary container is empty.</h5>
             </template>
@@ -35,6 +36,7 @@
               </div>
             </template>
            </template>
+           </div>
           </div> <!-- End Tab Content -->
         </li>
         <!-- End Tab 1 -->

@@ -185,6 +185,7 @@ Documentation: http://docs.sonhlab.com/tabion-metro-tab-accordion-switcher-css/
 	list-style:none;
 	width:100%;
 	position:relative;
+	padding: 10px;
 }
 .tabion > li {
 	list-style:none;

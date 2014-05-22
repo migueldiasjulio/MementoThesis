@@ -99,8 +99,8 @@ class AllPhotos extends screenhelper.Screen {
    void _onDrop(MouseEvent event) {
      event..stopPropagation()..preventDefault();
      _dropZone.classes.remove('hover');
-    // _readForm.reset();
      _onFilesSelected(event.dataTransfer.files);
+     closeAndUpdateNumber();
    }
 
    /**
@@ -108,7 +108,7 @@ class AllPhotos extends screenhelper.Screen {
     */
    void _onFileInputChange() {
      _onFilesSelected(_fileInput.files);
-     //hiddeLoading();
+     closeAndUpdateNumber();
    }
    
    /**
@@ -116,8 +116,7 @@ class AllPhotos extends screenhelper.Screen {
     */
    
    Future getData(var photoFiles){
-     var completer = new Completer();
-     
+     var completer = new Completer(); 
      var workToDo = photoFiles.forEach((file) {
                             FileWriter writer;
                             FileReader reader = new FileReader();
@@ -126,7 +125,6 @@ class AllPhotos extends screenhelper.Screen {
                               this.photoSources.add(reader.result);
                               //FILE THUMBNAIL
                                this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
-                               print("Thumbs size: " + this.thumbnails.length.toString());
                             });
                             reader.readAsDataUrl(file);
                    });
@@ -149,6 +147,7 @@ class AllPhotos extends screenhelper.Screen {
        .then((workToDo) => closeAndUpdateNumber())  
        .catchError((e) => print(e));  */
      
+     //TODO Modal loading
      showLoading();
      
      photoFiles.forEach((file) {
@@ -159,12 +158,9 @@ class AllPhotos extends screenhelper.Screen {
                                    this.photoSources.add(reader.result);
                                    //FILE THUMBNAIL
                                     this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
-                                    print("Thumbs size: " + this.thumbnails.length.toString());
                                  });
                                  reader.readAsDataUrl(file);
-                        });
-     
-     closeAndUpdateNumber();
+                        } );
    }
    
    void closeAndUpdateNumber(){
