@@ -150,9 +150,15 @@ class Database {
         switch(_destination) {
           case("STANDBY") :
             this.standByContainer.addAll(_imagesToMove);
+            for(String photosToRemove in _imagesToMove){
+              this.summaryContainer.remove(photosToRemove);
+            }
             break;
           case("EXCLUDED") :
             this.excludedContainer.addAll(_imagesToMove);
+          for(String photosToRemove in _imagesToMove){
+            this.summaryContainer.remove(photosToRemove);
+          }
             break;
         }
         break;
@@ -160,9 +166,15 @@ class Database {
         switch(_destination) {
           case("SUMMARY") :
             this.summaryContainer.addAll(_imagesToMove);
+            for(String photosToRemove in _imagesToMove){
+              this.standByContainer.remove(photosToRemove);
+            }
             break;
           case("EXCLUDED") :
             this.excludedContainer.addAll(_imagesToMove);
+            for(String photosToRemove in _imagesToMove){
+              this.standByContainer.remove(photosToRemove);
+            }
             break;
         }
         break;
@@ -170,9 +182,15 @@ class Database {
         switch(_destination) {
           case("SUMMARY") :
             this.summaryContainer.addAll(_imagesToMove);
+            for(String photosToRemove in _imagesToMove){
+              this.excludedContainer.remove(photosToRemove);
+            }
             break;
           case("STANDBY") :
             this.standByContainer.addAll(_imagesToMove);
+            for(String photosToRemove in _imagesToMove){
+              this.excludedContainer.remove(photosToRemove);
+            }
             break;
         }
         break;

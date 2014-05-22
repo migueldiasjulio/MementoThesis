@@ -24,6 +24,11 @@ class SummaryDone extends screenhelper.Screen {
          description = "Summary results"; 
   @observable bool selection = false;
   @observable bool export = false;
+  
+  @observable bool atSummary = false;
+  @observable bool atStandBy = false;
+  @observable bool atExcluded = false;
+  
   Modal exportMenu;
   factory SummaryDone() => new Element.tag(TAG);
   final List<Thumbnail> thumbnailsSummary = toObservable([]);
@@ -170,6 +175,43 @@ class SummaryDone extends screenhelper.Screen {
   }
   
   /**
+   * Move to Summary container
+   */
+  void moveToSummary(){
+    movePhotosFunction("STANDBY", "SUMMARY"); //TODO Change this. Just testing.
+    cleanAll();
+    /*
+    if(atSummary){
+     //Nothing 
+      return;
+    }
+    if(atStandBy){
+      movePhotosFunction("STANDBY", "SUMMARY");
+      return;
+    }
+    if(atExcluded){
+      movePhotosFunction("EXCLUDED", "SUMMARY");
+    }*/
+  }
+  
+  /**
+   * Move to Stand-by container
+   */
+  void moveToStandBy(){
+    print("MOVING TO STANDY");
+    movePhotosFunction("SUMMARY", "STANDBY"); //TODO JUST TESTING
+    cleanAll();
+  }
+  
+  /**
+   * Move to excluded container
+   */
+  void moveToExcluded(){
+    movePhotosFunction("CHANGE", "EXCLUDED");
+    cleanAll();
+  }
+  
+  /**
    * move function front end
    */
   void movePhotosFunction(String origin, String destination){
@@ -177,6 +219,7 @@ class SummaryDone extends screenhelper.Screen {
     for(String photoToMove in this.selectedPhotos){
       thumbsToMove.add(returnThumbnail(origin, photoToMove));
     }
+    print("Ja tenho os thumbs para mover. Tamanho: " + thumbsToMove.length.toString());
     moveFromTo(origin, destination, thumbsToMove);
   }
   
@@ -240,8 +283,17 @@ class SummaryDone extends screenhelper.Screen {
       origin.remove(thumb);
       destination.add(thumb);
       thumbNames.add(thumb.title);
+      printContainersSize();    
     }
     this.myDataBase.moveFromTo(from, to, thumbNames);
+  }
+  
+  void printContainersSize(){
+    print("§§§§§§§§§§§§§§§§§");
+    print("Summary container: " + this.thumbnailsSummary.length.toString());
+    print("Stand-by container: " + this.thumbnailsStandBy.length.toString());
+    print("Excluded container: " + this.thumbnailsExcluded.length.toString());
+    print("§§§§§§§§§§§§§§§§§");
   }
   
 
@@ -288,6 +340,14 @@ class SummaryDone extends screenhelper.Screen {
   
   List<Element> returnAllSelectedElements(){
     return this.selectedElements;
+  }
+  
+  /**
+   * Clean All
+   */
+  void cleanAll(){
+    cleanSelectedElements();
+    cleanSelection();
   }
   
   /**
