@@ -5,8 +5,7 @@ import 'dart:core';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import 'package:bootjack/bootjack.dart';
-import '../../core/ScreenModule.dart' as screenhelper;
-import '../../core/DataBase.dart';
+import '../../core/screenModule.dart' as screenhelper;
 import '../../core/Thumbnail.dart';
 
 
@@ -21,14 +20,14 @@ class SummaryDone extends screenhelper.Screen {
    */
   static const String TAG = "summary-done";
   String title = "Summary Done",
-         description = "Summary results"; 
+         description = "Summary results";
   @observable bool selection = false;
   @observable bool export = false;
-  
+
   @observable bool atSummary = false;
   @observable bool atStandBy = false;
   @observable bool atExcluded = false;
-  
+
   Modal exportMenu;
   factory SummaryDone() => new Element.tag(TAG);
   final List<Thumbnail> thumbnailsSummary = toObservable([]);
@@ -48,7 +47,7 @@ class SummaryDone extends screenhelper.Screen {
     //syncStandByPhotos();
     //syncExcludedPhotos();
   }
-  
+
   void cleanVariables(){
     this.selectedPhotos.clear();
   }
@@ -61,43 +60,43 @@ class SummaryDone extends screenhelper.Screen {
     Transition.use();
     exportMenu = Modal.wire($['exportMenu']);
   }
-  
+
   void runStartStuff() {
     syncSummaryPhotos();
     syncStandByPhotos();
     syncExcludedPhotos();
     cleanVariables();
   }
-  
+
   void enableSelection(){
     this.selection = true;
   }
-  
+
   void disableSelection(){
     this.selection = false;
     cleanSelection();
   }
-  
+
   void enableExport(){
     this.export = true;
   }
-  
+
   void disableExport(){
     this.export = false;
   }
-  
+
   void exportSummary(){
     this.exportMenu.show();
     exportToHardDrive();
   }
-  
+
   void exportToHardDrive(){
     List<Thumbnail> thumbToExport = this.thumbnailsSummary;
     List<ImageElement> imgs = new List<ImageElement>();
-    
+
     List<File> filesToExport = new List<File>();
     List<String> names = new List<String>();
-    
+
     ImageElement img = new ImageElement();
     for(Thumbnail thumb in thumbToExport){
       img.setAttribute("src", thumb.src);
@@ -114,7 +113,7 @@ class SummaryDone extends screenhelper.Screen {
                    'Normally this stuff would\n',
                    'be dynamically generated\n',
                    'in some way.\n\n'];
-    
+
     // Create a new blob from the data.
     Blob blob = new Blob(test, 'text/plain', 'native');
     // Create a data:url which points to that data.
@@ -124,18 +123,18 @@ class SummaryDone extends screenhelper.Screen {
         ..href = url
         ..download = 'Memento.txt'
         ..text = 'My Device';
-    
+
     // Insert the link into the DOM.
     var myDevice = $['myDeviceDownload'];
     myDevice.append(link);
-    
+
   }
-  
+
   void exportToFacebook(){
-    
+
   }
-  
-  
+
+
   /**
    * Return thumbnail with name as argument
    * We receive the origin container so we can know from where we gonna get the thumbnail
@@ -159,7 +158,7 @@ class SummaryDone extends screenhelper.Screen {
                thumbReturn = thumb;
                break;
              }
-           } 
+           }
            break;
          case("EXCLUDED") :
            for(Thumbnail thumb in this.thumbnailsExcluded){
@@ -173,7 +172,7 @@ class SummaryDone extends screenhelper.Screen {
        }
     return thumbReturn;
   }
-  
+
   /**
    * Move to Summary container
    */
@@ -182,7 +181,7 @@ class SummaryDone extends screenhelper.Screen {
     cleanAll();
     /*
     if(atSummary){
-     //Nothing 
+     //Nothing
       return;
     }
     if(atStandBy){
@@ -193,7 +192,7 @@ class SummaryDone extends screenhelper.Screen {
       movePhotosFunction("EXCLUDED", "SUMMARY");
     }*/
   }
-  
+
   /**
    * Move to Stand-by container
    */
@@ -202,7 +201,7 @@ class SummaryDone extends screenhelper.Screen {
     movePhotosFunction("SUMMARY", "STANDBY"); //TODO JUST TESTING
     cleanAll();
   }
-  
+
   /**
    * Move to excluded container
    */
@@ -210,7 +209,7 @@ class SummaryDone extends screenhelper.Screen {
     movePhotosFunction("CHANGE", "EXCLUDED");
     cleanAll();
   }
-  
+
   /**
    * move function front end
    */
@@ -222,7 +221,7 @@ class SummaryDone extends screenhelper.Screen {
     print("Ja tenho os thumbs para mover. Tamanho: " + thumbsToMove.length.toString());
     moveFromTo(origin, destination, thumbsToMove);
   }
-  
+
   /**
    * Function created to help the moving action of a photo from a "from" container
    * to a "to" container.
@@ -235,7 +234,7 @@ class SummaryDone extends screenhelper.Screen {
          case("SUMMARY") :
            switch(to) {
              case("STANDBY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsStandBy); 
+               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsStandBy);
                break;
              case("EXCLUDED") :
                moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsExcluded);
@@ -245,20 +244,20 @@ class SummaryDone extends screenhelper.Screen {
          case("STANDBY") :
            switch(to) {
              case("SUMMARY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsSummary); 
+               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsSummary);
                break;
              case("EXCLUDED") :
-               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsExcluded); 
+               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsExcluded);
                break;
            }
            break;
          case("EXCLUDED") :
            switch(to) {
              case("SUMMARY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsSummary); 
+               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsSummary);
                break;
              case("STANDBY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsStandBy); 
+               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsStandBy);
                break;
            }
            break;
@@ -273,21 +272,21 @@ class SummaryDone extends screenhelper.Screen {
    * @param to
    * @param thumbs
    * @param origin
-   * @param destination 
+   * @param destination
    */
-  void moveFunction(String from, String to, 
+  void moveFunction(String from, String to,
       List<Thumbnail> thumbs, List<Thumbnail> origin, List<Thumbnail> destination){
-    
+
     List<String> thumbNames = new List<String>();
     for(Thumbnail thumb in thumbs){
       origin.remove(thumb);
       destination.add(thumb);
       thumbNames.add(thumb.title);
-      printContainersSize();    
+      printContainersSize();
     }
     this.myDataBase.moveFromTo(from, to, thumbNames);
   }
-  
+
   void printContainersSize(){
     print("§§§§§§§§§§§§§§§§§");
     print("Summary container: " + this.thumbnailsSummary.length.toString());
@@ -295,7 +294,7 @@ class SummaryDone extends screenhelper.Screen {
     print("Excluded container: " + this.thumbnailsExcluded.length.toString());
     print("§§§§§§§§§§§§§§§§§");
   }
-  
+
 
   void syncSummaryPhotos(){
     thumbnailsSummary.clear();
@@ -311,37 +310,37 @@ class SummaryDone extends screenhelper.Screen {
     thumbnailsExcluded.clear();
     thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
   }
-  
+
   /**
    * Add to selected Photos List
    */
   void addToSelectedPhotos(String photoName){
     this.selectedPhotos.add(photoName);
   }
-  
+
   /**
    * Remove from selected Photos List
    */
   void removeFromSelectedPhotos(String photoName){
     this.selectedPhotos.remove(photoName);
   }
-  
+
   void cleanSelectedElements(){
     this.selectedElements.clear();
   }
-  
+
   void addToSelectedElements(Element element){
     this.selectedElements.add(element);
   }
-  
+
   void removeFromSelectedElements(Element element){
     this.selectedElements.remove(element);
   }
-  
+
   List<Element> returnAllSelectedElements(){
     return this.selectedElements;
   }
-  
+
   /**
    * Clean All
    */
@@ -349,7 +348,7 @@ class SummaryDone extends screenhelper.Screen {
     cleanSelectedElements();
     cleanSelection();
   }
-  
+
   /**
    * Clean selected objects _ Used when the user cancel the selection operation
    */
@@ -359,7 +358,7 @@ class SummaryDone extends screenhelper.Screen {
     }
     this.selectedElements.clear();
     this.selectedPhotos.clear();
-    
+
     /*
     var imageDivElement = null;
     var index = 4;
@@ -369,9 +368,9 @@ class SummaryDone extends screenhelper.Screen {
       for(int i = index; i < selectedSize; i++){
         imageDivElement = $['justTest'].children[index];
         if(imageDivElement.getAttribute("id") == photoName){
-          imageDivElement.children[0].setAttribute("selected", "false");        
+          imageDivElement.children[0].setAttribute("selected", "false");
         }
-      }  
+      }
     }*/
   }
 
@@ -397,7 +396,7 @@ class SummaryDone extends screenhelper.Screen {
         addToSelectedPhotos(nameOfPhoto);
         addToSelectedElements(target);
         print(nameOfPhoto + " is selected?" + isSelected);
-      }   
+      }
     }
   }
 
@@ -416,7 +415,7 @@ class SummaryDone extends screenhelper.Screen {
    * TODO
    */
   home(_) {}
-  
+
   void displayPhoto(){
     router.go("big-size-photo", {});
   }

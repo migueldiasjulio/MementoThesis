@@ -3,10 +3,8 @@ library bigSize;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
-import '../../core/ScreenModule.dart' as screenhelper;
-import '../../core/DataBase.dart';
+import '../../core/screenModule.dart' as screenhelper;
 import '../../core/Thumbnail.dart';
-import '../../core/ContainerClass.dart' as container;
 
 /**
  * TODO
@@ -25,11 +23,11 @@ class BigSizePhoto extends screenhelper.Screen {
   final List<Thumbnail> thumbnailsExcluded = toObservable([]);
   @observable bool selection = false;
   @observable bool moving = false;
-  
+
   Thumbnail get thumbnailDisplay => thumbToDisplay;
-  
+
   BigSizePhoto.created() : super.created();
- 
+
   /**
    * TODO
    */
@@ -40,7 +38,7 @@ class BigSizePhoto extends screenhelper.Screen {
         path: '',
         enter: home);
    }
-  
+
   /**
    * TODO
    */
@@ -49,52 +47,52 @@ class BigSizePhoto extends screenhelper.Screen {
     super.enteredView();
     checkWhatPhotoToDisplay();
   }
-  
+
 
   /**
    * TODO
    */
   home(_) {}
-  
+
   /**
-   * 
+   *
    */
   void checkWhatPhotoToDisplay(){
-    this.thumbToDisplay = this.myDataBase.returnImageToDisplay(); 
+    this.thumbToDisplay = this.myDataBase.returnImageToDisplay();
   }
-  
+
   /**
-   * 
+   *
    */
   void returnToSummary(){
     router.go("summary-done", {});
   }
-  
+
   /**
-   * 
+   *
    */
   void selectPhotos(){
     selection = true;
     //TODO
   }
-  
+
   /**
-   * 
+   *
    */
   void cancel(){
     selection=false;
     moving=false;
   }
-  
+
   /**
-   * 
+   *
    */
   void moveToFromBools(){
     moving = true;
-  } 
-  
+  }
+
   /**
-   * 
+   *
    */
   //TODO This must go to a superclass. BigSizePhoto and summaryDone should extend from there
   void syncSummaryPhotos(){
@@ -103,7 +101,7 @@ class BigSizePhoto extends screenhelper.Screen {
   }
 
   /**
-   * 
+   *
    */
   void syncStandByPhotos(){
     thumbnailsStandBy.clear();
@@ -111,13 +109,13 @@ class BigSizePhoto extends screenhelper.Screen {
   }
 
   /**
-   * 
+   *
    */
   void syncExcludedPhotos(){
     thumbnailsExcluded.clear();
     thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
   }
-  
+
   /**
    * When we already know the photo/photos new destination we change them localy to the page
    * and we inform the database about that changes
@@ -125,11 +123,11 @@ class BigSizePhoto extends screenhelper.Screen {
    * @param to
    * @param thumbs
    * @param origin
-   * @param destination 
+   * @param destination
    */
-  void moveFunction(String from, String to, 
+  void moveFunction(String from, String to,
       List<Thumbnail> thumbs, List<Thumbnail> origin, List<Thumbnail> destination){
-    
+
     List<String> thumbNames = new List<String>();
     for(Thumbnail thumb in thumbs){
       origin.remove(thumb);
@@ -138,7 +136,7 @@ class BigSizePhoto extends screenhelper.Screen {
     }
     this.myDataBase.moveFromTo(from, to, thumbNames);
   }
-  
+
   /**
    * Function created to help the moving action of a photo from a "from" container
    * to a "to" container.
@@ -151,7 +149,7 @@ class BigSizePhoto extends screenhelper.Screen {
          case("SUMMARY") :
            switch(to) {
              case("STANDBY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsStandBy); 
+               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsStandBy);
                break;
              case("EXCLUDED") :
                moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsExcluded);
@@ -161,20 +159,20 @@ class BigSizePhoto extends screenhelper.Screen {
          case("STANDBY") :
            switch(to) {
              case("SUMMARY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsSummary); 
+               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsSummary);
                break;
              case("EXCLUDED") :
-               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsExcluded); 
+               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsExcluded);
                break;
            }
            break;
          case("EXCLUDED") :
            switch(to) {
              case("SUMMARY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsSummary); 
+               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsSummary);
                break;
              case("STANDBY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsStandBy); 
+               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsStandBy);
                break;
            }
            break;

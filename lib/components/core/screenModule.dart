@@ -3,7 +3,7 @@ library screenModule;
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
-import '../core/DataBase.dart';
+import 'dataBase.dart';
 
 /**
  * TODO

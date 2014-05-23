@@ -1,6 +1,6 @@
 library database;
 
-import 'PhotoType.dart';
+import 'photoType.dart';
 import 'Thumbnail.dart';
 import 'dart:math';
 
@@ -8,31 +8,31 @@ class Database {
 
   List<String> newNameToAddToMap;
   Map<String, photoType> helpSearching = new Map<String, photoType>();
-  
+
   List<String> summaryContainer = new List<String>();
   List<String> standByContainer = new List<String>();
   List<String> excludedContainer = new List<String>();
-  
+
   //Aux
   Map<String, photoType> map = null;
   List<String> namesToAdd = new List<String>();
   List<photoType> newDataBaseElementsToAdd = new List <photoType>();
   photoType newDataBaseElement = null;
   int version = 1;
-  
+
   /**
    * User for BigSizePhoto - Change this maybe?
    */
   String ImageToBeDisplayed = "";
-  
+
   Thumbnail returnImageToDisplay(){
     return this.helpSearching[this.ImageToBeDisplayed].myThumbnail;
   }
-  
+
   void setImageToBeDisplayed(String thumbName){
     this.ImageToBeDisplayed = thumbName;
   }
-  
+
   /**
    * User for BigSizePhoto - Change this maybe?
    */
@@ -81,7 +81,7 @@ class Database {
 
     this.updateMap(this.namesToAdd, this.newDataBaseElementsToAdd);
 
-    //Adding all photos to stand-by container 
+    //Adding all photos to stand-by container
     this.addToContainer("STANDBY", this.namesToAdd);
 
     //Cleaning
@@ -137,7 +137,7 @@ class Database {
         break;
       default: break;
     }
-    this.printContainersState(); 
+    this.printContainersState();
   }
 
   /**
@@ -228,7 +228,7 @@ class Database {
     print("-> Excluded Container <-");
     print("<<<<<<<<<< Containers >>>>>>>>>>");
   }
-  
+
   /*
   List<Thumbnail> getAllThumbnails(){ ///return just thumbnails with dataBaseVersion > arg
     var thumbnails = new List<Thumbnail>();
@@ -239,9 +239,9 @@ class Database {
       }
     return thumbnails;
   } */
-  
+
   /**
-   * First X photos 
+   * First X photos
    */
   void workFirstXSummary(int numberOfPhotos){
     var number = numberOfPhotos;
@@ -253,7 +253,7 @@ class Database {
     }
     this.printContainersState();
   }
-  
+
   /**
    * For random tests
    */
@@ -267,14 +267,14 @@ class Database {
     }
     this.printContainersState();
   }
-  
+
   /**
    * With cluster algorithm
    */
   void buildClusterSummary(int numberOfPhotos){
     this.printContainersState();
   }
-  
+
   List<Thumbnail> getThumbnails(String fromWhere){
     List<Thumbnail> list = new List<Thumbnail>();
     Thumbnail thumb;
@@ -302,9 +302,9 @@ class Database {
         }
         return list;
       default: break;
-      
+
       return null; //exception ??
     }
  }
-  
+
 }//dataBase

@@ -1,4 +1,4 @@
-name: Memento
+name: memento
 author: Miguel Julio
 description: Memento
 dependencies:
@@ -10,7 +10,7 @@ dependencies:
 transformers:
 - polymer:
     entry_points: web/index.html
-    
+
 
 
 

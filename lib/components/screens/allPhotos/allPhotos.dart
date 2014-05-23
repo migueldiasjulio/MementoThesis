@@ -4,7 +4,7 @@ import 'dart:html';
 import 'dart:core';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
-import '../../core/ScreenModule.dart' as screenhelper;
+import '../../core/screenModule.dart' as screenhelper;
 import '../../core/Thumbnail.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
@@ -21,25 +21,25 @@ class AllPhotos extends screenhelper.Screen {
   String title = "All Photos",
    description = "Showing all photos";
   factory AllPhotos() => new Element.tag(TAG);
-  
+
   Modal modal;
   Modal loading;
-  
+
   InputElement _fileInput;
   FileReader _reader;
-  
+
   Element _dropZone;
   HtmlEscape sanitizer = new HtmlEscape();
   Element _addPhotos;
-  @observable String numberOfPhotosDefined = "20";  
+  @observable String numberOfPhotosDefined = "20";
   Element startSummary;
- 
+
   /**
    *     Photo database
    */
   final List<String> photoSources = toObservable([]);
   final List<Thumbnail> thumbnails = toObservable([]);
-  
+
   /**
    * TODO
    */
@@ -54,14 +54,14 @@ class AllPhotos extends screenhelper.Screen {
     _dropZone = $['drop-zone'];
     _addPhotos= $['addPhotos'];
     startSummary = $['startSummary'];
-    
+
     _fileInput.onChange.listen((e) => _onFileInputChange());
     _dropZone.onDragOver.listen(_onDragOver);
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
   }
-  
+
   @override
   void enteredView() {
     super.enteredView();
@@ -82,7 +82,7 @@ class AllPhotos extends screenhelper.Screen {
    * TODO
    */
   home(_) {}
-  
+
   /**
    * Input photos
    */
@@ -110,13 +110,13 @@ class AllPhotos extends screenhelper.Screen {
      _onFilesSelected(_fileInput.files);
      closeAndUpdateNumber();
    }
-   
+
    /**
     * Future so import and modal can run at the same time
     */
-   
+
    Future getData(var photoFiles){
-     var completer = new Completer(); 
+     var completer = new Completer();
      var workToDo = photoFiles.forEach((file) {
                             FileWriter writer;
                             FileReader reader = new FileReader();
@@ -128,28 +128,28 @@ class AllPhotos extends screenhelper.Screen {
                             });
                             reader.readAsDataUrl(file);
                    });
-     
+
      completer.complete(workToDo);
      return completer.future;
 
    }
-   
+
    void _onFilesSelected(List<File> files) {
-     
+
      var photoFiles = files.where((file) => file.type.startsWith('image'));
-     
-     //photos.addAll(photoFiles);     
+
+     //photos.addAll(photoFiles);
 /*
      //RUN THIS
      Future future = getData(photoFiles);
      //THEN
-     future  
-       .then((workToDo) => closeAndUpdateNumber())  
+     future
+       .then((workToDo) => closeAndUpdateNumber())
        .catchError((e) => print(e));  */
-     
+
      //TODO Modal loading
      showLoading();
-     
+
      photoFiles.forEach((file) {
                                  FileWriter writer;
                                  FileReader reader = new FileReader();
@@ -162,35 +162,35 @@ class AllPhotos extends screenhelper.Screen {
                                  reader.readAsDataUrl(file);
                         } );
    }
-   
+
    void closeAndUpdateNumber(){
      hiddeLoading();
      String thumbSize = this.thumbnails.length.toString();
      numberOfPhotosDefined = thumbSize;
    }
 
-   
+
    /**
     *
     */
    void show(){
      modal.show();
    }
-   
+
    /**
     *
     */
    void showLoading(){
      loading.show();
    }
-   
+
    /**
     *
     */
    void hiddeLoading(){
      loading.hide();
    }
-   
+
    /**
     *
     */
@@ -203,7 +203,7 @@ class AllPhotos extends screenhelper.Screen {
        this.numberOfPhotosDefined = auxiliar.toString();
      }
    }
-   
+
    /**
     *
     */
@@ -216,7 +216,7 @@ class AllPhotos extends screenhelper.Screen {
        this.numberOfPhotosDefined = auxiliar.toString();
      }
    }
-  
+
    /**
     * TODO
     */
@@ -226,19 +226,19 @@ class AllPhotos extends screenhelper.Screen {
     * Build Summary
     */
     void buildSummary(){
-      
+
       //SHOW LOADING WINDOW
-      
+
       //1 enviar dados para a db
       addPhotosToDataBase();
       //2 construir sumario
       this.myDataBase.workFirstXSummary(int.parse(this.numberOfPhotosDefined));
       //ir para o ecra
       goSummary();
-      
+
       //HIDDE LOADING WINDOW
     }
-    
+
     /**
      *
      */
@@ -261,5 +261,5 @@ class AllPhotos extends screenhelper.Screen {
      //thumbnails.clear();
    }
 
-   
+
 }///allPhotos

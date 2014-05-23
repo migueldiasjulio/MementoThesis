@@ -5,8 +5,8 @@ import 'package:polymer/polymer.dart';
 import '../allPhotos/allPhotos.dart';
 import '../summaryDone/summaryDone.dart';
 import '../bigSizePhoto/bigSizePhoto.dart';
-import '../../core/ScreenModule.dart' as screenmodule;
-import '../../core/DataBase.dart';
+import '../../core/screenModule.dart' as screenmodule;
+import '../../core/dataBase.dart';
 
 /**
  * TODO
@@ -64,7 +64,7 @@ class MementoApp extends PolymerElement {
    * Navigate to the home of the selected module
    */
   void navigate(event, detail, target) {
-    router.go('${target.dataset['target']}', {});  
+    router.go('${target.dataset['target']}', {});
   }
 
   /**
