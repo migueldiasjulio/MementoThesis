@@ -160,11 +160,13 @@
           on-click="{{enableSelection}}"
             class="btn btn-summary btn-md">Select</button>
         </div>
+        <template if="{{thumbnailsSummary.length > 0}}">
         <div style="float: right" class="btn-group">
           <button id="export" type="button" on-click="{{exportSummary}}"
             style="width: 120px" class="btn btn-summary btn-md">Export</button>
         </div>
-      </template> <!-- normal state -->
+        </template>
+     </template> <!-- normal state -->
 
       <template if="{{selection}}">
         <div class="row">
@@ -178,9 +180,9 @@
           <div class="col col-xs-7 col-sm-8 col-md-9 col-lg-7 col-lg-offset-3">
             <template if="{{selectedPhotos.length > 0}}">
               <div class="btn-group" style="margin-top: 10px;">
-              <img src="resources/images/containers/summary.png" on-click="{{moveToSummary}}" style="width: 20px; height: 20px;" >
-              <img src="resources/images/containers/standby.png" on-click="{{moveToStandBy}}" style="width: 20px; height: 20px;" >
-              <img src="resources/images/containers/excluded.png" on-click="{{moveToExcluded}}" style="width: 20px; height: 20px;" >
+              <img src="../../../resources/images/summary.png" on-click="{{moveToSummary}}" style="width: 20px; height: 20px;" >
+              <img src="../../../resources/images/standby.png" on-click="{{moveToStandBy}}" style="width: 20px; height: 20px;" >
+              <img src="../../../resources/images/excluded.png" on-click="{{moveToExcluded}}" style="width: 20px; height: 20px;" >
               </div>
             </template> <!-- container to move -->  
           </div> 
