@@ -1,0 +1,71 @@
+<polymer-element name="big-size-photo"> <template>
+<link rel="stylesheet" href="bigSizePhoto.css">
+<link rel="stylesheet" href="../resources/tabion-css.css">
+
+<div id="main" class="container">
+  <section id="firstSection">
+    <div id="bigSizeImage">
+      <div class="row" id="photoArea">
+          <button type="button" class="btn btn-summary btn-md"
+            on-click="{{returnToSummary}}">
+            <span class="glyphicon glyphicon-arrow-left"></span> Back
+          </button>
+      </div>
+        <!-- left side -->
+        <div style="margin-top:10px; margin-bottom: 10px; text-align:center">
+            <img src="{{thumbToDisplay.src}}" 
+                 width="200px"
+                 height="50%" class="img-thumbnail"
+                 title="{{thumbToDisplay.title}}"> 
+        </div><!-- right side -->
+      <h5 style="text-align:center">{{thumbToDisplay.title}}</h5>
+    </div><!-- bigSizeImage here -->
+
+    <div style="height: 6%">
+
+      <div id="line">
+        <hr style="border-top: 1px solid #35302c">
+      </div>
+
+      <div id="categories">
+        <form class="form-inline" role="form">
+          <!-- this gonna be dynamic -->
+          <div class="row">
+            <div class="col col-lg-1">Categories</div>
+            <div class="col col-lg-8 col-lg-offset-3">
+              <template> <!-- insert categories --> </template>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="line">
+        <hr style="border-top: 1px solid #35302c">
+      </div>
+
+    </div>
+
+  </section>
+  <!-- firstSection -->
+
+  <div id="screenFooter" style="height: 6%">
+    <!-- screen footer -->
+    <form class="form-inline" role="form">
+      <!-- form -->
+
+      <template if="{{!selection}}"> </template>
+      <!-- normal state -->
+
+      <template if="{{selection}}"> </template>
+      <!-- select state -->
+
+    </form>
+    <!-- form -->
+  </div>
+  <!-- screen footer -->
+
+</div><!-- main --> 
+</template> 
+<script type="application/dart" src="bigSizePhoto.dart"></script> 
+
+</polymer-element>
