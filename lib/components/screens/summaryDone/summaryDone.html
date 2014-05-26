@@ -17,7 +17,7 @@
             <span id="summaryNumber" class="badge">{{thumbnailsSummary.length}}</span> 
             </small>         
           </label> 
-          <input type="radio" name="tabion" id="tab1" checked> <!-- End Tab Button -->
+          <input type="radio" name="tabion" id="tab1" on-click="{{imInSummary}}" checked> <!-- End Tab Button -->
 
           <!-- Start Tab Content -->
           <div id="summaryTab"
@@ -57,7 +57,7 @@
             <span id="standByNumber" class="badge">{{thumbnailsStandBy.length}}</span> 
             </small>   
         </label> 
-        <input type="radio" name="tabion" id="tab2"> 
+        <input type="radio" name="tabion" on-click="{{imInStandBy}}" id="tab2"> 
         <!-- End Tab Button -->
 
           <!-- Start Tab Content -->
@@ -94,7 +94,7 @@
               <span id="excludedNumber" class="badge">{{thumbnailsExcluded.length}}</span> 
             </small>
         </label> 
-        <input type="radio" name="tabion" id="tab3"> 
+        <input type="radio" name="tabion" id="tab3" on-click="{{imInExcluded}}"> 
         <!-- End Tab Button -->
 
           <!-- Start Tab Content -->
@@ -179,10 +179,45 @@
           </div>
           <div class="col col-xs-7 col-sm-8 col-md-9 col-lg-7 col-lg-offset-3">
             <template if="{{selectedPhotos.length > 0}}">
-              <div class="btn-group" style="margin-top: 10px;">
-              <img src="../../../resources/images/summary.png" on-click="{{moveToSummary}}" style="width: 20px; height: 20px;" >
-              <img src="../../../resources/images/standby.png" on-click="{{moveToStandBy}}" style="width: 20px; height: 20px;" >
-              <img src="../../../resources/images/excluded.png" on-click="{{moveToExcluded}}" style="width: 20px; height: 20px;" >
+              <div class="btn-group">
+
+              <template if={{atSummary}}>
+                <img src="../../../resources/images/summary_disabled.png" style="width: 30px; height: 30px;" >
+              </template>
+              <template if={{!atSummary}}>
+                <img src="../../../resources/images/summary_2.png" on-click="{{moveToSummary}}" style="width: 30px; height: 30px;" >
+              </template>
+              
+              <template if={{atStandBy}}>
+                <img src="../../../resources/images/standby_disabled.png" style="width: 30px; height: 30px;" >
+              </template>
+              <template if={{!atStandBy}}>
+                <img src="../../../resources/images/standby_2.png" on-click="{{moveToStandBy}}" style="width: 30px; height: 30px;" >
+              </template>
+              
+              
+              <img src="../../../resources/images/excluded_2.png" on-click="{{moveToExcluded}}" style="width: 30px; height: 30px;" >
+
+              
+              <!--
+              <template if={{atStandBy}}>
+                <img src="../../../resources/images/standby_disabled.png" style="width: 30px; height: 30px;" >
+              </template>
+              <template if={{!atStandBy}}>
+                <img src="../../../resources/images/standby.png" on-click="{{moveToStandBy}}" style="width: 30px; height: 30px;" >
+              </template>
+
+              
+
+              <template if={{atExcluded}}>
+                <img src="../../../resources/images/excluded_disabled.png" style="width: 30px; height: 30px;" >
+              </template>
+              <template if={{atExcluded}}>
+                <img src="../../../resources/images/excluded.png" on-click="{{moveToExcluded}}" style="width: 30px; height: 30px;" >
+              </template>
+              
+              -->
+              
               </div>
             </template> <!-- container to move -->  
           </div> 

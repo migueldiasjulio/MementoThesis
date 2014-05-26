@@ -25,7 +25,7 @@ class SummaryDone extends screenhelper.Screen {
   @observable bool selection = false;
   @observable bool export = false;
 
-  @observable bool atSummary = false;
+  @observable bool atSummary = true;
   @observable bool atStandBy = false;
   @observable bool atExcluded = false;
 
@@ -44,9 +44,7 @@ class SummaryDone extends screenhelper.Screen {
   void enteredView() {
     super.enteredView();
     cleanVariables();
-    //syncSummaryPhotos();
-    //syncStandByPhotos();
-    //syncExcludedPhotos();
+    printVariableStante();
   }
 
   void cleanVariables(){
@@ -67,6 +65,52 @@ class SummaryDone extends screenhelper.Screen {
     syncStandByPhotos();
     syncExcludedPhotos();
     cleanVariables();
+  }
+  
+  void setMyPosition(String container, bool signal){
+    switch(container){
+         case("SUMMARY") :            
+            this.atSummary = signal;
+            break;
+         case("STANDBY") :
+           this.atStandBy = signal;
+           break;
+         case("EXCLUDED") :
+           this.atExcluded = signal;
+           break;
+         default: break;
+       }
+    
+  }
+   
+  void imInSummary(){
+    print("");
+    print("Im at Summary container");
+    setMyPosition("SUMMARY", true);
+    setMyPosition("STANDBY", false);
+    setMyPosition("EXCLUDED", false);
+    
+    printVariableStante(); //TODO Just test function
+  }
+  
+  void imInStandBy(){
+    print("");
+    print("Im at Stand by container");
+    setMyPosition("STANDBY", true);
+    setMyPosition("SUMMARY", false);
+    setMyPosition("EXCLUDED", false);
+    
+    printVariableStante(); //TODO Just test function
+  }
+  
+  void imInExcluded(){
+    print("");
+    print("Im at Excluded container");
+    setMyPosition("EXCLUDED", true);
+    setMyPosition("SUMMARY", false);
+    setMyPosition("STANDBY", false);
+    
+    printVariableStante(); //TODO Just test function
   }
 
   void enableSelection(){
@@ -178,41 +222,60 @@ class SummaryDone extends screenhelper.Screen {
    * Move to Summary container
    */
   void moveToSummary(){
-    movePhotosFunction("STANDBY", "SUMMARY"); //TODO Change this. Just testing.
-    cleanAll();
-    /*
-    if(atSummary){
-     //Nothing
-      return;
-    }
+    print("");
+    print("MOVING TO SUMMARY CONTAINER");
     if(atStandBy){
       movePhotosFunction("STANDBY", "SUMMARY");
+      cleanAll();
       return;
     }
     if(atExcluded){
       movePhotosFunction("EXCLUDED", "SUMMARY");
-    }*/
+      cleanAll();     
+      return;
+    }
   }
 
   /**
    * Move to Stand-by container
    */
   void moveToStandBy(){
-    print("MOVING TO STANDY");
-    movePhotosFunction("SUMMARY", "STANDBY"); //TODO JUST TESTING
-    cleanAll();
+    print("");
+    print("MOVING TO STANDBY CONTAINER");
+    if(atSummary){
+      movePhotosFunction("SUMMARY", "STANDBY");
+      cleanAll();
+      return;
+    }
+    if(atExcluded){
+      movePhotosFunction("EXCLUDED", "STANDBY");
+      cleanAll();     
+      return;
+    }
   }
 
   /**
    * Move to excluded container
    */
   void moveToExcluded(){
-    movePhotosFunction("CHANGE", "EXCLUDED");
-    cleanAll();
+    print("");
+    print("MOVING TO EXCLUDED CONTAINER");
+    if(atSummary){
+      movePhotosFunction("SUMMARY", "EXCLUDED");
+      cleanAll();
+      return;
+    }
+    if(atStandBy){
+      movePhotosFunction("STANDBY", "EXCLUDED");
+      cleanAll();     
+      return;
+    }
   }
 
   /**
-   * move function front end
+   * Move function front end
+   * @param origin - String
+   * @param destination - String 
    */
   void movePhotosFunction(String origin, String destination){
     List<Thumbnail> thumbsToMove = new List<Thumbnail>();
@@ -288,25 +351,25 @@ class SummaryDone extends screenhelper.Screen {
     this.myDataBase.moveFromTo(from, to, thumbNames);
   }
 
-  void printContainersSize(){
-    print("§§§§§§§§§§§§§§§§§");
-    print("Summary container: " + this.thumbnailsSummary.length.toString());
-    print("Stand-by container: " + this.thumbnailsStandBy.length.toString());
-    print("Excluded container: " + this.thumbnailsExcluded.length.toString());
-    print("§§§§§§§§§§§§§§§§§");
-  }
-
-
+  /**
+   * 
+   */ 
   void syncSummaryPhotos(){
     thumbnailsSummary.clear();
     thumbnailsSummary.addAll(this.myDataBase.getThumbnails("SUMMARY"));
   }
 
+  /**
+   * 
+   */ 
   void syncStandByPhotos(){
     thumbnailsStandBy.clear();
     thumbnailsStandBy.addAll(this.myDataBase.getThumbnails("STANDBY"));
   }
 
+  /**
+   * 
+   */ 
   void syncExcludedPhotos(){
     thumbnailsExcluded.clear();
     thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
@@ -326,18 +389,30 @@ class SummaryDone extends screenhelper.Screen {
     this.selectedPhotos.remove(photoName);
   }
 
+  /**
+   * 
+   */ 
   void cleanSelectedElements(){
     this.selectedElements.clear();
   }
 
+  /**
+   * 
+   */ 
   void addToSelectedElements(Element element){
     this.selectedElements.add(element);
   }
 
+  /**
+   * 
+   */ 
   void removeFromSelectedElements(Element element){
     this.selectedElements.remove(element);
   }
 
+  /**
+   * 
+   */ 
   List<Element> returnAllSelectedElements(){
     return this.selectedElements;
   }
@@ -359,22 +434,11 @@ class SummaryDone extends screenhelper.Screen {
     }
     this.selectedElements.clear();
     this.selectedPhotos.clear();
-
-    /*
-    var imageDivElement = null;
-    var index = 4;
-    var selectedSize = this.selectedPhotos.length + 5;
-    for(String photoName in this.selectedPhotos){
-      print("Photo Selected Name: " + photoName);
-      for(int i = index; i < selectedSize; i++){
-        imageDivElement = $['justTest'].children[index];
-        if(imageDivElement.getAttribute("id") == photoName){
-          imageDivElement.children[0].setAttribute("selected", "false");
-        }
-      }
-    }*/
   }
 
+  /**
+   * 
+   */ 
   void showImage(Event event, var detail, var target){
     var nameOfPhoto;
     var isSelected;
@@ -390,13 +454,13 @@ class SummaryDone extends screenhelper.Screen {
         target.attributes['selected'] = "false";
         removeFromSelectedPhotos(nameOfPhoto);
         removeFromSelectedElements(target);
-        print(nameOfPhoto + " is selected?" + isSelected);
+        print(nameOfPhoto + " is selected? " + isSelected);
       }
       else{
         target.attributes['selected'] = "true";
         addToSelectedPhotos(nameOfPhoto);
         addToSelectedElements(target);
-        print(nameOfPhoto + " is selected?" + isSelected);
+        print(nameOfPhoto + " is selected? " + isSelected);
       }
     }
   }
@@ -420,5 +484,26 @@ class SummaryDone extends screenhelper.Screen {
   void displayPhoto(){
     router.go("big-size-photo", {});
   }
-
+  
+  /**
+   * Test function 1
+   */ 
+  void printContainersSize(){
+    print("§§§§§§§§§§§§§§§§§");
+    print("Summary container: " + this.thumbnailsSummary.length.toString());
+    print("Stand-by container: " + this.thumbnailsStandBy.length.toString());
+    print("Excluded container: " + this.thumbnailsExcluded.length.toString());
+    print("§§§§§§§§§§§§§§§§§");
+  }
+  
+  /**
+   * Test function 2
+   */ 
+  void printVariableStante(){
+    print("§§§§§§§§§§§§§§§§§");
+    print("Summary container is active? " + this.atSummary.toString());
+    print("Stand by container is active? " + this.atStandBy.toString());
+    print("Excluded container is active? " + this.atExcluded.toString());
+    print("§§§§§§§§§§§§§§§§§");
+  }
 }
