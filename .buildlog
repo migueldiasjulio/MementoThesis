@@ -1,0 +1,250 @@
+---
+build.dart --machine --full
+
+build.dart finished [4095 ms]
+
+---
+build.dart --machine --changed=lib/resources/images/excluded.png --changed=lib/resources/images/standby.png --c...
+
+build.dart finished [2127 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2151 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2291 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2070 ms]
+
+---
+build.dart --machine --changed=web/resources/images/excluded.png --changed=web/resources/images/standby.png --c...
+
+build.dart finished [2096 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2096 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2197 ms]
+
+---
+build.dart --machine --changed=lib/resources/images/excluded.png --changed=lib/resources/images/standby.png --c...
+
+build.dart finished [2104 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2126 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2405 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2491 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/summaryDone/summaryDone.html
+
+build.dart finished [2141 ms]
+
+---
+build.dart --machine --changed=web/index.html
+
+build.dart finished [2241 ms]
+
+---
+build.dart --machine --changed=lib/components/core/mementoSettings.dart
+
+build.dart finished [2587 ms]
+
+---
+build.dart --machine --changed=lib/components/core/mementoSettings.dart
+
+build.dart finished [2382 ms]
+
+---
+build.dart --machine --changed=lib/components/core/screenModule.dart
+
+build.dart finished [2473 ms]
+
+---
+build.dart --machine --changed=lib/components/core/mementoSettings.dart
+
+build.dart finished [2265 ms]
+
+---
+build.dart --machine --changed=lib/components/core/screenModule.dart
+
+build.dart finished [2344 ms]
+
+---
+build.dart --machine --changed=lib/components/core/screenModule.dart
+
+build.dart finished [2207 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/mementoApp/mementoApp.dart
+
+build.dart finished [2350 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/mementoApp/mementoApp.dart
+
+build.dart finished [5363 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/mementoApp/mementoApp.dart
+
+build.dart finished [4140 ms]
+
+---
+build.dart --machine --changed=lib/components/core/mementoSettings.dart
+
+build.dart finished [2192 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/mementoApp/mementoApp.dart
+
+build.dart finished [2233 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/mementoApp/mementoApp.dart
+
+build.dart finished [2294 ms]
+
+---
+build.dart --machine --changed=lib/components/core/mementoSettings.dart
+
+build.dart finished [2308 ms]
+
+---
+build.dart --machine --changed=web/index.html
+
+build.dart finished [2218 ms]
+
+---
+build.dart --machine --changed=web/index.dart
+
+build.dart finished [2287 ms]
+
+---
+build.dart --machine --changed=web/index.dart
+
+build.dart finished [2178 ms]
+
+---
+build.dart --machine --changed=lib/components/index.dart --removed=web/index.dart
+
+build.dart finished [2131 ms]
+
+---
+build.dart --machine --changed=lib/components/index.dart
+
+build.dart finished [2206 ms]
+
+---
+build.dart --machine --changed=lib/components/index.dart
+
+build.dart finished [2162 ms]
+
+---
+build.dart --machine --changed=lib/components/index.dart
+
+build.dart finished [2211 ms]
+
+---
+build.dart --machine --changed=web/index.html
+
+build.dart finished [2373 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.css
+
+build.dart finished [2348 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [2550 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [2474 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [3204 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [3399 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [3233 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [3050 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [2974 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [3238 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [2290 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [2351 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [2877 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [3218 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [2442 ms]
+
+---
+build.dart --machine --changed=lib/components/screens/allPhotos/allPhotos.html
+
+build.dart finished [3043 ms]
+
