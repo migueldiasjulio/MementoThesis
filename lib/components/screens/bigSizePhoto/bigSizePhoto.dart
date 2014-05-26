@@ -5,6 +5,7 @@ import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
 import '../../core/Thumbnail.dart';
+export "package:polymer/init.dart";
 
 /**
  * TODO

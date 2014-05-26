@@ -8,6 +8,7 @@ import '../bigSizePhoto/bigSizePhoto.dart';
 import '../../core/screenModule.dart' as screenmodule;
 import '../../core/dataBase.dart';
 import '../../core/mementoSettings.dart';
+export "package:polymer/init.dart";
 
 /**
  * TODO

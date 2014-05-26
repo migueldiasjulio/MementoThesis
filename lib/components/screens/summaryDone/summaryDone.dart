@@ -7,6 +7,7 @@ import 'package:route_hierarchical/client.dart';
 import 'package:bootjack/bootjack.dart';
 import '../../core/screenModule.dart' as screenhelper;
 import '../../core/Thumbnail.dart';
+export "package:polymer/init.dart";
 
 
 /**

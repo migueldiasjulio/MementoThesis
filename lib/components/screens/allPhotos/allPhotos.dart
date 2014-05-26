@@ -9,6 +9,7 @@ import '../../core/Thumbnail.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 import 'dart:async';
+export "package:polymer/init.dart";
 
 /**
  * TODO
