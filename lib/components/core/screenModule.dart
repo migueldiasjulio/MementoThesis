@@ -4,6 +4,7 @@ import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
 import 'dataBase.dart';
+import 'mementoSettings.dart';
 
 /**
  * TODO
@@ -26,6 +27,7 @@ abstract class Screen extends ScreenModule {
   String title, description;
   String path;
   Router router;
+  MementoSettings settings = MementoSettings.get();
   Database myDataBase = Database.get();
 
   /**

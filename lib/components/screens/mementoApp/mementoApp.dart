@@ -7,6 +7,7 @@ import '../summaryDone/summaryDone.dart';
 import '../bigSizePhoto/bigSizePhoto.dart';
 import '../../core/screenModule.dart' as screenmodule;
 import '../../core/dataBase.dart';
+import '../../core/mementoSettings.dart';
 
 /**
  * TODO
@@ -29,8 +30,8 @@ class MementoApp extends PolymerElement {
   @published String pageName;
   Map<String, screenmodule.Screen> get screens => myScreens;
   @observable screenmodule.Screen myScreen = null;
-  //@observable bool defaultScreen = true;
   var router;
+  MementoSettings settings = MementoSettings.get();
   Database myDataBase = Database.get();
 
   /**

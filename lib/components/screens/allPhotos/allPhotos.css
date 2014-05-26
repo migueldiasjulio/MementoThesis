@@ -1,5 +1,7 @@
 @import url("../../../../../packages/bootjack/css/bootstrap.min.css");
 @import url("../../../../../packages/bootjack/css/bootstrap-theme.css");
+@import url('http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.css');
+@import url('http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2-bootstrap.css');
 
 #main {
   width: 100%;
