@@ -9,6 +9,8 @@ import '../../core/screenModule.dart' as screenmodule;
 import '../../core/dataBase.dart';
 import '../../core/mementoSettings.dart';
 export "package:polymer/init.dart";
+import '../../core/index.dart';
+
 
 /**
  * TODO
@@ -32,6 +34,7 @@ class MementoApp extends PolymerElement {
   Map<String, screenmodule.Screen> get screens => myScreens;
   @observable screenmodule.Screen myScreen = null;
   var router;
+  Index _index = Index.get();
   MementoSettings settings = MementoSettings.get();
   Database myDataBase = Database.get();
 
@@ -53,6 +56,9 @@ class MementoApp extends PolymerElement {
     });
     router.root.addRoute(name: 'home', defaultRoute: true, path: '', enter: showHome);
     router.listen();
+    
+    //TODO 
+    //Index index = new Index();
   }
 
   /**

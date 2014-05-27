@@ -229,14 +229,9 @@ class AllPhotos extends screenhelper.Screen {
     void buildSummary(){
 
       //SHOW LOADING WINDOW
-
-      //1 enviar dados para a db
       addPhotosToDataBase();
-      //2 construir sumario
-      this.myDataBase.workFirstXSummary(int.parse(this.numberOfPhotosDefined));
-      //ir para o ecra
+      this.myDataBase.decideAlgorithm(int.parse(this.numberOfPhotosDefined));
       goSummary();
-
       //HIDDE LOADING WINDOW
     }
 

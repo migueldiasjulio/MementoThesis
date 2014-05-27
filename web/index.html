@@ -9,6 +9,7 @@
     <link rel="import" href="packages/polymer/polymer.html">
     <link rel="import" href="../lib/components/screens/mementoApp/mementoApp.html">
     <link rel="stylesheet" href="resources/css/index.css">
+    <link rel="stylesheet" href="resources/css/bootstrap-formhelpers.min.css">
     <style>
       /* Font Faces don't work in the shadow DOM yet :( */
 
@@ -86,8 +87,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4>Memento help</h4>
+              <h4>Help Menu</h4>
             </div>
             <div class="modal-body">
               <p>Change with the screen</p>
@@ -108,7 +108,12 @@
             <h4>About Memento</h4>
           </div> <!-- modal header -->
           <div class="modal-body">
-            <p>Miguel Júlio e Manuel Fonseca</p>
+            <br>
+            <b>Built by:</b> Miguel Júlio and Manuel Fonseca <br>
+            <b>Supported by:</b><a href="http://www.inevo.pt/"> inEvo</a><br>
+            <b>Institution:</b><a href="http://tecnico.ulisboa.pt/">Instituto Superior Técnico Lisboa</a><br>
+            <br>
+            <p>&copy; Memento 2014</p>
           </div> <!-- modal body -->
           <div class="modal-footer">
             <a class="btn btn-default" data-dismiss="modal">Close</a>
@@ -122,10 +127,65 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4>Change Settings</h4>
+            <h4>Settings</h4>
           </div> <!-- modal header -->
           <div class="modal-body">
-            <p>Present all settings</p>
+            <h5>Summary Algorithm</h5>
+            
+            <div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="algorithm" id="firstx" value="option1" checked>
+                  First x photos
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="algorithm" id="random" value="option2">
+                  Random
+                </label>
+             </div>
+             <div class="radio">
+              <label>
+                <input type="radio"  name="algorithm" id="hierachical" value="option3">
+                Hierarchical clustering
+              </label>
+             </div>
+           </div>
+           
+            <br>
+            
+           <div>
+             <h5>Default number of photos to summary</h5>
+             <div class="radio">
+                <label>
+                  <input type="radio" 
+                         name="number" 
+                         id="optionsRadios1" 
+                         value="option1" checked>
+                  Number of imported photos
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" 
+                         name="number" 
+                         id="optionsRadios2" 
+                         value="option2">        
+                  Other: 
+                  <span style="width: 150px" class="input-group">
+                    <input type="text" class="form-control bfh-number" data-min="5" data-max="25" data-wrap="true">
+                    <span class="input-group-addon bfh-number-btn inc">
+                      <span class="glyphicon glyphicon-chevron-up"></span>
+                    </span>
+                    <span class="input-group-addon bfh-number-btn dec">
+                      <span class="glyphicon glyphicon-chevron-down"></span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div> 
+           
           </div> <!-- modal body -->
           <div class="modal-footer">
             <a class="btn btn-default" data-dismiss="modal">Close</a>
@@ -142,6 +202,7 @@
         window.onresize = autoResizeDiv;
         autoResizeDiv();
     </script>
-    <script type="application/dart" src="../lib/components/index.dart"></script>
+    <script type="application/dart" src="../lib/components/core/index.dart"></script>
+    <!-- <script type="text/javascript" src="resources/js/bootstrap-formhelpers.js"></script> -->
   </body>
 </html>

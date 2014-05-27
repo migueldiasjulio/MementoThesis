@@ -146,18 +146,10 @@ class SummaryDone extends screenhelper.Screen {
     for(Thumbnail thumb in thumbToExport){
       img.setAttribute("src", thumb.src);
       imgs.add(img);
-      //names.add(thumb.title);
+      names.add(thumb.title + "\r\n");
     }
     List test = new List();
     test.addAll(names);
-    List body = [ 'This list is the text\n',
-                   'which our final output\n',
-                   'file will contain.\n\n',
-                   "It's really nothing\n",
-                   'special in any way.\n',
-                   'Normally this stuff would\n',
-                   'be dynamically generated\n',
-                   'in some way.\n\n'];
 
     // Create a new blob from the data.
     Blob blob = new Blob(test, 'text/plain', 'native');

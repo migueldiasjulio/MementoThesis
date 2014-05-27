@@ -3,48 +3,27 @@ library database;
 import 'photoType.dart';
 import 'Thumbnail.dart';
 import 'dart:math';
+import 'mementoSettings.dart';
+import 'FunctionChoosed.dart' as Function;
 
 class Database {
 
-  List<String> newNameToAddToMap;
-  Map<String, photoType> helpSearching = new Map<String, photoType>();
-
-  List<String> summaryContainer = new List<String>();
-  List<String> standByContainer = new List<String>();
-  List<String> excludedContainer = new List<String>();
+  MementoSettings _settings = MementoSettings.get();
+  
+  List<String> _newNameToAddToMap;
+  Map<String, photoType> _helpSearching = new Map<String, photoType>();
+ 
+  List<String> _summaryContainer = new List<String>();
+  List<String> _standByContainer = new List<String>();
+  List<String> _excludedContainer = new List<String>();
 
   //Aux
-  Map<String, photoType> map = null;
-  List<String> namesToAdd = new List<String>();
-  List<photoType> newDataBaseElementsToAdd = new List <photoType>();
-  photoType newDataBaseElement = null;
-  int version = 1;
-
-  /**
-   * User for BigSizePhoto - Change this maybe?
-   */
-  String ImageToBeDisplayed = "";
-
-  Thumbnail returnImageToDisplay(){
-    return this.helpSearching[this.ImageToBeDisplayed].myThumbnail;
-  }
-
-  void setImageToBeDisplayed(String thumbName){
-    this.ImageToBeDisplayed = thumbName;
-  }
-
-  /**
-   * User for BigSizePhoto - Change this maybe?
-   */
-
-  int returnVersion(){
-    return version;
-  }
-
-  void incVersion(){ ///should be private
-    version++;
-  }
-
+  Map<String, photoType> _map = null;
+  List<String> _namesToAdd = new List<String>();
+  List<photoType> _newDataBaseElementsToAdd = new List <photoType>();
+  photoType _newDataBaseElement = null;
+  int _version = 1;
+  
   /**
    * Singleton
    */
@@ -58,6 +37,42 @@ class Database {
     }
     return _instance;
   }
+
+  /**
+   * User for BigSizePhoto - Change this maybe?
+   */
+  String ImageToBeDisplayed = "";
+  
+  /**
+   * Return image to be displayed in BigSizePhoto Screen
+   * @return Thumbnail
+   */ 
+  Thumbnail returnImageToDisplay(){
+    return this._helpSearching[this.ImageToBeDisplayed].myThumbnail;
+  }
+
+  /**
+   * Set the image to be displayed
+   * @param thumbName - String
+   */ 
+  void setImageToBeDisplayed(String thumbName){
+    this.ImageToBeDisplayed = thumbName;
+  }
+
+  /**
+   * 
+   */ 
+  int returnVersion(){
+    return _version;
+  }
+
+  /**
+   * 
+   */ 
+  void incVersion(){ 
+    _version++;
+  }
+
   /**
    * Add a new element to the database
    */
@@ -65,59 +80,43 @@ class Database {
     var fileListSize = thumbnailFiles.length;
     for(var i = 0; i < fileListSize; i++){
       if(!alreadyExistsInTheDataBase(thumbnailFiles.elementAt(i).title)){
-        this.namesToAdd.add(thumbnailFiles.elementAt(i).title);
-        this.newDataBaseElement = new photoType(originalFiles.elementAt(i), thumbnailFiles.elementAt(i));
-        this.newDataBaseElementsToAdd.add(this.newDataBaseElement);
+        this._namesToAdd.add(thumbnailFiles.elementAt(i).title);
+        this._newDataBaseElement = new photoType(originalFiles.elementAt(i), thumbnailFiles.elementAt(i));
+        this._newDataBaseElementsToAdd.add(this._newDataBaseElement);
       }
-  }//ciclo for
+    }
 
-  incVersion();
+    incVersion();
 
-  print("---------- Before update --------");
-  print("Names To add size: " + this.namesToAdd.length.toString());
-  print("New Elements to Add size: " + this.newDataBaseElementsToAdd.length.toString());
-  print("New element is null? " + this.newDataBaseElement.toString());
-  print("---------- Before update --------");
+    testFunctionOne(); //TODO
 
-    this.updateMap(this.namesToAdd, this.newDataBaseElementsToAdd);
+    this.updateMap(this._namesToAdd, this._newDataBaseElementsToAdd);
 
     //Adding all photos to stand-by container
-    this.addToContainer("STANDBY", this.namesToAdd);
+    this.addToContainer("STANDBY", this._namesToAdd);
 
     //Cleaning
-    this.namesToAdd.clear();
-    this.newDataBaseElementsToAdd.clear();
-    this.newDataBaseElement = null;
+    this._namesToAdd.clear();
+    this._newDataBaseElementsToAdd.clear();
+    this._newDataBaseElement = null;
 
-    //Testing
-    print("---------- After update --------");
-    //print("Data Base elements size: " + this.dataBaseImage.length.toString());
-    print("Map size: " + this.helpSearching.length.toString());
-
-    print("Names To add size: " + this.namesToAdd.length.toString());
-    print("New Elements to Add size: " + this.newDataBaseElementsToAdd.length.toString());
-    print("New element is null? " + this.newDataBaseElement.toString());
-
-    this.printContainersState();
-
-    print("---------- After update --------");
-    //Testing
-}//addNewElementsToDataBase
+    testFunctionTwo(); //TODO
+}
 
   /**
    * Update Map
    */
   void updateMap(List<String> newNames, List<photoType> newDataBaseElements){
-    this.map = new Map.fromIterables(newNames, newDataBaseElements);
-    this.helpSearching.addAll(map);
-    this.map = null;
+    this._map = new Map.fromIterables(newNames, newDataBaseElements);
+    this._helpSearching.addAll(_map);
+    this._map = null;
   }
 
   /**
    * Check if already exists in the database
    */
   bool alreadyExistsInTheDataBase(String file){
-    return this.helpSearching.containsKey(file);
+    return this._helpSearching.containsKey(file);
   }
 
   /**
@@ -127,17 +126,17 @@ class Database {
 
     switch(_nameOfContainer){
       case("SUMMARY") :
-        this.summaryContainer.addAll(_imagesToAdd);
+        this._summaryContainer.addAll(_imagesToAdd);
         break;
       case("STANDBY") :
-        this.standByContainer.addAll(_imagesToAdd);
+        this._standByContainer.addAll(_imagesToAdd);
         break;
       case("EXCLUDED") :
-        this.excludedContainer.addAll(_imagesToAdd);
+        this._excludedContainer.addAll(_imagesToAdd);
         break;
       default: break;
     }
-    this.printContainersState();
+    this.printContainersState(); //TODO
   }
 
   /**
@@ -149,15 +148,15 @@ class Database {
       case("SUMMARY") :
         switch(_destination) {
           case("STANDBY") :
-            this.standByContainer.addAll(_imagesToMove);
+            this._standByContainer.addAll(_imagesToMove);
             for(String photosToRemove in _imagesToMove){
-              this.summaryContainer.remove(photosToRemove);
+              this._summaryContainer.remove(photosToRemove);
             }
             break;
           case("EXCLUDED") :
-            this.excludedContainer.addAll(_imagesToMove);
+            this._excludedContainer.addAll(_imagesToMove);
           for(String photosToRemove in _imagesToMove){
-            this.summaryContainer.remove(photosToRemove);
+            this._summaryContainer.remove(photosToRemove);
           }
             break;
         }
@@ -165,15 +164,15 @@ class Database {
       case("STANDBY") :
         switch(_destination) {
           case("SUMMARY") :
-            this.summaryContainer.addAll(_imagesToMove);
+            this._summaryContainer.addAll(_imagesToMove);
             for(String photosToRemove in _imagesToMove){
-              this.standByContainer.remove(photosToRemove);
+              this._standByContainer.remove(photosToRemove);
             }
             break;
           case("EXCLUDED") :
-            this.excludedContainer.addAll(_imagesToMove);
+            this._excludedContainer.addAll(_imagesToMove);
             for(String photosToRemove in _imagesToMove){
-              this.standByContainer.remove(photosToRemove);
+              this._standByContainer.remove(photosToRemove);
             }
             break;
         }
@@ -181,64 +180,43 @@ class Database {
       case("EXCLUDED") :
         switch(_destination) {
           case("SUMMARY") :
-            this.summaryContainer.addAll(_imagesToMove);
+            this._summaryContainer.addAll(_imagesToMove);
             for(String photosToRemove in _imagesToMove){
-              this.excludedContainer.remove(photosToRemove);
+              this._excludedContainer.remove(photosToRemove);
             }
             break;
           case("STANDBY") :
-            this.standByContainer.addAll(_imagesToMove);
+            this._standByContainer.addAll(_imagesToMove);
             for(String photosToRemove in _imagesToMove){
-              this.excludedContainer.remove(photosToRemove);
+              this._excludedContainer.remove(photosToRemove);
             }
             break;
         }
         break;
       default: break;
     }
-    this.printContainersState();
+    this.printContainersState(); //TODO
   }
-
+  
   /**
-   * Just Testing
-   */
-  void printContainersState(){
-    print("<<<<<<<<<< Containers >>>>>>>>>>");
-    var sizeOf;
-    print("-> Summary Container <-");
-    sizeOf = this.summaryContainer.length;
-    print("Summary container size: " + this.summaryContainer.length.toString());
-    for(var i = 0; i < sizeOf; i++){
-      print("Element: " + this.summaryContainer.elementAt(i));
-    }
-    print("-> Summary Container <-");
-    print("-> Stand by Container <-");
-    sizeOf = this.standByContainer.length;
-    print("Stand-by container size: " + this.standByContainer.length.toString());
-    for(var i = 0; i < sizeOf; i++){
-      print("Element: " + this.standByContainer.elementAt(i));
-    }
-    print("-> Stand by Container <-");
-    print("-> Excluded Container <-");
-    sizeOf = this.excludedContainer.length;
-    print("Excluded container size: " + this.excludedContainer.length.toString());
-    for(var i = 0; i < sizeOf; i++){
-      print("Element: " + this.excludedContainer.elementAt(i));
-    }
-    print("-> Excluded Container <-");
-    print("<<<<<<<<<< Containers >>>>>>>>>>");
+   * Decide which algorithm to use in the summary creation
+   */ 
+  void decideAlgorithm(int numberOfPhotos){
+    var function = _settings.whichAlgorithmInUse();
+    switch(function){
+      case(Function.FunctionChoosed.FIRSTX) :
+        workFirstXSummary(numberOfPhotos);  
+        break; 
+      case(Function.FunctionChoosed.RANDOM) :
+        buildRandomSummary(numberOfPhotos);
+        break; 
+      case(Function.FunctionChoosed.HIERARCHICAL) :
+        buildClusterSummary(numberOfPhotos);
+        break;
+      default: 
+        break; 
+    }   
   }
-
-  /*
-  List<Thumbnail> getAllThumbnails(){ ///return just thumbnails with dataBaseVersion > arg
-    var thumbnails = new List<Thumbnail>();
-    Thumbnail thumb;
-    var allPhotos = this.helpSearching.values;
-    for(photoType photo in allPhotos){
-        thumbnails.add(photo.myThumbnail);
-      }
-    return thumbnails;
-  } */
 
   /**
    * First X photos
@@ -248,10 +226,10 @@ class Database {
     print(number.toString());
     for(int i = 0; i < number; i++){
       print("Number i is now: " + i.toString());
-      this.summaryContainer.add(this.standByContainer.elementAt(0));
-      this.standByContainer.removeAt(0);
+      this._summaryContainer.add(this._standByContainer.elementAt(0));
+      this._standByContainer.removeAt(0);
     }
-    this.printContainersState();
+    this.printContainersState(); //TODO
   }
 
   /**
@@ -261,18 +239,31 @@ class Database {
     var randomStuff = new Random();
     var next;
     for(int i = 0; i < numberOfPhotos; i++){
-      next = randomStuff.nextInt(this.standByContainer.length);
-      this.summaryContainer.add(this.standByContainer.elementAt(next));
-      this.standByContainer.removeAt(i);
+      next = randomStuff.nextInt(this._standByContainer.length);
+      this._summaryContainer.add(this._standByContainer.elementAt(next));
+      this._standByContainer.removeAt(i);
     }
-    this.printContainersState();
+    this.printContainersState(); //TODO
   }
 
   /**
    * With cluster algorithm
    */
   void buildClusterSummary(int numberOfPhotos){
-    this.printContainersState();
+    
+    
+    ///start algorithm
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    this.printContainersState(); //TODO
   }
 
   List<Thumbnail> getThumbnails(String fromWhere){
@@ -282,29 +273,95 @@ class Database {
 
     switch(fromWhere){
       case("SUMMARY") :
-        container = this.summaryContainer;
+        container = this._summaryContainer;
         for(String photo in container){
-            list.add(this.helpSearching[photo].myThumbnail);
+            list.add(this._helpSearching[photo].myThumbnail);
         }
-        return list;
-        break;
+        //return list;
+        break; 
       case("STANDBY") :
-        container = this.standByContainer;
+        container = this._standByContainer;
         for(String photo in container){
-            list.add(this.helpSearching[photo].myThumbnail);
+            list.add(this._helpSearching[photo].myThumbnail);
         }
-        return list;
-        break;
+        //return list;
+        break; 
       case("EXCLUDED") :
-        container = this.excludedContainer;
+        container = this._excludedContainer;
         for(String photo in container){
-            list.add(this.helpSearching[photo].myThumbnail);
+            list.add(this._helpSearching[photo].myThumbnail);
         }
-        return list;
-      default: break;
-
-      return null; //exception ??
+        //return list;
+        break;
+      default: 
+        list = null;
+        break; 
     }
+    
+    return list;
  }
+  
+  /**
+   * 
+   * 
+   * 
+   * TEST FUNCTIONS
+   * 
+   * 
+   */
+
+  /**
+   * 
+   */ 
+  void printContainersState(){
+    print("<<<<<<<<<< Containers >>>>>>>>>>");
+    var sizeOf;
+    print("-> Summary Container <-");
+    sizeOf = this._summaryContainer.length;
+    print("Summary container size: " + this._summaryContainer.length.toString());
+    for(var i = 0; i < sizeOf; i++){
+      print("Element: " + this._summaryContainer.elementAt(i));
+    }
+    print("-> Summary Container <-");
+    print("-> Stand by Container <-");
+    sizeOf = this._standByContainer.length;
+    print("Stand-by container size: " + this._standByContainer.length.toString());
+    for(var i = 0; i < sizeOf; i++){
+      print("Element: " + this._standByContainer.elementAt(i));
+    }
+    print("-> Stand by Container <-");
+    print("-> Excluded Container <-");
+    sizeOf = this._excludedContainer.length;
+    print("Excluded container size: " + this._excludedContainer.length.toString());
+    for(var i = 0; i < sizeOf; i++){
+      print("Element: " + this._excludedContainer.elementAt(i));
+    }
+    print("-> Excluded Container <-");
+    print("<<<<<<<<<< Containers >>>>>>>>>>");
+  }
+  
+  /**
+   * 
+   */ 
+  void testFunctionOne(){
+    print("---------- Before update --------");
+    print("Names To add size: " + this._namesToAdd.length.toString());
+    print("New Elements to Add size: " + this._newDataBaseElementsToAdd.length.toString());
+    print("New element is null? " + this._newDataBaseElement.toString());
+    print("---------- Before update --------");
+  }
+
+  /**
+   * 
+   */
+  void testFunctionTwo(){
+    print("---------- After update --------");
+    print("Map size: " + this._helpSearching.length.toString());
+    print("Names To add size: " + this._namesToAdd.length.toString());
+    print("New Elements to Add size: " + this._newDataBaseElementsToAdd.length.toString());
+    print("New element is null? " + this._newDataBaseElement.toString());
+    this.printContainersState();
+    print("---------- After update --------");
+  }
 
 }//dataBase
