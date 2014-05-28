@@ -1,4 +1,5 @@
-<polymer-element name="big-size-photo"> <template>
+<polymer-element name="big-size-photo"> 
+<template>
 <link rel="stylesheet" href="bigSizePhoto.css">
 <link rel="stylesheet" href="../resources/tabion-css.css">
 
@@ -48,10 +49,21 @@
   </section>
   <!-- firstSection -->
 
-  <div id="screenFooter" style="height: 6%">
-    <!-- screen footer -->
-    <form class="form-inline" role="form">
-      <!-- form -->
+  <div id="screenFooter" style="height: 6%"> <!-- screen footer -->
+    <form class="form-inline" role="form"> <!-- form -->
+      <div class="row"> <!-- main row -->
+        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+          <!-- containers here -->
+        </div> <!-- first main column -->
+        <div class="col col-xs-9 col-sm-9 col-md-9 col-lg-9">
+          <div class="row">
+            <!-- buttons here -->
+          </div> <!-- first row -->
+          <div class="row">
+            <!-- Photos here -->
+          </div> <!-- second row -->
+        </div> <!-- second main column -->
+      </div> <!-- main row -->
 
       <template if="{{!selection}}"> </template>
       <!-- normal state -->
@@ -59,13 +71,10 @@
       <template if="{{selection}}"> </template>
       <!-- select state -->
 
-    </form>
-    <!-- form -->
-  </div>
-  <!-- screen footer -->
-
+    </form> <!-- form -->
+  </div> <!-- screen footer -->
 </div><!-- main --> 
-</template> 
+</template> <!-- main template -->
 <script type="application/dart" src="bigSizePhoto.dart"></script> 
 
 </polymer-element>
