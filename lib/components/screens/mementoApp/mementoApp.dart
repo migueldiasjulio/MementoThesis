@@ -2,20 +2,19 @@ library app;
 
 import 'package:route_hierarchical/client.dart';
 import 'package:polymer/polymer.dart';
+export "package:polymer/init.dart";
 import '../allPhotos/allPhotos.dart';
 import '../summaryDone/summaryDone.dart';
 import '../bigSizePhoto/bigSizePhoto.dart';
 import '../../core/screenModule.dart' as screenmodule;
 import '../../core/dataBase.dart';
 import '../../core/mementoSettings.dart';
-export "package:polymer/init.dart";
 import '../../core/index.dart';
 
-
 /**
- * TODO
+ * Screeen Modules of Memento
  */
-Map<String, screenmodule.Screen> myScreens = {
+Map<String, screenmodule.ScreenModule> myScreens = {
   "all-photos": new AllPhotos(),
   "summary-done": new SummaryDone(),
   "big-size-photo": new BigSizePhoto()
@@ -27,12 +26,9 @@ Map<String, screenmodule.Screen> myScreens = {
 @CustomTag('memento-app')
 class MementoApp extends PolymerElement {
 
-  /**
-   * TODO
-   */
   @published String pageName;
-  Map<String, screenmodule.Screen> get screens => myScreens;
-  @observable screenmodule.Screen myScreen = null;
+  @observable screenmodule.ScreenModule myScreen = null;
+  Map<String, screenmodule.ScreenModule> get screens => myScreens;
   var router;
   Index _index = Index.get();
   MementoSettings settings = MementoSettings.get();
@@ -56,13 +52,10 @@ class MementoApp extends PolymerElement {
     });
     router.root.addRoute(name: 'home', defaultRoute: true, path: '', enter: showHome);
     router.listen();
-    
-    //TODO 
-    //Index index = new Index();
   }
 
   /**
-   * TODO
+   * Show Home 
    */
   void showHome(RouteEvent e) {
     this.myScreen = null;
@@ -76,7 +69,7 @@ class MementoApp extends PolymerElement {
   }
 
   /**
-   * TODO
+   * When the screen is changed
    */
   void myScreenChanged() {
     $['myScreen'].children..clear();

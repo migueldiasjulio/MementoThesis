@@ -8,7 +8,7 @@ import 'dart:core';
 class Index {
   
   static Index _instance;
-  MementoSettings settings = MementoSettings.get();
+  MementoSettings _settings = MementoSettings.get();
 
   /**
    * Singleton
@@ -35,23 +35,28 @@ class Index {
    */ 
   static Index get() {
     if (_instance == null) {
+      print("Index instance created!");
       _instance = new Index._();
     }
+    print("Got Index instance!");
     return _instance;
   }
   
   void defineFirstX(){
    //TODO
     print("Defining first X algorithm");
+    _settings.setFunction("FIRSTX");
   }
   
   void defineRandom(){
     //TODO
     print("Defining random algorithm");
+    _settings.setFunction("RANDOM");
   }
   
   void defineHierarchical(){
     //TODO
     print("Defining hierachical algorithm");
+    _settings.setFunction("HIERARCHICAL");
   }
 }

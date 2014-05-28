@@ -5,7 +5,7 @@ import 'FunctionChoosed.dart' as Function;
 class MementoSettings {
 
   static MementoSettings _instance;
-  var _function;
+  var _function = Function.FunctionChoosed.FIRSTX;
 
   /**
    * Singleton
@@ -17,8 +17,10 @@ class MementoSettings {
    */ 
   static MementoSettings get() {
     if (_instance == null) {
-      _instance = new MementoSettings._();
+      print("Memento Settings instance created!");
+      _instance = new MementoSettings._(); 
     }
+    print("Got Memento Settings instance!");
     return _instance;
   }
   
@@ -38,12 +40,21 @@ class MementoSettings {
     switch(functionName){
       case("FIRSTX") :
         _function = Function.FunctionChoosed.FIRSTX;
+      
+        print("");
+        print("Setting function firstx");
         break;
       case("RANDOM") :
         _function = Function.FunctionChoosed.RANDOM;
+      
+        print("");
+        print("Setting function random");
         break;
       case("HIERARCHICAL") :
         _function = Function.FunctionChoosed.HIERARCHICAL;
+      
+        print("");
+        print("Setting function hierarchical");
         break;
       default: break;
     }
