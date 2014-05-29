@@ -25,12 +25,12 @@ abstract class ScreenModule extends PolymerElement {
   
   ScreenModule.created() : super.created();
   
-  /**
+  /*
    * Run This on start on which screen
    */
   void runStartStuff() {} 
   
-  /**
+  /*
    * Store the root router and return the mountFn
    */
   mount(String path, Router router) {
@@ -39,30 +39,37 @@ abstract class ScreenModule extends PolymerElement {
     return setupRoutes;
   }
 
-  /**
+  /*
    * Setup routes is @overrrided in which screen
    */
   void setupRoutes(Route route);
 
-  /**
+  /*
    * Navigate between screens
    */
   navigate(event, detail, target) {
      router.go("${target.dataset["target"]}", {});
   }
 
-  /**
+  /*
    * Go Home
    */
   goHome() {
     router.go("home", {});
   }
 
-  /**
+  /*
    * Go Root
    */
   goRoot() {
     router.go(path, {});
+  }
+  
+  /*
+   * 
+   */ 
+  void sortPhotos(){
+    //TODO need to complete this
   }
 }
 
@@ -388,7 +395,7 @@ abstract class SpecialScreen extends ScreenModule {
            this.atExcluded = signal;
            break;
          default: break;
-       } 
+    } 
   }
   
   /**

@@ -2,17 +2,17 @@ library allPhotos;
 
 import 'dart:html';
 import 'dart:core';
+import 'dart:async';
 import 'package:polymer/polymer.dart';
+export "package:polymer/init.dart";
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
 import '../../core/Thumbnail.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
-import 'dart:async';
-export "package:polymer/init.dart";
 
-/**
- * TODO
+/*
+ * All Photos Screen class
  */
 @CustomTag(AllPhotos.TAG)
 class AllPhotos extends screenhelper.Screen {
@@ -27,6 +27,7 @@ class AllPhotos extends screenhelper.Screen {
   Modal loading;
 
   InputElement _fileInput;
+  
   FileReader _reader;
 
   Element _dropZone;
@@ -35,17 +36,13 @@ class AllPhotos extends screenhelper.Screen {
   @observable String numberOfPhotosDefined = "20";
   Element startSummary;
 
-  /**
+  /*
    *     Photo database
    */
   final List<String> photoSources = toObservable([]);
   final List<Thumbnail> thumbnails = toObservable([]);
 
-  /**
-   * TODO
-   */
   AllPhotos.created() : super.created(){
-
     Modal.use();
     Transition.use();
     modal = Modal.wire($['modal']);
@@ -63,13 +60,17 @@ class AllPhotos extends screenhelper.Screen {
     _dropZone.onDrop.listen(_onDrop);
   }
 
+  /*
+   * Entering View
+   */ 
   @override
   void enteredView() {
     super.enteredView();
   }
 
-  /**
-   * TODO
+  /*
+   * Setup Routes
+   * @param route - Route
    */
   @override
    void setupRoutes(Route route) {
@@ -79,13 +80,14 @@ class AllPhotos extends screenhelper.Screen {
         enter: home);
    }
 
-  /**
-   * TODO
+  /*
+   * Home
    */
   home(_) {}
 
-  /**
-   * Input photos
+  /*
+   * On drag over
+   * @param event - MouseEvent
    */
    void _onDragOver(MouseEvent event) {
      event
@@ -94,8 +96,9 @@ class AllPhotos extends screenhelper.Screen {
      ..dataTransfer.dropEffect = 'copy';
    }
 
-   /**
-    * TODO
+   /*
+    * On Drop (drop zone)
+    * @param event - MouseEvent 
     */
    void _onDrop(MouseEvent event) {
      event..stopPropagation()..preventDefault();
@@ -104,18 +107,17 @@ class AllPhotos extends screenhelper.Screen {
      closeAndUpdateNumber();
    }
 
-   /**
-    * TODO
+   /*
+    * On file Input
     */
    void _onFileInputChange() {
      _onFilesSelected(_fileInput.files);
      closeAndUpdateNumber();
    }
 
-   /**
+   /*
     * Future so import and modal can run at the same time
     */
-
    Future getData(var photoFiles){
      var completer = new Completer();
      var workToDo = photoFiles.forEach((file) {
@@ -129,18 +131,17 @@ class AllPhotos extends screenhelper.Screen {
                             });
                             reader.readAsDataUrl(file);
                    });
-
      completer.complete(workToDo);
      return completer.future;
-
    }
 
    void _onFilesSelected(List<File> files) {
-
+     
      var photoFiles = files.where((file) => file.type.startsWith('image'));
+     this.numberOfPhotosDefined = (this.thumbnails.length + photoFiles.length).toString();
 
      //photos.addAll(photoFiles);
-/*
+      /*
      //RUN THIS
      Future future = getData(photoFiles);
      //THEN
@@ -150,6 +151,7 @@ class AllPhotos extends screenhelper.Screen {
 
      //TODO Modal loading
      showLoading();
+     ImageElement image;
 
      photoFiles.forEach((file) {
                                  FileWriter writer;
@@ -164,40 +166,42 @@ class AllPhotos extends screenhelper.Screen {
                         } );
    }
 
+   /*
+    * When all files were uploaded update the number
+    * of thumbnails.size so the user can create a 
+    * new summary
+    */ 
    void closeAndUpdateNumber(){
      hiddeLoading();
-     String thumbSize = this.thumbnails.length.toString();
-     numberOfPhotosDefined = thumbSize;
    }
 
-
-   /**
-    *
+   /*
+    * Show upload photos loading modal
     */
    void show(){
      modal.show();
    }
 
-   /**
-    *
+   /*
+    *Show loading modal creating a summary
     */
    void showLoading(){
      loading.show();
    }
 
-   /**
-    *
+   /*
+    * Hide loading modal creating a summary
     */
    void hiddeLoading(){
      loading.hide();
    }
 
-   /**
-    *
+   /*
+    * Increment number of summary photos 
     */
    void incSummaryNumber(){
      int auxiliar = int.parse(numberOfPhotosDefined);
-     if(auxiliar == thumbnails.length){
+     if(auxiliar == this.thumbnails.length){
        this.numberOfPhotosDefined = auxiliar.toString();
      } else{
        auxiliar++;
@@ -205,7 +209,7 @@ class AllPhotos extends screenhelper.Screen {
      }
    }
 
-   /**
+   /*
     *
     */
    void subSummaryNumber(){
@@ -218,8 +222,8 @@ class AllPhotos extends screenhelper.Screen {
      }
    }
 
-   /**
-    * TODO
+   /*
+    * 
     */
    void runStartStuff(){}
 
@@ -249,13 +253,5 @@ class AllPhotos extends screenhelper.Screen {
      router.go("summary-done", {});
      modal.hide();
    }
-
-   /**
-    * TODO
-    */
-   void cleaner(){
-     //thumbnails.clear();
-   }
-
 
 }///allPhotos

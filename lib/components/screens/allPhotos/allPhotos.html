@@ -65,15 +65,31 @@
             <div style="float: right">
               <div class="btn-group">
                 <strong style="float: left; margin-top: 3%">Number of photos: </strong> 
+                  <span style="width: 130px" class="input-group">
+                    <span  on-click="{{subSummaryNumber}}" class="input-group-addon bfh-number-btn dec">
+                      <span class="glyphicon glyphicon-chevron-down"></span>
+                    </span>
+                    <input type="text" 
+                           class="form-control bfh-number" 
+                           data-min="1" 
+                           data-max="{{thumbnails.length}}" 
+                           data-wrap="true"
+                           id="numberPhotos"
+                           value="{{numberOfPhotosDefined}}">
+                    <span on-click="{{incSummaryNumber}}" class="input-group-addon bfh-number-btn">
+                      <span class="glyphicon glyphicon-chevron-up"></span>
+                    </span>
+                  </span>
+                <!--
                 <div class="input-group">
                   <span on-click="{{subSummaryNumber}}" class="glyphicon glyphicon-minus input-group-addon"></span>
                   <input id="numberOfPhotos"
                   style="width: 70px;" class="form-control" type="text" value="{{numberOfPhotosDefined}}" >
                   <span on-click="{{incSummaryNumber}}" class="glyphicon glyphicon-plus input-group-addon"></span>
                 </div>
+                -->
               </div>
-              
-              
+               
               <div class="btn-group">
                 <button id="startSummary" type="button"
                   on-click="{{buildSummary}}" style="width: 130px"

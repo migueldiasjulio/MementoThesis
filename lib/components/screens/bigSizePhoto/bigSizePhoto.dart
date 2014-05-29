@@ -20,6 +20,8 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   Element _name;
   @published Thumbnail thumbToDisplay = null;
   Thumbnail get thumbnailDisplay => thumbToDisplay;
+  
+  final List<Thumbnail> thumbnailsToShow = toObservable([]);
 
   @observable bool moving = false;
 
@@ -87,5 +89,20 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    */
   void moveToFromBools(){
     moving = true;
+  }
+  
+  void showSummaryPhotos(){
+    this.thumbnailsToShow.clear();
+    this.thumbnailsToShow.addAll(this.thumbnailsSummary);
+  }
+  
+  void showStandByPhotos(){
+    this.thumbnailsToShow.clear();
+    this.thumbnailsToShow.addAll(this.thumbnailsStandBy);
+  }
+  
+  void showExcludedPhotos(){
+    this.thumbnailsToShow.clear();
+    this.thumbnailsToShow.addAll(this.thumbnailsExcluded);
   }
 }

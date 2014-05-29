@@ -49,14 +49,35 @@
   </section>
   <!-- firstSection -->
 
-  <div id="screenFooter" style="height: 6%"> <!-- screen footer -->
+  <div id="screenFooter" style="height: 30%; margin-top: 4%;"> <!-- screen footer -->
     <form class="form-inline" role="form"> <!-- form -->
       <div class="row"> <!-- main row -->
-        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-2">
+          <div class="row" id="containers"> 
+            <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button on-click="{{showSummaryPhotos}}" style="width: 100%; height: 40px" class="btn btn-green">
+                  Summary
+                  <span id="SummaryNumber" class="badge">{{thumbnailsSummary.length}}</span>
+                </button>  
+            </div>
+            <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">       
+                <button on-click="{{showStandByPhotos}}" style="width: 100%; height: 40px" class="btn btn-orange">
+                  Stand-by
+                  <span id="standByNumber" class="badge">{{thumbnailsStandBy.length}}</span>
+                </button>
+            </div>
+            <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button on-click="{{showExcludedPhotos}}" style="width: 100%; height: 40px" class="btn btn-red">
+                  Excluded
+                  <span id="excludedNumber" class="badge">{{thumbnailsExcluded.length}}</span>
+                </button>
+            </div>
+          </div>
           <!-- containers here -->
         </div> <!-- first main column -->
-        <div class="col col-xs-9 col-sm-9 col-md-9 col-lg-9">
+        <div class="col col-xs-9 col-sm-9 col-md-9 col-lg-10">
           <div class="row">
+            Ola
             <!-- buttons here -->
           </div> <!-- first row -->
           <div class="row">
