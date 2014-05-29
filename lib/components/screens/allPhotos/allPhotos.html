@@ -55,9 +55,15 @@
     <div class="row">
              
       <div class="col col-lg-4">
-      <input  class="btn btn-summary" style="width: 130px" type="file" 
-                id="files" name="files[]"
-                multiple/>    
+      <!--
+        <button on-click="{{}}" style="width: 130px;" class="btn btn-summary">
+        Add Photos
+        </button>
+        -->
+        
+        <input class="btn btn-summary" style="width: 130px" type="file" 
+                  id="files" name="files[]"
+                  multiple/>    
        </div>
        <div class="col col-lg-8"> 
          
@@ -80,29 +86,16 @@
                       <span class="glyphicon glyphicon-chevron-up"></span>
                     </span>
                   </span>
-                <!--
-                <div class="input-group">
-                  <span on-click="{{subSummaryNumber}}" class="glyphicon glyphicon-minus input-group-addon"></span>
-                  <input id="numberOfPhotos"
-                  style="width: 70px;" class="form-control" type="text" value="{{numberOfPhotosDefined}}" >
-                  <span on-click="{{incSummaryNumber}}" class="glyphicon glyphicon-plus input-group-addon"></span>
-                </div>
-                -->
-              </div>
-               
+              </div>  
               <div class="btn-group">
                 <button id="startSummary" type="button"
                   on-click="{{buildSummary}}" style="width: 130px"
                   class="btn btn-summary btn-md">
                   Start Summary</button>
               </div>
-      
-              <!-- convertToInt(numberOfPhotosDefined) -->
             </div>
           </template>
-        
-        </div>     
-      
+        </div>        
       </div> <!-- row -->
       <!-- right side -->
     </form>

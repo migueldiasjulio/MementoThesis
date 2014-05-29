@@ -22,13 +22,11 @@
       <h5 style="text-align:center">{{thumbToDisplay.title}}</h5>
     </div><!-- bigSizeImage here -->
 
-    <div style="height: 6%">
-
+    <div id="categories">
       <div id="line">
         <hr style="border-top: 1px solid #35302c">
       </div>
-
-      <div id="categories">
+      <div id="placeCategories">
         <form class="form-inline" role="form">
           <!-- this gonna be dynamic -->
           <div class="row">
@@ -39,61 +37,101 @@
           </div>
         </form>
       </div>
-
       <div id="line">
         <hr style="border-top: 1px solid #35302c">
       </div>
-
     </div>
-
   </section>
   <!-- firstSection -->
 
-  <div id="screenFooter" style="height: 30%; margin-top: 4%;"> <!-- screen footer -->
-    <form class="form-inline" role="form"> <!-- form -->
-      <div class="row"> <!-- main row -->
-        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-2">
-          <div class="row" id="containers"> 
-            <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <button on-click="{{showSummaryPhotos}}" style="width: 100%; height: 40px" class="btn btn-green">
-                  Summary
-                  <span id="SummaryNumber" class="badge">{{thumbnailsSummary.length}}</span>
-                </button>  
-            </div>
-            <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">       
-                <button on-click="{{showStandByPhotos}}" style="width: 100%; height: 40px" class="btn btn-orange">
-                  Stand-by
-                  <span id="standByNumber" class="badge">{{thumbnailsStandBy.length}}</span>
-                </button>
-            </div>
-            <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <button on-click="{{showExcludedPhotos}}" style="width: 100%; height: 40px" class="btn btn-red">
-                  Excluded
-                  <span id="excludedNumber" class="badge">{{thumbnailsExcluded.length}}</span>
-                </button>
-            </div>
-          </div>
-          <!-- containers here -->
-        </div> <!-- first main column -->
-        <div class="col col-xs-9 col-sm-9 col-md-9 col-lg-10">
-          <div class="row">
-            Ola
-            <!-- buttons here -->
-          </div> <!-- first row -->
-          <div class="row">
-            <!-- Photos here -->
-          </div> <!-- second row -->
-        </div> <!-- second main column -->
-      </div> <!-- main row -->
-
-      <template if="{{!selection}}"> </template>
-      <!-- normal state -->
-
-      <template if="{{selection}}"> </template>
-      <!-- select state -->
-
-    </form> <!-- form -->
-  </div> <!-- screen footer -->
+  <section id="screenFooter"> <!-- screen footer -->
+    <div class="row" id="mainRow">
+      <div class="col col-lg-2" id="leftColumn">
+        <button on-click="{{showSummaryPhotos}}" style="width: 100%; height: 32%" class="btn btn-green">
+          Summary
+          <span id="SummaryNumber" class="badge">{{thumbnailsSummary.length}}</span>
+        </button>
+        <button on-click="{{showStandByPhotos}}" style="width: 100%; height: 32%" class="btn btn-orange">
+          Stand-by
+          <span id="SummaryNumber" class="badge">{{thumbnailsStandBy.length}}</span>
+        </button>
+        <button on-click="{{showExcludedPhotos}}" style="width: 100%; height: 32%" class="btn btn-red">
+          Excluded
+          <span id="SummaryNumber" class="badge">{{thumbnailsExcluded.length}}</span>
+        </button>
+      </div>
+      <div class="col col-lg-10">
+        <div class="row" id="topRightRow">
+          <div class="col col-lg-12">
+            <template if="{{!selection}}"> 
+              <div style="float: right;">
+                <div class="btn-group">
+                  <button id="selectPhotos" type="button"
+                    on-click="{{enableSelection}}" style="width: 90px"
+                    class="btn btn-summary btn-md">
+                    Select
+                  </button>
+                </div>
+              </div>
+            </template> 
+            <template if="{{selection}}">
+              <div style="float: right;">
+                <div class="btn-group">
+                  <button id="selectPhotos" type="button"
+                    on-click="{{disableSelection}}" style="width: 90px"
+                    class="btn btn-summary btn-md">
+                    Cancel
+                  </button>
+                </div>
+              </div> 
+            </template>
+            <template if="{{selectedPhotos.length > 0}}">
+              <div style="float: left;">
+                <div class="btn-group">
+                  <button id="selectPhotos" type="button"
+                    on-click="{{disableSelection}}" style="width: 90px"
+                    class="btn btn-summary btn-md">
+                    Move to
+                  </button>
+                </div>
+              </div> 
+            </template>  
+          </div> 
+        </div> <!-- topRightRow -->
+        <div class="row" id="bottomRightRow">
+          <div class="col col-lg-12" id="photosDiv">
+            <div id="showPhotosHere">
+              Photos here
+            </div> 
+            <template if="{{moving}}">
+                <div class="btn-group">
+                  <template if={{atSummary}}>
+                    <img src="../../../resources/images/summary_disabled.png" style="width: 30px; height: 30px;" >
+                  </template>
+                  <template if={{!atSummary}}>
+                    <img src="../../../resources/images/summary_2.png" on-click="{{moveToSummary}}" style="width: 30px; height: 30px;" >
+                  </template>
+                  
+                  <template if={{atStandBy}}>
+                    <img src="../../../resources/images/standby_disabled.png" style="width: 30px; height: 30px;" >
+                  </template>
+                  <template if={{!atStandBy}}>
+                    <img src="../../../resources/images/standby_2.png" on-click="{{moveToStandBy}}" style="width: 30px; height: 30px;" >
+                  </template>
+    
+                  <template if={{atExcluded}}>
+                    <img src="../../../resources/images/excluded_disabled.png" style="width: 30px; height: 30px;" >
+                  </template>
+                  <template if={{atExcluded}}>
+                    <img src="../../../resources/images/excluded.png" on-click="{{moveToExcluded}}" style="width: 30px; height: 30px;" >
+                  </template>  
+                </div>
+            </template> 
+        </div>
+      </div> 
+     </div> 
+    </div>   
+  </section> <!-- screen footer -->
 </div><!-- main --> 
 </template> <!-- main template -->
 <script type="application/dart" src="bigSizePhoto.dart"></script> 
