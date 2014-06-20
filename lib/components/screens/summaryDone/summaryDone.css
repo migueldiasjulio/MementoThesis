@@ -7,8 +7,23 @@
   height: 100%;
 }
 
+#bottomZone{
+  border-top: 1px solid #8A949B;
+  border-bottom: 1px solid #8A949B;
+  background: #D1D2D5;
+  height: 91px;
+}
+
+#categories{
+  border-bottom: 1px solid #8A949B;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
 #firstSection{
-  height: 90%;
+  height: calc(100% - 90px);
+  padding: 10px;
 }
 
 #tabs{
@@ -73,7 +88,6 @@ background-color:yellow;
   border-color: #444444;
 }
 
-
 .btn-summary:active,
 .btn-summary.active,
 .open .dropdown-toggle..btn-summary{
@@ -110,6 +124,3 @@ fieldset[disabled] .btn-summary.active {
 #excludedLabel {
   border-radius:3px;
 }
-
-
-

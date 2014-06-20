@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="bigSizePhoto.css">
 <link rel="stylesheet" href="../resources/tabion-css.css">
 
-<div id="main" class="container">
+<div id="main">
   <section id="firstSection">
     <div id="bigSizeImage">
       <div class="row" id="photoArea">
@@ -21,11 +21,12 @@
         </div><!-- right side -->
       <h5 style="text-align:center">{{thumbToDisplay.title}}</h5>
     </div><!-- bigSizeImage here -->
+  </section>
+  <!-- firstSection -->
 
+  <section id="screenFooter"> <!-- screen footer -->
+  
     <div id="categories">
-      <div id="line">
-        <hr style="border-top: 1px solid #35302c">
-      </div>
       <div id="placeCategories">
         <form class="form-inline" role="form">
           <!-- this gonna be dynamic -->
@@ -37,25 +38,19 @@
           </div>
         </form>
       </div>
-      <div id="line">
-        <hr style="border-top: 1px solid #35302c">
-      </div>
     </div>
-  </section>
-  <!-- firstSection -->
-
-  <section id="screenFooter"> <!-- screen footer -->
+    
     <div class="row" id="mainRow">
       <div class="col col-lg-2" id="leftColumn">
-        <button on-click="{{showSummaryPhotos}}" style="width: 100%; height: 32%" class="btn btn-green">
+        <button on-click="{{showSummaryPhotos}}" style="width: 100%; height: 70px" class="btn btn-green">
           Summary
           <span id="SummaryNumber" class="badge">{{thumbnailsSummary.length}}</span>
         </button>
-        <button on-click="{{showStandByPhotos}}" style="width: 100%; height: 32%" class="btn btn-orange">
+        <button on-click="{{showStandByPhotos}}" style="width: 100%; height: 71px" class="btn btn-orange">
           Stand-by
           <span id="SummaryNumber" class="badge">{{thumbnailsStandBy.length}}</span>
         </button>
-        <button on-click="{{showExcludedPhotos}}" style="width: 100%; height: 32%" class="btn btn-red">
+        <button on-click="{{showExcludedPhotos}}" style="width: 100%; height: 71px" class="btn btn-red">
           Excluded
           <span id="SummaryNumber" class="badge">{{thumbnailsExcluded.length}}</span>
         </button>

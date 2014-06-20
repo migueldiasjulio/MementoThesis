@@ -1,9 +1,9 @@
 <polymer-element name="all-photos">
 <template>
   <link rel="stylesheet" href="allPhotos.css">
-  <div id="main" class="container" style="height: 100%">
+  <div id="main" style="height: 100%">
 
-  <section id="firstSection" style="height: 87%">
+  <section id="firstSection" style="height: calc(100% - 70px); padding: 10px">
 
       <div id="drop-zone" style="height:100%">
       
@@ -14,7 +14,8 @@
             <small id="helpMessage2"> or press
               <button id="addPhotos" type="button"
                      style="width: 130px;" 
-                     class="btn btn-summary btn-md" disabled>Add Photos</button>
+                     class="btn btn-summary btn-md"
+                     on-click="{{openFileUploader}}">Add Photos</button>
             </small>
           </div>
           <div id="nothing" style="height: 40%"></div> <!-- Just space -->
@@ -44,26 +45,24 @@
   </section>
   <!-- firstSection -->
 
-  <div id="line" style="height: 0.5%">
-    <hr style="border-top: 1px solid #35302c">
-  </div>
-
-  <div id="screenFooter" style="height: 6%">
-      
+  <div id="screenFooter">
+    
+    <div style="padding:10px"> 
+     
     <form class="form-inline" role="form">
     
     <div class="row">
              
       <div class="col col-lg-4">
-      <!--
-        <button on-click="{{}}" style="width: 130px;" class="btn btn-summary">
-        Add Photos
-        </button>
-        -->
+      
+      <button on-click="{{openFileUploader}}" 
+              class="btn btn-summary" style="width: 130px">Add Photos
+      </button>
         
-        <input class="btn btn-summary" style="width: 130px" type="file" 
-                  id="files" name="files[]"
-                  multiple/>    
+        <div style="height: 0px; width: 0px; overflow: hidden;">
+          <input type="file" id="files" name="files[]" multiple />
+        </div>
+          
        </div>
        <div class="col col-lg-8"> 
          
@@ -138,9 +137,7 @@
   </div>
   </div>
   <!-- modal -->
-  
-
-
+</div>
 </div>
 </div>
 <!-- main --> 

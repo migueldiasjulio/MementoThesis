@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="summaryDone.css">
 <link rel="stylesheet" href="../resources/tabion-css.css">
 
-<div id="main" class="container">
+<div id="main">
   <section id="firstSection">
     <div id="tabs"> 
       <ul id="tabion" class="tabion">
@@ -121,134 +121,128 @@
         </li>
         <!-- End Tab 3 -->
       </ul>
-
     </div>
     <!-- tabs here -->
-    
-   <div id="line" style="height: 0,5%">
-    <hr style="border-top: 1px solid #35302c">
-  </div>
-  
-  <div id="categories" style="height: 6%">
-    <form class="form-inline" role="form"> <!-- this gonna be dynamic -->
-      <div class="row">
-        <div class="col col-lg-1">Categories</div>
-        <div class="col col-lg-8 col-lg-offset-3">
-         <!--  <img src="resources/images/facebook.png" style="width: 25px; height: 25px" />  -->
-          <template> 
-            <!-- insert categories -->
-          </template>
-      </div>
-        
-      </div>
-    </form>
-  </div>
   
   </section>
   <!-- firstSection -->
-
-  <div id="line" style="height: 0.5%">
-    <hr style="border-top: 1px solid #35302c">
-  </div>
-
-  <div id="screenFooter" style="height: 6%"> <!-- screen footer -->
-   <form class="form-inline" role="form"> <!-- form -->
-   
-      <template if="{{!selection}}">
-        <div style="float: left" class="btn-group">
-          <button type="button" style="width: 120px;"
-          on-click="{{enableSelection}}"
-            class="btn btn-summary btn-md">Select</button>
-        </div>
-        <template if="{{thumbnailsSummary.length > 0}}">
-        <div style="float: right" class="btn-group">
-          <button id="export" type="button" on-click="{{exportSummary}}"
-            style="width: 120px" class="btn btn-summary btn-md">Export</button>
-        </div>
-        </template>
-     </template> <!-- normal state -->
-
-      <template if="{{selection}}">
+  
+  <section id="bottomZone"> 
+    
+    <div id="categories">
+      <form class="form-inline" role="form"> <!-- this gonna be dynamic -->
         <div class="row">
-          <div class="col col-xs-5 col-sm-4 col-md-3 col-lg-2">
-            <div style="float: left" class="btn-group">
-              <button type="button" style="width: 120px;"
-              on-click="{{disableSelection}}"
-                class="btn btn-summary btn-md">Cancel</button>
-            </div>
-          </div>
-          <div class="col col-xs-7 col-sm-8 col-md-9 col-lg-7 col-lg-offset-3">
-            <template if="{{selectedPhotos.length > 0}}">
-              <div class="btn-group">
-
-              <template if={{atSummary}}>
-                <img src="../../../resources/images/summary_disabled.png" style="width: 30px; height: 30px;" >
-              </template>
-              <template if={{!atSummary}}>
-                <img src="../../../resources/images/summary_2.png" on-click="{{moveToSummary}}" style="width: 30px; height: 30px;" >
-              </template>
-              
-              <template if={{atStandBy}}>
-                <img src="../../../resources/images/standby_disabled.png" style="width: 30px; height: 30px;" >
-              </template>
-              <template if={{!atStandBy}}>
-                <img src="../../../resources/images/standby_2.png" on-click="{{moveToStandBy}}" style="width: 30px; height: 30px;" >
-              </template>
-
-              <template if={{atExcluded}}>
-                <img src="../../../resources/images/excluded_disabled.png" style="width: 30px; height: 30px;" >
-              </template>
-              <template if={{atExcluded}}>
-                <img src="../../../resources/images/excluded.png" on-click="{{moveToExcluded}}" style="width: 30px; height: 30px;" >
-              </template>
-              
-              </div>
-            </template> <!-- container to move -->  
-          </div> 
-        </div>    
-      </template> <!-- select state -->
-
-    </form> <!-- form -->
-  </div> <!-- screen footer -->
-
-  <div id="exportMenu" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 id="modalTitle" style="margin: 0">Export your summary.</h4>
+          <div class="col col-lg-1">Categories</div>
+          <div class="col col-lg-8 col-lg-offset-3">
+           <!--  <img src="resources/images/facebook.png" style="width: 25px; height: 25px" />  -->
+            <template> 
+              <!-- insert categories -->
+            </template>
         </div>
-        <div class="modal-body">
-        <h5>Choose a destination:</h5>
+          
+        </div>
+      </form>
+    </div>
+  
+    <div id="screenFooter" style="padding:10px"> <!-- screen footer -->
+     <form class="form-inline" role="form"> <!-- form -->
+     
+        <template if="{{!selection}}">
+          <div style="float: left" class="btn-group">
+            <button type="button" style="width: 120px;"
+            on-click="{{enableSelection}}"
+              class="btn btn-summary btn-md">Select</button>
+          </div>
+          <template if="{{thumbnailsSummary.length > 0}}">
+          <div style="float: right" class="btn-group">
+            <button id="export" type="button" on-click="{{exportSummary}}"
+              style="width: 120px" class="btn btn-summary btn-md">Export</button>
+          </div>
+          </template>
+       </template> <!-- normal state -->
+  
+        <template if="{{selection}}">
           <div class="row">
-            <div id="hardDrive" class="col col-xs-4 col-xs-offset-2 
-                            col-sm-4 col-sm-offset-2 
-                            col-md-4 col-md-offset-2 
-                            col-lg-4 col-lg-offset-2">
-              <div>      
-                <img src="../../../resources/images/own_device.png" style="width: 100px; height: 100px" />
-                <br/>
-                <br/>
-                <strong id="myDeviceDownload"></strong>
+            <div class="col col-xs-5 col-sm-4 col-md-3 col-lg-2">
+              <div style="float: left" class="btn-group">
+                <button type="button" style="width: 120px;"
+                on-click="{{disableSelection}}"
+                  class="btn btn-summary btn-md">Cancel</button>
               </div>
             </div>
-            <div id="hardDrive" class="col col-xs-6 
-                                           col-sm-6 
-                                           col-md-6 
-                                           col-lg-6">
-              <div>
-                <img src="../../../resources/images/facebook.png" style="width: 100px; height: 100px" />
-                <br/>
-                <br/>
-                <strong id="facebookExport"></strong>
+            <div class="col col-xs-7 col-sm-8 col-md-9 col-lg-7 col-lg-offset-3">
+              <template if="{{selectedPhotos.length > 0}}">
+                <div class="btn-group">
+  
+                <template if={{atSummary}}>
+                  <img src="../../../resources/images/summary_disabled.png" style="width: 30px; height: 30px;" >
+                </template>
+                <template if={{!atSummary}}>
+                  <img src="../../../resources/images/summary_2.png" on-click="{{moveToSummary}}" style="width: 30px; height: 30px;" >
+                </template>
+                
+                <template if={{atStandBy}}>
+                  <img src="../../../resources/images/standby_disabled.png" style="width: 30px; height: 30px;" >
+                </template>
+                <template if={{!atStandBy}}>
+                  <img src="../../../resources/images/standby_2.png" on-click="{{moveToStandBy}}" style="width: 30px; height: 30px;" >
+                </template>
+  
+                <template if={{atExcluded}}>
+                  <img src="../../../resources/images/excluded_disabled.png" style="width: 30px; height: 30px;" >
+                </template>
+                <template if={{atExcluded}}>
+                  <img src="../../../resources/images/excluded.png" on-click="{{moveToExcluded}}" style="width: 30px; height: 30px;" >
+                </template>
+                
+                </div>
+              </template> <!-- container to move -->  
+            </div> 
+          </div>    
+        </template> <!-- select state -->
+  
+      </form> <!-- form -->
+    </div> <!-- screen footer -->
+   </section>
+  
+    <div id="exportMenu" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 id="modalTitle" style="margin: 0">Export your summary.</h4>
+          </div>
+          <div class="modal-body">
+          <h5>Choose a destination:</h5>
+            <div class="row">
+              <div id="hardDrive" class="col col-xs-4 col-xs-offset-2 
+                              col-sm-4 col-sm-offset-2 
+                              col-md-4 col-md-offset-2 
+                              col-lg-4 col-lg-offset-2">
+                <div>      
+                  <img src="../../../resources/images/own_device.png" style="width: 100px; height: 100px" />
+                  <br/>
+                  <br/>
+                  <strong id="myDeviceDownload"></strong>
+                </div>
+              </div>
+              <div id="hardDrive" class="col col-xs-6 
+                                             col-sm-6 
+                                             col-md-6 
+                                             col-lg-6">
+                <div>
+                  <img src="../../../resources/images/facebook.png" style="width: 100px; height: 100px" />
+                  <br/>
+                  <br/>
+                  <strong id="facebookExport"></strong>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- modal -->
+    <!-- modal -->
 
 </div>
 <!-- main --> 

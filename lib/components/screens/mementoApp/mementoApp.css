@@ -15,7 +15,7 @@
 }
 
 .jumbotron {
-  background-color: #cbcbcb; /*#bdb8ad;*/
+  background-color: #F0F0F0; /* #cbcbcb; #bdb8ad;*/
 }
 
 #myScreen {
@@ -27,13 +27,15 @@
 }
 
 #information {
-  margin-bottom: 2%;
+  background: #D1D2D5;
+  height: 26%; 
+  margin-bottom: 10px; 
 }
 
 .btn-summary {
   color: #ffffff;
-  background-color: #70d0a7;
-  border-color: #70d0a7;
+  background-color: #28B78D;
+  border-color: #28B78D;
 }
 
 .btn-summary:hover,
@@ -42,8 +44,8 @@
 .btn-summary.active,
 .open .dropdown-toggle..btn-summary {
   color: #ffffff;
-  background-color: #70d0a7;
-  border-color: #70d0a7;
+  background-color: #28B78D;
+  border-color: #28B78D;
 }
 
 
@@ -68,11 +70,11 @@ fieldset[disabled] .btn-summary:active,
 .btn-summary.disabled.active,
 .btn-summary[disabled].active,
 fieldset[disabled] .btn-summary.active {
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  background-color: #28B78D;
+  border-color: #28B78D;
 }
 
 .btn-summary .badge {
-  color: #5cb85c;
+  color: #28B78D;
   background-color: #fff;
 } 

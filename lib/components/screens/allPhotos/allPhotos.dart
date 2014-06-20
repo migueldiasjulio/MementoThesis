@@ -239,19 +239,26 @@ class AllPhotos extends screenhelper.Screen {
       //HIDDE LOADING WINDOW
     }
 
-    /**
+    /*
      *
      */
     void addPhotosToDataBase(){
       myDataBase.addNewElementsToDataBase(photoSources, thumbnails);
     }
 
-    /**
+    /*
      *
      */
    void goSummary(){
      router.go("summary-done", {});
      modal.hide();
+   }
+   
+   /*
+    * Open file uploader
+    */
+   void openFileUploader(){
+     _fileInput.click();
    }
 
 }///allPhotos

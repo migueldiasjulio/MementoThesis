@@ -6,7 +6,7 @@ body {
   font-size: 14px;
   font-weight: normal;
   line-height: 1.2em;
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 20px;
   overflow: hidden;
 }
@@ -25,8 +25,6 @@ h1, p {
 #container-id {
   width: 100%;
   position: relative;
-  border: 1px solid #ccc;
-  background-color: #cbcbcb;
-  border-radius:3px;
+  background-color: #F0F0F0;
   overflow: hidden;
 }
