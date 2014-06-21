@@ -34,6 +34,7 @@
 img[selected="true"]
 { 
 background-color:yellow;
+border: 2px solid yellow;
 }
 
 #tabion {

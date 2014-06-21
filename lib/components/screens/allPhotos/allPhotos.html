@@ -25,16 +25,14 @@
   
         <div class="row" id="mainRow" style="height:100%; overflow-y: scroll">
          <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">
-                   
-            <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
-                id="{{thumbnail.title}}">
-                <img src="{{thumbnail.src}}"
-                width="140" 
-                height="140"
-                class="img-thumbnail">
-            </div>
-                    
+            <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">      
+              <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
+                  id="{{thumbnail.title}}">
+                  <img src="{{thumbnail.src}}"
+                  width="140" 
+                  height="140"
+                  class="img-thumbnail">
+              </div>                  
             </template> 
          </div> 
        </div> 
