@@ -85,7 +85,6 @@ When adjusting the reset is adviced to check up the elements on your page, as th
 	background: #F0F0F0; 
 	position: relative;
 	width: 100%;
-	height: auto;
 	float: left;
 	text-align: left;
 }
@@ -112,24 +111,71 @@ When adjusting the reset is adviced to check up the elements on your page, as th
   float: left;
   z-index: 10;
   opacity: 1;
+  overflow-y: scroll;
   visibility: visible;
+  max-height:100%;
+  padding: 5px;
   border: solid 2px #7FCA9F;
 }
+
+#tabbed input#t-1:checked ~ .wrapper .summary2{
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: scroll;
+  visibility: visible;
+  max-height:168px;
+  padding: 5px;
+  border: solid 2px #7FCA9F;
+}
+
 #tabbed input#t-2:checked ~ .wrapper .standby{
   position: relative;
   float: left;
   z-index: 10;
   opacity: 1;
+  overflow-y: scroll;
   visibility: visible;
+  max-height:100%;
+  padding: 5px;
   border: solid 2px #F4BA70;
 }
+
+#tabbed input#t-2:checked ~ .wrapper .standby2{
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: scroll;
+  visibility: visible;
+  max-height:168px;
+  padding: 5px;
+  border: solid 2px #F4BA70;
+}
+
 #tabbed input#t-3:checked ~ .wrapper .excluded {
 	position: relative;
 	float: left;
 	z-index: 10;
 	opacity: 1;
-	visibility: visible;
+  overflow-y: scroll;
+  visibility: visible;
+  max-height:100%;
+  padding: 5px;
 	border: solid 2px #E96D63;
+}
+
+#tabbed input#t-3:checked ~ .wrapper .excluded2 {
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: scroll;
+  visibility: visible;
+  max-height:168px;
+  padding: 5px;
+  border: solid 2px #E96D63;
 }
 
 /*------------SUMMARY-----------------*/
@@ -409,11 +455,9 @@ When adjusting the reset is adviced to check up the elements on your page, as th
 /***** Titles *****/
 
 #tabbed .title.large {
-	font-size: 28px;
+	font-size: 24px;
 	color: #333;
-	text-transform: uppercase;
-	border-bottom: solid 8px #f0f0f0;
-	padding-bottom: 16px;
+	padding: 16px;
 }
 #tabbed .title.normal {
 	font-size: 24px;

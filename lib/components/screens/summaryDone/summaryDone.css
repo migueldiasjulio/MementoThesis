@@ -7,6 +7,33 @@
   height: 100%;
 }
 
+#tabbed {
+  overflow: hidden;
+  height:100%;
+}
+
+#t-1{
+  display: none; 
+  visibility: hidden; 
+  opacity: 0; 
+}
+
+#t-2{
+  display: none; 
+  visibility: hidden; 
+  opacity: 0; 
+}
+
+#t-3{
+  display: none; 
+  visibility: hidden; 
+  opacity: 0; 
+}
+
+#span{
+  
+}
+
 #bottomZone{
   border-top: 1px solid #8A949B;
   border-bottom: 1px solid #8A949B;
@@ -21,45 +48,32 @@
   padding-left: 10px;
 }
 
+.summary {
+  height: 100%;
+}
+
 #firstSection{
   height: calc(100% - 90px);
   padding: 10px;
+  overflow: hidden;
+}
+
+#wrapperZone {
+  height: 100%;
 }
 
 #tabs{
-  height: 94%; 
-  overflow-x:hidden;
+  height: 100%; 
+  overflow:hidden;
 }
 
 img[selected="true"]
 { 
-background-color:yellow;
-border: 2px solid yellow;
+  border: 2px solid red;
 }
 
 #tabion {
   width: 100%;
-}
-
-#summaryTab,
-#standByTab,
-#excludedTab{
-  width: 100%; 
-  border-radius:3px;    
-  overflow-y: scroll; 
-  overflow-x:hidden;
-}
-
-#summaryTab{
-  border: 2px solid #7FCA9F; 
-}
-
-#standByTab{
-  border: 2px solid #F4BA70; 
-}
-
-#excludedTab{
-  border: 2px solid #E96D63; 
 }
 
 #line {
@@ -75,8 +89,8 @@ border: 2px solid yellow;
 
 .btn-summary {
   color: #ffffff;
-  background-color: #444444;
-  border-color: #444444;
+  background-color: #696969;
+  border-color: #696969;
 }
 
 .btn-summary:hover,
@@ -85,8 +99,8 @@ border: 2px solid yellow;
 .btn-summary.active,
 .open .dropdown-toggle..btn-summary {
   color: #ffffff;
-  background-color: #444444;
-  border-color: #444444;
+  background-color: #696969;
+  border-color: #696969;
 }
 
 .btn-summary:active,
@@ -111,13 +125,19 @@ fieldset[disabled] .btn-summary:active,
 .btn-summary.disabled.active,
 .btn-summary[disabled].active,
 fieldset[disabled] .btn-summary.active {
-  background-color: #444444;
-  border-color: #444444;
+  background-color: #696969;
+  border-color: #696969;
 }
 
 .btn-summary .badge {
-  color: #5cb85c;
+  color: #696969;
   background-color: #fff;
+}
+
+.btn-summary:hover,
+.btn-summary:focus {
+  color: #fff;
+  background-color: #444444;
 }
 
 #standByLabel,

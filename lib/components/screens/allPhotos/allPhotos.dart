@@ -150,7 +150,7 @@ class AllPhotos extends screenhelper.Screen {
        .catchError((e) => print(e));  */
 
      //TODO Modal loading
-     showLoading();
+     //showLoading();
      ImageElement image;
 
      photoFiles.forEach((file) {
@@ -172,7 +172,7 @@ class AllPhotos extends screenhelper.Screen {
     * new summary
     */ 
    void closeAndUpdateNumber(){
-     hiddeLoading();
+     //hiddeLoading();
    }
 
    /*
@@ -258,6 +258,10 @@ class AllPhotos extends screenhelper.Screen {
     * Open file uploader
     */
    void openFileUploader(){
+     _fileInput.click();
+   }
+   
+   void openFileUploader2(){
      _fileInput.click();
    }
 

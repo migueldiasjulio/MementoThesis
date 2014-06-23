@@ -108,7 +108,7 @@ class SummaryDone extends screenhelper.SpecialScreen {
    */
 
   /*
-   *  
+   *  Show image
    */ 
   void showImage(Event event, var detail, var target){
     var nameOfPhoto;

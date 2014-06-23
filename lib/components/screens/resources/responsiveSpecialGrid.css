@@ -1,0 +1,80 @@
+/*
+   CSS-Tricks Example
+   by Chris Coyier
+   http://css-tricks.com
+*/
+
+* { margin: 0; padding: 0; }
+
+#photos {
+  
+   /* Prevent vertical gaps */
+   line-height: 0;
+
+   -webkit-column-count: 5;
+   -webkit-column-gap:   2px;
+   -moz-column-count:    5;
+   -moz-column-gap:      2px;
+   column-count:         5;
+   column-gap:           2px;
+
+}
+#photos img {
+  /* Just in case there are inline attributes */
+  width: 100% !important;
+  max-height: 145px !important;
+
+}
+
+@media (max-width: 1900px) {
+  #photos {
+  -moz-column-count:    13;
+  -webkit-column-count: 13;
+  column-count:         13;
+  }
+}
+
+@media (max-width: 1600px) {
+  #photos {
+  -moz-column-count:    11;
+  -webkit-column-count: 11;
+  column-count:         11;
+  }
+}
+
+@media (max-width: 1400px) {
+  #photos {
+  -moz-column-count:    10;
+  -webkit-column-count: 10;
+  column-count:         10;
+  }
+}
+
+@media (max-width: 1200px) {
+  #photos {
+  -moz-column-count:    8;
+  -webkit-column-count: 8;
+  column-count:         8;
+  }
+}
+@media (max-width: 1000px) {
+  #photos {
+  -moz-column-count:    7;
+  -webkit-column-count: 7;
+  column-count:         7;
+  }
+}
+@media (max-width: 800px) {
+  #photos {
+  -moz-column-count:    5;
+  -webkit-column-count: 5;
+  column-count:         5;
+  }
+}
+@media (max-width: 400px) {
+  #photos {
+  -moz-column-count:    3;
+  -webkit-column-count: 3;
+  column-count:         3;
+  }
+}

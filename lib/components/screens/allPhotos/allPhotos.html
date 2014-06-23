@@ -1,6 +1,8 @@
 <polymer-element name="all-photos">
 <template>
   <link rel="stylesheet" href="allPhotos.css">
+  <link rel="stylesheet" href="../resources/responsiveGrid.css">
+  <link rel="stylesheet" href="../resources/tabbed.css">
   <div id="main" style="height: 100%">
 
   <section id="firstSection" style="height: calc(100% - 70px); padding: 10px">
@@ -23,19 +25,13 @@
         
       <template if="{{thumbnails.length > 0}}">
   
-        <div class="row" id="mainRow" style="height:100%; overflow-y: scroll">
-         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <section id="photos">
             <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">      
-              <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-2"
-                  id="{{thumbnail.title}}">
-                  <img src="{{thumbnail.src}}"
-                  width="140" 
-                  height="140"
-                  class="img-thumbnail">
+              <div class="mementoImage" id="{{thumbnail.title}}">
+                  <img src="{{thumbnail.src}}" style="border-radius: 5px;">
               </div>                  
             </template> 
-         </div> 
-       </div> 
+        </section>
   
       </template>
               
@@ -51,18 +47,19 @@
     
     <div class="row">
              
-      <div class="col col-lg-4">
+      <div class="col col-lg-4 col-md-4 col-sm-4 col-xs-3">
       
-      <button on-click="{{openFileUploader}}" 
-              class="btn btn-summary" style="width: 130px">Add Photos
-      </button>
+      <button id="addPhotos" type="button"
+        style="width: 130px;" 
+        class="btn btn-summary btn-md"
+        on-click="{{openFileUploader}}">Add Photos</button>
         
         <div style="height: 0px; width: 0px; overflow: hidden;">
           <input type="file" id="files" name="files[]" multiple />
         </div>
           
        </div>
-       <div class="col col-lg-8"> 
+       <div class="col col-lg-8 col-md-8 col-sm-8 col-xs-7"> 
          
          <template if="{{thumbnails.length >= 1}}">
             <div style="float: right">

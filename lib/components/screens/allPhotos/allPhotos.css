@@ -8,6 +8,19 @@
   overflow: hidden;
 }
 
+#mainRow {
+  width: 100%;
+  height: 100%;
+}
+
+#mainRow img {
+  max-height: 140px;
+  max-width: 140px;
+  border: 1px solid black;
+  margin: 5px;
+  float: left;
+}
+
 .item { width: 25%; }
 
 #helpMessage1 {
@@ -38,7 +51,8 @@
   line-height: 1.2em;
   margin-top: 5px;
   margin-bottom: 5px;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #line {
@@ -64,8 +78,8 @@
 
 .btn-summary {
   color: #ffffff;
-  background-color: #444444;
-  border-color: #444444;
+  background-color: #696969;
+  border-color: #696969;
 }
 
 .btn-summary:hover,
@@ -74,8 +88,8 @@
 .btn-summary.active,
 .open .dropdown-toggle..btn-summary {
   color: #ffffff;
-  background-color: #444444;
-  border-color: #444444;
+  background-color: #696969;
+  border-color: #696969;
 }
 
 
@@ -101,11 +115,17 @@ fieldset[disabled] .btn-summary:active,
 .btn-summary.disabled.active,
 .btn-summary[disabled].active,
 fieldset[disabled] .btn-summary.active {
-  background-color: #444444;
-  border-color: #444444;
+  background-color: #696969;
+  border-color: #696969;
 }
 
 .btn-summary .badge {
-  color: #5cb85c;
+  color: #696969;
   background-color: #fff;
-} 
+}
+
+.btn-summary:hover,
+.btn-summary:focus {
+  color: #fff;
+  background-color: #444444;
+}
