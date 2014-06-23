@@ -123,9 +123,9 @@ When adjusting the reset is adviced to check up the elements on your page, as th
   float: left;
   z-index: 10;
   opacity: 1;
-  overflow-y: scroll;
+  overflow-y: hidden;
   visibility: visible;
-  max-height:168px;
+  max-height:182px;
   padding: 5px;
   border: solid 2px #7FCA9F;
 }
@@ -147,9 +147,9 @@ When adjusting the reset is adviced to check up the elements on your page, as th
   float: left;
   z-index: 10;
   opacity: 1;
-  overflow-y: scroll;
+  overflow-y: hidden;
   visibility: visible;
-  max-height:168px;
+  max-height:182px;
   padding: 5px;
   border: solid 2px #F4BA70;
 }
@@ -171,9 +171,9 @@ When adjusting the reset is adviced to check up the elements on your page, as th
   float: left;
   z-index: 10;
   opacity: 1;
-  overflow-y: scroll;
+  overflow-y: hidden;
   visibility: visible;
-  max-height:168px;
+  max-height:182px;
   padding: 5px;
   border: solid 2px #E96D63;
 }
