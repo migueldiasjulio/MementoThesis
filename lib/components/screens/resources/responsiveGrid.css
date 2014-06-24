@@ -27,6 +27,14 @@
 
 }
 
+@media (max-width: 2560px) {
+  #photos {
+  -moz-column-count:    13;
+  -webkit-column-count: 13;
+  column-count:         13;
+  }
+}
+
 @media (max-width: 1900px) {
   #photos {
   -moz-column-count:    10;

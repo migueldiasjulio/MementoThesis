@@ -10,6 +10,8 @@ import '../../core/screenModule.dart' as screenhelper;
 import '../../core/Thumbnail.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
+//import '../resources/exif.js' as exif;
+import 'dart:js';
 
 /*
  * All Photos Screen class
@@ -41,6 +43,7 @@ class AllPhotos extends screenhelper.Screen {
    */
   final List<String> photoSources = toObservable([]);
   final List<Thumbnail> thumbnails = toObservable([]);
+  List<ImageElement> images = new List<ImageElement>();
 
   AllPhotos.created() : super.created(){
     Modal.use();
@@ -128,6 +131,7 @@ class AllPhotos extends screenhelper.Screen {
                               this.photoSources.add(reader.result);
                               //FILE THUMBNAIL
                                this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
+                               images.add(new ImageElement(src: reader.result));
                             });
                             reader.readAsDataUrl(file);
                    });
@@ -161,9 +165,13 @@ class AllPhotos extends screenhelper.Screen {
                                    this.photoSources.add(reader.result);
                                    //FILE THUMBNAIL
                                     this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
+                                    images.add(new ImageElement(src: reader.result));
                                  });
                                  reader.readAsDataUrl(file);
+                                 //writer.write(reader.result);
                         } );
+     
+     readEXIFInformation();
    }
 
    /*
@@ -173,6 +181,18 @@ class AllPhotos extends screenhelper.Screen {
     */ 
    void closeAndUpdateNumber(){
      //hiddeLoading();
+   }
+   
+   /*
+    * 
+    * 
+    */
+   void readEXIFInformation(){
+     /*
+     List<String> exifInformation = new List<String>();
+     var EXIF = new JsObject(context['EXIF'], [1,2]);
+     print(EXIF.callMethod('yolo'));
+     */ 
    }
 
    /*
@@ -258,10 +278,6 @@ class AllPhotos extends screenhelper.Screen {
     * Open file uploader
     */
    void openFileUploader(){
-     _fileInput.click();
-   }
-   
-   void openFileUploader2(){
      _fileInput.click();
    }
 

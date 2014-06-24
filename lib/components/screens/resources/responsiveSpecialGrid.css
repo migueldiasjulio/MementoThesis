@@ -26,6 +26,14 @@
   margin-bottom: 2px;
 }
 
+@media (max-width: 2560px) {
+  #photos {
+  -moz-column-count:    18;
+  -webkit-column-count: 18;
+  column-count:         18;
+  }
+}
+
 @media (max-width: 1900px) {
   #photos {
   -moz-column-count:    13;
