@@ -1,35 +1,43 @@
 library database;
 
-import 'photoType.dart';
-import 'Thumbnail.dart';
-import 'dart:math';
+import 'photo.dart';
+import 'dart:math' as Math;
 import 'mementoSettings.dart';
 import 'FunctionChoosed.dart' as Function;
 
-class Database {
+import 'package:observe/observe.dart';
+
+const String SUMMARY = "SUMMARY";
+const String STANDBY = "STANDBY";
+const String EXCLUDED = "EXCLUDED";
+
+final DB = Database.get();
+
+class Container extends Object with Observable {
+  final String name;
+  final List<Photo> photos = toObservable(new Set());
+  Container(this.name);
+  Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
+}
+
+class Database extends Object with Observable {
 
   MementoSettings _settings = MementoSettings.get();
-  
-  List<String> _newNameToAddToMap;
-  Map<String, photoType> _helpSearching = new Map<String, photoType>();
- 
-  List<String> _summaryContainer = new List<String>();
-  List<String> _standByContainer = new List<String>();
-  List<String> _excludedContainer = new List<String>();
 
-  //Aux
-  Map<String, photoType> _map = null;
-  List<String> _namesToAdd = new List<String>();
-  List<photoType> _newDataBaseElementsToAdd = new List <photoType>();
-  photoType _newDataBaseElement = null;
+  final Map<String, Container> containers = toObservable({});
+
   int _version = 1;
-  
+
   /**
    * Singleton
    */
   static Database _instance;
 
-  Database._();
+  Database._() {
+    [SUMMARY, STANDBY, EXCLUDED].forEach((k) {
+      containers[k] = new Container(k);
+    });
+  }
 
   static Database get() {
     if (_instance == null) {
@@ -39,329 +47,144 @@ class Database {
   }
 
   /**
-   * User for BigSizePhoto - Change this maybe?
+   *
    */
-  String ImageToBeDisplayed = "";
-  
-  /**
-   * Return image to be displayed in BigSizePhoto Screen
-   * @return Thumbnail
-   */ 
-  Thumbnail returnImageToDisplay(){
-    return this._helpSearching[this.ImageToBeDisplayed].myThumbnail;
-  }
+  int get version => _version;
 
   /**
-   * Set the image to be displayed
-   * @param thumbName - String
-   */ 
-  void setImageToBeDisplayed(String thumbName){
-    this.ImageToBeDisplayed = thumbName;
-  }
-
-  /**
-   * 
-   */ 
-  int returnVersion(){
-    return _version;
-  }
-
-  /**
-   * 
-   */ 
-  void incVersion(){ 
+   *
+   */
+  void _incVersion(){
     _version++;
   }
+
+  Photo find(String id) {
+    var photo;
+    containers.forEach((_, c) {
+      photo  = c.find(id);
+    });
+    return photo;
+  }
+
 
   /**
    * Add a new element to the database
    */
-  void addNewElementsToDataBase(List<String> originalFiles, List<Thumbnail> thumbnailFiles){
-    var fileListSize = thumbnailFiles.length;
-    for(var i = 0; i < fileListSize; i++){
-      if(!alreadyExistsInTheDataBase(thumbnailFiles.elementAt(i).title)){
-        this._namesToAdd.add(thumbnailFiles.elementAt(i).title);
-        this._newDataBaseElement = new photoType(originalFiles.elementAt(i), thumbnailFiles.elementAt(i));
-        this._newDataBaseElementsToAdd.add(this._newDataBaseElement);
-      }
-    }
-
-    incVersion();
-
-    testFunctionOne(); //TODO
-
-    this.updateMap(this._namesToAdd, this._newDataBaseElementsToAdd);
-
+  void addNewElementsToDataBase(List<Photo> photos){
+    _incVersion();
     //Adding all photos to stand-by container
-    this.addToContainer("STANDBY", this._namesToAdd);
-
-    //Cleaning
-    this._namesToAdd.clear();
-    this._newDataBaseElementsToAdd.clear();
-    this._newDataBaseElement = null;
-
-    testFunctionTwo(); //TODO
-}
-
-  /**
-   * Update Map
-   */
-  void updateMap(List<String> newNames, List<photoType> newDataBaseElements){
-    this._map = new Map.fromIterables(newNames, newDataBaseElements);
-    this._helpSearching.addAll(_map);
-    this._map = null;
-  }
-
-  /**
-   * Check if already exists in the database
-   */
-  bool alreadyExistsInTheDataBase(String file){
-    return this._helpSearching.containsKey(file);
+    container(STANDBY).photos.addAll(photos);
   }
 
   /**
    * Add to container
    */
-  void addToContainer(String _nameOfContainer, List<String> _imagesToAdd){
-
-    switch(_nameOfContainer){
-      case("SUMMARY") :
-        this._summaryContainer.addAll(_imagesToAdd);
-        break;
-      case("STANDBY") :
-        this._standByContainer.addAll(_imagesToAdd);
-        break;
-      case("EXCLUDED") :
-        this._excludedContainer.addAll(_imagesToAdd);
-        break;
-      default: break;
-    }
-    this.printContainersState(); //TODO
+  void addToContainer(String name, List<Photo> photos) {
+    container(name)
+    .photos.addAll(photos);
+    printContainersState(); //TODO
   }
+
+  Container container(String name) => containers[name];
 
   /**
    * Add to container
    */
-  void moveFromTo(String _origin, String _destination , List<String> _imagesToMove){
-
-    switch(_origin){
-      case("SUMMARY") :
-        switch(_destination) {
-          case("STANDBY") :
-            this._standByContainer.addAll(_imagesToMove);
-            for(String photosToRemove in _imagesToMove){
-              this._summaryContainer.remove(photosToRemove);
-            }
-            break;
-          case("EXCLUDED") :
-            this._excludedContainer.addAll(_imagesToMove);
-          for(String photosToRemove in _imagesToMove){
-            this._summaryContainer.remove(photosToRemove);
-          }
-            break;
-        }
-        break;
-      case("STANDBY") :
-        switch(_destination) {
-          case("SUMMARY") :
-            this._summaryContainer.addAll(_imagesToMove);
-            for(String photosToRemove in _imagesToMove){
-              this._standByContainer.remove(photosToRemove);
-            }
-            break;
-          case("EXCLUDED") :
-            this._excludedContainer.addAll(_imagesToMove);
-            for(String photosToRemove in _imagesToMove){
-              this._standByContainer.remove(photosToRemove);
-            }
-            break;
-        }
-        break;
-      case("EXCLUDED") :
-        switch(_destination) {
-          case("SUMMARY") :
-            this._summaryContainer.addAll(_imagesToMove);
-            for(String photosToRemove in _imagesToMove){
-              this._excludedContainer.remove(photosToRemove);
-            }
-            break;
-          case("STANDBY") :
-            this._standByContainer.addAll(_imagesToMove);
-            for(String photosToRemove in _imagesToMove){
-              this._excludedContainer.remove(photosToRemove);
-            }
-            break;
-        }
-        break;
-      default: break;
-    }
-    this.printContainersState(); //TODO
+  void moveFromTo(String origin, String destination , Iterable<Photo> photos){
+    photos.forEach((p) {
+      container(origin).photos.remove(p);
+      container(destination).photos.add(p);
+    });
+    printContainersState(); //TODO
   }
-  
+
   /**
    * Decide which algorithm to use in the summary creation
-   */ 
+   */
   void decideAlgorithm(int numberOfPhotos){
     var function = _settings.whichAlgorithmInUse();
     switch(function){
       case(Function.FunctionChoosed.FIRSTX) :
-        workFirstXSummary(numberOfPhotos);  
-        break; 
+        workFirstXSummary(numberOfPhotos);
+        break;
       case(Function.FunctionChoosed.RANDOM) :
         buildRandomSummary(numberOfPhotos);
-        break; 
+        break;
       case(Function.FunctionChoosed.HIERARCHICAL) :
         buildClusterSummary(numberOfPhotos);
         break;
-      default: 
-        break; 
-    }   
+      default:
+        break;
+    }
   }
 
   /**
    * First X photos
    */
   void workFirstXSummary(int numberOfPhotos){
-    var number = numberOfPhotos;
-    print(number.toString());
-    for(int i = 0; i < number; i++){
-      print("Number i is now: " + i.toString());
-      this._summaryContainer.add(this._standByContainer.elementAt(0));
-      this._standByContainer.removeAt(0);
-    }
-    this.printContainersState(); //TODO
+    var photos = container(STANDBY).photos.take(numberOfPhotos).toList();
+    moveFromTo(STANDBY, SUMMARY, photos);
   }
 
   /**
    * For random tests
    */
   void buildRandomSummary(int numberOfPhotos){
-    var randomStuff = new Random();
-    var next;
+    var rnd = new Math.Random(),
+        max = container(STANDBY).photos.length;
+
+    var photo;
     for(int i = 0; i < numberOfPhotos; i++){
-      next = randomStuff.nextInt(this._standByContainer.length);
-      this._summaryContainer.add(this._standByContainer.elementAt(next));
-      this._standByContainer.removeAt(i);
+      photo = container(STANDBY).photos.elementAt( rnd.nextInt(max));
+      container(SUMMARY).photos.add(photo);
+      container(STANDBY).photos.remove(photo);
     }
-    this.printContainersState(); //TODO
+    printContainersState(); //TODO
   }
 
   /**
    * With cluster algorithm
    */
   void buildClusterSummary(int numberOfPhotos){
-    
-    
+
+
     ///start algorithm
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
     this.printContainersState(); //TODO
   }
 
-  List<Thumbnail> getThumbnails(String fromWhere){
-    List<Thumbnail> list = new List<Thumbnail>();
-    Thumbnail thumb;
-    List<String> container;
 
-    switch(fromWhere){
-      case("SUMMARY") :
-        container = this._summaryContainer;
-        for(String photo in container){
-            list.add(this._helpSearching[photo].myThumbnail);
-        }
-        //return list;
-        break; 
-      case("STANDBY") :
-        container = this._standByContainer;
-        for(String photo in container){
-            list.add(this._helpSearching[photo].myThumbnail);
-        }
-        //return list;
-        break; 
-      case("EXCLUDED") :
-        container = this._excludedContainer;
-        for(String photo in container){
-            list.add(this._helpSearching[photo].myThumbnail);
-        }
-        //return list;
-        break;
-      default: 
-        list = null;
-        break; 
-    }
-    
-    return list;
- }
-  
   /**
-   * 
-   * 
-   * 
+   *
+   *
+   *
    * TEST FUNCTIONS
-   * 
-   * 
+   *
+   *
    */
 
   /**
-   * 
-   */ 
+   *
+   */
   void printContainersState(){
     print("<<<<<<<<<< Containers >>>>>>>>>>");
     var sizeOf;
-    print("-> Summary Container <-");
-    sizeOf = this._summaryContainer.length;
-    print("Summary container size: " + this._summaryContainer.length.toString());
-    for(var i = 0; i < sizeOf; i++){
-      print("Element: " + this._summaryContainer.elementAt(i));
-    }
-    print("-> Summary Container <-");
-    print("-> Stand by Container <-");
-    sizeOf = this._standByContainer.length;
-    print("Stand-by container size: " + this._standByContainer.length.toString());
-    for(var i = 0; i < sizeOf; i++){
-      print("Element: " + this._standByContainer.elementAt(i));
-    }
-    print("-> Stand by Container <-");
-    print("-> Excluded Container <-");
-    sizeOf = this._excludedContainer.length;
-    print("Excluded container size: " + this._excludedContainer.length.toString());
-    for(var i = 0; i < sizeOf; i++){
-      print("Element: " + this._excludedContainer.elementAt(i));
-    }
-    print("-> Excluded Container <-");
-    print("<<<<<<<<<< Containers >>>>>>>>>>");
-  }
-  
-  /**
-   * 
-   */ 
-  void testFunctionOne(){
-    print("---------- Before update --------");
-    print("Names To add size: " + this._namesToAdd.length.toString());
-    print("New Elements to Add size: " + this._newDataBaseElementsToAdd.length.toString());
-    print("New element is null? " + this._newDataBaseElement.toString());
-    print("---------- Before update --------");
-  }
-
-  /**
-   * 
-   */
-  void testFunctionTwo(){
-    print("---------- After update --------");
-    print("Map size: " + this._helpSearching.length.toString());
-    print("Names To add size: " + this._namesToAdd.length.toString());
-    print("New Elements to Add size: " + this._newDataBaseElementsToAdd.length.toString());
-    print("New element is null? " + this._newDataBaseElement.toString());
-    this.printContainersState();
-    print("---------- After update --------");
+    containers.forEach((key, container) {
+      print("-> $key Container <-");
+      print("$key container size: ${container.photos.length}");
+      container.photos.forEach((p) {
+        print("Element: $p");
+      });
+    });
   }
 
 }//dataBase

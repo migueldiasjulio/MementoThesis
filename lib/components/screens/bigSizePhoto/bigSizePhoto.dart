@@ -4,11 +4,12 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/Thumbnail.dart';
+import '../../core/photo.dart';
+import '../../core/dataBase.dart';
 export "package:polymer/init.dart";
 
 /**
- * BigSizePhoto Screen 
+ * BigSizePhoto Screen
  */
 @CustomTag(BigSizePhoto.TAG)
 class BigSizePhoto extends screenhelper.SpecialScreen {
@@ -18,10 +19,11 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
          description = "Photo big size";
   factory BigSizePhoto() => new Element.tag(TAG);
   Element _name;
-  @published Thumbnail thumbToDisplay = null;
-  Thumbnail get thumbnailDisplay => thumbToDisplay;
-  
-  final List<Thumbnail> thumbnailsToShow = toObservable([]);
+
+  @observable Photo photo;
+
+
+  final List<Photo> photos = toObservable([]);
 
   @observable bool moving = false;
 
@@ -33,9 +35,12 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   @override
    void setupRoutes(Route route) {
     route.addRoute(
-        name: 'home',
-        path: '',
-        enter: home);
+        name: 'show',
+        path: '/:id',
+        enter: (e) {
+          photo = DB.find(e.parameters['id']);
+        }
+    );
    }
 
   /*
@@ -44,16 +49,12 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   @override
   void enteredView() {
     super.enteredView();
-    checkWhatPhotoToDisplay();
   }
-  
+
   /*
    * TODO
-   */ 
+   */
   void runStartStuff() {
-    syncSummaryPhotos();
-    syncStandByPhotos();
-    syncExcludedPhotos();
     cleanVariables();
   }
 
@@ -62,12 +63,6 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    */
   home(_) {}
 
-  /*
-   * TODO
-   */
-  void checkWhatPhotoToDisplay(){
-    this.thumbToDisplay = this.myDataBase.returnImageToDisplay();
-  }
 
   /*
    * TODO
@@ -83,72 +78,68 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     selection=false;
     moving=false;
   }
-  
+
   /*
-   *  
-   */ 
-  void showImage(Event event, var detail, var target){
-    var nameOfPhoto;
+   *
+   */
+  void showImage(Event event, var detail, Element target){
+    var id = target.dataset["id"];
     var isSelected;
     if(!this.selection){
       print(target.attributes['data-incby']);
-    }
-    else{
-      nameOfPhoto = target.attributes['data-incby'];
-      isSelected = target.attributes['selected'];
-      if(isSelected == "true"){
-        target.attributes['selected'] = "false";
-        removeFromSelectedPhotos(nameOfPhoto);
+    } else{
+      if(target.classes.contains('selected')){
+        target.classes.remove('selected');
+        removeFromSelectedPhotos(id);
         removeFromSelectedElements(target);
-        print(nameOfPhoto + " is selected? " + isSelected);
-      }
-      else{
-        target.attributes['selected'] = "true";
-        addToSelectedPhotos(nameOfPhoto);
+        print("$id is selected? $isSelected");
+      } else{
+        target.classes.add('selected');
+        addToSelectedPhotos(id);
         addToSelectedElements(target);
-        print(nameOfPhoto + " is selected? " + isSelected);
+        print("$id is selected? $isSelected");
       }
     }
   }
-  
+
   void cancelMoveAction(){
     disableSelection();
     this.moving = false;
   }
-  
+
   void enableMoveAction() {
     this.moving = true;
   }
-  
+
   void showSummaryPhotos(){
     this.thumbnailsToShow.clear();
     this.thumbnailsToShow.addAll(this.thumbnailsSummary);
   }
-  
+
   void showStandByPhotos(){
     this.thumbnailsToShow.clear();
     this.thumbnailsToShow.addAll(this.thumbnailsStandBy);
   }
-  
+
   void showExcludedPhotos(){
     this.thumbnailsToShow.clear();
     this.thumbnailsToShow.addAll(this.thumbnailsExcluded);
   }
-  
+
   void specialMoveToSummary(){
     this.moveToSummary();
     cancelMoveAction();
   }
-  
+
   void specialMoveToStandBy(){
     this.moveToStandBy();
     cancelMoveAction();
   }
-  
+
   void specialMoveToExcluded(){
     this.moveToExcluded();
     cancelMoveAction();
   }
-  
-  
+
+
 }

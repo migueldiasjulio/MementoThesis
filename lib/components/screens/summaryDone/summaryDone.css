@@ -13,25 +13,25 @@
 }
 
 #t-1{
-  display: none; 
-  visibility: hidden; 
-  opacity: 0; 
+  display: none;
+  visibility: hidden;
+  opacity: 0;
 }
 
 #t-2{
-  display: none; 
-  visibility: hidden; 
-  opacity: 0; 
+  display: none;
+  visibility: hidden;
+  opacity: 0;
 }
 
 #t-3{
-  display: none; 
-  visibility: hidden; 
-  opacity: 0; 
+  display: none;
+  visibility: hidden;
+  opacity: 0;
 }
 
 #span{
-  
+
 }
 
 #bottomZone{
@@ -63,12 +63,12 @@
 }
 
 #tabs{
-  height: 100%; 
+  height: 100%;
   overflow:hidden;
 }
 
-img[selected="true"]
-{ 
+img .selected
+{
   opacity: 0.4;
   filter: alpha(opacity=40); /* For IE8 and earlier */
 }

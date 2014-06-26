@@ -7,9 +7,10 @@ import 'package:polymer/polymer.dart';
 export "package:polymer/init.dart";
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/Thumbnail.dart';
+import '../../core/photo.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
+import '../../core/dataBase.dart';
 //import '../resources/exif.js' as exif;
 import 'dart:js';
 
@@ -29,7 +30,7 @@ class AllPhotos extends screenhelper.Screen {
   Modal loading;
 
   InputElement _fileInput;
-  
+
   FileReader _reader;
 
   Element _dropZone;
@@ -41,9 +42,7 @@ class AllPhotos extends screenhelper.Screen {
   /*
    *     Photo database
    */
-  final List<String> photoSources = toObservable([]);
-  final List<Thumbnail> thumbnails = toObservable([]);
-  List<ImageElement> images = new List<ImageElement>();
+  final List<Photo> photos = toObservable([]);
 
   AllPhotos.created() : super.created(){
     Modal.use();
@@ -65,7 +64,7 @@ class AllPhotos extends screenhelper.Screen {
 
   /*
    * Entering View
-   */ 
+   */
   @override
   void enteredView() {
     super.enteredView();
@@ -101,7 +100,7 @@ class AllPhotos extends screenhelper.Screen {
 
    /*
     * On Drop (drop zone)
-    * @param event - MouseEvent 
+    * @param event - MouseEvent
     */
    void _onDrop(MouseEvent event) {
      event..stopPropagation()..preventDefault();
@@ -127,11 +126,7 @@ class AllPhotos extends screenhelper.Screen {
                             FileWriter writer;
                             FileReader reader = new FileReader();
                             reader.onLoad.listen((e) {
-                              //FILE SRC
-                              this.photoSources.add(reader.result);
-                              //FILE THUMBNAIL
-                               this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
-                               images.add(new ImageElement(src: reader.result));
+                               photos.add(new Photo(reader.result, title: sanitizer.convert(file.name)));
                             });
                             reader.readAsDataUrl(file);
                    });
@@ -140,9 +135,9 @@ class AllPhotos extends screenhelper.Screen {
    }
 
    void _onFilesSelected(List<File> files) {
-     
+
      var photoFiles = files.where((file) => file.type.startsWith('image'));
-     this.numberOfPhotosDefined = (this.thumbnails.length + photoFiles.length).toString();
+     this.numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
 
      //photos.addAll(photoFiles);
       /*
@@ -161,38 +156,34 @@ class AllPhotos extends screenhelper.Screen {
                                  FileWriter writer;
                                  FileReader reader = new FileReader();
                                  reader.onLoad.listen((e) {
-                                   //FILE SRC
-                                   this.photoSources.add(reader.result);
-                                   //FILE THUMBNAIL
-                                    this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
-                                    images.add(new ImageElement(src: reader.result));
+                                    photos.add(new Photo(reader.result, title: sanitizer.convert(file.name)));
                                  });
                                  reader.readAsDataUrl(file);
                                  //writer.write(reader.result);
                         } );
-     
+
      readEXIFInformation();
    }
 
    /*
     * When all files were uploaded update the number
-    * of thumbnails.size so the user can create a 
+    * of thumbnails.size so the user can create a
     * new summary
-    */ 
+    */
    void closeAndUpdateNumber(){
      //hiddeLoading();
    }
-   
+
    /*
-    * 
-    * 
+    *
+    *
     */
    void readEXIFInformation(){
      /*
      List<String> exifInformation = new List<String>();
      var EXIF = new JsObject(context['EXIF'], [1,2]);
      print(EXIF.callMethod('yolo'));
-     */ 
+     */
    }
 
    /*
@@ -217,11 +208,11 @@ class AllPhotos extends screenhelper.Screen {
    }
 
    /*
-    * Increment number of summary photos 
+    * Increment number of summary photos
     */
    void incSummaryNumber(){
      int auxiliar = int.parse(numberOfPhotosDefined);
-     if(auxiliar == this.thumbnails.length){
+     if(auxiliar == photos.length){
        this.numberOfPhotosDefined = auxiliar.toString();
      } else{
        auxiliar++;
@@ -243,7 +234,7 @@ class AllPhotos extends screenhelper.Screen {
    }
 
    /*
-    * 
+    *
     */
    void runStartStuff(){}
 
@@ -254,7 +245,7 @@ class AllPhotos extends screenhelper.Screen {
 
       //SHOW LOADING WINDOW
       addPhotosToDataBase();
-      this.myDataBase.decideAlgorithm(int.parse(this.numberOfPhotosDefined));
+      DB.decideAlgorithm(int.parse(this.numberOfPhotosDefined));
       goSummary();
       //HIDDE LOADING WINDOW
     }
@@ -263,7 +254,7 @@ class AllPhotos extends screenhelper.Screen {
      *
      */
     void addPhotosToDataBase(){
-      myDataBase.addNewElementsToDataBase(photoSources, thumbnails);
+      DB.addNewElementsToDataBase(photos);
     }
 
     /*
@@ -273,7 +264,7 @@ class AllPhotos extends screenhelper.Screen {
      router.go("summary-done", {});
      modal.hide();
    }
-   
+
    /*
     * Open file uploader
     */

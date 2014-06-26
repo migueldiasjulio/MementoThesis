@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memento App</title>
 
+    <script src="packages/web_components/platform.js"></script>
     <link rel="import" href="packages/polymer/polymer.html">
     <link rel="import" href="../lib/components/screens/mementoApp/mementoApp.html">
     <link rel="stylesheet" href="resources/css/index.css">
@@ -20,7 +21,7 @@
         font-weight: 400;
         src: local('Dosis Regular'), local('Dosis-Regular'), url(http://themes.googleusercontent.com/static/fonts/dosis/v2/xIAtSaglM8LZOYdGmG1JqQ.woff) format('woff');
       }
-      
+
       /* http://fonts.googleapis.com/css?family=Open+Sans */
       @font-face {
         font-family: 'Open Sans';
@@ -31,9 +32,9 @@
     </style>
 
   </head>
-  
+
   <body style="background-color: #F0F0F0">
-    
+
     <div id="main">
 
     <header style="height: 40px">
@@ -50,12 +51,12 @@
                     <img src="resources/images/Memento_branco.svg" style="width: 140px; height: 50px; margin-top: -15px" >
                   </a>
               </div>
-  
+
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse navbar-ex1-collapse">
                   <ul class="nav navbar-nav navbar-right">
                       <li>
-                      <a href="#settings" data-toggle="modal">Settings</a>           
+                      <a href="#settings" data-toggle="modal">Settings</a>
                       </li>
                       <li>
                         <a href="#about" data-toggle="modal">About</a>
@@ -72,16 +73,16 @@
         <!-- nav -->
       </header>
       <!-- header -->
-   
+
     <div id="container-id" style="height: 88%">
       <memento-app></memento-app>
     </div>
-    
+
     <footer style=" height: 40px; background: #D1D2D5; padding: 10px">
       <p style="color:black">&copy; Memento 2014</p>
-    </footer> 
+    </footer>
     </div>
-    
+
       <!-- modal for help -->
       <div id="help" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
@@ -97,9 +98,9 @@
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       <!-- modal for help -->
-    
+
     <!-- modal for about -->
     <div class="modal fade" id="about" role="dialog">
       <div class="modal-dialog">
@@ -121,7 +122,7 @@
         </div>
       </div>
     </div>
-    
+
      <!-- modal for about -->
     <div class="modal fade" id="settings" role="dialog">
       <div class="modal-dialog">
@@ -131,7 +132,7 @@
           </div> <!-- modal header -->
           <div class="modal-body">
             <h5>Summary Algorithm</h5>
-            
+
             <div>
               <div class="radio">
                 <label>
@@ -152,27 +153,27 @@
               </label>
              </div>
            </div>
-           
+
             <br>
-            
+
            <div>
              <h5>Default number of photos to summary</h5>
              <div class="radio">
                 <label>
-                  <input type="radio" 
-                         name="number" 
-                         id="optionsRadios1" 
+                  <input type="radio"
+                         name="number"
+                         id="optionsRadios1"
                          value="option1" checked>
                   Number of imported photos
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" 
-                         name="number" 
-                         id="optionsRadios2" 
-                         value="option2">        
-                  Other: 
+                  <input type="radio"
+                         name="number"
+                         id="optionsRadios2"
+                         value="option2">
+                  Other:
                   <span style="width: 150px" class="input-group">
                     <input type="text" class="form-control bfh-number" data-min="5" data-max="25" data-wrap="true">
                     <span class="input-group-addon bfh-number-btn inc">
@@ -184,8 +185,8 @@
                   </span>
                 </label>
               </div>
-            </div> 
-           
+            </div>
+
           </div> <!-- modal body -->
           <div class="modal-footer">
             <a class="btn btn-default" data-dismiss="modal">Close</a>
@@ -202,7 +203,7 @@
         window.onresize = autoResizeDiv;
         autoResizeDiv();
     </script>
-    <script type="application/dart" src="../lib/components/core/index.dart"></script>
+    <script type="application/dart">export "package:polymer/init.dart";</script>
     <!-- <script type="text/javascript" src="resources/js/bootstrap-formhelpers.js"></script> -->
   </body>
 </html>
