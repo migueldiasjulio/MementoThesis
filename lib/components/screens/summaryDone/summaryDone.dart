@@ -25,7 +25,7 @@ class SummaryDone extends screenhelper.SpecialScreen {
   Modal exportMenu;
   @observable bool export = false;
   factory SummaryDone() => new Element.tag(TAG);
-  
+
   /**
    * Building Summary Done
    */
@@ -36,12 +36,9 @@ class SummaryDone extends screenhelper.SpecialScreen {
   }
 
   void runStartStuff() {
-    syncSummaryPhotos();
-    syncStandByPhotos();
-    syncExcludedPhotos();
     cleanVariables();
   }
-  
+
   /**
    * On enter view
    */
@@ -49,13 +46,12 @@ class SummaryDone extends screenhelper.SpecialScreen {
   void enteredView() {
     super.enteredView();
     cleanVariables();
-    printVariableStante();
   }
-   
+
   /**
    * Export Functions
    */
-  
+
   void enableExport(){
     this.export = true;
   }
@@ -102,24 +98,22 @@ class SummaryDone extends screenhelper.SpecialScreen {
   }
 
   void exportToFacebook(){}
-  
+
   /**
    * Export Functions
    */
 
   /*
    *  Show image
-   */ 
+   */
   void showImage(Event event, var detail, var target){
     var nameOfPhoto;
     var isSelected;
-    if(!this.selection){
-      print(target.attributes['data-incby']);
-      this.myDataBase.setImageToBeDisplayed(target.attributes['data-incby']);
-      displayPhoto();
+    if(!selection){
+      displayPhoto(target.dataset['id']);
     }
     else{
-      nameOfPhoto = target.attributes['data-incby'];
+      nameOfPhoto = target.dataset['id'];
       isSelected = target.attributes['selected'];
       if(isSelected == "true"){
         target.attributes['selected'] = "false";
@@ -154,8 +148,8 @@ class SummaryDone extends screenhelper.SpecialScreen {
 
   /*
    * Go Big Size Photo Screen
-   */ 
-  void displayPhoto(){
-    router.go("big-size-photo", {});
+   */
+  void displayPhoto(String id){
+    router.go("big-size-photo.show", {id: id});
   }
 }

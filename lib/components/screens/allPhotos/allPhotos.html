@@ -8,71 +8,71 @@
   <section id="firstSection" style="height: calc(100% - 70px); padding: 10px">
 
       <div id="drop-zone" style="height:100%">
-      
-      <template if="{{thumbnails.length == 0}}">
+
+      <template if="{{photos.length == 0}}">
           <div id="nothing" style="height:40%"></div> <!-- Just space -->
           <div style="height: 20%">
             <p id="helpMessage1">Drag and Drop your photos here</p>
             <small id="helpMessage2"> or press
               <button id="addPhotos" type="button"
-                     style="width: 130px;" 
+                     style="width: 130px;"
                      class="btn btn-summary btn-md"
                      on-click="{{openFileUploader}}">Add Photos</button>
             </small>
           </div>
           <div id="nothing" style="height: 40%"></div> <!-- Just space -->
       </template>
-        
-      <template if="{{thumbnails.length > 0}}">
-  
+
+      <template if="{{photos.isNotEmpty}}">
+
         <section id="photos">
-            <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">      
-              <div class="mementoImage" id="{{thumbnail.title}}">
-                  <img src="{{thumbnail.src}}" style="border-radius: 5px;">
-              </div>                  
-            </template> 
+            <template id="thumbnailsShow" repeat="{{photo in photos}}">
+              <div class="mementoImage" id="{{photo.title}}">
+                  <img src="{{photo.thumbnail.src}}" style="border-radius: 5px;">
+              </div>
+            </template>
         </section>
-  
+
       </template>
-              
+
      </div> <!-- drop zone -->
   </section>
   <!-- firstSection -->
 
   <div id="screenFooter">
-    
-    <div style="padding:10px"> 
-     
+
+    <div style="padding:10px">
+
     <form class="form-inline" role="form">
-    
+
     <div class="row">
-             
+
       <div class="col col-lg-4 col-md-4 col-sm-4 col-xs-3">
-      
+
       <button id="addPhotos" type="button"
-        style="width: 130px;" 
+        style="width: 130px;"
         class="btn btn-summary btn-md"
         on-click="{{openFileUploader}}">Add Photos</button>
-        
+
         <div style="height: 0px; width: 0px; overflow: hidden;">
           <input type="file" id="files" name="files[]" multiple />
         </div>
-          
+
        </div>
-       <div class="col col-lg-8 col-md-8 col-sm-8 col-xs-7"> 
-         
-         <template if="{{thumbnails.length >= 1}}">
+       <div class="col col-lg-8 col-md-8 col-sm-8 col-xs-7">
+
+         <template if="{{photos.length >= 1}}">
             <div style="float: right">
               <div class="btn-group">
-                <strong style="float: left; margin-top: 3%">Number of photos: </strong> 
+                <strong style="float: left; margin-top: 3%">Number of photos: </strong>
                   <span style="width: 130px" class="input-group">
                     <span  on-click="{{subSummaryNumber}}" class="input-group-addon bfh-number-btn dec">
                       <span class="glyphicon glyphicon-chevron-down"></span>
                     </span>
-                    <input type="text" 
-                           class="form-control bfh-number" 
-                           data-min="1" 
-                           data-max="{{thumbnails.length}}" 
+                    <input type="text"
+                           class="form-control bfh-number"
+                           data-min="1"
+                           data-max="{{photos.length}}"
                            data-wrap="true"
                            id="numberPhotos"
                            value="{{numberOfPhotosDefined}}">
@@ -80,7 +80,7 @@
                       <span class="glyphicon glyphicon-chevron-up"></span>
                     </span>
                   </span>
-              </div>  
+              </div>
               <div class="btn-group">
                 <button id="startSummary" type="button"
                   on-click="{{buildSummary}}" style="width: 130px"
@@ -89,7 +89,7 @@
               </div>
             </div>
           </template>
-        </div>        
+        </div>
       </div> <!-- row -->
       <!-- right side -->
     </form>
@@ -113,7 +113,7 @@
     </div>
   </div>
   <!-- modal -->
-  
+
     <div id="loading" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -135,8 +135,8 @@
 </div>
 </div>
 </div>
-<!-- main --> 
-</template> 
-<script type="application/dart" src="allPhotos.dart"></script> 
+<!-- main -->
+</template>
+<script type="application/dart" src="allPhotos.dart"></script>
 <script src="../resources/exif.js"></script>
 </polymer-element>
