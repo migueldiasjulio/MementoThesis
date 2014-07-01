@@ -7,7 +7,7 @@ import 'package:polymer/polymer.dart';
 export "package:polymer/init.dart";
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/Thumbnail.dart';
+import '../../core/MementoImage.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 //import '../resources/exif.js' as exif;
@@ -42,8 +42,8 @@ class AllPhotos extends screenhelper.Screen {
    *     Photo database
    */
   final List<String> photoSources = toObservable([]);
-  final List<Thumbnail> thumbnails = toObservable([]);
-  List<ImageElement> images = new List<ImageElement>();
+  final List<MementoImage> thumbnails = toObservable([]);
+  List<ImageElement> images = toObservable([]);
 
   AllPhotos.created() : super.created(){
     Modal.use();
@@ -107,7 +107,6 @@ class AllPhotos extends screenhelper.Screen {
      event..stopPropagation()..preventDefault();
      _dropZone.classes.remove('hover');
      _onFilesSelected(event.dataTransfer.files);
-     closeAndUpdateNumber();
    }
 
    /*
@@ -115,28 +114,6 @@ class AllPhotos extends screenhelper.Screen {
     */
    void _onFileInputChange() {
      _onFilesSelected(_fileInput.files);
-     closeAndUpdateNumber();
-   }
-
-   /*
-    * Future so import and modal can run at the same time
-    */
-   Future getData(var photoFiles){
-     var completer = new Completer();
-     var workToDo = photoFiles.forEach((file) {
-                            FileWriter writer;
-                            FileReader reader = new FileReader();
-                            reader.onLoad.listen((e) {
-                              //FILE SRC
-                              this.photoSources.add(reader.result);
-                              //FILE THUMBNAIL
-                               this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
-                               images.add(new ImageElement(src: reader.result));
-                            });
-                            reader.readAsDataUrl(file);
-                   });
-     completer.complete(workToDo);
-     return completer.future;
    }
 
    void _onFilesSelected(List<File> files) {
@@ -144,44 +121,34 @@ class AllPhotos extends screenhelper.Screen {
      var photoFiles = files.where((file) => file.type.startsWith('image'));
      this.numberOfPhotosDefined = (this.thumbnails.length + photoFiles.length).toString();
 
-     //photos.addAll(photoFiles);
-      /*
-     //RUN THIS
-     Future future = getData(photoFiles);
-     //THEN
-     future
-       .then((workToDo) => closeAndUpdateNumber())
-       .catchError((e) => print(e));  */
-
      //TODO Modal loading
-     //showLoading();
-     ImageElement image;
-
-     photoFiles.forEach((file) {
-                                 FileWriter writer;
-                                 FileReader reader = new FileReader();
-                                 reader.onLoad.listen((e) {
-                                   //FILE SRC
-                                   this.photoSources.add(reader.result);
-                                   //FILE THUMBNAIL
-                                    this.thumbnails.add(new Thumbnail(reader.result, title: sanitizer.convert(file.name)));
-                                    images.add(new ImageElement(src: reader.result));
-                                 });
-                                 reader.readAsDataUrl(file);
-                                 //writer.write(reader.result);
-                        } );
+     showLoading();
      
-     readEXIFInformation();
-   }
+     ImageElement image = null;
+     
+     photoFiles.forEach((file) {
 
-   /*
-    * When all files were uploaded update the number
-    * of thumbnails.size so the user can create a 
-    * new summary
-    */ 
-   void closeAndUpdateNumber(){
-     //hiddeLoading();
+      var source;
+      FileReader reader = new FileReader();
+      reader.onLoad.listen((e) {
+        source = reader.result;
+        this.photoSources.add(source);                      
+        image = new ImageElement(src: source, width: 250, height: 250);
+        this.images.add(image);
+        this.thumbnails.add(new MementoImage(source, file.name, image));
+        images.add(image);
+      });
+      reader.readAsDataUrl(file);
+
+     });
+     
+    this.hiddeLoading();
+                         
+     
+     //readEXIFInformation();
    }
+   
+
    
    /*
     * 

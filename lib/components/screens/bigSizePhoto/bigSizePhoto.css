@@ -22,6 +22,12 @@
   max-height: 90% !important;
 }
 
+img[selected="true"]
+{ 
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
 #categories{
   border-bottom: 1px solid #8A949B;
   padding-top: 10px;

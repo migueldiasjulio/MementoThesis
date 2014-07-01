@@ -4,7 +4,7 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/Thumbnail.dart';
+import '../../core/MementoImage.dart';
 export "package:polymer/init.dart";
 
 /**
@@ -18,10 +18,10 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
          description = "Photo big size";
   factory BigSizePhoto() => new Element.tag(TAG);
   Element _name;
-  @published Thumbnail thumbToDisplay = null;
-  Thumbnail get thumbnailDisplay => thumbToDisplay;
+  @published MementoImage thumbToDisplay = null;
+  MementoImage get thumbnailDisplay => thumbToDisplay;
   
-  final List<Thumbnail> thumbnailsToShow = toObservable([]);
+  final List<MementoImage> thumbnailsToShow = toObservable([]);
 
   @observable bool moving = false;
 

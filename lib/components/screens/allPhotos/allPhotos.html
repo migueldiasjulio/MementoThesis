@@ -27,8 +27,9 @@
   
         <section id="photos">
             <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">      
-              <div class="mementoImage" id="{{thumbnail.title}}">
-                  <img src="{{thumbnail.src}}" style="border-radius: 5px;">
+              <div class="mementoImage" id="{{thumbnail.imageTitle}}">
+                  <img id="image" src="{{thumbnail.imageSrc}}" style="border-radius: 5px;">  
+                  <div id="selected"></div> 
               </div>                  
             </template> 
         </section>
@@ -94,18 +95,17 @@
       <!-- right side -->
     </form>
 
-  <div id="modal" class="modal fade" tabindex="-1" role="dialog">
+  <div id="summaryCreation" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
           <p id="modalTitle" style="margin: 0">Creating the Summary</p>
         </div>
         <div class="modal-body">
           <p id="message">Default</p>
         </div>
         <div class="modal-footer" style="margin: 0">
-          <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-default" data-dismiss="summaryCreation">Cancel</button>
           <button class="btn btn-summary"
             on-click="{{buildSummary}}" id="okButton">Ok</button>
         </div>
@@ -118,7 +118,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <button type="button" class="close" data-dismiss="loading">&times;</button>
          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
           <h4 id="modalTitle" style="margin: 0">Loading your photos...</h4>
         </div>
@@ -127,6 +127,9 @@
             <img src="../../../resources/images/loading.gif" />
             <h5>Please wait.</h5>
         </div>
+      </div>
+      <div class="modal-footer" style="margin: 0">
+        <button class="btn btn-default" data-dismiss="loading">Cancel</button>
       </div>
     </div>
   </div>

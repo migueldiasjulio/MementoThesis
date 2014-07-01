@@ -6,7 +6,7 @@ import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import 'package:bootjack/bootjack.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/Thumbnail.dart';
+import '../../core/MementoImage.dart';
 export "package:polymer/init.dart";
 
 
@@ -70,17 +70,17 @@ class SummaryDone extends screenhelper.SpecialScreen {
   }
 
   void exportToHardDrive(){
-    List<Thumbnail> thumbToExport = this.thumbnailsSummary;
+    List<MementoImage> thumbToExport = this.thumbnailsSummary;
     List<ImageElement> imgs = new List<ImageElement>();
 
     List<File> filesToExport = new List<File>();
     List<String> names = new List<String>();
 
     ImageElement img = new ImageElement();
-    for(Thumbnail thumb in thumbToExport){
-      img.setAttribute("src", thumb.src);
+    for(MementoImage thumb in thumbToExport){
+      img.setAttribute("src", thumb.imageSrc);
       imgs.add(img);
-      names.add(thumb.title + "\r\n");
+      names.add(thumb.imageTitle + "\r\n");
     }
     List test = new List();
     test.addAll(names);

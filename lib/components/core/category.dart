@@ -1,1 +1,5 @@
 library category;
+
+class Category{
+  
+}

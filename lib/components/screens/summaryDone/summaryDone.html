@@ -58,11 +58,11 @@
           <template if="{{thumbnailsSummary.length != 0}}">
             <section id="photos" style="height: 100%">
                 <template repeat="{{thumbnail in thumbnailsSummary}}">
-                    <img src="{{thumbnail.src}}" 
+                    <img src="{{thumbnail.imageSrc}}" 
                          on-click="{{showImage}}" 
-                         data-incby="{{thumbnail.title}}"
+                         data-incby="{{thumbnail.imageTitle}}"
                          class="img-thumbnail" 
-                         title="{{thumbnail.title}}"
+                         title="{{thumbnail.imageTitle}}"
                          selected="false">
                </template>
              </section>
@@ -78,11 +78,11 @@
             <template if="{{thumbnailsStandBy.length != 0}}">
               <section id="photos">
                 <template repeat="{{thumbnail in thumbnailsStandBy}}">
-                    <img src="{{thumbnail.src}}" 
+                    <img src="{{thumbnail.imageSrc}}" 
                          on-click="{{showImage}}" 
-                         data-incby="{{thumbnail.title}}"
+                         data-incby="{{thumbnail.imageTitle}}"
                          class="img-thumbnail" 
-                         title="{{thumbnail.title}}"
+                         title="{{thumbnail.imageTitle}}"
                          selected="false" >
                 </template>
               </section>
@@ -98,11 +98,11 @@
           <template if="{{thumbnailsExcluded.length != 0}}">
             <section id="photos">
                 <template repeat="{{thumbnail in thumbnailsExcluded}}">
-                    <img src="{{thumbnail.src}}" 
+                    <img src="{{thumbnail.imageSrc}}" 
                          on-click="{{showImage}}" 
-                         data-incby="{{thumbnail.title}}"
+                         data-incby="{{thumbnail.imageTitle}}"
                          class="img-thumbnail" 
-                         title="{{thumbnail.title}}"
+                         title="{{thumbnail.imageTitle}}"
                          selected="false" >
                  </template>
              </section>

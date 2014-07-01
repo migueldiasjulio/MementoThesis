@@ -5,7 +5,7 @@ import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
 import 'dataBase.dart';
 import 'mementoSettings.dart';
-import 'Thumbnail.dart';
+import 'MementoImage.dart';
 import 'dart:html';
 import 'dart:core';
 
@@ -92,9 +92,9 @@ abstract class SpecialScreen extends ScreenModule {
   @observable bool atStandBy = false;
   @observable bool atExcluded = false;
 
-  final List<Thumbnail> thumbnailsSummary = toObservable([]);
-  final List<Thumbnail> thumbnailsStandBy = toObservable([]);
-  final List<Thumbnail> thumbnailsExcluded = toObservable([]);
+  final List<MementoImage> thumbnailsSummary = toObservable([]);
+  final List<MementoImage> thumbnailsStandBy = toObservable([]);
+  final List<MementoImage> thumbnailsExcluded = toObservable([]);
   final List<String> selectedPhotos = toObservable([]);
   final List<Element> selectedElements = toObservable([]);
   
@@ -222,7 +222,7 @@ abstract class SpecialScreen extends ScreenModule {
    * @param destination - String 
    */
   void movePhotosFunction(String origin, String destination){
-    List<Thumbnail> thumbsToMove = new List<Thumbnail>();
+    List<MementoImage> thumbsToMove = new List<MementoImage>();
     for(String photoToMove in this.selectedPhotos){
       thumbsToMove.add(returnThumbnail(origin, photoToMove));
     }
@@ -237,7 +237,7 @@ abstract class SpecialScreen extends ScreenModule {
    * @param to - String
    * @param thumbnails - List<Thumbnail>
    */
-  void moveFromTo(String from, String to, List<Thumbnail> thumbnails){
+  void moveFromTo(String from, String to, List<MementoImage> thumbnails){
     switch(from){
          case("SUMMARY") :
            switch(to) {
@@ -283,13 +283,13 @@ abstract class SpecialScreen extends ScreenModule {
    * @param destination
    */
   void moveFunction(String from, String to,
-      List<Thumbnail> thumbs, List<Thumbnail> origin, List<Thumbnail> destination){
+      List<MementoImage> thumbs, List<MementoImage> origin, List<MementoImage> destination){
 
     List<String> thumbNames = new List<String>();
-    for(Thumbnail thumb in thumbs){
+    for(MementoImage thumb in thumbs){
       origin.remove(thumb);
       destination.add(thumb);
-      thumbNames.add(thumb.title);
+      thumbNames.add(thumb.imageTitle);
       printContainersSize();
     }
     this.myDataBase.moveFromTo(from, to, thumbNames);
@@ -301,28 +301,28 @@ abstract class SpecialScreen extends ScreenModule {
    * @param photoName - String
    * @return Thumbnail
    */
-  Thumbnail returnThumbnail(String origin, String photoName){
-    Thumbnail thumbReturn = null;
+  MementoImage returnThumbnail(String origin, String photoName){
+    MementoImage thumbReturn = null;
     switch(origin){
          case("SUMMARY") :            //NOOOOB change this later (for loop to search for thumbnail; change for Map)
-               for(Thumbnail thumb in this.thumbnailsSummary){
-                 if(thumb.title == photoName){
+               for(MementoImage thumb in this.thumbnailsSummary){
+                 if(thumb.imageTitle == photoName){
                    thumbReturn = thumb;
                    break;
                  }
                }
                break;
          case("STANDBY") :
-           for(Thumbnail thumb in this.thumbnailsStandBy){
-             if(thumb.title == photoName){
+           for(MementoImage thumb in this.thumbnailsStandBy){
+             if(thumb.imageTitle == photoName){
                thumbReturn = thumb;
                break;
              }
            }
            break;
          case("EXCLUDED") :
-           for(Thumbnail thumb in this.thumbnailsExcluded){
-             if(thumb.title == photoName){
+           for(MementoImage thumb in this.thumbnailsExcluded){
+             if(thumb.imageTitle == photoName){
                thumbReturn = thumb;
                break;
              }

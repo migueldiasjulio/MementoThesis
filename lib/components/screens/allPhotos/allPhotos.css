@@ -8,6 +8,23 @@
   overflow: hidden;
 }
 
+.mementoImage{
+  position: relative;
+  display: inline-block;
+}
+
+.mementoImage * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#selected {
+  background: src="../../../resources/images/selected.png" center center no-repeat;
+  width: 20px;
+  height: 20px;
+}
+
 #mainRow {
   width: 100%;
   height: 100%;

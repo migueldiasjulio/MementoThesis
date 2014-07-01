@@ -8,47 +8,50 @@
    <link rel="stylesheet" href="../resources/tabbed.css">
    
    <template if="{{myScreen == null}}">
-   
-     <div id="default" style="height: 100%">
-     
-      <section class="jumbotron centerfy" id="presentation" style="height: 74%; padding: 10px;" >
-        <div class="span12">
-          <img src="../../../resources/images/pipeline.png" style="width: 40%; height: 20%" />
+     <div id="default"> 
+      <div class="outer">
+        <div class="middle">
+          <div class="inner">
+            <section class="jumbotron centerfy" id="presentation">
+              <div class="span12">
+                <img src="../../../resources/images/pipeline.png" class="jumbotronImage"/>
+              </div>
+              <h2>Your Moments. Your Life.</h2>
+              <p> 
+              Create and share summaries of your photo collections in an easy way. 
+                </p>
+                  <button  class="btn btn-lg btn-primary" 
+                        id="startSummary"
+                        on-click="{{navigate}}" 
+                        data-target="{{screens.keys.first}}"> Start Summary <strong id="hello">&raquo;</strong>
+                  </button>
+            </section> <!-- presentation -->
+            
+          </div>
         </div>
-        <h2>Your Moments. Your Life.</h2>
-        <p> 
-        Create and share summaries of your photo collections in an easy way. 
-          </p>
-            <button  class="btn btn-lg btn-primary" 
-                  id="startSummary"
-                  on-click="{{navigate}}" 
-                  data-target="{{screens.keys.first}}"> Start Summary <strong id="hello">&raquo;</strong></button>
-      </section>
+       </div>
           
-      <section id="information">
-      
-        <div class="row">
-           <div class="col-xs-6 col-sm-6 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
-             <h3>Create</h3>
-               <p> Learn how to summarize your collection.</p>
-               <p><button style="width: 100px" type="button" class="btn btn-default">Learn &raquo;</button>
-            </div>
-           <div class="col-xs-6 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
-             <h3>Export</h3>
-               <p>How can i export my summary?</p>
-               <p><a style="width: 100px" class="btn btn-default" href="#">Learn &raquo;</a></p>
-            </div>
-         </div>
-       </section> <!-- information -->
-     </div>
+            <section id="information">
+              <div class="row">
+                 <div class="col-xs-6 col-sm-6 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
+                   <h3>Create</h3>
+                     <p> Learn how to summarize your collection.</p>
+                     <p><button style="width: 100px" type="button" class="btn btn-default">Learn &raquo;</button>
+                  </div>
+                 <div class="col-xs-6 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
+                   <h3>Export</h3>
+                     <p>How can i export my summary?</p>
+                     <p><a style="width: 100px" class="btn btn-default" href="#">Learn &raquo;</a></p>
+                  </div>
+               </div>
+           </section> <!-- information -->
+      </div>      
   </template>
   
     <!-- Module   -->
   <div id="myScreen" style="height: 100%">
     
   </div>
-
-  </template>
-  <script type="application/dart" src="mementoApp.dart"></script>
+ </template>
+<script type="application/dart" src="mementoApp.dart"></script>
 </polymer-element>
-

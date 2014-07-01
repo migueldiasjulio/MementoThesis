@@ -6,16 +6,15 @@ body {
   font-size: 14px;
   font-weight: normal;
   line-height: 1.2em;
-  padding-top: 10px;
-  padding-bottom: 20px;
   overflow: hidden;
+}
+
+#main {
+  height: 100%;
 }
 
 #helpButton:hover {
   background: #bbbbbb;
-}
-
-#headerBar {
 }
 
 h1, p {

@@ -1,28 +1,27 @@
 library database;
 
-import 'photoType.dart';
-import 'Thumbnail.dart';
+import 'MementoImage.dart';
 import 'dart:math';
 import 'mementoSettings.dart';
 import 'FunctionChoosed.dart' as Function;
+import 'dart:html';
 
 class Database {
 
   MementoSettings _settings = MementoSettings.get();
   
   List<String> _newNameToAddToMap;
-  Map<String, photoType> _helpSearching = new Map<String, photoType>();
+  Map<String, MementoImage> _helpSearching = new Map<String, MementoImage>();
  
   List<String> _summaryContainer = new List<String>();
   List<String> _standByContainer = new List<String>();
   List<String> _excludedContainer = new List<String>();
 
   //Aux
-  Map<String, photoType> _map = null;
+  Map<String, MementoImage> _map = null;
   List<String> _namesToAdd = new List<String>();
-  List<photoType> _newDataBaseElementsToAdd = new List <photoType>();
-  photoType _newDataBaseElement = null;
-  int _version = 1;
+  List<MementoImage> _newDataBaseElementsToAdd = new List <MementoImage>();
+  MementoImage _newDataBaseElement = null;
   
   /**
    * Singleton
@@ -47,8 +46,8 @@ class Database {
    * Return image to be displayed in BigSizePhoto Screen
    * @return Thumbnail
    */ 
-  Thumbnail returnImageToDisplay(){
-    return this._helpSearching[this.ImageToBeDisplayed].myThumbnail;
+  MementoImage returnImageToDisplay(){
+    return this._helpSearching[this.ImageToBeDisplayed];
   }
 
   /**
@@ -60,33 +59,17 @@ class Database {
   }
 
   /**
-   * 
-   */ 
-  int returnVersion(){
-    return _version;
-  }
-
-  /**
-   * 
-   */ 
-  void incVersion(){ 
-    _version++;
-  }
-
-  /**
    * Add a new element to the database
    */
-  void addNewElementsToDataBase(List<String> originalFiles, List<Thumbnail> thumbnailFiles){
-    var fileListSize = thumbnailFiles.length;
+  void addNewElementsToDataBase(List<String> filesSrc, List<MementoImage> newMementoImages){
+    var fileListSize = newMementoImages.length;
     for(var i = 0; i < fileListSize; i++){
-      if(!alreadyExistsInTheDataBase(thumbnailFiles.elementAt(i).title)){
-        this._namesToAdd.add(thumbnailFiles.elementAt(i).title);
-        this._newDataBaseElement = new photoType(originalFiles.elementAt(i), thumbnailFiles.elementAt(i));
+      if(!alreadyExistsInTheDataBase(newMementoImages.elementAt(i).imageTitle)){
+        this._namesToAdd.add(newMementoImages.elementAt(i).imageTitle);
+        this._newDataBaseElement = newMementoImages.elementAt(i);
         this._newDataBaseElementsToAdd.add(this._newDataBaseElement);
       }
     }
-
-    incVersion();
 
     testFunctionOne(); //TODO
 
@@ -106,7 +89,7 @@ class Database {
   /**
    * Update Map
    */
-  void updateMap(List<String> newNames, List<photoType> newDataBaseElements){
+  void updateMap(List<String> newNames, List<MementoImage> newDataBaseElements){
     this._map = new Map.fromIterables(newNames, newDataBaseElements);
     this._helpSearching.addAll(_map);
     this._map = null;
@@ -266,30 +249,30 @@ class Database {
     this.printContainersState(); //TODO
   }
 
-  List<Thumbnail> getThumbnails(String fromWhere){
-    List<Thumbnail> list = new List<Thumbnail>();
-    Thumbnail thumb;
+  List<MementoImage> getThumbnails(String fromWhere){
+    List<MementoImage> list = new List<MementoImage>();
+    MementoImage thumb;
     List<String> container;
 
     switch(fromWhere){
       case("SUMMARY") :
         container = this._summaryContainer;
         for(String photo in container){
-            list.add(this._helpSearching[photo].myThumbnail);
+            list.add(this._helpSearching[photo]);
         }
         //return list;
         break; 
       case("STANDBY") :
         container = this._standByContainer;
         for(String photo in container){
-            list.add(this._helpSearching[photo].myThumbnail);
+            list.add(this._helpSearching[photo]);
         }
         //return list;
         break; 
       case("EXCLUDED") :
         container = this._excludedContainer;
         for(String photo in container){
-            list.add(this._helpSearching[photo].myThumbnail);
+            list.add(this._helpSearching[photo]);
         }
         //return list;
         break;
@@ -302,11 +285,8 @@ class Database {
  }
   
   /**
-   * 
-   * 
-   * 
+   *  
    * TEST FUNCTIONS
-   * 
    * 
    */
 
