@@ -1,0 +1,30 @@
+* { margin: 0; padding: 0; }
+
+.mementoImage{
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  position:relative; 
+  border: 2px solid black;
+  left: 0;
+}
+
+#navlist li{
+display: inline;
+list-style-type: none;
+}
+
+.image{
+  max-width: 100%;
+  max-height: 100%; 
+  bottom: 0; 
+  display:block;
+  margin: auto;
+  border: 2px solid white;
+  position:absolute;                  /* added */
+  bottom:0;                           /* added */ 
+
+  /* border: 2px solid blue; */
+}
+
+/**/

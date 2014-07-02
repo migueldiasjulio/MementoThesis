@@ -1,72 +1,62 @@
 <polymer-element name="all-photos">
 <template>
   <link rel="stylesheet" href="allPhotos.css">
-  <link rel="stylesheet" href="../resources/responsiveGrid.css">
-  <link rel="stylesheet" href="../resources/tabbed.css">
-  <div id="main" style="height: 100%">
-
-  <section id="firstSection" style="height: calc(100% - 70px); padding: 10px">
-
-      <div id="drop-zone" style="height:100%">
-      
-      <template if="{{thumbnails.length == 0}}">
-          <div id="nothing" style="height:40%"></div> <!-- Just space -->
-          <div style="height: 20%">
-            <p id="helpMessage1">Drag and Drop your photos here</p>
-            <small id="helpMessage2"> or press
-              <button id="addPhotos" type="button"
-                     style="width: 130px;" 
-                     class="btn btn-summary btn-md"
-                     on-click="{{openFileUploader}}">Add Photos</button>
-            </small>
-          </div>
-          <div id="nothing" style="height: 40%"></div> <!-- Just space -->
-      </template>
-        
-      <template if="{{thumbnails.length > 0}}">
+  <link rel="stylesheet" href="../resources/mementoGrid.css">
   
-        <section id="photos">
-            <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">      
-              <div class="mementoImage" id="{{thumbnail.imageTitle}}">
-                  <img id="image" src="{{thumbnail.imageSrc}}" style="border-radius: 5px;">  
-                  <div id="selected"></div> 
-              </div>                  
-            </template> 
-        </section>
+  <div id="main">
   
-      </template>
-              
-     </div> <!-- drop zone -->
-  </section>
-  <!-- firstSection -->
+    <section id="firstSection">
+      <div id="drop-zone">  
+        <template if="{{thumbnails.length == 0}}">
+            <div id="nothing"></div> <!-- Just space -->
+            <div id="defaultInformation">
+              <p id="helpMessage1">Drag and Drop your photos here</p>
+              <small id="helpMessage2"> or press
+                <button id="allPhotosScreenButton" type="button" 
+                       class="btn btn-summary btn-md"
+                       on-click="{{openFileUploader}}">Add Photos
+                </button>
+              </small>
+            </div>
+            <div id="nothing"></div> <!-- Just space -->
+        </template>  
+        <template if="{{thumbnails.length > 0}}">    
+          <section>
+            <ul id="navlist">
+              <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">   
+                <li>   
+                  <div class="mementoImage" id="{{thumbnail.imageTitle}}">
+                    <div class="imageBoard">
+                      <img class="image img-thumbnail" src="{{thumbnail.imageSrc}}">  
+                    </div>
+                  </div> 
+                </li>                 
+              </template> 
+            </ul>
+          </section>
+        </template>     
+      </div> <!-- drop zone -->
+    </section> <!-- firstSection -->
 
   <div id="screenFooter">
-    
-    <div style="padding:10px"> 
-     
-    <form class="form-inline" role="form">
-    
-    <div class="row">
-             
-      <div class="col col-lg-4 col-md-4 col-sm-4 col-xs-3">
-      
-      <button id="addPhotos" type="button"
-        style="width: 130px;" 
-        class="btn btn-summary btn-md"
-        on-click="{{openFileUploader}}">Add Photos</button>
-        
-        <div style="height: 0px; width: 0px; overflow: hidden;">
-          <input type="file" id="files" name="files[]" multiple />
-        </div>
-          
-       </div>
-       <div class="col col-lg-8 col-md-8 col-sm-8 col-xs-7"> 
-         
-         <template if="{{thumbnails.length >= 1}}">
-            <div style="float: right">
-              <div class="btn-group">
-                <strong style="float: left; margin-top: 3%">Number of photos: </strong> 
-                  <span style="width: 130px" class="input-group">
+    <div id="footerDiv">  
+      <form class="form-inline" role="form">
+        <div class="row">        
+          <div class="col col-lg-4 col-md-4 col-sm-4 col-xs-3">
+            <button id="allPhotosScreenButton" type="button" 
+              class="btn btn-summary btn-md"
+              on-click="{{openFileUploader}}">Add Photos
+            </button>
+            <div id="inputFiles">
+              <input type="file" id="files" name="files[]" multiple />
+            </div>  
+          </div>
+          <div class="col col-lg-8 col-md-8 col-sm-8 col-xs-7">  
+            <template if="{{thumbnails.length >= 1}}">
+              <div id="rightButtons">
+                <div class="btn-group">
+                  <strong id="numberOfPhotosInformation">Number of photos: </strong> 
+                  <span id="allPhotosScreenButton" class="input-group">
                     <span  on-click="{{subSummaryNumber}}" class="input-group-addon bfh-number-btn dec">
                       <span class="glyphicon glyphicon-chevron-down"></span>
                     </span>
@@ -81,64 +71,62 @@
                       <span class="glyphicon glyphicon-chevron-up"></span>
                     </span>
                   </span>
-              </div>  
-              <div class="btn-group">
-                <button id="startSummary" type="button"
-                  on-click="{{buildSummary}}" style="width: 130px"
-                  class="btn btn-summary btn-md">
-                  Start Summary</button>
-              </div>
-            </div>
-          </template>
-        </div>        
-      </div> <!-- row -->
-      <!-- right side -->
+                  </div>  
+                <div class="btn-group">
+                  <button id="allPhotosScreenButton" type="button"
+                          on-click="{{buildSummary}}" 
+                          class="btn btn-summary btn-md">
+                          Start Summary</button>
+                </div>
+             </div>
+            </template>
+           </div>        
+         </div> <!-- row -->
     </form>
+   </div>
+  </div>
 
-  <div id="summaryCreation" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <p id="modalTitle" style="margin: 0">Creating the Summary</p>
-        </div>
-        <div class="modal-body">
-          <p id="message">Default</p>
-        </div>
-        <div class="modal-footer" style="margin: 0">
-          <button class="btn btn-default" data-dismiss="summaryCreation">Cancel</button>
-          <button class="btn btn-summary"
-            on-click="{{buildSummary}}" id="okButton">Ok</button>
+    <!-- modal divs -->
+    
+    <div id="summaryCreation" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <p id="modalMargin1">Creating the Summary</p>
+          </div>
+          <div class="modal-body">
+            <p id="message">Default</p>
+          </div>
+          <div id="modalMargin1" class="modal-footer">
+            <button class="btn btn-default" data-dismiss="summaryCreation">Cancel</button>
+            <button class="btn btn-summary"
+              on-click="{{buildSummary}}" id="okButton">Ok</button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- modal -->
-  
+    </div>  <!-- summaryCreation modal -->
+    
     <div id="loading" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-         <button type="button" class="close" data-dismiss="loading">&times;</button>
-         <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-          <h4 id="modalTitle" style="margin: 0">Loading your photos...</h4>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+           <button type="button" class="close" data-dismiss="loading">&times;</button>
+            <h4 id="modalMargin1">Loading your photos...</h4>
+          </div>
+          <div class="modal-body">
+          <div id="centerText">
+              <img src="../../../resources/images/loading.gif" />
+              <h5>Please wait.</h5>
+          </div>
         </div>
-        <div class="modal-body">
-        <div style="margin-left: 45%">
-            <img src="../../../resources/images/loading.gif" />
-            <h5>Please wait.</h5>
+        <div id="modalMargin1" class="modal-footer">
+          <button class="btn btn-default" data-dismiss="loading">Cancel</button>
         </div>
-      </div>
-      <div class="modal-footer" style="margin: 0">
-        <button class="btn btn-default" data-dismiss="loading">Cancel</button>
       </div>
     </div>
-  </div>
-  </div>
-  <!-- modal -->
-</div>
-</div>
-</div>
-<!-- main --> 
+    </div> <!-- loading modal -->
+  
+  </div><!-- main --> 
 </template> 
 <script type="application/dart" src="allPhotos.dart"></script> 
 <script src="../resources/exif.js"></script>

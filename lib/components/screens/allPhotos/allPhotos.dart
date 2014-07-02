@@ -99,7 +99,7 @@ class AllPhotos extends screenhelper.Screen {
      ..dataTransfer.dropEffect = 'copy';
    }
 
-   /*
+   /* 
     * On Drop (drop zone)
     * @param event - MouseEvent 
     */
