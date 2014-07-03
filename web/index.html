@@ -32,14 +32,11 @@
 
   </head>
   
-  <body style="background-color: #F0F0F0">
-    
+  <body> 
     <div id="main">
-
-    <header style="height: 40px">
-        <nav id="headerBar" style="height:40px" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-          <div class="container">
-              <div class="navbar-header" >
+     <header id="headerHeight" class="padding">
+        <nav id="headerBar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+              <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                       <span class="sr-only">Toggle navigation</span>
                       <span class="icon-bar"></span>
@@ -47,33 +44,28 @@
                       <span class="icon-bar"></span>
                   </button>
                   <a class="navbar-brand logo-nav" href="#">
-                    <img src="resources/images/Memento_branco.svg" style="width: 140px; height: 50px; margin-top: -15px" >
+                    <img id="memento" src="resources/images/Memento_branco.svg">
                   </a>
               </div>
   
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse navbar-ex1-collapse">
-                  <ul class="nav navbar-nav navbar-right">
+                  <ul class="nav navbar-nav navbar-right" id="navbarNav">
                       <li>
-                      <a href="#settings" data-toggle="modal">Settings</a>           
+                        <a href="#help" data-toggle="modal">Help</a>
+                      </li>
+                      <li>
+                        <a href="#settings" data-toggle="modal">Settings</a>           
                       </li>
                       <li>
                         <a href="#about" data-toggle="modal">About</a>
                       </li>
-                      <li>
-                        <a href="#help" data-toggle="modal">Help</a>
-                      </li>
                   </ul>
-              </div>
-              <!-- /.navbar-collapse -->
-          </div>
-          <!-- /.container -->
-        </nav>
-        <!-- nav -->
-      </header>
-      <!-- header -->
+              </div> <!-- /.navbar-collapse -->
+        </nav> <!-- nav -->
+      </header> <!-- header -->
    
-      <section id="container-id" style="height: calc(100% - 40px)">
+      <section id="container-id">
         <memento-app></memento-app>
       </section>
     </div>
@@ -88,7 +80,7 @@
             <div class="modal-body">
               <p>Change with the screen</p>
             </div>
-            <div class="modal-footer" style="margin: 0">
+            <div class="modal-footer">
               <a class="btn btn-default" data-dismiss="modal">Close</a>
             </div>
           </div>
@@ -192,14 +184,12 @@
     </div>
     <!-- Auto resize -->
     <script lang="javascript">
-        function autoResizeDiv()
-        {
-         document.getElementById('main').style.height = window.innerHeight +'px';
-        }
-        window.onresize = autoResizeDiv;
-        autoResizeDiv();
+      function autoResizeDiv(){
+        document.getElementById('main').style.height = window.innerHeight +'px';
+      }
+      window.onresize = autoResizeDiv;
+      autoResizeDiv();
     </script>
     <script type="application/dart" src="../lib/components/core/index.dart"></script>
-    <!-- <script type="text/javascript" src="resources/js/bootstrap-formhelpers.js"></script> -->
   </body>
 </html>

@@ -1,11 +1,34 @@
 @import url("../../../../../packages/bootjack/css/bootstrap.min.css");
 @import url("../../../../../packages/bootjack/css/bootstrap-theme.css");
 
+/* General Settings */
 #main {
   width: 100%;
   overflow: hidden;
   height: 100%;
 }
+
+#centerText {
+  text-align: center;
+}
+
+.buttonMargin{
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+#horizontalCenter{
+  vertical-align:middle;
+  margin-top: 10px;
+}
+
+#allPhotosScreenButton{
+  width: 130px;
+}
+
+/* General Settings */
+
+/* First Section */
 
 #tabbed {
   overflow: hidden;
@@ -30,32 +53,15 @@
   opacity: 0; 
 }
 
-#span{
-  
-}
-
-#bottomZone{
-  border-top: 1px solid #8A949B;
-  border-bottom: 1px solid #8A949B;
-  background: #D1D2D5;
-  height: 91px;
-}
-
-#categories{
-  border-bottom: 1px solid #8A949B;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-}
-
 .summary {
   height: 100%;
 }
 
 #firstSection{
-  height: calc(100% - 90px);
+  height: calc(100% - 105px);
   padding: 10px;
   overflow: hidden;
+  margin-top: 10px;
 }
 
 #wrapperZone {
@@ -77,72 +83,27 @@ img[selected="true"]
   width: 100%;
 }
 
-#line {
-  width: 100%;
-  margin-top: 5px;
-}
-
 .img-thumbnail {
   border: 1px solid #000;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
-.btn-summary {
-  color: #ffffff;
-  background-color: #696969;
-  border-color: #696969;
+/* Bottom Section */
+
+#screenFooter{
+  padding:5px;
 }
 
-.btn-summary:hover,
-.btn-summary:focus,
-.btn-summary:active,
-.btn-summary.active,
-.open .dropdown-toggle..btn-summary {
-  color: #ffffff;
-  background-color: #696969;
-  border-color: #696969;
+#bottomZone{
+  border-top: 1px solid #8A949B;
+  background: #D1D2D5;
+  height: 85px;
+  margin-top: 10px;
 }
 
-.btn-summary:active,
-.btn-summary.active,
-.open .dropdown-toggle..btn-summary{
-  color: #ffffff;
-  background-image: none;
-}
-
-.btn-summary.disabled,
-.btn-summary[disabled],
-fieldset[disabled] .btn-summary,
-.btn-summary.disabled:hover,
-.btn-summary[disabled]:hover,
-fieldset[disabled] .btn-summary:hover,
-.btn-summary.disabled:focus,
-.btn-summary[disabled]:focus,
-fieldset[disabled] .btn-summary:focus,
-.btn-summary.disabled:active,
-.btn-summary[disabled]:active,
-fieldset[disabled] .btn-summary:active,
-.btn-summary.disabled.active,
-.btn-summary[disabled].active,
-fieldset[disabled] .btn-summary.active {
-  background-color: #696969;
-  border-color: #696969;
-}
-
-.btn-summary .badge {
-  color: #696969;
-  background-color: #fff;
-}
-
-.btn-summary:hover,
-.btn-summary:focus {
-  color: #fff;
-  background-color: #444444;
-}
-
-#standByLabel,
-#summaryLabel,
-#excludedLabel {
-  border-radius:3px;
+#categories{
+  border-bottom: 1px solid #8A949B;
+  padding:5px;
+  
 }

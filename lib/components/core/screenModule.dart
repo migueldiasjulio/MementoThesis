@@ -91,7 +91,13 @@ abstract class SpecialScreen extends ScreenModule {
   @observable bool atSummary = true;
   @observable bool atStandBy = false;
   @observable bool atExcluded = false;
-
+  
+  @observable bool allCategories = true;
+  @observable bool facesCategory = true;
+  @observable bool BWCategory = true;
+  @observable bool ColorCategory = true;
+  @observable bool sameCategory = true;
+  
   final List<MementoImage> thumbnailsSummary = toObservable([]);
   final List<MementoImage> thumbnailsStandBy = toObservable([]);
   final List<MementoImage> thumbnailsExcluded = toObservable([]);
@@ -497,4 +503,120 @@ abstract class SpecialScreen extends ScreenModule {
   /**
    * Test functions
    */ 
+  
+  /**
+   * Category Functions
+   */ 
+  
+  /**
+   * All Categories
+   */ 
+  void enableAllCategories(){
+    this.allCategories = true;
+    this.facesCategory = true;
+    this.BWCategory = true;
+    this.ColorCategory = true;
+    this.sameCategory = true;
+  }
+  
+  void disableAllCategories(){
+    this.allCategories = false;
+    this.facesCategory = false;
+    this.BWCategory = false;
+    this.ColorCategory = false;
+    this.sameCategory = false;
+  }
+  
+  void allPhotosCategory(){
+    if(this.allCategories){
+      this.disableAllCategories();
+    }else{
+      this.enableAllCategories();
+    }
+  }
+  
+  /**
+   * Faces Category
+   */ 
+  
+  void enableFacesCategory(){
+    this.facesCategory = true;
+  }
+  
+  void disableFacesCategory(){
+    this.facesCategory = false;
+    this.allCategories = false;
+  }
+  
+  void photosWithFacesCategory(){
+    if(this.facesCategory){
+      this.disableFacesCategory();
+    }else{
+      this.enableFacesCategory();
+    }
+    print("Displaying Photos with faces");
+  }
+  
+  /**
+   * Black and White Category
+   */ 
+  void enableBWCategory(){
+    this.BWCategory = true;
+  }
+  
+  void disableBWCategory(){
+    this.BWCategory = false;
+    this.allCategories = false;
+  }
+  
+  void photosWithBWCategory(){
+    if(this.BWCategory){
+      this.disableBWCategory();
+    }else{
+      this.enableBWCategory();
+    }
+    print("Displaying Black and White Photos");
+  }
+  
+  /**
+   * Color Category
+   */ 
+  void enableColorCategory(){
+    this.ColorCategory = true;
+  }
+  
+  void disableColorCategory(){
+    this.ColorCategory = false;
+    this.allCategories = false;
+  }
+  
+  void photosWithColorCategory(){
+    if(this.ColorCategory){
+      this.disableColorCategory();
+    }else{
+      this.enableColorCategory();
+    }
+    print("Displaying Color Photos");
+  }
+  
+  /**
+   * Same Category
+   */ 
+  void enableSameCategory(){
+    this.sameCategory = true;
+  }
+  
+  void disableSameCategory(){
+    this.sameCategory = false;
+    this.allCategories = false;
+  }
+  
+  void photosWithSameCategory(){
+    if(this.sameCategory){
+      this.disableSameCategory();
+    }else{
+      this.enableSameCategory();
+    }
+    print("Displaying equivalent Photos");
+  }
 }
