@@ -1,126 +1,43 @@
 @import url("../../../../../packages/bootjack/css/bootstrap.min.css");
 @import url("../../../../../packages/bootjack/css/bootstrap-theme.css");
 
+/*General settings */
 #main {
   width: 100%;
   overflow: hidden;
   height: 100%;
 }
 
+/*First Section*/
 #firstSection{
-  height: calc(100% - 264px);
+  height: calc(100% - 278px);
   padding: 20px;
 }
 
-#placingImage {
-  height: 90%;
-  width: 100%;
-}
-
-#placingImage img{
-  max-width: 90% !important;
-  max-height: 90% !important;
-}
-
-img[selected="true"]
-{ 
-  opacity: 0.4;
-  filter: alpha(opacity=40); /* For IE8 and earlier */
-}
-
-#categories{
-  border-bottom: 1px solid #8A949B;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-bottom: 10px;
-}
+/*Bottom Section*/
 
 #screenFooter {
-  height: 265px;
+  height: 278px; /*194px + 40px + 40px*/
   background: #D1D2D5;
   border-top: 1px solid #8A949B;
   border-bottom: 1px solid #8A949B;
 }
 
-#mainRow {
-  height: 100%;
+#categories{
+  border-bottom: 1px solid #8A949B;
+  padding: 5px;
+  height: 40px;
 }
 
-#bottomButtons{
-  float: right; 
-  margin-right: 10px; 
-  margin-top: 10px;
-}
-
-#bottomButtonsLeft{
-  float: left; 
-  margin-right: 10px; 
-  margin-top: 10px;
-}
-
-img {
-  vertical-align: middle;
-  text-align:center;
-}
-
-#placeCategories{
-  height: 6%;
+#BigSizeTabs{
+ height: 194px; /*150px + 44px*/ 
 }
 
 .img-thumbnail {
   border: 1px solid #000;
 }
 
-.btn-summary {
-  color: #ffffff;
-  background-color: #696969;
-  border-color: #696969;
-}
-
-.btn-summary:hover,
-.btn-summary:focus,
-.btn-summary:active,
-.btn-summary.active,
-.open .dropdown-toggle..btn-summary {
-  color: #ffffff;
-  background-color: #696969;
-  border-color: #696969;
-}
-
-
-.btn-summary:active,
-.btn-summary.active,
-.open .dropdown-toggle..btn-summary{
-  color: #ffffff;
-  background-image: none;
-}
-
-.btn-summary.disabled,
-.btn-summary[disabled],
-fieldset[disabled] .btn-summary,
-.btn-summary.disabled:hover,
-.btn-summary[disabled]:hover,
-fieldset[disabled] .btn-summary:hover,
-.btn-summary.disabled:focus,
-.btn-summary[disabled]:focus,
-fieldset[disabled] .btn-summary:focus,
-.btn-summary.disabled:active,
-.btn-summary[disabled]:active,
-fieldset[disabled] .btn-summary:active,
-.btn-summary.disabled.active,
-.btn-summary[disabled].active,
-fieldset[disabled] .btn-summary.active {
-  background-color: #696969;
-  border-color: #696969;
-}
-
-.btn-summary .badge {
-  color: #696969;
-  background-color: #fff;
-}
-
-.btn-summary:hover,
-.btn-summary:focus {
-  color: #fff;
-  background-color: #444444;
+#screenFooterButtons{
+  padding: 5px;
+  height: 44px;
 }

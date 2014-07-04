@@ -1,0 +1,258 @@
+
+/*********** INFORMATION *****************************
+
+- document:  Tabbed - HTML5 and CSS3 Tabs Pack
+- element:   Tabs with all elements preview
+- author:    Capelle @ Codecanyon
+- profile:   http://codecanyon.net/user/Capelle
+
+*****************************************************/
+
+#tabbed * {
+}
+
+#tabbed label {
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+	cursor: pointer;
+}
+#tabbed input[type="radio"] {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+#tabbed a {
+	text-decoration: none;
+}
+#tabbed {
+	width: 100%; /* <-- Adjust this value to change the width of the tabs */
+	position: relative;
+	float: left;
+	text-align: left; /* This value positions the tab labels on top. You can set: left, right or center. */
+}
+
+/***** Wrapper *****/
+
+#tabbed .wrapper {
+	background: #F0F0F0; 
+	position: relative;
+	width: 100%;
+	height: 100%;
+	float: left;
+	text-align: left;
+}
+#tabbed .wrapper > div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: auto;
+	width: 100%;
+	background: #F0F0F0;
+	z-index: -1;
+	opacity: 0;
+	visibility: hidden;
+	float: left;
+}
+
+/***** Tab labels *****/
+
+#tabbed input#t-1:checked ~ .wrapper .summary{
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: scroll;
+  visibility: visible;
+  height:calc(100% - 44px);
+  padding: 5px;
+  border: solid 2px #7FCA9F;
+}
+
+#tabbed input#t-1:checked ~ .wrapper .summary2{
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  visibility: visible;
+  height:150px;
+  padding: 5px;
+  border: solid 2px #7FCA9F;
+}
+
+#tabbed input#t-2:checked ~ .wrapper .standby{
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: scroll;
+  visibility: visible;
+  height:calc(100% - 44px);
+  padding: 5px;
+  border: solid 2px #F4BA70;
+}
+
+#tabbed input#t-2:checked ~ .wrapper .standby2{
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: hidden;
+  visibility: visible;
+  height:150px;
+  padding: 5px;
+  border: solid 2px #F4BA70;
+}
+
+#tabbed input#t-3:checked ~ .wrapper .excluded {
+	position: relative;
+	float: left;
+	z-index: 10;
+	opacity: 1;
+  overflow-y: scroll;
+  visibility: visible;
+  height:calc(100% - 44px);
+  padding: 5px;
+	border: solid 2px #E96D63;
+}
+
+#tabbed input#t-3:checked ~ .wrapper .excluded2 {
+  position: relative;
+  float: left;
+  z-index: 10;
+  opacity: 1;
+  overflow-y: hidden;
+  visibility: visible;
+  height:150px;
+  padding: 5px;
+  border: solid 2px #E96D63;
+}
+
+/*------------SUMMARY-----------------*/
+
+#tabbed label.summary {
+  display: inline-block;
+  background: #70B894;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  padding: 0 40px;
+  width: auto;
+  height: 44px;
+  line-height: 44px;
+  -webkit-transform: translateY(6px);
+  -moz-transform: translateY(6px);
+  -ms-transform: translateY(6px);
+  -o-transform: translateY(6px);
+  transform: translateY(6px);
+}
+#tabbed label.summary:hover,
+#tabbed label.summary:focus {
+  background: #7FCA9F;
+  color: #fff;
+}
+#tabbed input:checked + label.summary {
+  background: #7FCA9F;
+  color: #fff;
+  font-weight:bold;
+}
+#tabbed label.summary:hover,
+#tabbed label.summary:focus,
+#tabbed input:checked + label.summary {
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);
+}
+#tabbed label.summary:before {
+  padding-right: 10px;
+}
+
+/*-----------------------------*/
+/*------------STANDBY-----------------*/
+
+#tabbed label.standby {
+  display: inline-block;
+  background: #DCA765;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  padding: 0 40px;
+  width: auto;
+  height: 44px;
+  line-height: 44px;
+  -webkit-transform: translateY(6px);
+  -moz-transform: translateY(6px);
+  -ms-transform: translateY(6px);
+  -o-transform: translateY(6px);
+  transform: translateY(6px);
+}
+#tabbed label.standby:hover,
+#tabbed label.standby:focus {
+  background: #F4BA70; 
+  color: #fff;
+}
+#tabbed input:checked + label.standby {
+  background: #F4BA70;
+  color: #fff;
+  font-weight:bold;
+}
+#tabbed label.standby:hover,
+#tabbed label.standby:focus,
+#tabbed input:checked + label.standby {
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);
+}
+#tabbed label.standby:before {
+  padding-right: 10px;
+}
+
+/*-----------------------------*/
+/*------------EXCLUDED-----------------*/
+
+#tabbed label.excluded {
+  display: inline-block;
+  background: #D26259;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  padding: 0 40px;
+  width: auto;
+  height: 44px;
+  line-height: 44px;
+  -webkit-transform: translateY(6px);
+  -moz-transform: translateY(6px);
+  -ms-transform: translateY(6px);
+  -o-transform: translateY(6px);
+  transform: translateY(6px);
+}
+#tabbed label.excluded:hover,
+#tabbed label.excluded:focus {
+  background: #E96D63; 
+  color: #fff;
+}
+#tabbed input:checked + label.excluded {
+  background: #E96D63;
+  color: #fff;
+  font-weight:bold;
+}
+#tabbed label.excluded:hover,
+#tabbed label.excluded:focus,
+#tabbed input:checked + label.excluded {
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);
+}
+#tabbed label.excluded:before {
+  padding-right: 10px;
+}
+
+/*-----------------------------*/

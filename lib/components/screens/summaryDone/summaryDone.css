@@ -8,13 +8,9 @@
   height: 100%;
 }
 
-#centerText {
-  text-align: center;
-}
-
-.buttonMargin{
-  margin-left: 4px;
-  margin-right: 4px;
+#exportImage{
+ width: 200px; 
+ height: 200px; 
 }
 
 #horizontalCenter{
@@ -58,7 +54,7 @@
 }
 
 #firstSection{
-  height: calc(100% - 105px);
+  height: calc(100% - 95px);
   padding: 10px;
   overflow: hidden;
   margin-top: 10px;
@@ -71,16 +67,6 @@
 #tabs{
   height: 100%; 
   overflow:hidden;
-}
-
-img[selected="true"]
-{ 
-  opacity: 0.4;
-  filter: alpha(opacity=40); /* For IE8 and earlier */
-}
-
-#tabion {
-  width: 100%;
 }
 
 .img-thumbnail {
@@ -99,7 +85,6 @@ img[selected="true"]
   border-top: 1px solid #8A949B;
   background: #D1D2D5;
   height: 85px;
-  margin-top: 10px;
 }
 
 #categories{

@@ -4,9 +4,6 @@
 @import url('http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2-bootstrap.css');
 
 /* General elements */
-#centerText {
-  text-align: center;
-}
 
 #main {
   width: 100%;

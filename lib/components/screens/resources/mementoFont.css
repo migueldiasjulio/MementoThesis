@@ -1,0 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic);
+
+* {
+  font-style: normal;
+  font-family: 'Lato', Arial, Helvetica, sans-serif; 
+  vertical-align: baseline;
+  line-height: normal;
+}

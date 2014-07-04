@@ -2,7 +2,8 @@
 <template>
   <link rel="stylesheet" href="allPhotos.css">
   <link rel="stylesheet" href="../resources/mementoGrid.css">
-  <link rel="stylesheet" href="../resources/buttons.css"> 
+  <link rel="stylesheet" href="../resources/mementoPosition.css"> 
+  <link rel="stylesheet" href="../resources/mementoButtons.css">
   <div id="main">
   
     <section id="firstSection">
@@ -12,7 +13,7 @@
             <div id="defaultInformation">
               <p id="helpMessage1">Drag and Drop your photos here</p>
               <small id="helpMessage2"> or press
-                <button id="allPhotosScreenButton" type="button" 
+                <button id="Button130" type="button" 
                        class="btn btn-summary btn-md"
                        on-click="{{openFileUploader}}">Add Photos
                 </button>
@@ -21,7 +22,7 @@
             <div id="nothing"></div> <!-- Just space -->
         </template>  
         <template if="{{thumbnails.length > 0}}">    
-          <section>
+          <section class="centerStuff">
             <ul id="navlist">
               <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">   
                 <li>   
@@ -43,7 +44,7 @@
       <form class="form-inline" role="form">
         <div class="row">        
           <div class="col col-lg-4 col-md-4 col-sm-4 col-xs-3">
-            <button id="allPhotosScreenButton" type="button" 
+            <button id="Button130" type="button" 
               class="btn btn-summary btn-md"
               on-click="{{openFileUploader}}">Add Photos
             </button>
@@ -56,7 +57,7 @@
               <div id="rightButtons">
                 <div class="btn-group">
                   <strong id="numberOfPhotosInformation">Number of photos: </strong> 
-                  <span id="allPhotosScreenButton" class="input-group">
+                  <span id="Button130" class="input-group">
                     <span  on-click="{{subSummaryNumber}}" class="input-group-addon bfh-number-btn dec">
                       <span class="glyphicon glyphicon-chevron-down"></span>
                     </span>
@@ -73,7 +74,7 @@
                   </span>
                   </div>  
                 <div class="btn-group">
-                  <button id="allPhotosScreenButton" type="button"
+                  <button id="Button130" type="button"
                           on-click="{{buildSummary}}" 
                           class="btn btn-summary btn-md">
                           Start Summary</button>

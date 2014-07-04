@@ -1,0 +1,17 @@
+#centerText {
+  text-align: center;
+}
+
+.leftText {
+  text-align:left;
+}
+
+.centerStuff{
+  left: 0px;
+  right: 0px;
+}
+
+.buttonMargin{
+  margin-left: 4px;
+  margin-right: 4px;
+}

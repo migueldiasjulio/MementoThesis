@@ -73,6 +73,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    * TODO
    */
   void returnToSummary(){
+    disableSelection();
     router.go("summary-done", {});
   }
 
@@ -81,7 +82,6 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    */
   void cancel(){
     selection=false;
-    moving=false;
   }
   
   /*
@@ -92,6 +92,8 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     var isSelected;
     if(!this.selection){
       print(target.attributes['data-incby']);
+      this.myDataBase.setImageToBeDisplayed(target.attributes['data-incby']);
+      this.thumbToDisplay = this.myDataBase.returnImageToDisplay();
     }
     else{
       nameOfPhoto = target.attributes['data-incby'];
@@ -111,15 +113,6 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     }
   }
   
-  void cancelMoveAction(){
-    disableSelection();
-    this.moving = false;
-  }
-  
-  void enableMoveAction() {
-    this.moving = true;
-  }
-  
   void showSummaryPhotos(){
     this.thumbnailsToShow.clear();
     this.thumbnailsToShow.addAll(this.thumbnailsSummary);
@@ -133,22 +126,5 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   void showExcludedPhotos(){
     this.thumbnailsToShow.clear();
     this.thumbnailsToShow.addAll(this.thumbnailsExcluded);
-  }
-  
-  void specialMoveToSummary(){
-    this.moveToSummary();
-    cancelMoveAction();
-  }
-  
-  void specialMoveToStandBy(){
-    this.moveToStandBy();
-    cancelMoveAction();
-  }
-  
-  void specialMoveToExcluded(){
-    this.moveToExcluded();
-    cancelMoveAction();
-  }
-  
-  
+  }  
 }

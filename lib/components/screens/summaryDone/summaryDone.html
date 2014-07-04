@@ -1,9 +1,11 @@
 <polymer-element name="summary-done">
 <template>
   <link rel="stylesheet" href="summaryDone.css">
+  <link rel="stylesheet" href="../resources/mementoButtons.css">
+  <link rel="stylesheet" href="../resources/mementoTabs.css">
   <link rel="stylesheet" href="../resources/mementoGrid.css">
-  <link rel="stylesheet" href="../resources/buttons.css">
-  <link rel="stylesheet" href="../resources/tabbed.css">
+  <link rel="stylesheet" href="../resources/mementoPosition.css">
+  <link rel="stylesheet" href="../resources/mementoSize.css">
   
   <div id="main">
     <section id="firstSection">
@@ -52,10 +54,12 @@
           <!-- Tab 1 content -->
           <div class="summary">          
             <template if="{{thumbnailsSummary.length == 0}}">
-              <div id="titleWithoutPhotos" class="title large">Summary container is empty.</div>
+              <div class="space40"></div> <!-- Just space -->
+              <div id="centerText" class="title large font25 height20">Summary container is empty.</div>
+              <div class="space40"></div> <!-- Just space -->
             </template>
             <template if="{{thumbnailsSummary.length != 0}}">
-              <section>
+              <section class="centerStuff">
                 <ul id="navlist">
                   <template id="thumbnailsShow" repeat="{{thumbnail in thumbnailsSummary}}">   
                     <li>   
@@ -80,10 +84,12 @@
           <!-- Tab 2 content -->
           <div class="standby" >
             <template if="{{thumbnailsStandBy.length == 0}}">
-                <div id="titleWithoutPhotos" class="title large">Stand-by container is empty.</div>
+              <div class="space40"></div> <!-- Just space -->
+              <div id="centerText" class="title large font25 height20">Stand-by container is empty.</div>
+              <div class="space40"></div> <!-- Just space -->
               </template>
               <template if="{{thumbnailsStandBy.length != 0}}">        
-               <section>
+               <section class="centerStuff">
                 <ul id="navlist">
                   <template id="thumbnailsShow" repeat="{{thumbnail in thumbnailsStandBy}}">   
                     <li>   
@@ -108,12 +114,14 @@
           <!-- Tab 3 content -->
           <div class="excluded">
             <template if="{{thumbnailsExcluded.length == 0}}">
-              <div class="title large">Excluded container is empty.</div>
+              <div class="space40"></div> <!-- Just space -->
+              <div id="centerText" class="title large font25 height20">Excluded container is empty.</div>
+              <div class="space40"></div> <!-- Just space -->
             </template>
             <template if="{{thumbnailsExcluded.length != 0}}">
-              <section>
+              <section class="centerStuff">
                 <ul id="navlist">
-                  <template id="thumbnailsShow" repeat="{{thumbnail in thumbnailsExcluded}}">   
+                  <template repeat="{{thumbnail in thumbnailsExcluded}}">   
                     <li>   
                       <div class="mementoImage" id="{{thumbnail.imageTitle}}">
                         <div class="imageBoard">
@@ -159,51 +167,51 @@
             <!-- Faces -->
             <template if="{{facesCategory}}">
                 <img src="../../../resources/images/Faces.png" 
-                     on-click="{{photosWithFacesCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithFacesCategory}}" id="categorySize"  /> 
             </template>
             <template if="{{!facesCategory}}">
                 <img src="../../../resources/images/Faces_ns.png" 
-                     on-click="{{photosWithFacesCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithFacesCategory}}" id="categorySize"  /> 
             </template>
             <!-- Faces -->
             <!-- Black and White Photos -->
             <template if="{{BWCategory}}">
                 <img src="../../../resources/images/BW.png" 
-                     on-click="{{photosWithBWCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithBWCategory}}" id="categorySize"  /> 
             </template>
             <template if="{{!BWCategory}}">
                 <img src="../../../resources/images/BW_ns.png" 
-                     on-click="{{photosWithBWCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithBWCategory}}" id="categorySize"  /> 
             </template>
             <!-- Black and White Photos -->
             <!-- Color Photos -->
             <template if="{{ColorCategory}}">
                 <img src="../../../resources/images/color.png" 
-                     on-click="{{photosWithColorCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithColorCategory}}" id="categorySize"  /> 
             </template>
             <template if="{{!ColorCategory}}">
                 <img src="../../../resources/images/color_ns.png" 
-                     on-click="{{photosWithColorCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithColorCategory}}" id="categorySize"  /> 
             </template>
             <!-- Color Photos -->
             <!-- Same Photos -->
             <template if="{{sameCategory}}">
                 <img src="../../../resources/images/same.png" 
-                     on-click="{{photosWithSameCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithSameCategory}}" id="categorySize"  /> 
             </template>
             <template if="{{!sameCategory}}">
                 <img src="../../../resources/images/same_ns.png" 
-                     on-click="{{photosWithSameCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{photosWithSameCategory}}" id="categorySize"  /> 
             </template>
             <!-- Same Photos -->
             <!-- All Categories Photos -->
             <template if="{{allCategories}}">
                 <img src="../../../resources/images/all.png" 
-                     on-click="{{allPhotosCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{allPhotosCategory}}" id="categorySize"  /> 
             </template>
             <template if="{{!allCategories}}">
                 <img src="../../../resources/images/all_ns.png" 
-                     on-click="{{allPhotosCategory}}" style="width: 30px; height: 30px" /> 
+                     on-click="{{allPhotosCategory}}" id="categorySize"  /> 
             </template>
             <!-- Same Photos -->
           </div>
@@ -215,14 +223,14 @@
        <form class="form-inline" role="form"> <!-- form -->
           <template if="{{!selection}}">
             <div style="float: left" class="btn-group">
-              <button type="button" id="allPhotosScreenButton"
+              <button type="button" id="Button130"
               on-click="{{enableSelection}}"
                 class="btn btn-summary btn-md">Select</button>
             </div>
             <template if="{{thumbnailsSummary.length > 0}}">
               <div style="float: right" class="btn-group">
                 <button type="button" on-click="{{exportSummary}}"
-                  id="allPhotosScreenButton" class="btn btn-summary btn-md">Export
+                  id="Button130" class="btn btn-summary btn-md">Export
                 </button>
               </div>
            </template>
@@ -232,7 +240,7 @@
           <div class="row">
             <div class="col col-xs-5 col-sm-4 col-md-3 col-lg-1">
               <div style="float: left" class="btn-group">
-                <button type="button" id="allPhotosScreenButton"
+                <button type="button" id="Button130"
                         on-click="{{disableSelection}}"
                         class="btn btn-summary btn-md">Cancel
                 </button>
@@ -244,36 +252,36 @@
                   Move <strong>{{selectedPhotos.length}} photos</strong> to 
                   <div class="btn-group">
                     <template if={{atSummary}}>
-                      <button type="button" id="allPhotosScreenButton"
+                      <button type="button" id="Button130"
                               on-click="{{moveToSummary}}"
                               class="btn btn-summary-container btn-md buttonMargin" disabled>Summary
                       </button>
                     </template>
                     <template if={{!atSummary}}>
-                      <button type="button" id="allPhotosScreenButton"
+                      <button type="button" id="Button130"
                               on-click="{{moveToSummary}}"
                               class="btn btn-summary-container btn-md buttonMargin">Summary
                       </button>
                     </template>
                       
                     <template if={{atStandBy}}>
-                      <button type="button" id="allPhotosScreenButton"
+                      <button type="button" id="Button130"
                               class="btn btn-standby-container btn-md buttonMargin" disabled>Stand-by
                       </button>                    
                     </template>
                     <template if={{!atStandBy}}>
-                      <button type="button" id="allPhotosScreenButton"
+                      <button type="button" id="Button130"
                               on-click="{{moveToStandBy}}"
                               class="btn btn-standby-container btn-md buttonMargin">Stand-by
                       </button>  
                     </template>
                     <template if={{atExcluded}}>
-                      <button type="button" id="allPhotosScreenButton"
+                      <button type="button" id="Button130"
                               class="btn btn-excluded-container btn-md buttonMargin" disabled>Excluded
                       </button>  
                     </template>
                     <template if={{!atExcluded}}>
-                      <button type="button" id="allPhotosScreenButton"
+                      <button type="button" id="Button130"
                               on-click="{{moveToExcluded}}"
                               class="btn btn-excluded-container btn-md buttonMargin">Excluded
                       </button> 
@@ -299,7 +307,7 @@
             <div class="modal-body">
                 <div id="centerText">     
                       <img src="../../../resources/images/own_device.png" 
-                      on-click="{{exportToHardDrive}}" style="width: 200px; height: 200px" />
+                      on-click="{{exportToHardDrive}}" id="exportImage" />
                       <br/>
                       <br/>
                       <strong id="myDeviceDownload"></strong>
