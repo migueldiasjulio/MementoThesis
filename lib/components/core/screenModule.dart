@@ -3,9 +3,13 @@ library screenModule;
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
-import 'dataBase.dart';
-import 'mementoSettings.dart';
-import 'MementoImage.dart';
+import 'database/dataBase.dart';
+import 'settings/mementoSettings.dart';
+import 'categories/category.dart';
+import 'categories/facesCategory.dart' as faces;
+import 'categories/blackAndWhiteCategory.dart' as bw;
+import 'categories/colorCategory.dart' as color;
+import 'categories/similarCategory.dart' as similar;
 import 'dart:html';
 import 'dart:core';
 
@@ -17,7 +21,6 @@ abstract class ScreenModule extends PolymerElement {
   String title, description, path;
   Router router;
   MementoSettings settings = MementoSettings.get();
-  Database myDataBase = Database.get();
   
   // This lets the CSS "bleed through" into the Shadow DOM of this element.
   bool get applyAuthorStyles => true;
@@ -88,9 +91,17 @@ abstract class Screen extends ScreenModule {
 abstract class SpecialScreen extends ScreenModule {
   
   @observable bool selection = false;
-  @observable bool atSummary = true;
-  @observable bool atStandBy = false;
-  @observable bool atExcluded = false;
+  
+  @observable Container currentContainer;
+  
+  @observable Container summaryContainer = DB.container(SUMMARY);
+  @observable Container standbyContainer = DB.container(STANDBY);
+  @observable Container excludedContainer = DB.container(EXCLUDED);
+  @observable get containers => DB.containers.values;
+  
+  final List<String> selectedPhotos = toObservable([]);
+  final List<Element> selectedElements = toObservable([]);
+  final List<Category> _selectedCategories =  toObservable([]);
   
   @observable bool allCategories = true;
   @observable bool facesCategory = true;
@@ -98,13 +109,17 @@ abstract class SpecialScreen extends ScreenModule {
   @observable bool ColorCategory = true;
   @observable bool sameCategory = true;
   
-  final List<MementoImage> thumbnailsSummary = toObservable([]);
-  final List<MementoImage> thumbnailsStandBy = toObservable([]);
-  final List<MementoImage> thumbnailsExcluded = toObservable([]);
-  final List<String> selectedPhotos = toObservable([]);
-  final List<Element> selectedElements = toObservable([]);
+  SpecialScreen.created() : super.created() {
+    currentContainer = summaryContainer;
+    initializeCategories();
+  }  
   
-  SpecialScreen.created() : super.created();
+  void initializeCategories(){  
+    _selectedCategories.add(faces.FacesCategory.get());
+    _selectedCategories.add(bw.BlackAndWhiteCategory.get());
+    _selectedCategories.add(color.ColorCategory.get());
+    _selectedCategories.add(similar.SimilarCategory.get());
+  }
   
   /**
    * Selection Functions
@@ -123,6 +138,10 @@ abstract class SpecialScreen extends ScreenModule {
   void disableSelection(){
     this.selection = false;
     cleanSelection();
+  }
+  
+  void cleanAll(){
+    this.disableSelection();
   }
   
   /*
@@ -169,344 +188,63 @@ abstract class SpecialScreen extends ScreenModule {
    */ 
   
   /**
-   * Move to Summary container
+   * Move to container
    */
-  void moveToSummary(){
+  void moveToContainer(event, detail, target){
+    var container = DB.container(target.attributes['container']);
     print("");
-    print("MOVING TO SUMMARY CONTAINER");
-    if(atStandBy){
-      movePhotosFunction("STANDBY", "SUMMARY");
-      cleanAll();
-      return;
-    }
-    if(atExcluded){
-      movePhotosFunction("EXCLUDED", "SUMMARY");
-      cleanAll();     
-      return;
-    }
-  }
-
-  /**
-   * Move to Stand-by container
-   */
-  void moveToStandBy(){
-    print("");
-    print("MOVING TO STANDBY CONTAINER");
-    if(atSummary){
-      movePhotosFunction("SUMMARY", "STANDBY");
-      cleanAll();
-      return;
-    }
-    if(atExcluded){
-      movePhotosFunction("EXCLUDED", "STANDBY");
-      cleanAll();     
-      return;
-    }
-  }
-
-  /**
-   * Move to excluded container
-   */
-  void moveToExcluded(){
-    print("");
-    print("MOVING TO EXCLUDED CONTAINER");
-    if(atSummary){
-      movePhotosFunction("SUMMARY", "EXCLUDED");
-      cleanAll();
-      return;
-    }
-    if(atStandBy){
-      movePhotosFunction("STANDBY", "EXCLUDED");
-      cleanAll();     
-      return;
-    }
-  }
-
-  /*
-   * Move function front end
-   * @param origin - String
-   * @param destination - String 
-   */
-  void movePhotosFunction(String origin, String destination){
-    List<MementoImage> thumbsToMove = new List<MementoImage>();
-    for(String photoToMove in this.selectedPhotos){
-      thumbsToMove.add(returnThumbnail(origin, photoToMove));
-    }
-    print("Ja tenho os thumbs para mover. Tamanho: " + thumbsToMove.length.toString());
-    moveFromTo(origin, destination, thumbsToMove);
-  }
-
-  /*
-   * Function created to help the moving action of a photo from a "from" container
-   * to a "to" container.
-   * @param from - String
-   * @param to - String
-   * @param thumbnails - List<Thumbnail>
-   */
-  void moveFromTo(String from, String to, List<MementoImage> thumbnails){
-    switch(from){
-         case("SUMMARY") :
-           switch(to) {
-             case("STANDBY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsStandBy);
-               break;
-             case("EXCLUDED") :
-               moveFunction(from, to, thumbnails, this.thumbnailsSummary, this.thumbnailsExcluded);
-               break;
-           }
-           break;
-         case("STANDBY") :
-           switch(to) {
-             case("SUMMARY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsSummary);
-               break;
-             case("EXCLUDED") :
-               moveFunction(from, to, thumbnails, this.thumbnailsStandBy, this.thumbnailsExcluded);
-               break;
-           }
-           break;
-         case("EXCLUDED") :
-           switch(to) {
-             case("SUMMARY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsSummary);
-               break;
-             case("STANDBY") :
-               moveFunction(from, to, thumbnails, this.thumbnailsExcluded, this.thumbnailsStandBy);
-               break;
-           }
-           break;
-         default: break;
-       }
-  }
-
-  /*
-   * When we already know the photo/photos new destination we change them localy to the page
-   * and we inform the database about that changes
-   * @param from
-   * @param to
-   * @param thumbs
-   * @param origin
-   * @param destination
-   */
-  void moveFunction(String from, String to,
-      List<MementoImage> thumbs, List<MementoImage> origin, List<MementoImage> destination){
-
-    List<String> thumbNames = new List<String>();
-    for(MementoImage thumb in thumbs){
-      origin.remove(thumb);
-      destination.add(thumb);
-      thumbNames.add(thumb.imageTitle);
-      printContainersSize();
-    }
-    this.myDataBase.moveFromTo(from, to, thumbNames);
-  }
- 
-  /*
-   * Return thumbnail with name as argument
-   * We receive the origin container so we can know from where we gonna get the thumbnail
-   * @param photoName - String
-   * @return Thumbnail
-   */
-  MementoImage returnThumbnail(String origin, String photoName){
-    MementoImage thumbReturn = null;
-    switch(origin){
-         case("SUMMARY") :            //NOOOOB change this later (for loop to search for thumbnail; change for Map)
-               for(MementoImage thumb in this.thumbnailsSummary){
-                 if(thumb.imageTitle == photoName){
-                   thumbReturn = thumb;
-                   break;
-                 }
-               }
-               break;
-         case("STANDBY") :
-           for(MementoImage thumb in this.thumbnailsStandBy){
-             if(thumb.imageTitle == photoName){
-               thumbReturn = thumb;
-               break;
-             }
-           }
-           break;
-         case("EXCLUDED") :
-           for(MementoImage thumb in this.thumbnailsExcluded){
-             if(thumb.imageTitle == photoName){
-               thumbReturn = thumb;
-               break;
-             }
-           }
-           break;
-         default: break;
-       }
-    return thumbReturn;
+    var photos = selectedPhotos.map((id) => currentContainer.find(id));
+    DB.moveFromTo(currentContainer.name, container.name, photos);
+    disableSelection();
   }
   
+
   /**
    *  Move Functions
    */
-  
+
   /**
    * Location Functions
    */
-  
-  /*
-   * Inform that im in Summary container
-   */ 
-  void imInSummary(){
-    print("");
-    print("Im at Summary container");
-    setMyPosition("SUMMARY", true);
-    setMyPosition("STANDBY", false);
-    setMyPosition("EXCLUDED", false);
-    
-    printVariableStante(); //TODO Just test function
-  }
-  
-  /*
-   * Inform that im in Standby container
-   */ 
-  void imInStandBy(){
-    print("");
-    print("Im at Stand by container");
-    setMyPosition("STANDBY", true);
-    setMyPosition("SUMMARY", false);
-    setMyPosition("EXCLUDED", false);
-    
-    printVariableStante(); //TODO Just test function
-  }
-  
-  /*
-   * Inform that im in Excluded container
-   */ 
-  void imInExcluded(){
-    print("");
-    print("Im at Excluded container");
-    setMyPosition("EXCLUDED", true);
-    setMyPosition("SUMMARY", false);
-    setMyPosition("STANDBY", false);
-    
-    printVariableStante(); //TODO Just test function
-  }
-  
-  /*
-   * Set my specific location
-   */ 
-  void setMyPosition(String container, bool signal){
-    switch(container){
-         case("SUMMARY") :            
-            this.atSummary = signal;
-            break;
-         case("STANDBY") :
-           this.atStandBy = signal;
-           break;
-         case("EXCLUDED") :
-           this.atExcluded = signal;
-           break;
-         default: break;
-    } 
-  }
-  
-  /**
-   * Location Functions
-   */ 
-  
-  /**
-   * Sync Functions
-   */ 
-  
-  /*
-   * Sync Summary Photos List
-   */ 
-  void syncSummaryPhotos(){
-    thumbnailsSummary.clear();
-    thumbnailsSummary.addAll(this.myDataBase.getThumbnails("SUMMARY"));
-  }
 
-  /*
-   * Sync Stand-by Photos List
-   */ 
-  void syncStandByPhotos(){
-    thumbnailsStandBy.clear();
-    thumbnailsStandBy.addAll(this.myDataBase.getThumbnails("STANDBY"));
+  void selectContainer(event, detail, target) {
+    currentContainer = DB.container(target.dataset["container"]);
   }
+  
 
-  /*
-   * Sync Excluded Photos List
-   */ 
-  void syncExcludedPhotos(){
-    thumbnailsExcluded.clear();
-    thumbnailsExcluded.addAll(this.myDataBase.getThumbnails("EXCLUDED"));
-  }
-  
-  /**
-   * Sync Functions
-   */  
-  
-  /**
-   * Clean Functions
-   */
-  
-  /*
-   * Clean All
-   */
-  void cleanAll(){
-    cleanSelectedElements();
-    cleanSelection();
-  }
-  
-  /*
-   * Clean selected elements
-   */
-  void cleanSelectedElements(){
-    this.selectedElements.clear();
-  }
-  
-  /*
-   * Clean Variables
-   */
-  void cleanVariables(){
-    this.selectedPhotos.clear();
-  }
-  
   /*
    * Clean selected objects _ Used when the user cancel the selection operation
    */
   void cleanSelection(){
     for(Element element in this.selectedElements){
-      element.attributes['selected'] = "false";
+      element.classes.remove('selected');
     }
     this.selectedElements.clear();
     this.selectedPhotos.clear();
   }
   
   /**
-   * Clean Functions
-   */
-   
-  /**
-   * Test functions
+   * Categories Functions
+   * 
    */ 
-  void printContainersSize(){
-    print("§§§§§§§§§§§§§§§§§");
-    print("Summary container: " + this.thumbnailsSummary.length.toString());
-    print("Stand-by container: " + this.thumbnailsStandBy.length.toString());
-    print("Excluded container: " + this.thumbnailsExcluded.length.toString());
-    print("§§§§§§§§§§§§§§§§§");
+  
+  void updatePhotoView(){
+    summaryContainer.showPhotosWithCategories(_selectedCategories);
+    standbyContainer.showPhotosWithCategories(_selectedCategories);
+    excludedContainer.showPhotosWithCategories(_selectedCategories);
   }
 
-  void printVariableStante(){
-    print("§§§§§§§§§§§§§§§§§");
-    print("Summary container is active? " + this.atSummary.toString());
-    print("Stand by container is active? " + this.atStandBy.toString());
-    print("Excluded container is active? " + this.atExcluded.toString());
-    print("§§§§§§§§§§§§§§§§§");
+  void addActiveCategory(Category category){
+    _selectedCategories.add(category);
   }
   
-  /**
-   * Test functions
-   */ 
+  void removeFromActiveCategory(Category category){
+    _selectedCategories.remove(category);
+  }
   
-  /**
-   * Category Functions
-   */ 
+  void clearSelectedCategories(){
+    _selectedCategories.clear();
+  }
   
   /**
    * All Categories
@@ -526,13 +264,25 @@ abstract class SpecialScreen extends ScreenModule {
     this.ColorCategory = false;
     this.sameCategory = false;
   }
+    
+  void addAllCategoriesToActive(){
+    addActiveCategory(faces.FacesCategory.get());
+    addActiveCategory(bw.BlackAndWhiteCategory.get());
+    addActiveCategory(color.ColorCategory.get());
+    addActiveCategory(similar.SimilarCategory.get()); 
+  }
   
   void allPhotosCategory(){
+    cleanSelection();
     if(this.allCategories){
       this.disableAllCategories();
+      clearSelectedCategories();
     }else{
       this.enableAllCategories();
+      clearSelectedCategories();
+      addAllCategoriesToActive();
     }
+    updatePhotoView();
   }
   
   /**
@@ -549,12 +299,16 @@ abstract class SpecialScreen extends ScreenModule {
   }
   
   void photosWithFacesCategory(){
+    cleanSelection();
     if(this.facesCategory){
       this.disableFacesCategory();
+      removeFromActiveCategory(faces.FacesCategory.get());
     }else{
       this.enableFacesCategory();
+      addActiveCategory(faces.FacesCategory.get());
     }
     print("Displaying Photos with faces");
+    updatePhotoView();
   }
   
   /**
@@ -570,12 +324,16 @@ abstract class SpecialScreen extends ScreenModule {
   }
   
   void photosWithBWCategory(){
+    cleanSelection();
     if(this.BWCategory){
       this.disableBWCategory();
+      removeFromActiveCategory(bw.BlackAndWhiteCategory.get());
     }else{
       this.enableBWCategory();
+      addActiveCategory(bw.BlackAndWhiteCategory.get());
     }
     print("Displaying Black and White Photos");
+    updatePhotoView();
   }
   
   /**
@@ -591,12 +349,16 @@ abstract class SpecialScreen extends ScreenModule {
   }
   
   void photosWithColorCategory(){
+    cleanSelection();
     if(this.ColorCategory){
       this.disableColorCategory();
+      removeFromActiveCategory(color.ColorCategory.get());
     }else{
       this.enableColorCategory();
+      addActiveCategory(color.ColorCategory.get());
     }
     print("Displaying Color Photos");
+    updatePhotoView();
   }
   
   /**
@@ -612,11 +374,16 @@ abstract class SpecialScreen extends ScreenModule {
   }
   
   void photosWithSameCategory(){
+    cleanSelection();
     if(this.sameCategory){
       this.disableSameCategory();
+      removeFromActiveCategory(similar.SimilarCategory.get());
     }else{
       this.enableSameCategory();
+      addActiveCategory(similar.SimilarCategory.get());
     }
     print("Displaying equivalent Photos");
+    updatePhotoView();
   }
+  
 }

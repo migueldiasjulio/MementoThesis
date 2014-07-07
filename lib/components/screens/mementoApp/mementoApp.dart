@@ -7,9 +7,9 @@ import '../allPhotos/allPhotos.dart';
 import '../summaryDone/summaryDone.dart';
 import '../bigSizePhoto/bigSizePhoto.dart';
 import '../../core/screenModule.dart' as screenmodule;
-import '../../core/dataBase.dart';
-import '../../core/mementoSettings.dart';
-import '../../core/index.dart';
+import '../../core/database/dataBase.dart';
+import '../../core/settings/mementoSettings.dart';
+import '../../core/settings/index.dart';
 
 /**
  * Screeen Modules of Memento

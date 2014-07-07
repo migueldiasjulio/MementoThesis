@@ -10,14 +10,14 @@
 
 /*First Section*/
 #firstSection{
-  height: calc(100% - 278px);
+  height: calc(100% - 288px);
   padding: 20px;
 }
 
 /*Bottom Section*/
 
 #screenFooter {
-  height: 278px; /*194px + 40px + 40px*/
+  height: 288px; /*194px + 40px + 50px*/
   background: #D1D2D5;
   border-top: 1px solid #8A949B;
   border-bottom: 1px solid #8A949B;
@@ -26,7 +26,7 @@
 #categories{
   border-bottom: 1px solid #8A949B;
   padding: 5px;
-  height: 40px;
+  height: 50px;
 }
 
 #BigSizeTabs{

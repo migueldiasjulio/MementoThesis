@@ -6,9 +6,8 @@ import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import 'package:bootjack/bootjack.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/MementoImage.dart';
+import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
-
 
 /**
  * Summary Done Screen
@@ -25,6 +24,7 @@ class SummaryDone extends screenhelper.SpecialScreen {
   Modal exportMenu;
   @observable bool export = false;
   factory SummaryDone() => new Element.tag(TAG);
+  Element _summaryContainer;
   
   /**
    * Building Summary Done
@@ -33,13 +33,12 @@ class SummaryDone extends screenhelper.SpecialScreen {
     Modal.use();
     Transition.use();
     exportMenu = Modal.wire($['exportMenu']);
+    _summaryContainer = $['t-SUMMARY'];
   }
 
   void runStartStuff() {
-    syncSummaryPhotos();
-    syncStandByPhotos();
-    syncExcludedPhotos();
-    cleanVariables();
+    checkSummaryContainer();
+    cleanAll();
   }
   
   /**
@@ -48,8 +47,12 @@ class SummaryDone extends screenhelper.SpecialScreen {
   @override
   void enteredView() {
     super.enteredView();
-    cleanVariables();
-    printVariableStante();
+    cleanAll();
+  }
+  
+  void checkSummaryContainer(){
+    _summaryContainer.setAttribute("checked", "checked");
+    print(_summaryContainer.attributes.keys);
   }
    
   /**
@@ -70,26 +73,17 @@ class SummaryDone extends screenhelper.SpecialScreen {
   }
 
   void exportToHardDrive(){
-    List<MementoImage> thumbToExport = this.thumbnailsSummary;
-    List<ImageElement> imgs = new List<ImageElement>();
-
-    List<File> filesToExport = new List<File>();
     List<String> names = new List<String>();
-
-    ImageElement img = new ImageElement();
-    for(MementoImage thumb in thumbToExport){
-      img.setAttribute("src", thumb.imageSrc);
-      imgs.add(img);
-      names.add(thumb.imageTitle + "\r\n");
-    }
+    
+    this.summaryContainer.photos.forEach((thumbnail){
+      names.add(thumbnail.title);
+    });
+    
     List test = new List();
     test.addAll(names);
 
-    // Create a new blob from the data.
     Blob blob = new Blob(test, 'text/plain', 'native');
-    // Create a data:url which points to that data.
     String url = Url.createObjectUrlFromBlob(blob);
-    // Create a link to navigate to that data and download it.
     AnchorElement link = new AnchorElement()
         ..href = url
         ..download = 'Memento.txt'
@@ -98,7 +92,6 @@ class SummaryDone extends screenhelper.SpecialScreen {
     // Insert the link into the DOM.
     var myDevice = $['myDeviceDownload'];
     myDevice.append(link);
-
   }
 
   void exportToFacebook(){}
@@ -109,29 +102,28 @@ class SummaryDone extends screenhelper.SpecialScreen {
 
   /*
    *  Show image
-   */ 
+   */
   void showImage(Event event, var detail, var target){
-    var nameOfPhoto;
+    var id = target.attributes["data-id"];
     var isSelected;
-    if(!this.selection){
-      print(target.attributes['data-incby']);
-      this.myDataBase.setImageToBeDisplayed(target.attributes['data-incby']);
-      displayPhoto();
+    if(!selection){
+      print("ID: " + id.toString());
+      displayPhoto(id);
     }
     else{
-      nameOfPhoto = target.attributes['data-incby'];
-      isSelected = target.attributes['selected'];
-      if(isSelected == "true"){
-        target.attributes['selected'] = "false";
-        removeFromSelectedPhotos(nameOfPhoto);
-        removeFromSelectedElements(target);
-        print(nameOfPhoto + " is selected? " + isSelected);
+      if(target.classes.contains('selected')){
+              target.classes.remove('selected');
+              isSelected = "false";
+              removeFromSelectedPhotos(id);
+              removeFromSelectedElements(target);
+              print("$id is selected? $isSelected");
       }
       else{
-        target.attributes['selected'] = "true";
-        addToSelectedPhotos(nameOfPhoto);
+        target.classes.add('selected');
+        isSelected = "true";
+        addToSelectedPhotos(id);
         addToSelectedElements(target);
-        print(nameOfPhoto + " is selected? " + isSelected);
+        print("$id is selected? $isSelected");
       }
     }
   }
@@ -144,7 +136,9 @@ class SummaryDone extends screenhelper.SpecialScreen {
     route.addRoute(
         name: 'home',
         path: '',
-        enter: home);
+        enter: (e) { 
+          checkSummaryContainer();
+        });
    }
 
   /*
@@ -154,8 +148,8 @@ class SummaryDone extends screenhelper.SpecialScreen {
 
   /*
    * Go Big Size Photo Screen
-   */ 
-  void displayPhoto(){
-    router.go("big-size-photo", {});
+   */
+  void displayPhoto(String id){
+    router.go("big-size-photo.show", {id: id});
   }
 }

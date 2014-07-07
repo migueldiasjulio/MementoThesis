@@ -26,8 +26,6 @@ class Index {
         ..onClick.listen((e) {
         defineHierarchical();
             });
-    
-    print("ALL DEFINED"); 
   }
 
   /**

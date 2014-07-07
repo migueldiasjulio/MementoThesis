@@ -4,7 +4,8 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/MementoImage.dart';
+import '../../core/photo/photo.dart';
+import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
 
 /**
@@ -12,20 +13,25 @@ export "package:polymer/init.dart";
  */
 @CustomTag(BigSizePhoto.TAG)
 class BigSizePhoto extends screenhelper.SpecialScreen {
-
+  
   static const String TAG = "big-size-photo";
   String title = "Big Size Photo",
          description = "Photo big size";
   factory BigSizePhoto() => new Element.tag(TAG);
   Element _name;
-  @published MementoImage thumbToDisplay = null;
-  MementoImage get thumbnailDisplay => thumbToDisplay;
-  
-  final List<MementoImage> thumbnailsToShow = toObservable([]);
 
-  @observable bool moving = false;
+  @observable Photo photo;
 
-  BigSizePhoto.created() : super.created();
+  final List<Photo> photos = toObservable([]);
+  Element _summaryContainer;
+  Element _standByContainer;
+  Element _excludedContainer;
+
+  BigSizePhoto.created() : super.created(){
+    _summaryContainer = $['t-SUMMARY'];
+    _standByContainer = $['t-STANDBY'];
+    _excludedContainer = $['t-EXCLUDED'];
+  }
 
   /**
    * TODO
@@ -33,41 +39,57 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   @override
    void setupRoutes(Route route) {
     route.addRoute(
-        name: 'home',
-        path: '',
-        enter: home);
+        name: 'show',
+        path: '/:id',
+        enter: (e) {
+          print("Estou a vir aqui!");
+          print(e.parameters['id']);
+          photo = DB.find(e.parameters['id']);
+          currentContainer = DB.findContainer(photo.id);
+          setContainer();
+        }
+    );
    }
-
   /*
    * TODO
    */
   @override
   void enteredView() {
     super.enteredView();
-    checkWhatPhotoToDisplay();
+    setContainer();
   }
   
   /*
    * TODO
    */ 
   void runStartStuff() {
-    syncSummaryPhotos();
-    syncStandByPhotos();
-    syncExcludedPhotos();
-    cleanVariables();
+    cleanAll();
   }
+  
+  void setContainer(){
+    switch(currentContainer.name){
+      case(SUMMARY): 
+        _summaryContainer.setAttribute("checked","checked");
+        break;
+      case(STANDBY): 
+        _standByContainer.setAttribute("checked","checked");
+        break;
+      case(EXCLUDED): 
+        _excludedContainer.setAttribute("checked","checked");
+        break;
+      default:
+        break;
+    }
+  }
+  
+  /*
+   * 
+   */
 
   /*
    * TODO
    */
   home(_) {}
-
-  /*
-   * TODO
-   */
-  void checkWhatPhotoToDisplay(){
-    this.thumbToDisplay = this.myDataBase.returnImageToDisplay();
-  }
 
   /*
    * TODO
@@ -85,46 +107,26 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   }
   
   /*
-   *  
-   */ 
-  void showImage(Event event, var detail, var target){
-    var nameOfPhoto;
+   *
+   */
+  void showImage(Event event, var detail, Element target){
+    var id = target.dataset["data-id"];
     var isSelected;
     if(!this.selection){
       print(target.attributes['data-incby']);
-      this.myDataBase.setImageToBeDisplayed(target.attributes['data-incby']);
-      this.thumbToDisplay = this.myDataBase.returnImageToDisplay();
-    }
-    else{
-      nameOfPhoto = target.attributes['data-incby'];
-      isSelected = target.attributes['selected'];
-      if(isSelected == "true"){
-        target.attributes['selected'] = "false";
-        removeFromSelectedPhotos(nameOfPhoto);
+      this.photo = DB.find(target.attributes['data-id']);
+    } else{
+      if(target.classes.contains('selected')){
+        target.classes.remove('selected');
+        removeFromSelectedPhotos(id);
         removeFromSelectedElements(target);
-        print(nameOfPhoto + " is selected? " + isSelected);
-      }
-      else{
-        target.attributes['selected'] = "true";
-        addToSelectedPhotos(nameOfPhoto);
+        print("$id is selected? $isSelected");
+      } else{
+        target.classes.add('selected');
+        addToSelectedPhotos(id);
         addToSelectedElements(target);
-        print(nameOfPhoto + " is selected? " + isSelected);
+        print("$id is selected? $isSelected");
       }
     }
-  }
-  
-  void showSummaryPhotos(){
-    this.thumbnailsToShow.clear();
-    this.thumbnailsToShow.addAll(this.thumbnailsSummary);
-  }
-  
-  void showStandByPhotos(){
-    this.thumbnailsToShow.clear();
-    this.thumbnailsToShow.addAll(this.thumbnailsStandBy);
-  }
-  
-  void showExcludedPhotos(){
-    this.thumbnailsToShow.clear();
-    this.thumbnailsToShow.addAll(this.thumbnailsExcluded);
   }  
 }

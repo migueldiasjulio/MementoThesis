@@ -2,24 +2,20 @@ library allPhotos;
 
 import 'dart:html';
 import 'dart:core';
-import 'dart:async';
 import 'package:polymer/polymer.dart';
 export "package:polymer/init.dart";
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/MementoImage.dart';
+import '../../core/photo/photo.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
-//import '../resources/exif.js' as exif;
-import 'dart:js';
-
+import '../../core/database/dataBase.dart';
 /*
  * All Photos Screen class
  */
 @CustomTag(AllPhotos.TAG)
 class AllPhotos extends screenhelper.Screen {
 
-  final String _fixedNumberOfPhotos = "20";
   static const String TAG = "all-photos";
   String title = "All Photos",
    description = "Showing all photos";
@@ -29,21 +25,14 @@ class AllPhotos extends screenhelper.Screen {
   Modal loading;
 
   InputElement _fileInput;
-  
-  FileReader _reader;
 
   Element _dropZone;
   HtmlEscape sanitizer = new HtmlEscape();
   Element _addPhotos;
   @observable String numberOfPhotosDefined = "20";
   Element startSummary;
-
-  /*
-   *     Photo database
-   */
-  final List<String> photoSources = toObservable([]);
-  final List<MementoImage> thumbnails = toObservable([]);
-  List<ImageElement> images = toObservable([]);
+  
+  final List<Photo> photos = toObservable([]);
 
   AllPhotos.created() : super.created(){
     Modal.use();
@@ -119,49 +108,21 @@ class AllPhotos extends screenhelper.Screen {
    void _onFilesSelected(List<File> files) {
      
      var photoFiles = files.where((file) => file.type.startsWith('image'));
-     this.numberOfPhotosDefined = (this.thumbnails.length + photoFiles.length).toString();
+     this.numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
 
-     //TODO Modal loading
-     showLoading();
-     
-     ImageElement image = null;
-     
-     photoFiles.forEach((file) {
+     //showLoading();
 
-      var source;
+    photoFiles.forEach((file) {
       FileReader reader = new FileReader();
       reader.onLoad.listen((e) {
-        source = reader.result;
-        this.photoSources.add(source);                      
-        image = new ImageElement(src: source, width: 250, height: 250);
-        this.images.add(image);
-        this.thumbnails.add(new MementoImage(source, file.name, image));
-        images.add(image);
+        photos.add(new Photo(reader.result, title: sanitizer.convert(file.name)));
       });
       reader.readAsDataUrl(file);
-
-     });
+    });
      
-    this.hiddeLoading();
-                         
-     
-     //readEXIFInformation();
+    //this.hiddeLoading();
    }
    
-
-   
-   /*
-    * 
-    * 
-    */
-   void readEXIFInformation(){
-     /*
-     List<String> exifInformation = new List<String>();
-     var EXIF = new JsObject(context['EXIF'], [1,2]);
-     print(EXIF.callMethod('yolo'));
-     */ 
-   }
-
    /*
     * Show upload photos loading modal
     */
@@ -184,11 +145,11 @@ class AllPhotos extends screenhelper.Screen {
    }
 
    /*
-    * Increment number of summary photos 
+    * Increment number of summary photos
     */
    void incSummaryNumber(){
      int auxiliar = int.parse(numberOfPhotosDefined);
-     if(auxiliar == this.thumbnails.length){
+     if(auxiliar == photos.length){
        this.numberOfPhotosDefined = auxiliar.toString();
      } else{
        auxiliar++;
@@ -218,19 +179,8 @@ class AllPhotos extends screenhelper.Screen {
     * Build Summary
     */
     void buildSummary(){
-
-      //SHOW LOADING WINDOW
-      addPhotosToDataBase();
-      this.myDataBase.decideAlgorithm(int.parse(this.numberOfPhotosDefined));
+      DB.buildSummary(photos, int.parse(numberOfPhotosDefined));
       goSummary();
-      //HIDDE LOADING WINDOW
-    }
-
-    /*
-     *
-     */
-    void addPhotosToDataBase(){
-      myDataBase.addNewElementsToDataBase(photoSources, thumbnails);
     }
 
     /*

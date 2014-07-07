@@ -22,12 +22,6 @@
   padding: 10px;
 }
 
-.img-thumbnail {
-  border: 1px solid #000;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 #helpMessage1 {
  font-size: 25px; 
 }
@@ -95,7 +89,7 @@
 
 #numberOfPhotosInformation{
   float: left;
-  margin-top: 3%;
+  margin-top: 5px;
 }
 
 /* Footer Section */

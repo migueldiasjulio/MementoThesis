@@ -1,5 +1,0 @@
-library category;
-
-class Category{
-  
-}

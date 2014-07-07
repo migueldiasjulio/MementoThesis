@@ -57,7 +57,7 @@
 
 /***** Tab labels *****/
 
-#tabbed input#t-1:checked ~ .wrapper .summary{
+#tabbed input#t-SUMMARY:checked ~ .wrapper .SUMMARY{
   position: relative;
   float: left;
   z-index: 10;
@@ -69,7 +69,7 @@
   border: solid 2px #7FCA9F;
 }
 
-#tabbed input#t-1:checked ~ .wrapper .summary2{
+#tabbed input#t-SUMMARY:checked ~ .wrapper .SUMMARY2{
   position: relative;
   float: left;
   z-index: 10;
@@ -82,7 +82,7 @@
   border: solid 2px #7FCA9F;
 }
 
-#tabbed input#t-2:checked ~ .wrapper .standby{
+#tabbed input#t-STANDBY:checked ~ .wrapper .STANDBY{
   position: relative;
   float: left;
   z-index: 10;
@@ -94,7 +94,7 @@
   border: solid 2px #F4BA70;
 }
 
-#tabbed input#t-2:checked ~ .wrapper .standby2{
+#tabbed input#t-STANDBY:checked ~ .wrapper .STANDBY2{
   position: relative;
   float: left;
   z-index: 10;
@@ -106,7 +106,7 @@
   border: solid 2px #F4BA70;
 }
 
-#tabbed input#t-3:checked ~ .wrapper .excluded {
+#tabbed input#t-EXCLUDED:checked ~ .wrapper .EXCLUDED {
 	position: relative;
 	float: left;
 	z-index: 10;
@@ -118,7 +118,7 @@
 	border: solid 2px #E96D63;
 }
 
-#tabbed input#t-3:checked ~ .wrapper .excluded2 {
+#tabbed input#t-EXCLUDED:checked ~ .wrapper .EXCLUDED2 {
   position: relative;
   float: left;
   z-index: 10;
@@ -132,7 +132,7 @@
 
 /*------------SUMMARY-----------------*/
 
-#tabbed label.summary {
+#tabbed label.SUMMARY {
   display: inline-block;
   background: #70B894;
   color: #fff;
@@ -148,33 +148,33 @@
   -o-transform: translateY(6px);
   transform: translateY(6px);
 }
-#tabbed label.summary:hover,
-#tabbed label.summary:focus {
+#tabbed label.SUMMARY:hover,
+#tabbed label.SUMMARY:focus {
   background: #7FCA9F;
   color: #fff;
 }
-#tabbed input:checked + label.summary {
+#tabbed input:checked + label.SUMMARY {
   background: #7FCA9F;
   color: #fff;
   font-weight:bold;
 }
-#tabbed label.summary:hover,
-#tabbed label.summary:focus,
-#tabbed input:checked + label.summary {
+#tabbed label.SUMMARY:hover,
+#tabbed label.SUMMARY:focus,
+#tabbed input:checked + label.SUMMARY {
   -webkit-transform: translateY(0);
   -moz-transform: translateY(0);
   -ms-transform: translateY(0);
   -o-transform: translateY(0);
   transform: translateY(0);
 }
-#tabbed label.summary:before {
+#tabbed label.SUMMARY:before {
   padding-right: 10px;
 }
 
 /*-----------------------------*/
 /*------------STANDBY-----------------*/
 
-#tabbed label.standby {
+#tabbed label.STANDBY {
   display: inline-block;
   background: #DCA765;
   color: #fff;
@@ -190,33 +190,33 @@
   -o-transform: translateY(6px);
   transform: translateY(6px);
 }
-#tabbed label.standby:hover,
-#tabbed label.standby:focus {
+#tabbed label.STANDBY:hover,
+#tabbed label.STANDBY:focus {
   background: #F4BA70; 
   color: #fff;
 }
-#tabbed input:checked + label.standby {
+#tabbed input:checked + label.STANDBY {
   background: #F4BA70;
   color: #fff;
   font-weight:bold;
 }
-#tabbed label.standby:hover,
-#tabbed label.standby:focus,
-#tabbed input:checked + label.standby {
+#tabbed label.STANDBY:hover,
+#tabbed label.STANDBY:focus,
+#tabbed input:checked + label.STANDBY {
   -webkit-transform: translateY(0);
   -moz-transform: translateY(0);
   -ms-transform: translateY(0);
   -o-transform: translateY(0);
   transform: translateY(0);
 }
-#tabbed label.standby:before {
+#tabbed label.STANDBY:before {
   padding-right: 10px;
 }
 
 /*-----------------------------*/
 /*------------EXCLUDED-----------------*/
 
-#tabbed label.excluded {
+#tabbed label.EXCLUDED {
   display: inline-block;
   background: #D26259;
   color: #fff;
@@ -232,26 +232,26 @@
   -o-transform: translateY(6px);
   transform: translateY(6px);
 }
-#tabbed label.excluded:hover,
-#tabbed label.excluded:focus {
+#tabbed label.EXCLUDED:hover,
+#tabbed label.EXCLUDED:focus {
   background: #E96D63; 
   color: #fff;
 }
-#tabbed input:checked + label.excluded {
+#tabbed input:checked + label.EXCLUDED {
   background: #E96D63;
   color: #fff;
   font-weight:bold;
 }
-#tabbed label.excluded:hover,
-#tabbed label.excluded:focus,
-#tabbed input:checked + label.excluded {
+#tabbed label.EXCLUDED:hover,
+#tabbed label.EXCLUDED:focus,
+#tabbed input:checked + label.EXCLUDED {
   -webkit-transform: translateY(0);
   -moz-transform: translateY(0);
   -ms-transform: translateY(0);
   -o-transform: translateY(0);
   transform: translateY(0);
 }
-#tabbed label.excluded:before {
+#tabbed label.EXCLUDED:before {
   padding-right: 10px;
 }
 

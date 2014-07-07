@@ -1,3 +1,4 @@
+<link rel="import" href="../../../../../packages/polymer/polymer.html">
 <polymer-element name="summary-done">
 <template>
   <link rel="stylesheet" href="summaryDone.css">
@@ -11,158 +12,67 @@
     <section id="firstSection">
       <div id="tabs">  
         <section id="tabbed">
-        <!-- First tab input and label -->
-        <input id="t-1" name="tabbed-tabs" type="radio" style="display: none; 
-                                                               visibility: hidden; 
-                                                               opacity: 0;" 
-                                                               checked="checked"
-                                                               on-click={{imInSummary}} />
-        <label style="width: 200px" for="t-1" class="summary">  
-            Summary
+        
+      <!-- Tab input and label -->
+      <template repeat="{{container in containers}}">
+        <input id="t-{{container.name}}" name="tabbed-tabs" type="radio" 
+                                                               style="display: none;
+                                                               visibility: hidden;
+                                                               opacity: 0;"                                                           
+                                                               on-click="{{selectContainer}}"
+                                                               data-container="{{container.name}}" />
+        <label style="width: 200px" for="t-{{container.name}}" class="{{container.name}}">
+            {{container.name.toLowerCase()}}
             <span style="float: right; margin-top: 10px;" id="span" class="badge">
-              <strong style="padding:2px">{{thumbnailsSummary.length}}</strong>
-            </span> 
+              <strong style="padding:2px">{{container.photosToDisplay.length}}</strong>
+            </span>
         </label>
-        <!-- Second tab input and label -->
-        <input id="t-2" name="tabbed-tabs" style="display: none; 
-                                                  visibility: hidden; 
-                                                  opacity: 0;"
-                                                  type="radio"
-                                                  on-click={{imInStandBy}} />
-        <label style="width: 200px" for="t-2" class="standby">
-          Stand-by
-          <span style="float: right; margin-top: 10px" id="span" class="badge">
-            <strong style="padding:2px">{{thumbnailsStandBy.length}}</strong>
-          </span> 
-        </label>
-        <!-- Third tab input and label -->
-        <input id="t-3" name="tabbed-tabs" style="display: none; 
-                                                  visibility: hidden; 
-                                                  opacity: 0;"
-                                                  type="radio"
-                                                  on-click={{imInExcluded}} />
-        <label style="width: 200px;" for="t-3" class="excluded">
-            Excluded
-          <span style="float: right; margin-top: 10px" id="span" class="badge">
-            <strong style="padding:2px">{{thumbnailsExcluded.length}}</strong>
-          </span>  
-        </label>
+      </template>
         
         <!-- Tabs wrapper -->
         <div class="wrapper" id="wrapperZone">
-  
-          <!-- Tab 1 content -->
-          <div class="summary">          
-            <template if="{{thumbnailsSummary.length == 0}}">
-              <div class="space40"></div> <!-- Just space -->
-              <div id="centerText" class="title large font25 height20">Summary container is empty.</div>
-              <div class="space40"></div> <!-- Just space -->
-            </template>
-            <template if="{{thumbnailsSummary.length != 0}}">
+        
+        <!-- Tab content -->
+       <template repeat="{{container in containers}}">
+       <div class="{{container.name}}">
+        <template if="{{currentContainer.photos.isEmpty}}">
+          <div class="space40"></div> <!-- Just space -->
+          <div id="centerText" class="title large font25 height20">Empty.</div>
+          <div class="space40"></div> <!-- Just space -->
+        </template>
+        <template if="{{currentContainer.photos.isNotEmpty}}">
               <section class="centerStuff">
                 <ul id="navlist">
-                  <template id="thumbnailsShow" repeat="{{thumbnail in thumbnailsSummary}}">   
+                  <template repeat="{{photo in currentContainer.photosToDisplay}}">   
                     <li>   
-                      <div class="mementoImage" id="{{thumbnail.imageTitle}}">
+                      <div class="mementoImage">
                         <div class="imageBoard">
-                          <img class="image img-thumbnail" 
-                               src="{{thumbnail.imageSrc}}"
-                               on-click="{{showImage}}" 
-                               data-incby="{{thumbnail.imageTitle}}"
-                               title="{{thumbnail.imageTitle}}"
-                               selected="false">  
+                          <img src="{{photo.thumbnail.src}}"
+                               on-click="{{showImage}}"
+                               data-id="{{photo.id}}"
+                               class="image img-thumbnail"
+                               title="{{photo.title}}" >
                         </div>
                       </div> 
                     </li>                 
                   </template> 
                 </ul>
               </section>
-            </template>
+           </template>
           </div>
-          <!-- / Tab 1 content -->
-  
-          <!-- Tab 2 content -->
-          <div class="standby" >
-            <template if="{{thumbnailsStandBy.length == 0}}">
-              <div class="space40"></div> <!-- Just space -->
-              <div id="centerText" class="title large font25 height20">Stand-by container is empty.</div>
-              <div class="space40"></div> <!-- Just space -->
-              </template>
-              <template if="{{thumbnailsStandBy.length != 0}}">        
-               <section class="centerStuff">
-                <ul id="navlist">
-                  <template id="thumbnailsShow" repeat="{{thumbnail in thumbnailsStandBy}}">   
-                    <li>   
-                      <div class="mementoImage" id="{{thumbnail.imageTitle}}">
-                        <div class="imageBoard">
-                          <img class="image img-thumbnail" 
-                               src="{{thumbnail.imageSrc}}"
-                               on-click="{{showImage}}" 
-                               data-incby="{{thumbnail.imageTitle}}"
-                               title="{{thumbnail.imageTitle}}"
-                               selected="false">  
-                        </div>
-                      </div> 
-                    </li>                 
-                  </template> 
-                </ul>
-              </section>
-             </template>
-          </div>
-          <!-- / Tab 2 content -->
-  
-          <!-- Tab 3 content -->
-          <div class="excluded">
-            <template if="{{thumbnailsExcluded.length == 0}}">
-              <div class="space40"></div> <!-- Just space -->
-              <div id="centerText" class="title large font25 height20">Excluded container is empty.</div>
-              <div class="space40"></div> <!-- Just space -->
-            </template>
-            <template if="{{thumbnailsExcluded.length != 0}}">
-              <section class="centerStuff">
-                <ul id="navlist">
-                  <template repeat="{{thumbnail in thumbnailsExcluded}}">   
-                    <li>   
-                      <div class="mementoImage" id="{{thumbnail.imageTitle}}">
-                        <div class="imageBoard">
-                          <img class="image img-thumbnail" 
-                               src="{{thumbnail.imageSrc}}"
-                               on-click="{{showImage}}" 
-                               data-incby="{{thumbnail.imageTitle}}"
-                               title="{{thumbnail.imageTitle}}"
-                               selected="false">  
-                        </div>
-                      </div> 
-                    </li>                 
-                  </template> 
-                </ul>
-              </section>
-             </template>
-          </div>
-          <!-- / Tab 3 content -->
-  
-        </div>
-        <!-- / Tabs wrapper -->      
-      </section>
-      </div>
-      <!-- tabs here -->
+          
+          </template>
+          
+         </div> <!-- / Tabs wrapper --> 
+              
+       </section>
+      </div> <!-- tabs here -->
+    </section> <!-- firstSection -->
     
-    </section>
-    <!-- firstSection -->
-    
-    <!--   @observable bool allCategories = false;
-           @observable bool facesCategory = false;
-           @observable bool BWCategory = false;
-           @observable bool ColorCategory = false;
-           @observable bool sameCategory = false;
-    -->
     <section id="bottomZone">   
       <div id="categories">
         <div class="row">
-          <div class="col col-xs-1 col-sm-1 col-md-1 col-lg-1">
-            <strong id="horizontalCenter">Categories </strong>
-          </div>
-        <div class="col col-xs-10 col-sm-11 col-md-11 col-lg-11">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div id="centerText">
             <!-- Faces -->
             <template if="{{facesCategory}}">
@@ -227,7 +137,7 @@
               on-click="{{enableSelection}}"
                 class="btn btn-summary btn-md">Select</button>
             </div>
-            <template if="{{thumbnailsSummary.length > 0}}">
+            <template if="{{summaryContainer.photos.length > 0}}">
               <div style="float: right" class="btn-group">
                 <button type="button" on-click="{{exportSummary}}"
                   id="Button130" class="btn btn-summary btn-md">Export
@@ -242,7 +152,7 @@
               <div style="float: left" class="btn-group">
                 <button type="button" id="Button130"
                         on-click="{{disableSelection}}"
-                        class="btn btn-summary btn-md">Cancel
+                        class="btn btn-summary btn-md">Done
                 </button>
               </div>
             </div>
@@ -251,41 +161,42 @@
                 <div id="centerText">
                   Move <strong>{{selectedPhotos.length}} photos</strong> to 
                   <div class="btn-group">
-                    <template if={{atSummary}}>
+                    <template if={{currentContainer.equals(summaryContainer)}}>
                       <button type="button" id="Button130"
-                              on-click="{{moveToSummary}}"
-                              class="btn btn-summary-container btn-md buttonMargin" disabled>Summary
-                      </button>
-                    </template>
-                    <template if={{!atSummary}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToSummary}}"
-                              class="btn btn-summary-container btn-md buttonMargin">Summary
-                      </button>
-                    </template>
-                      
-                    <template if={{atStandBy}}>
-                      <button type="button" id="Button130"
-                              class="btn btn-standby-container btn-md buttonMargin" disabled>Stand-by
-                      </button>                    
-                    </template>
-                    <template if={{!atStandBy}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToStandBy}}"
+                              on-click="{{moveToContainer}}"
+                              container="STANDBY"
                               class="btn btn-standby-container btn-md buttonMargin">Stand-by
-                      </button>  
-                    </template>
-                    <template if={{atExcluded}}>
+                      </button> 
                       <button type="button" id="Button130"
-                              class="btn btn-excluded-container btn-md buttonMargin" disabled>Excluded
-                      </button>  
-                    </template>
-                    <template if={{!atExcluded}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToExcluded}}"
+                              on-click="{{moveToContainer}}"
+                              container="EXCLUDED"
                               class="btn btn-excluded-container btn-md buttonMargin">Excluded
                       </button> 
-                    </template>  
+                    </template>
+                    <template if={{currentContainer.equals(standbyContainer)}}>
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainer}}"
+                              container="SUMMARY"
+                              class="btn btn-summary-container btn-md buttonMargin">Summary
+                      </button> 
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainer}}"
+                              container="EXCLUDED"
+                              class="btn btn-excluded-container btn-md buttonMargin">Excluded
+                      </button> 
+                    </template>
+                    <template if={{currentContainer.equals(excludedContainer)}}>
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainer}}"
+                              container="SUMMARY"
+                              class="btn btn-summary-container btn-md buttonMargin">Summary
+                      </button> 
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainer}}"
+                              container="STANDBY"
+                              class="btn btn-standby-container btn-md buttonMargin">Stand-by
+                      </button> 
+                    </template>
                   </div>
                   container.
                  </div> 

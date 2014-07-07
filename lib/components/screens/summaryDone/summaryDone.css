@@ -31,30 +31,30 @@
   height:100%;
 }
 
-#t-1{
+#t-SUMMARY{
   display: none; 
   visibility: hidden; 
   opacity: 0; 
 }
 
-#t-2{
+#t-STANDBY{
   display: none; 
   visibility: hidden; 
   opacity: 0; 
 }
 
-#t-3{
+#t-EXCLUDED{
   display: none; 
   visibility: hidden; 
   opacity: 0; 
 }
 
-.summary {
+.SUMMARY {
   height: 100%;
 }
 
 #firstSection{
-  height: calc(100% - 95px);
+  height: calc(100% - 105px);
   padding: 10px;
   overflow: hidden;
   margin-top: 10px;
@@ -84,7 +84,7 @@
 #bottomZone{
   border-top: 1px solid #8A949B;
   background: #D1D2D5;
-  height: 85px;
+  height: 95px;
 }
 
 #categories{

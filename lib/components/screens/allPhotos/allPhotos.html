@@ -1,3 +1,4 @@
+<link rel="import" href="../../../../../packages/polymer/polymer.html">
 <polymer-element name="all-photos">
 <template>
   <link rel="stylesheet" href="allPhotos.css">
@@ -8,7 +9,7 @@
   
     <section id="firstSection">
       <div id="drop-zone">  
-        <template if="{{thumbnails.length == 0}}">
+        <template if="{{photos.length == 0}}">
             <div id="nothing"></div> <!-- Just space -->
             <div id="defaultInformation">
               <p id="helpMessage1">Drag and Drop your photos here</p>
@@ -21,15 +22,13 @@
             </div>
             <div id="nothing"></div> <!-- Just space -->
         </template>  
-        <template if="{{thumbnails.length > 0}}">    
+        <template if="{{photos.isNotEmpty}}">    
           <section class="centerStuff">
             <ul id="navlist">
-              <template id="thumbnailsShow" repeat="{{thumbnail in thumbnails}}">   
+              <template id="thumbnailsShow" repeat="{{photo in photos}}">   
                 <li>   
-                  <div class="mementoImage" id="{{thumbnail.imageTitle}}">
-                    <div class="imageBoard">
-                      <img class="image img-thumbnail" src="{{thumbnail.imageSrc}}">  
-                    </div>
+                  <div class="mementoImage" id="{{photo.title}}">
+                    <img class="image img-thumbnail" src="{{photo.thumbnail.src}}">  
                   </div> 
                 </li>                 
               </template> 
@@ -53,7 +52,7 @@
             </div>  
           </div>
           <div class="col col-lg-8 col-md-8 col-sm-8 col-xs-7">  
-            <template if="{{thumbnails.length >= 1}}">
+            <template if="{{photos.length >= 1}}">
               <div id="rightButtons">
                 <div class="btn-group">
                   <strong id="numberOfPhotosInformation">Number of photos: </strong> 
@@ -64,7 +63,7 @@
                     <input type="text" 
                            class="form-control bfh-number" 
                            data-min="1" 
-                           data-max="{{thumbnails.length}}" 
+                           data-max="{{photos.length}}" 
                            data-wrap="true"
                            id="numberPhotos"
                            value="{{numberOfPhotosDefined}}">
