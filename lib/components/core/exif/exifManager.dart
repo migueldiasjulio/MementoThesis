@@ -3,6 +3,7 @@ library exifManager;
 import '../photo/photo.dart';
 import 'dart:js';
 import 'package:observe/observe.dart';
+import 'package:js/js.dart' as js;
 
 class ExifManager extends Object with Observable {
   
@@ -26,7 +27,9 @@ class ExifManager extends Object with Observable {
    * Extract EXIF Information 
    */ 
   void extractExifInformation(){
-    //TODO
+    var exif = new JsObject(context['EXIF'], []);
+    print(exif.callMethod('test', ['Funciona assim!']));
+    
   }
   
   /**

@@ -4,10 +4,10 @@ import 'dart:html';
 import 'dart:core';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
-import 'package:bootjack/bootjack.dart';
 import '../../core/screenModule.dart' as screenhelper;
-import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
+import '../../core/database/dataBase.dart';
+import 'dart:js';
 
 /**
  * Summary Done Screen
@@ -21,24 +21,26 @@ class SummaryDone extends screenhelper.SpecialScreen {
   static const String TAG = "summary-done";
   String title = "Summary Done",
          description = "Summary results";
-  Modal exportMenu;
-  @observable bool export = false;
   factory SummaryDone() => new Element.tag(TAG);
-  Element _summaryContainer;
+  bool firstTime = true;
   
   /**
    * Building Summary Done
    */
   SummaryDone.created() : super.created(){
-    Modal.use();
-    Transition.use();
-    exportMenu = Modal.wire($['exportMenu']);
-    _summaryContainer = $['t-SUMMARY'];
+
   }
 
   void runStartStuff() {
-    checkSummaryContainer();
-    cleanAll();
+    cleanAll();    
+    testJS();
+  }
+  
+  void testJS(){      
+    var exif = new JsObject(context['EXIF'], []);
+    print(exif.toString());
+    //print(exif.callMethod('memento')); // Prints false.
+    //print(exif.callMethod('test', ['Funciona assim!']));
   }
   
   /**
@@ -49,56 +51,6 @@ class SummaryDone extends screenhelper.SpecialScreen {
     super.enteredView();
     cleanAll();
   }
-  
-  void checkSummaryContainer(){
-    _summaryContainer.setAttribute("checked", "checked");
-    print(_summaryContainer.attributes.keys);
-  }
-   
-  /**
-   * Export Functions
-   */
-  
-  void enableExport(){
-    this.export = true;
-  }
-
-  void disableExport(){
-    this.export = false;
-  }
-
-  void exportSummary(){
-    this.exportMenu.show();
-    exportToHardDrive();
-  }
-
-  void exportToHardDrive(){
-    List<String> names = new List<String>();
-    
-    this.summaryContainer.photos.forEach((thumbnail){
-      names.add(thumbnail.title);
-    });
-    
-    List test = new List();
-    test.addAll(names);
-
-    Blob blob = new Blob(test, 'text/plain', 'native');
-    String url = Url.createObjectUrlFromBlob(blob);
-    AnchorElement link = new AnchorElement()
-        ..href = url
-        ..download = 'Memento.txt'
-        ..text = 'My Device';
-
-    // Insert the link into the DOM.
-    var myDevice = $['myDeviceDownload'];
-    myDevice.append(link);
-  }
-
-  void exportToFacebook(){}
-  
-  /**
-   * Export Functions
-   */
 
   /*
    *  Show image
@@ -112,11 +64,11 @@ class SummaryDone extends screenhelper.SpecialScreen {
     }
     else{
       if(target.classes.contains('selected')){
-              target.classes.remove('selected');
-              isSelected = "false";
-              removeFromSelectedPhotos(id);
-              removeFromSelectedElements(target);
-              print("$id is selected? $isSelected");
+        target.classes.remove('selected');
+        isSelected = "false";
+        removeFromSelectedPhotos(id);
+        removeFromSelectedElements(target);
+        print("$id is selected? $isSelected");
       }
       else{
         target.classes.add('selected');
@@ -137,7 +89,10 @@ class SummaryDone extends screenhelper.SpecialScreen {
         name: 'home',
         path: '',
         enter: (e) { 
+          if(firstTime){
           checkSummaryContainer();
+          firstTime = false;
+          }
         });
    }
 
@@ -150,6 +105,8 @@ class SummaryDone extends screenhelper.SpecialScreen {
    * Go Big Size Photo Screen
    */
   void displayPhoto(String id){
-    router.go("big-size-photo.show", {id: id});
+    DB.setPhotoToDisplay(id);
+    router.go("big-size-photo", {});
+    //router.go("big-size-photo.show", {id: id});
   }
 }

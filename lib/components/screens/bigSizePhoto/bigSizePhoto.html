@@ -2,11 +2,12 @@
 <polymer-element name="big-size-photo"> 
 <template>
 <link rel="stylesheet" href="bigSizePhoto.css">
-<link rel="stylesheet" href="../resources/mementoTabs.css">
-<link rel="stylesheet" href="../resources/mementoGrid.css">
-<link rel="stylesheet" href="../resources/mementoButtons.css">
-<link rel="stylesheet" href="../resources/mementoPosition.css">
-<link rel="stylesheet" href="../resources/mementoSize.css">
+  <link rel="stylesheet" href="../resources/mementoButtons.css">
+  <link rel="stylesheet" href="../resources/mementoTabs.css">
+  <link rel="stylesheet" href="../resources/mementoGrid.css">
+  <link rel="stylesheet" href="../resources/mementoPosition.css">
+  <link rel="stylesheet" href="../resources/mementoSize.css">
+  <link rel="stylesheet" href="../resources/arrowNavigation.css">
 
   <div id="main">
     <section id="firstSection">   
@@ -17,14 +18,17 @@
               <span class="glyphicon glyphicon-arrow-left"></span> Back
             </button>
           </div>
-        <div class="col col-xs-10 col-sm-11 col-md-11 col-lg-11">
-          <div id="centerText">
-            <img src="{{photo.thumbnail.src}}"
-                class="image img-thumbnail"
-                 title="{{photo.title}}">
-          </div>
-        <p id="centerText">{{photo}}</p>
-        </div>
+          <div class="col col-xs-10 col-sm-11 col-md-11 col-lg-11">
+              <div id="centerText" class="imageDisplay">
+              
+              <img src="{{photo.thumbnail.src}}"
+                   data-id="{{photo.id}}"
+                   class="image img-thumbnail"
+                   title="{{photo.title}}" >
+                               
+              </div>
+              <p id="centerText">{{photo.title}}</p>
+          </div> <!-- image zone -->
       </div>
     </section> <!-- firstSection -->
     
@@ -100,7 +104,7 @@
           <label style="width: 200px" for="t-{{container.name}}" class="{{container.name}}">
               {{container.name.toLowerCase()}}
               <span style="float: right; margin-top: 10px;" id="span" class="badge">
-                <strong style="padding:2px">{{container.photos.length}}</strong>
+                <strong style="padding:2px">{{container.photosToDisplay.length}}</strong>
               </span>
           </label>
         </template>
@@ -110,32 +114,46 @@
             
            <template repeat="{{container in containers}}">
             <!-- Tab content -->
-            <div class="{{container.secondname}}">
-              <template if="{{container.photos.isEmpty}}">
+            <div id="{{container.secondname}}" class="{{container.secondname}}">
+              <template if="{{currentContainer.photos.isEmpty}}">
                   <div class="space40"></div> <!-- Just space -->
                   <div id="centerText" class="title large font25 height20">Empty.</div>
                   <div class="space40"></div> <!-- Just space -->
               </template>
-              <template if="{{container.photos.isNotEmpty}}">
-                <section class="centerStuff">
-                      <ul id="navlistHorizontal">
-                        <template repeat="{{photo in container.photos}}">  
-                          <li>   
-                            <div class="mementoSpecialImage">
-                              <div class="imageBoard">
-                                <img src="{{photo.thumbnail.src}}"
-                                     on-click="{{showImage}}"
-                                     data-id="{{photo.id}}"
-                                     class="image img-thumbnail"
-                                     title="{{photo.title}}" > 
-                              </div>
-                            </div> 
-                          </li>                 
-                        </template> 
-                      </ul>
-                  </section>
+              <template if="{{currentContainer.photos.isNotEmpty}}">
+                <div class="row">
+                  <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">     
+                    <section class="centerStuff">
+                      <template if="{{container.photosToDisplay.length < 1}}">
+                        <div class="space40"></div> <!-- Just space -->
+                        <div id="centerText" class="title large font25 height20">Nothing to show.</div>
+                        <div class="space40"></div> <!-- Just space -->
+                      </template>
+                      <template if="{{container.photosToDisplay.length > 0}}">
+                          <div on-click="{{moveLeft}}" id="thumb-back"></div>    
+                          <ul id="withoutOrder" class="navlistHorizontal">
+                            <template repeat="{{photo in currentContainer.photosToDisplay}}">  
+                              <li>   
+                                <div class="mementoSpecialImage">
+                                  <div class="imageBoard">
+                                    <img id="{{photo.id}}"
+                                         src="{{photo.thumbnail.src}}"
+                                         on-click="{{showImage}}"
+                                         data-id="{{photo.id}}"
+                                         class="image img-thumbnail"
+                                         title="{{photo.title}}" > 
+                                  </div>
+                                </div> 
+                              </li>                 
+                            </template> 
+                          </ul>
+                          <div on-click="{{moveRight}}" id="thumb-forward"></div>
+                      </template>
+                    </section> 
+                  </div>
+                </div>
               </template>
-            </div>
+            </div> <!-- container -->
           </template><!-- / Tab content -->
             </div> <!-- / Tabs wrapper -->      
           </section>
@@ -219,9 +237,28 @@
        </form> <!-- form -->
       </div> <!-- screen footer -->
      </section>
+     
+     <div id="exportMenu" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 id="modalTitle" style="margin: 0">Choose a destination</h4>
+            </div>
+            <div class="modal-body">
+                <div id="centerText">     
+                      <img src="../../../resources/images/own_device.png" 
+                      on-click="{{exportToHardDrive}}" id="exportImage" />
+                      <br/>
+                      <br/>
+                      <strong id="myDeviceDownload"></strong>
+                </div>
+             </div>
+              </div>
+            </div>
+      </div> <!-- modal -->
       
   </div><!-- main --> 
 </template> <!-- main template -->
 <script type="application/dart" src="bigSizePhoto.dart"></script> 
-
 </polymer-element>

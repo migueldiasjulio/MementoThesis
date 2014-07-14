@@ -12,6 +12,8 @@ import 'categories/colorCategory.dart' as color;
 import 'categories/similarCategory.dart' as similar;
 import 'dart:html';
 import 'dart:core';
+import 'photo/photo.dart';
+import 'package:bootjack/bootjack.dart';
 
 /**
  * Screen Module
@@ -107,12 +109,69 @@ abstract class SpecialScreen extends ScreenModule {
   @observable bool facesCategory = true;
   @observable bool BWCategory = true;
   @observable bool ColorCategory = true;
-  @observable bool sameCategory = true;
+  @observable bool sameCategory = true;  
+  
+  Element _summaryContainer;
+  Element _standByContainer;
+  Element _excludedContainer;
+  
+  Modal exportMenu;
   
   SpecialScreen.created() : super.created() {
-    currentContainer = summaryContainer;
     initializeCategories();
-  }  
+    Modal.use();
+    exportMenu = Modal.wire($['exportMenu']);
+    
+    _summaryContainer = $['t-SUMMARY'];
+    _standByContainer = $['t-STANDBY'];
+    _excludedContainer = $['t-EXCLUDED'];
+  }
+  
+  void decideContainerToLock(String photoId){
+    var photoContainer = DB.findContainer(photoId);
+    print("Container name to check: " + photoContainer.containerName);
+    switch(photoContainer.containerName){
+      case("SUMMARY"): 
+        checkSummaryContainer();
+        break;
+      case("STANDBY"): 
+        checkStandByContainer();
+        break;
+      case("EXCLUDED"): 
+        checkExcludedContainer();
+        break;
+    }
+  }
+  
+  void printContainerAttributes(){
+    print("SUMMARY CONTAINER ATTRIBUTES: " + _summaryContainer.attributes.keys.toString());
+    print("STANDBY CONTAINER ATTRIBUTES: " + _standByContainer.attributes.keys.toString());
+    print("EXCLUDED CONTAINER ATTRIBUTES: " + _excludedContainer.attributes.keys.toString());
+  }
+  
+  void removeCheckedAttribute(){
+    _summaryContainer.attributes.remove('checked');
+    _standByContainer.attributes.remove('checked');
+    _excludedContainer.attributes.remove('checked'); 
+  }
+  
+  void checkSummaryContainer(){
+    _summaryContainer.setAttribute("checked", "checked");
+    printContainerAttributes();
+    currentContainer = summaryContainer;
+  }
+  
+  void checkStandByContainer(){
+    _standByContainer.setAttribute("checked", "checked");
+    printContainerAttributes();
+    currentContainer = standbyContainer;
+  }
+  
+  void checkExcludedContainer(){
+    _excludedContainer.setAttribute("checked", "checked");
+    printContainerAttributes();
+    currentContainer = excludedContainer;
+  }
   
   void initializeCategories(){  
     _selectedCategories.add(faces.FacesCategory.get());
@@ -187,18 +246,16 @@ abstract class SpecialScreen extends ScreenModule {
    *  Move Functions
    */ 
   
-  /**
+  /*
    * Move to container
    */
   void moveToContainer(event, detail, target){
     var container = DB.container(target.attributes['container']);
-    print("");
     var photos = selectedPhotos.map((id) => currentContainer.find(id));
     DB.moveFromTo(currentContainer.name, container.name, photos);
     disableSelection();
   }
   
-
   /**
    *  Move Functions
    */
@@ -209,6 +266,7 @@ abstract class SpecialScreen extends ScreenModule {
 
   void selectContainer(event, detail, target) {
     currentContainer = DB.container(target.dataset["container"]);
+    cleanSelection();
   }
   
 
@@ -384,6 +442,35 @@ abstract class SpecialScreen extends ScreenModule {
     }
     print("Displaying equivalent Photos");
     updatePhotoView();
+  }
+  
+  void exportSummary(){
+    this.exportMenu.show();
+    exportToHardDrive();
+  }
+
+  void exportToFacebook(){}
+  
+  void exportToHardDrive(){
+    List<String> names = new List<String>();
+    
+    this.summaryContainer.photos.forEach((thumbnail){
+      names.add(thumbnail.title);
+    });
+    
+    List test = new List();
+    test.addAll(names);
+
+    Blob blob = new Blob(test, 'text/plain', 'native');
+    String url = Url.createObjectUrlFromBlob(blob);
+    AnchorElement link = new AnchorElement()
+        ..href = url
+        ..download = 'Memento.txt'
+        ..text = 'My Device';
+
+    // Insert the link into the DOM.
+    var myDevice = $['myDeviceDownload'];
+    myDevice.append(link);
   }
   
 }

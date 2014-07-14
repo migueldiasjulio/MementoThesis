@@ -1,6 +1,7 @@
 library bigSize;
 
 import 'dart:html';
+import 'dart:core';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
@@ -18,19 +19,32 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   String title = "Big Size Photo",
          description = "Photo big size";
   factory BigSizePhoto() => new Element.tag(TAG);
-  Element _name;
+  String previousPhotoID = null;
+  String mainPhotoID = null;
+  Element selectedPhoto;
+  Element previousPhoto;
 
   @observable Photo photo;
-
-  final List<Photo> photos = toObservable([]);
+  
   Element _summaryContainer;
   Element _standByContainer;
   Element _excludedContainer;
-
+  Element _scrollableSummary;
+  Element _scrollableStandby;
+  Element _scrollableExcluded;
+  
+  Element _helperElement;
+  
   BigSizePhoto.created() : super.created(){
     _summaryContainer = $['t-SUMMARY'];
     _standByContainer = $['t-STANDBY'];
     _excludedContainer = $['t-EXCLUDED'];
+    _scrollableSummary = $['SUMMARY2'];
+    _scrollableStandby = $['STANDBY2'];
+    _scrollableExcluded = $['EXCLUDED2'];
+    
+    _helperElement = $['wrapperZone'];
+    
   }
 
   /**
@@ -39,24 +53,37 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   @override
    void setupRoutes(Route route) {
     route.addRoute(
+        name: 'home',
+        path: '',
+        enter: (e) { 
+          photo = DB.photoToDisplayPlease;
+          print("Photo ID: " + photo.id);
+          print("Photo src: " + photo.thumbnail.src);
+          print("Photo title: " + photo.thumbnail.title.toString());
+          removeCheckedAttribute();
+          decideContainerToLock(photo.id);
+          markDisplayingPhoto();
+        });
+   }
+    /*
+    route.addRoute(
         name: 'show',
         path: '/:id',
         enter: (e) {
-          print("Estou a vir aqui!");
           print(e.parameters['id']);
           photo = DB.find(e.parameters['id']);
-          currentContainer = DB.findContainer(photo.id);
-          setContainer();
+          decideContainerToLock(photo.id);
+          markDisplayingPhoto();
         }
     );
-   }
+   }*/
+    
   /*
    * TODO
    */
   @override
   void enteredView() {
     super.enteredView();
-    setContainer();
   }
   
   /*
@@ -65,26 +92,6 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   void runStartStuff() {
     cleanAll();
   }
-  
-  void setContainer(){
-    switch(currentContainer.name){
-      case(SUMMARY): 
-        _summaryContainer.setAttribute("checked","checked");
-        break;
-      case(STANDBY): 
-        _standByContainer.setAttribute("checked","checked");
-        break;
-      case(EXCLUDED): 
-        _excludedContainer.setAttribute("checked","checked");
-        break;
-      default:
-        break;
-    }
-  }
-  
-  /*
-   * 
-   */
 
   /*
    * TODO
@@ -99,30 +106,55 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     router.go("summary-done", {});
   }
 
-  /*
-   *
-   */
-  void cancel(){
-    selection=false;
+  //Arrow move Left
+  void moveLeft(Event event, var detail, Element target){
+    var aux;
+    aux = target.parent.children[3];
+    aux.scrollLeft -= 500;
+  }
+  
+  //Arrow move Right
+  void moveRight(Event event, var detail, Element target){
+    var aux;
+    aux = target.parent.children[3];
+    aux.scrollLeft += 500;  
+  }
+  
+  void markDisplayingPhoto(){
+    previousPhotoID = mainPhotoID;
+    mainPhotoID = photo.id;
+    if(previousPhotoID != null){
+      previousPhoto = $[previousPhotoID];
+      previousPhoto.classes.remove('choosed');      
+    }
+    print("ID: " + mainPhotoID);
+    selectedPhoto = $[photo.id];
+    print("SELECTED PHOTO: " + selectedPhoto.toString());
+    selectedPhoto.classes.add('choosed');
   }
   
   /*
    *
    */
   void showImage(Event event, var detail, Element target){
-    var id = target.dataset["data-id"];
+    var id = target.attributes["data-id"];
     var isSelected;
-    if(!this.selection){
+    if(!selection){
       print(target.attributes['data-incby']);
       this.photo = DB.find(target.attributes['data-id']);
-    } else{
+      markDisplayingPhoto();
+    } 
+    else{
       if(target.classes.contains('selected')){
         target.classes.remove('selected');
+        isSelected = "false";
         removeFromSelectedPhotos(id);
         removeFromSelectedElements(target);
         print("$id is selected? $isSelected");
-      } else{
+      } 
+      else{
         target.classes.add('selected');
+        isSelected = "true";
         addToSelectedPhotos(id);
         addToSelectedElements(target);
         print("$id is selected? $isSelected");

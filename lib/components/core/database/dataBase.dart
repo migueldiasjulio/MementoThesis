@@ -27,6 +27,8 @@ class Container extends Object with Observable {
   
   Container(this.name, this.secondname);
   
+  String get containerName => name;
+  
   Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
   
   void showPhotosWithCategories(List<Category> categories){
@@ -101,27 +103,31 @@ class Database extends Object with Observable {
   
   void setPhotoToDisplay(String id){
     photoToDisplay = find(id);
-    print(photoToDisplay.title);
+    print("SAVED: " + photoToDisplay.toString());
   }
 
   Photo find(String id) {
+    var aux;
     var photo;
-    print("ID: " + id);
     containers.forEach((_, c) {
-      print("NAME: " + c.name + "with " + c.photos.length.toString());
-      photo  = c.find(id);
+      aux  = c.find(id);
+      print("Photo: " + aux.toString());
+      if(aux!=null){
+        photo = aux;
+      }
     });
-    print("GOT THIS: " + photo.toString());
     return photo;
   }
   
   Container findContainer(String photoID){
    var _container;
+   var aux;
    containers.forEach((_, container){
-     if(container.find(photoID)){
+     aux = container.find(photoID);
+     if(aux!=null){
        _container = container;
      }
-   });
+   }); 
    return _container;
   }
 

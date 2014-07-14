@@ -115,6 +115,7 @@ class AllPhotos extends screenhelper.Screen {
     photoFiles.forEach((file) {
       FileReader reader = new FileReader();
       reader.onLoad.listen((e) {
+       
         photos.add(new Photo(reader.result, title: sanitizer.convert(file.name)));
       });
       reader.readAsDataUrl(file);

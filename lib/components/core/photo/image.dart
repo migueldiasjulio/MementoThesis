@@ -16,6 +16,7 @@ class Image {
   int get width => _img.width;
   int get height => _img.height;
   String get title => _img.title;
+  ImageElement get image => _img;
 
   Image createThumbnail(int width, int height, {String type: "image/png"}) {
     var canvas = new CanvasElement(width: width, height: height);

@@ -14,13 +14,13 @@
   position:relative; 
 }
 
-#navlistHorizontal{
+.navlistHorizontal{
   display: block;
   white-space: nowrap;
   overflow: auto; 
 }
 
-#navlistHorizontal li{
+.navlistHorizontal li{
 display: inline-block;
 }
 
@@ -32,7 +32,6 @@ list-style-type: none;
 .imageDisplay{
   max-width: 93%;
   max-height: 93%; 
-  border: 2px solid white;
 }
 
 .img-thumbnail {
@@ -59,4 +58,8 @@ list-style-type: none;
   opacity: 0.6;
   filter: alpha(opacity=60); /* For IE8 and earlier */
   border: 4px solid #3276b1;/*#3276b1; */
+}
+
+.choosed{
+  border: 4px solid #3276b1;
 }

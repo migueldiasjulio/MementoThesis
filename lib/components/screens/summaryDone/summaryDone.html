@@ -42,21 +42,28 @@
         </template>
         <template if="{{currentContainer.photos.isNotEmpty}}">
               <section class="centerStuff">
-                <ul id="navlist">
-                  <template repeat="{{photo in currentContainer.photosToDisplay}}">   
-                    <li>   
-                      <div class="mementoImage">
-                        <div class="imageBoard">
-                          <img src="{{photo.thumbnail.src}}"
-                               on-click="{{showImage}}"
-                               data-id="{{photo.id}}"
-                               class="image img-thumbnail"
-                               title="{{photo.title}}" >
-                        </div>
-                      </div> 
-                    </li>                 
-                  </template> 
-                </ul>
+                <template if="{{container.photosToDisplay.length < 1}}">
+                <div class="space40"></div> <!-- Just space -->
+                  <div id="centerText" class="title large font25 height20">Nothing to show.</div>
+                  <div class="space40"></div> <!-- Just space -->
+                </template>
+                <template if="{{container.photosToDisplay.length > 0}}">
+                  <ul id="navlist">
+                    <template repeat="{{photo in currentContainer.photosToDisplay}}">   
+                      <li>   
+                        <div class="mementoImage">
+                          <div class="imageBoard">
+                            <img src="{{photo.thumbnail.src}}"
+                                 on-click="{{showImage}}"
+                                 data-id="{{photo.id}}"
+                                 class="image img-thumbnail"
+                                 title="{{photo.title}}" >
+                          </div>
+                        </div> 
+                      </li>                 
+                    </template> 
+                  </ul>
+               </template>
               </section>
            </template>
           </div>
@@ -231,4 +238,17 @@
   </div> <!-- main --> 
 </template>
 <script type="application/dart" src="summaryDone.dart"></script>
+<script src="../../../../../packages/browser/dart.js"></script>
+<script src="../../../../../packages/browser/interop.js"></script>
+<script src="../../../../../packages/browser/exif.js"></script>
+<!--
+<script>
+
+var EXIF = function() {
+
+     this.test = function(blabla) {
+         return blabla;
+     };
+};
+</script> -->
 </polymer-element>

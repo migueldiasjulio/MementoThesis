@@ -31,14 +31,11 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse navbar-ex1-collapse">
                   <ul class="nav navbar-nav navbar-right" id="navbarNav">
-                      <li>
-                        <a href="#help" data-toggle="modal">Help</a>
+                      <li><a href="#help" data-toggle="modal">Help</a>
                       </li>
-                      <li>
-                        <a href="#settings" data-toggle="modal">Settings</a>           
+                      <li><a href="#about" data-toggle="modal">About</a>
                       </li>
-                      <li>
-                        <a href="#about" data-toggle="modal">About</a>
+                      <li><a href="#settings" data-toggle="modal">Settings</a>
                       </li>
                   </ul>
               </div> <!-- /.navbar-collapse -->
@@ -164,11 +161,12 @@
     </div>
     <!-- Auto resize -->
     <script lang="javascript">
-      function autoResizeDiv(){
-        document.getElementById('main').style.height = window.innerHeight +'px';
-      }
-      window.onresize = autoResizeDiv;
-      autoResizeDiv();
+    function autoResizeDiv()
+    {
+     document.getElementById('main').style.height = window.innerHeight +'px';
+    }
+    window.onresize = autoResizeDiv;
+    autoResizeDiv();
     </script>
     <script type="application/dart">export "package:polymer/init.dart";</script>
   </body>
