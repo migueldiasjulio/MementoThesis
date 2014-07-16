@@ -10,6 +10,9 @@ import '../../core/photo/photo.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 import '../../core/database/dataBase.dart';
+import 'package:js/js.dart' as js;
+import 'dart:js';
+
 /*
  * All Photos Screen class
  */
@@ -21,7 +24,7 @@ class AllPhotos extends screenhelper.Screen {
    description = "Showing all photos";
   factory AllPhotos() => new Element.tag(TAG);
 
-  Modal modal;
+  Modal summaryCreation;
   Modal loading;
 
   InputElement _fileInput;
@@ -30,6 +33,7 @@ class AllPhotos extends screenhelper.Screen {
   HtmlEscape sanitizer = new HtmlEscape();
   Element _addPhotos;
   @observable String numberOfPhotosDefined = "20";
+  int numberOfPhotosLoaded = 0;
   Element startSummary;
   
   final List<Photo> photos = toObservable([]);
@@ -37,7 +41,7 @@ class AllPhotos extends screenhelper.Screen {
   AllPhotos.created() : super.created(){
     Modal.use();
     Transition.use();
-    modal = Modal.wire($['modal']);
+    summaryCreation = Modal.wire($['summaryCreation']);
     loading = Modal.wire($['loading']);
 
     _fileInput = $['files'];
@@ -106,17 +110,36 @@ class AllPhotos extends screenhelper.Screen {
    }
 
    void _onFilesSelected(List<File> files) {
+     var exif = new JsObject(context['EXIF'], []);
+     print(exif);
      
+     var number = 0;
+     var numberOfPhotosAux = 0;
      var photoFiles = files.where((file) => file.type.startsWith('image'));
      this.numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
+     this.numberOfPhotosLoaded += int.parse(numberOfPhotosDefined);
+     numberOfPhotosAux = this.numberOfPhotosDefined;
+     var intNumber = int.parse(numberOfPhotosAux);
 
-     //showLoading();
-
+    if(intNumber > 0){
+      showLoading();
+    }
+    var dateInformation;
     photoFiles.forEach((file) {
+      
       FileReader reader = new FileReader();
       reader.onLoad.listen((e) {
-       
+        //print(exif.callMethod('readFromBinaryFile', [reader]));
         photos.add(new Photo(reader.result, title: sanitizer.convert(file.name)));
+        //dateInformation = file.lastModifiedDate;
+        //TOOD Recolher EXIF, Normalizar e adicionar essa informação na fotografia
+        //
+        number++;
+        
+        if(number == intNumber){
+          this.hiddeLoading();
+          //TODO Ordenar pela informação da data
+        }
       });
       reader.readAsDataUrl(file);
     });
@@ -124,22 +147,30 @@ class AllPhotos extends screenhelper.Screen {
     //this.hiddeLoading();
    }
    
+   void extractEXIF(){
+     
+   }
+   
    /*
     * Show upload photos loading modal
     */
-   void show(){
-     modal.show();
+   void showSummaryBeenCreating(){
+     summaryCreation.show();
+   }
+   
+   void hiddeSummaryBeenCreating(){
+     summaryCreation.hide();
    }
 
    /*
-    *Show loading modal creating a summary
+    *
     */
    void showLoading(){
      loading.show();
    }
 
    /*
-    * Hide loading modal creating a summary
+    * 
     */
    void hiddeLoading(){
      loading.hide();
@@ -149,7 +180,7 @@ class AllPhotos extends screenhelper.Screen {
     * Increment number of summary photos
     */
    void incSummaryNumber(){
-     int auxiliar = int.parse(numberOfPhotosDefined);
+     var auxiliar = int.parse(numberOfPhotosDefined);
      if(auxiliar == photos.length){
        this.numberOfPhotosDefined = auxiliar.toString();
      } else{
@@ -162,7 +193,7 @@ class AllPhotos extends screenhelper.Screen {
     *
     */
    void subSummaryNumber(){
-     int auxiliar = int.parse(numberOfPhotosDefined);
+     var auxiliar = int.parse(numberOfPhotosDefined);
      if(auxiliar == 1){
        this.numberOfPhotosDefined = auxiliar.toString();
      } else{
@@ -174,22 +205,34 @@ class AllPhotos extends screenhelper.Screen {
    /*
     * 
     */
-   void runStartStuff(){}
+   void runStartStuff();
 
    /**
     * Build Summary
     */
     void buildSummary(){
-      DB.buildSummary(photos, int.parse(numberOfPhotosDefined));
-      goSummary();
+      //showSummaryBeenCreating();
+      var result;
+      var numberDefinedInt = int.parse(numberOfPhotosDefined);
+      if(numberDefinedInt > numberOfPhotosLoaded){
+        js.context.alert("A Summary with " + numberDefinedInt.toString() + " photos cannot be created." +  
+        "It will be created with " + numberOfPhotosLoaded.toString() + " photos.");
+        result = DB.buildSummary(photos, numberOfPhotosLoaded);
+      }else{
+        result = DB.buildSummary(photos, numberDefinedInt);
+      }
+      if(result){
+        goSummary();
+      }
     }
 
     /*
      *
      */
    void goSummary(){
+     //hiddeSummaryBeenCreating();
      router.go("summary-done", {});
-     modal.hide();
+     
    }
    
    /*

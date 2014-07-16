@@ -8,12 +8,12 @@ class Photo extends Image {
   static int _COUNT = 1;
 
   String id;
+  int _dataInformation;
   Image _thumbnail;
   List<Category> _categories;
   List<Photo> _almostTheSamePhotos;
   List<Photo> _similarPhotos;
   
-
   Photo(String src, {String title}) : id = "photo_${_COUNT++}", 
                                       _almostTheSamePhotos = new List<Photo>(), 
                                       _similarPhotos = new List<Photo>(), 
@@ -29,7 +29,8 @@ class Photo extends Image {
   
   List<Photo> get almostTheSamePhoto => _almostTheSamePhotos;
   List<Photo> get similarPhotos => _similarPhotos;
-  List<Category> get returnCategory => this._categories;
+  List<Category> get returnCategory => _categories;
+  int get dataFromPhoto => _dataInformation;
   
   bool containsCategory(Category category){
     return _categories.contains(category);
@@ -43,6 +44,6 @@ class Photo extends Image {
     this._categories.add(_category);
   }
 
-  operator ==(other) => other.id == id;
+  operator ==(other) => other.id == id; //&& other._dataInformation == _dataInformation; TODO
 
 }

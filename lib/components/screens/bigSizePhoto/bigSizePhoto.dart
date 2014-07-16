@@ -8,6 +8,7 @@ import '../../core/screenModule.dart' as screenhelper;
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
+import 'dart:async';
 
 /**
  * BigSizePhoto Screen 
@@ -33,7 +34,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   Element _scrollableStandby;
   Element _scrollableExcluded;
   
-  Element _helperElement;
+  MutationObserver observer;
   
   BigSizePhoto.created() : super.created(){
     _summaryContainer = $['t-SUMMARY'];
@@ -42,9 +43,6 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     _scrollableSummary = $['SUMMARY2'];
     _scrollableStandby = $['STANDBY2'];
     _scrollableExcluded = $['EXCLUDED2'];
-    
-    _helperElement = $['wrapperZone'];
-    
   }
 
   /**
@@ -62,7 +60,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
           print("Photo title: " + photo.thumbnail.title.toString());
           removeCheckedAttribute();
           decideContainerToLock(photo.id);
-          markDisplayingPhoto();
+          //markDisplayingPhoto();
         });
    }
     /*

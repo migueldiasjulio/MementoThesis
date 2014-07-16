@@ -130,6 +130,10 @@ class Database extends Object with Observable {
    }); 
    return _container;
   }
+  
+  int firstNormalization(DateTime date){
+    return _exifManager.normalizeInformation(date);
+  }
 
 
   /**
@@ -167,9 +171,10 @@ class Database extends Object with Observable {
   /**
    * Build Summary
    */
-  void buildSummary(List<Photo> photos, int numberOfPhotosDefined){
+  bool buildSummary(List<Photo> photos, int numberOfPhotosDefined){
     addNewElementsToDataBase(photos);
     decideAlgorithm(numberOfPhotosDefined);
+    return true;
   }
   
   /**

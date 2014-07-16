@@ -95,12 +95,10 @@
             <p id="modalMargin1">Creating the Summary</p>
           </div>
           <div class="modal-body">
-            <p id="message">Default</p>
+            <p id="message">Please wait while we create your Summary.</p>
           </div>
           <div id="modalMargin1" class="modal-footer">
             <button class="btn btn-default" data-dismiss="summaryCreation">Cancel</button>
-            <button class="btn btn-summary"
-              on-click="{{buildSummary}}" id="okButton">Ok</button>
           </div>
         </div>
       </div>
@@ -115,7 +113,7 @@
           </div>
           <div class="modal-body">
           <div id="centerText">
-              <img src="../../../resources/images/loading.gif" />
+              <!-- <img src="../../../resources/images/loading.gif" /> -->
               <h5>Please wait.</h5>
           </div>
         </div>
@@ -129,5 +127,6 @@
   </div><!-- main --> 
 </template> 
 <script type="application/dart" src="allPhotos.dart"></script> 
+<script src="../../../../../packages/browser/dart.js"></script> 
 <script src="../resources/exif.js"></script>
 </polymer-element>

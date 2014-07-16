@@ -26,7 +26,8 @@ class ExifManager extends Object with Observable {
   /**
    * Extract EXIF Information 
    */ 
-  void extractExifInformation(){
+  void extractExifInformation(Photo photo){
+    
     var exif = new JsObject(context['EXIF'], []);
     print(exif.callMethod('test', ['Funciona assim!']));
     
@@ -35,8 +36,9 @@ class ExifManager extends Object with Observable {
   /**
    * Normalize Information 
    */ 
-  void normalizeInformation(){
-    //TODO
+  int normalizeInformation(DateTime date){
+    
+    return 0;
   }
   
   /**
