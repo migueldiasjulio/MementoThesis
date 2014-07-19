@@ -8,6 +8,7 @@ import '../settings/FunctionChoosed.dart' as Function;
 import '../categories/categoryManager.dart';
 import '../categories/category.dart';
 import '../exif/exifManager.dart';
+import '../hierarchyClustering/clusteringManager.dart';
 
 import 'package:observe/observe.dart';
 
@@ -18,6 +19,7 @@ const String EXCLUDED = "EXCLUDED";
 final DB = Database.get();
 final _categoryManager = CategoryManager.get();
 final _exifManager = ExifManager.get();
+final _clusteringManager = ClusteringManager.get();
 
 class Container extends Object with Observable {
   final String name;
@@ -29,7 +31,7 @@ class Container extends Object with Observable {
   
   String get containerName => name;
   
-  Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
+  Photo find(String id) => photos.firstWhere((p) => p._id == id, orElse: () => null);
   
   void showPhotosWithCategories(List<Category> categories){
     var itsOk;
@@ -82,7 +84,6 @@ class Database extends Object with Observable {
    */
   static Database _instance;
  
-
   Database._() {
     var containersToBuild = [SUMMARY, STANDBY, EXCLUDED, SUMMARY2, STANDBY2, EXCLUDED2];
     var leng = ((containersToBuild.length)/2).round();
@@ -97,13 +98,6 @@ class Database extends Object with Observable {
       _instance = new Database._();
     }
     return _instance;
-  }
-  
-  Photo get photoToDisplayPlease => photoToDisplay;
-  
-  void setPhotoToDisplay(String id){
-    photoToDisplay = find(id);
-    print("SAVED: " + photoToDisplay.toString());
   }
 
   Photo find(String id) {
@@ -130,11 +124,33 @@ class Database extends Object with Observable {
    }); 
    return _container;
   }
+   
+  Photo get photoToDisplayPlease => photoToDisplay;
   
-  int firstNormalization(DateTime date){
-    return _exifManager.normalizeInformation(date);
+  void setPhotoToDisplay(String id){
+    photoToDisplay = find(id);
+    print("SAVED: " + photoToDisplay.toString());
   }
-
+  
+  double extractExifInformation(Photo photo){
+    return _exifManager.extractExifInformation(photo);
+  }
+  
+  /**
+   *  Used when Photos are beeing uploaded. We need to normalize data
+   *  information so we can sort all photos directly in the same screen
+   */ 
+  double firstNormalization(DateTime date){
+    return _exifManager.firstNormalization(date);
+  }
+  
+  /**
+   * Used when all photos are uploaded and the user informs to start the summary build.
+   * All integer that represents DateTime are now normalized between 0 and 1.
+   */ 
+  void secondNormalization(){
+    _exifManager.secondNormalization(container(STANDBY).photos);
+  }
 
   /**
    * Add a new element to the database
@@ -238,11 +254,23 @@ class Database extends Object with Observable {
    * With cluster algorithm
    */
   void buildClusterSummary(int numberOfPhotos){
-
-
-    ///start algorithm
-
-    this.printContainersState(); //TODO
+        
+    secondNormalization();
+    var summaryPhotos = _clusteringManager.doClustering(container(STANDBY).photos, numberOfPhotos);
+    moveFromTo(STANDBY, SUMMARY, summaryPhotos);
+    
+    
+    printContainersState(); //TODO
+  }
+  
+  /**
+   *  Method to sort Photos
+   */ 
+  List<Photo> sortPhotos(List<Photo> photos){
+    var aux = photos;
+    print("SORTING");
+    aux.sort();
+    return aux;
   }
 
   /**

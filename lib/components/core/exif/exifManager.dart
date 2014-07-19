@@ -11,6 +11,10 @@ class ExifManager extends Object with Observable {
    * Singleton
    */
   static ExifManager _instance; 
+  /**
+   *  Higher integer to represent data
+   */ 
+  double higherDateInformation = 0.0;
 
   ExifManager._() {
     //TODO
@@ -26,26 +30,42 @@ class ExifManager extends Object with Observable {
   /**
    * Extract EXIF Information 
    */ 
-  void extractExifInformation(Photo photo){
+  double extractExifInformation(Photo photo){
+    var dateToReturn = 0.0;
     
-    var exif = new JsObject(context['EXIF'], []);
-    print(exif.callMethod('test', ['Funciona assim!']));
+    //TODO extracts exif information
+    
+    //TODO return data normalized
+    dateToReturn = firstNormalization(new DateTime(2)); //TODO change this
+    
+    return dateToReturn;
     
   }
   
   /**
    * Normalize Information 
    */ 
-  int normalizeInformation(DateTime date){
+  double firstNormalization(DateTime date){
+    var normalizationNumber = 0.0;
     
-    return 0;
+    //TODO do normalization
+    normalizationNumber = 0.0;
+    if(normalizationNumber > higherDateInformation){
+      higherDateInformation = normalizationNumber;
+    }
+    
+    return normalizationNumber;
   }
   
-  /**
-   * Sort Photos
-   */
-  void sortPhotos(){
-    //TODO
+  double calcNormalizationNumber(double firstNormalizationNumber){
+    return firstNormalizationNumber/higherDateInformation;
+  }
+  
+  void secondNormalization(List<Photo> photos){
+    for(Photo photo in photos){
+      print(calcNormalizationNumber(photo.dataFromPhoto)); //TODO
+      photo.setDataFromPhoto(calcNormalizationNumber(photo.dataFromPhoto));
+    }  
   }
   
 }

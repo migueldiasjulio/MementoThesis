@@ -3,12 +3,12 @@ library phototype;
 import 'image.dart';
 import '../categories/category.dart';
 
-class Photo extends Image {
+class Photo extends Image implements Comparable<Photo> {
 
   static int _COUNT = 1;
 
   String id;
-  int _dataInformation;
+  double _dataInformation = 0.0;
   Image _thumbnail;
   List<Category> _categories;
   List<Photo> _almostTheSamePhotos;
@@ -30,7 +30,25 @@ class Photo extends Image {
   List<Photo> get almostTheSamePhoto => _almostTheSamePhotos;
   List<Photo> get similarPhotos => _similarPhotos;
   List<Category> get returnCategory => _categories;
-  int get dataFromPhoto => _dataInformation;
+  double get dataFromPhoto => _dataInformation;
+  
+  
+  int compareTo(Photo o) {
+    var result;
+    if (o == null || o.dataFromPhoto == null) {
+      result = -1;
+    } else if (o.dataFromPhoto == null) {
+      result = 1;
+    } else {
+      result = dataFromPhoto.compareTo(o.dataFromPhoto);
+    }
+
+    return result;
+  }
+  
+  void setDataFromPhoto(double newDataPhoto){
+    _dataInformation = newDataPhoto;
+  }
   
   bool containsCategory(Category category){
     return _categories.contains(category);

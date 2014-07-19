@@ -10,8 +10,11 @@ import '../../core/photo/photo.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 import '../../core/database/dataBase.dart';
+import '../../core/exif/exifExtractor.dart';
+
 import 'package:js/js.dart' as js;
 import 'dart:js';
+import 'dart:math';
 
 /*
  * All Photos Screen class
@@ -23,6 +26,7 @@ class AllPhotos extends screenhelper.Screen {
   String title = "All Photos",
    description = "Showing all photos";
   factory AllPhotos() => new Element.tag(TAG);
+  final _exifExtractor = ExifExtractor.get();
 
   Modal summaryCreation;
   Modal loading;
@@ -108,11 +112,8 @@ class AllPhotos extends screenhelper.Screen {
    void _onFileInputChange() {
      _onFilesSelected(_fileInput.files);
    }
-
-   void _onFilesSelected(List<File> files) {
-     var exif = new JsObject(context['EXIF'], []);
-     print(exif);
-     
+   
+   void _onFilesSelected(List<File> files) {     
      var number = 0;
      var numberOfPhotosAux = 0;
      var photoFiles = files.where((file) => file.type.startsWith('image'));
@@ -120,35 +121,38 @@ class AllPhotos extends screenhelper.Screen {
      this.numberOfPhotosLoaded += int.parse(numberOfPhotosDefined);
      numberOfPhotosAux = this.numberOfPhotosDefined;
      var intNumber = int.parse(numberOfPhotosAux);
+     var dateInformation = 0.0;
+     var photoToAdd = null;
+     var photosBackUp = new List<Photo>();
 
     if(intNumber > 0){
-      showLoading();
+      //showLoading();
     }
-    var dateInformation;
     photoFiles.forEach((file) {
-      
+      var rng = new Random();
       FileReader reader = new FileReader();
       reader.onLoad.listen((e) {
-        //print(exif.callMethod('readFromBinaryFile', [reader]));
-        photos.add(new Photo(reader.result, title: sanitizer.convert(file.name)));
-        //dateInformation = file.lastModifiedDate;
-        //TOOD Recolher EXIF, Normalizar e adicionar essa informação na fotografia
-        //
+        photoToAdd = new Photo(reader.result, title: sanitizer.convert(file.name));     
+        //dateInformation = DB.extractExifInformation(photoToAdd);
+        dateInformation = rng.nextDouble();
+        print("Date:" + dateInformation.toString());
+        photoToAdd.setDataFromPhoto(dateInformation);
+        photosBackUp.add(photoToAdd);
         number++;
         
         if(number == intNumber){
-          this.hiddeLoading();
-          //TODO Ordenar pela informação da data
+          var aux = DB.sortPhotos(photosBackUp);
+          for(Photo photo in aux){
+            print("Date Sorted: " + photo.dataFromPhoto.toString() + "with id: " + photo.id);
+          }
+          photos.addAll(aux);
+          photosBackUp = new List<Photo>();
+          //this.hiddeLoading();
         }
       });
       reader.readAsDataUrl(file);
     });
-     
     //this.hiddeLoading();
-   }
-   
-   void extractEXIF(){
-     
    }
    
    /*
@@ -226,9 +230,9 @@ class AllPhotos extends screenhelper.Screen {
       }
     }
 
-    /*
-     *
-     */
+   /*
+    *
+    */
    void goSummary(){
      //hiddeSummaryBeenCreating();
      router.go("summary-done", {});
