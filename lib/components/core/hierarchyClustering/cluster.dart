@@ -83,7 +83,7 @@ class Cluster {
     return toString() == otherName;
   }
                                                           
-  int hashCode() {
+  int hashCodeSecond() {
     return toString().hashCode;
   }
 

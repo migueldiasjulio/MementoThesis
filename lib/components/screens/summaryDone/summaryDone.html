@@ -157,10 +157,19 @@
           <div class="row">
             <div class="col col-xs-5 col-sm-4 col-md-3 col-lg-1">
               <div style="float: left" class="btn-group">
-                <button type="button" id="Button130"
-                        on-click="{{disableSelection}}"
-                        class="btn btn-summary btn-md">Done
-                </button>
+                <template if="{{selectedPhotos.length > 0}}">
+                  <button type="button" id="Button130"
+                          on-click="{{disableSelection}}"
+                          class="btn btn-summary btn-md">Cancel
+                  </button>
+                
+                </template>
+                <template if="{{selectedPhotos.length < 1}}">
+                  <button type="button" id="Button130"
+                          on-click="{{disableSelection}}"
+                          class="btn btn-summary btn-md">Done
+                  </button>
+                </template>
               </div>
             </div>
             <div class="col col-xs-7 col-sm-8 col-md-9 col-lg-11">

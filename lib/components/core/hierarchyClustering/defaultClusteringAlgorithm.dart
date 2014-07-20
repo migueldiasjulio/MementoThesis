@@ -42,18 +42,23 @@ class DefaultClusteringAlgorithm extends ClusteringAlgorithm {
     /* Setup model */
     List<Cluster> clusters = createClusters(clusterNames);
     List<ClusterPair> linkages = createLinkages(distances, clusters);
+    
+    print("SETUP DONE!");
 
     /* Process */
     HierarchyBuilder builder = new HierarchyBuilder(clusters, linkages);
     while(!builder.isTreeComplete()) {
       builder.agglomerate(linkageStrategy);
     }
+    
+    print("PROCESS DONE!");
 
     return builder.getRootCluster();
   }
 
   List<ClusterPair> createLinkages(List<List<double>> distances,
           List<Cluster> clusters) {
+    print("Creating Linkages!");
     List<ClusterPair> linkages = new List<ClusterPair>();
     for (int col = 0; col < clusters.length; col++) {
       for (int row = col + 1; row < clusters.length; row++) {
@@ -64,15 +69,18 @@ class DefaultClusteringAlgorithm extends ClusteringAlgorithm {
         linkages.add(link);
       }
     }
+    print("Linkages created: " + linkages.toString());
     return linkages;
   }
 
   List<Cluster> createClusters(List<String> clusterNames) {
+    print("Creating Clusters!");
     List<Cluster> clusters = new List<Cluster>();
         for (String clusterName in clusterNames) {
             Cluster cluster = new Cluster(clusterName);
             clusters.add(cluster);
         }
+    print("Clusters created: " + clusters.toString());
     return clusters;
   }
 

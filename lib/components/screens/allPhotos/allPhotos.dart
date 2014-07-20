@@ -126,7 +126,7 @@ class AllPhotos extends screenhelper.Screen {
      var photosBackUp = new List<Photo>();
 
     if(intNumber > 0){
-      //showLoading();
+      showLoading();
     }
     photoFiles.forEach((file) {
       var rng = new Random();
@@ -147,7 +147,7 @@ class AllPhotos extends screenhelper.Screen {
           }
           photos.addAll(aux);
           photosBackUp = new List<Photo>();
-          //this.hiddeLoading();
+          this.hiddeLoading();
         }
       });
       reader.readAsDataUrl(file);

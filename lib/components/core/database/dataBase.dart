@@ -31,7 +31,7 @@ class Container extends Object with Observable {
   
   String get containerName => name;
   
-  Photo find(String id) => photos.firstWhere((p) => p._id == id, orElse: () => null);
+  Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
   
   void showPhotosWithCategories(List<Category> categories){
     var itsOk;
