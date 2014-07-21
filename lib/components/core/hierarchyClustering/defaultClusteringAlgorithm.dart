@@ -80,6 +80,7 @@ class DefaultClusteringAlgorithm extends ClusteringAlgorithm {
             Cluster cluster = new Cluster(clusterName);
             clusters.add(cluster);
         }
+        
     print("Clusters created: " + clusters.toString());
     return clusters;
   }

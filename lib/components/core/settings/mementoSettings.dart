@@ -17,10 +17,8 @@ class MementoSettings {
    */ 
   static MementoSettings get() {
     if (_instance == null) {
-      print("Memento Settings instance created!");
       _instance = new MementoSettings._(); 
     }
-    print("Got Memento Settings instance!");
     return _instance;
   }
   

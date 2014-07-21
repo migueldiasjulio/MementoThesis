@@ -256,7 +256,8 @@ class Database extends Object with Observable {
   void buildClusterSummary(int numberOfPhotos){
         
     secondNormalization();
-    var summaryPhotos = _clusteringManager.doClustering(container(STANDBY).photos, numberOfPhotos);
+    var summaryPhotos = _clusteringManager.doClustering(container(STANDBY).photos, numberOfPhotos,
+        container(STANDBY).photos.length);
     moveFromTo(STANDBY, SUMMARY, summaryPhotos);
     
     

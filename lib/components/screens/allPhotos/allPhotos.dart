@@ -128,11 +128,12 @@ class AllPhotos extends screenhelper.Screen {
     if(intNumber > 0){
       showLoading();
     }
+    var dateInfoCount = 0.0;
     photoFiles.forEach((file) {
       var rng = new Random();
       FileReader reader = new FileReader();
       reader.onLoad.listen((e) {
-        photoToAdd = new Photo(reader.result, title: sanitizer.convert(file.name));     
+        photoToAdd = new Photo(reader.result, file.name);
         //dateInformation = DB.extractExifInformation(photoToAdd);
         dateInformation = rng.nextDouble();
         print("Date:" + dateInformation.toString());
@@ -152,7 +153,6 @@ class AllPhotos extends screenhelper.Screen {
       });
       reader.readAsDataUrl(file);
     });
-    //this.hiddeLoading();
    }
    
    /*

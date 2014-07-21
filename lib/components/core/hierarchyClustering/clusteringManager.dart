@@ -5,7 +5,7 @@ import 'clusteringAlgorithm.dart';
 import 'cluster.dart';
 import 'defaultClusteringAlgorithm.dart';
 import 'package:observe/observe.dart';
-import 'averageLinkageStrategy.dart';
+import 'singleLinkageStrategy.dart';
 
 class ClusteringManager extends Object with Observable {
   
@@ -43,9 +43,15 @@ class ClusteringManager extends Object with Observable {
     return distances;
   }
   
-  List<String> cutTheTree(Cluster cluster, int numberOfSummaryPhotos){
+  List<String> cutTheTree(Cluster cluster, int numberOfSummaryPhotos, int numberOfPhotosImported){
     var selectedPhotos = new List<String>();
+    //TODO caso 1 foto - random ou centro
+    //TODO caso 2 fotos - Primeira divisão e  escolher uma foto de cada uma das duas
+    //TODO caso numero fotos entre 3, inclusive e numero de fotos importadas - 1
+    //TODO caso todas as fotos importadas - todos as leafs
     print("CUTTING THE TREE");
+    print("FINAL CLUSTER: " + cluster.toString());
+    print(cluster.getChildren().toString());
     return selectedPhotos;
   }
   
@@ -62,7 +68,7 @@ class ClusteringManager extends Object with Observable {
     return photosToReturn;
   }
   
-  List<Photo> doClustering(List<Photo> photos, int numberOfSummaryPhotos){
+  List<Photo> doClustering(List<Photo> photos, int numberOfSummaryPhotos, int numberOfPhotosImported){
     var photoIds = new List<String>();
     var photosIdsToReturn = new List<String>();
     var photosToReturn = new List<Photo>();
@@ -70,6 +76,7 @@ class ClusteringManager extends Object with Observable {
     var distances = null;
     for(Photo photo in photos){
       photoIds.add(photo.id);
+      print("Photo ID: " + photo.id);
       photoDateInfo.add(photo.dataFromPhoto);
     }
 
@@ -78,10 +85,10 @@ class ClusteringManager extends Object with Observable {
 
     ClusteringAlgorithm clusteringAlgorithm = new DefaultClusteringAlgorithm();
     clusterBuilt = clusteringAlgorithm.performClustering(distances, photoIds,
-        new AverageLinkageStrategy());
+        new SingleLinkageStrategy());
     
     //TODO cut tree
-    photosIdsToReturn = cutTheTree(clusterBuilt, numberOfSummaryPhotos);
+    photosIdsToReturn = cutTheTree(clusterBuilt, numberOfSummaryPhotos, numberOfPhotosImported);
     
     //TODO choose photo object to return
     photosToReturn = IdForPhoto(photos, photosIdsToReturn);

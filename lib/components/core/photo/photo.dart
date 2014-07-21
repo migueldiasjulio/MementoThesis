@@ -8,17 +8,21 @@ class Photo extends Image implements Comparable<Photo> {
   static int _COUNT = 1;
 
   String id;
+  String title;
+  String _mainSrc;
   double _dataInformation = 0.0;
   Image _thumbnail;
+  bool _isColor;
   List<Category> _categories;
-  List<Photo> _almostTheSamePhotos;
   List<Photo> _similarPhotos;
+  List<double> _descriptor;
   
-  Photo(String src, {String title}) : id = "photo_${_COUNT++}", 
-                                      _almostTheSamePhotos = new List<Photo>(), 
-                                      _similarPhotos = new List<Photo>(), 
-                                      _categories = new List<Category>(),
-                                      super(src);
+  Photo(String src, String title) : id = "photo_${_COUNT++}", 
+                                    title = title,
+                                    _mainSrc = src,
+                                    _similarPhotos = new List<Photo>(), 
+                                    _categories = new List<Category>(),
+                                    super(src);
 
   Image get thumbnail {
     if (_thumbnail == null) {
@@ -27,11 +31,12 @@ class Photo extends Image implements Comparable<Photo> {
     return _thumbnail;
   }
   
-  List<Photo> get almostTheSamePhoto => _almostTheSamePhotos;
   List<Photo> get similarPhotos => _similarPhotos;
   List<Category> get returnCategory => _categories;
   double get dataFromPhoto => _dataInformation;
-  
+  String get mainSrc => _mainSrc;
+  List<double> get photoDescriptor => _descriptor;
+  bool get isColor => _isColor;
   
   int compareTo(Photo o) {
     var result;
@@ -44,6 +49,10 @@ class Photo extends Image implements Comparable<Photo> {
     }
 
     return result;
+  }
+  
+  void setDescriptor(List<double> newDescriptor){
+    _descriptor = newDescriptor;
   }
   
   void setDataFromPhoto(double newDataPhoto){
