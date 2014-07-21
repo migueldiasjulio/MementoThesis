@@ -19,6 +19,8 @@ class ColorCategory extends Category{
   }
   
   void work(List<Photo> photosToAnalyze){
-    //NOTHING IS NEEDED
+    photosToAnalyze.forEach((photo){
+      if(photo.isColor)  photo.addNewCategory(_instance);  
+    });
   }
 }

@@ -24,7 +24,6 @@ class CategoryManager extends Object with Observable {
    */
   static CategoryManager _instance; 
   final List<Category> categories = toObservable(new Set());
-  List<bool> colorInformation = null;
 
   CategoryManager._() {
     categories.add(faces.FacesCategory.get());
@@ -42,7 +41,6 @@ class CategoryManager extends Object with Observable {
   
   bool analyzePixels(List<Photo> photosToAnalyze){
     ImageData pixels;
-    colorInformation = new List<bool>(); //True is color. False is BW
     
     try{
       photosToAnalyze.forEach((photo){
@@ -178,13 +176,24 @@ class CategoryManager extends Object with Observable {
     }
   
     result = sum/size;
-    result = cubeRoot(result);
+    print("Result2: " + result.toString());
+    if(result.isNegative){
+      print("Is negative!");
+      result = result.abs();
+      print("Result2POSITIVE: " + result.toString());
+      result = cubeRoot(result);
+      //result *= -1;
+    }else{
+      result = cubeRoot(result);
+    }
+    print("Result3: " + result.toString());
 
     return result;
   }
   
   double cubeRoot(double x) {  
-     return pow(x, 1.0/3);  
+     var aux =  1.0/3.0;
+     return pow(x, aux);  
    }  
   
   /**

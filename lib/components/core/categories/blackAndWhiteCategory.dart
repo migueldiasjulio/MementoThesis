@@ -19,10 +19,8 @@ class BlackAndWhiteCategory extends Category{
   }
   
   void work(List<Photo> photosToAnalyze){
-    photosToAnalyze.first.addNewCategory(_instance);
-    /*photosToAnalyze.forEach((photo){
-      photo.addNewCategory(this);
-    }); */
-    //TODO DO SOMETHING
+    photosToAnalyze.forEach((photo){
+      if(!photo.isColor)  photo.addNewCategory(_instance);  
+    });
   }
 }
