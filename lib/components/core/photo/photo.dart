@@ -51,6 +51,14 @@ class Photo extends Image implements Comparable<Photo> {
     return result;
   }
   
+  void thisOneIsColor(){
+    _isColor = true;
+  }
+  
+  void addSimilarPhotos(List<Photo> photos){
+    similarPhotos.addAll(photos);
+  }
+  
   void setDescriptor(List<double> newDescriptor){
     _descriptor = newDescriptor;
   }

@@ -7,6 +7,8 @@ import 'dart:math';
 class SimilarCategory extends Category{
   
   static SimilarCategory _instance;
+  final double _thresholdDistance = 50.0;
+  final double _samePhotoDistance = 0.0;
 
   static SimilarCategory get() {
     if (_instance == null) {
@@ -20,12 +22,12 @@ class SimilarCategory extends Category{
   }
   
   double calcDistance(List<double> descriptorPhoto, List<double> descriptorPhotoNow){
-    var result;
-    var size = descriptorPhoto.length;
-    //Euclidean Distance
-    var sum = 0.0;
+    var result,
+        size = descriptorPhoto.length,
+        sum = 0.0,
+        subtraction;
     for(int i = 0; i < size; i++){
-      var subtraction = (descriptorPhotoNow.elementAt(i) - descriptorPhoto.elementAt(i));
+      subtraction = (descriptorPhotoNow.elementAt(i) - descriptorPhoto.elementAt(i));
       subtraction = pow(subtraction, 2);
       sum += subtraction;
     }
@@ -39,7 +41,20 @@ class SimilarCategory extends Category{
     allPhotos.forEach((photoNow){
       distanceToOtherPhotos.add(calcDistance(photo.photoDescriptor, photoNow.photoDescriptor));
     });
-    print("Distances of photo " + photo.title + " " + distanceToOtherPhotos.toString());
+    
+    var size = distanceToOtherPhotos.length,
+        photosToAdd = new List<Photo>();
+    for(int i = 0; i < size; i++){
+      if(distanceToOtherPhotos.elementAt(i) != _samePhotoDistance 
+          && distanceToOtherPhotos.elementAt(i) < _thresholdDistance){
+        photosToAdd.add(allPhotos.elementAt(i));
+        
+        print("Added to " + photo.title + ": " + allPhotos.elementAt(i).title + " with distance: " 
+            + distanceToOtherPhotos.elementAt(i).toString());
+      }
+    }
+    
+    photo.addSimilarPhotos(photosToAdd);
   }
   
   void work(List<Photo> photosToAnalyze){

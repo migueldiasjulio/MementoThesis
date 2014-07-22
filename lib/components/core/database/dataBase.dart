@@ -35,8 +35,6 @@ class Container extends Object with Observable {
   
   void showPhotosWithCategories(List<Category> categories){
     var itsOk;
-    print("Number of active categories: " + categories.length.toString()); //TODO
-    print("Categories on: " + categories.toString()); //TODO
     if(categories.length == _categoryManager.categories.length){
       photosToDisplay.clear();
       photosToDisplay.addAll(photos);    
@@ -105,7 +103,6 @@ class Database extends Object with Observable {
     var photo;
     containers.forEach((_, c) {
       aux  = c.find(id);
-      print("Photo: " + aux.toString());
       if(aux!=null){
         photo = aux;
       }
@@ -129,7 +126,6 @@ class Database extends Object with Observable {
   
   void setPhotoToDisplay(String id){
     photoToDisplay = find(id);
-    print("SAVED: " + photoToDisplay.toString());
   }
   
   double extractExifInformation(Photo photo){
@@ -166,7 +162,6 @@ class Database extends Object with Observable {
   void addToContainer(String name, List<Photo> photos) {
     container(name).photos.addAll(photos);
     container(name).photosToDisplay.addAll(photos);
-    printContainersState(); //TODO
   }
 
   Container container(String name) => containers[name];
@@ -181,7 +176,11 @@ class Database extends Object with Observable {
       container(destination).photos.add(p);
       container(destination).photosToDisplay.add(p);
     });
-    printContainersState(); //TODO
+    
+    sortPhotos(container(origin).photos);
+    sortPhotos(container(origin).photosToDisplay);
+    sortPhotos(container(destination).photos);
+    sortPhotos(container(destination).photosToDisplay);
   }
 
   /**
@@ -198,6 +197,7 @@ class Database extends Object with Observable {
    */
   void decideAlgorithm(int numberOfPhotos){
     var function = _settings.whichAlgorithmInUse();
+    extractCategories();
     switch(function){
       case(Function.FunctionChoosed.FIRSTX) :
         workFirstXSummary(numberOfPhotos);
@@ -212,16 +212,15 @@ class Database extends Object with Observable {
         break;
     }
     /*After clustering - Category extraction*/
-    extractCategories();
   }
   
   /**
    *  Categories extraction
    */ 
   void extractCategories(){
-    _categoryManager.categoriesPipeline(container(SUMMARY).photos);
+    //_categoryManager.categoriesPipeline(container(SUMMARY).photos);
     _categoryManager.categoriesPipeline(container(STANDBY).photos);
-    _categoryManager.categoriesPipeline(container(EXCLUDED).photos);
+    //_categoryManager.categoriesPipeline(container(EXCLUDED).photos);
   }
 
   /**
@@ -237,9 +236,8 @@ class Database extends Object with Observable {
    */
   void buildRandomSummary(int numberOfPhotos){
     var rnd = new Math.Random(),
-        max = container(STANDBY).photos.length;
-
-    var photo;
+        max = container(STANDBY).photos.length,
+        photo;
     for(int i = 0; i < numberOfPhotos; i++){
       photo = container(STANDBY).photos.elementAt(rnd.nextInt(max));
       container(SUMMARY).photos.add(photo);
@@ -247,7 +245,6 @@ class Database extends Object with Observable {
       container(STANDBY).photos.remove(photo);
       container(STANDBY).photosToDisplay.remove(photo);
     }
-    printContainersState(); //TODO
   }
 
   /**
@@ -259,8 +256,7 @@ class Database extends Object with Observable {
     var summaryPhotos = _clusteringManager.doClustering(container(STANDBY).photos, numberOfPhotos,
         container(STANDBY).photos.length);
     moveFromTo(STANDBY, SUMMARY, summaryPhotos);
-    
-    
+      
     printContainersState(); //TODO
   }
   
@@ -269,7 +265,6 @@ class Database extends Object with Observable {
    */ 
   List<Photo> sortPhotos(List<Photo> photos){
     var aux = photos;
-    print("SORTING");
     aux.sort();
     return aux;
   }

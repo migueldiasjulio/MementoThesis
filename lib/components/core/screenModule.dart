@@ -454,8 +454,8 @@ abstract class SpecialScreen extends ScreenModule {
   void exportToHardDrive(){
     List<String> names = new List<String>();
     
-    this.summaryContainer.photos.forEach((thumbnail){
-      names.add(thumbnail.title);
+    this.summaryContainer.photos.forEach((photo){
+      names.add(photo.title + "\n");
     });
     
     List test = new List();

@@ -62,23 +62,40 @@ class CategoryManager extends Object with Observable {
     return context.getImageData(0, 0, canvas.width, canvas.height);
   }
   
+  // Apply grayscale filter.
+  ImageData grayscale(ImageData pixels) {
+    var d = pixels.data;
+    for (var i = 0; i < d.length; i += 4) {
+      var r = d[i];
+      var g = d[i+1];
+      var b = d[i+2];
+      // CIE luminance for the RGB
+      var v = (0.2126 * r).toInt() + (0.7152 * g).toInt() + (0.0722 * b).toInt();
+      d[i] = d[i + 1] = d[i + 2] = v;
+    }
+    return pixels;
+  }
+  
   void extractDescriptorAndColorInfo(Photo photo, ImageData pixels) {
-    var dimension = pixels.data;
-    var redValues = new List<int>();
-    var greenValues = new List<int>();
-    var blueValues = new List<int>();
-    var redValuesSum = 0;
-    var greenValuesSum = 0;
-    var blueValuesSum = 0;
-    var redChannel = 0;
-    var greenChannel = 0;
-    var blueChannel = 0;
+    var dimension = pixels.data,
+        redValues = new List<int>(),
+        greenValues = new List<int>(),
+        blueValues = new List<int>(),
+        redValuesSum = 0,
+        greenValuesSum = 0,
+        blueValuesSum = 0,
+        redChannel = 0,
+        greenChannel = 0,
+        blueChannel = 0, 
+        isColor = false,
+        numberOfPixelsCounted = 0,
+        numberOfIterations = 0;
     
-    var isColor = false;
-    var numberOfPixelsCounted = 0;
-    final int totalNumber = 3;
-        
-    print("Starting " + photo.title + " pixel maths");
+    var d = pixels.data;
+    var redValueInBW = 0.0;
+    var greenValueInBW = 0.0;
+    var blueValueInBW = 0.0;
+    
     for (var i = 0; i < dimension.length; i += 4) {
       
       //RED CHANNEL
@@ -97,13 +114,44 @@ class CategoryManager extends Object with Observable {
       blueValuesSum += blueChannel;
       
       //MAKE THE COLOR CHECK
+      var v = (0.2126 * redChannel).toInt() + (0.7152 * greenChannel).toInt() + (0.0722 * blueChannel).toInt();
+      d[i] = d[i + 1] = d[i + 2] = v;
+      redValueInBW += d[i];
+      greenValueInBW += d[i+1];
+      blueValueInBW += d[i+2];
+      numberOfIterations++;
+    }
+    
+    var Red = (redValuesSum/numberOfIterations);
+    var Green = (greenValuesSum/numberOfIterations);
+    var Blue = (blueValuesSum/numberOfIterations);
+    var average = (Red+Green+Blue)/3;
+    
+    print("Red Values: " + Red.toString());
+    print("Green Values: " + Green.toString());
+    print("Blue Values: " + Blue.toString());
+    print("Average value" + average.toString());
+    
+    
+    
+    var RedBW = (redValueInBW/numberOfIterations);
+    var GreenBW = (greenValueInBW/numberOfIterations);
+    var BlueBW = (blueValueInBW/numberOfIterations);
+    var averageBW = (RedBW+GreenBW+BlueBW)/3;
+    
+    print("Red BW Values: " + RedBW.toString());
+    print("Green BW Values: " + GreenBW.toString());
+    print("Blue BW Values: " + BlueBW.toString());
+    print("Average BW value" + averageBW.toString());
+    
+    var difference = (average - averageBW).abs();
+    if(difference > 2.0){
+      photo.thisOneIsColor();
     }
     
     doMathAndBuildDescriptor(photo, redValues, redValuesSum, 
                                     greenValues, greenValuesSum,  
                                     blueValues, blueValuesSum);
-    
-    print("Photo: " + photo.title + " done!");
   }
   
   void doMathAndBuildDescriptor(Photo photo, List<int> redValues, int redValuesSum, 
@@ -144,7 +192,7 @@ class CategoryManager extends Object with Observable {
   descriptor.add(blueSkewness);
   
   photo.setDescriptor(descriptor);
-  print("Descriptor: " + photo.photoDescriptor.toString());
+  print("Descriptor of " + photo.title + ": " + photo.photoDescriptor.toString());
   }
   
   double standardDeviation(List<int> values, double mean){
@@ -176,17 +224,13 @@ class CategoryManager extends Object with Observable {
     }
   
     result = sum/size;
-    print("Result2: " + result.toString());
     if(result.isNegative){
-      print("Is negative!");
       result = result.abs();
-      print("Result2POSITIVE: " + result.toString());
       result = cubeRoot(result);
-      //result *= -1;
+      result = result*(-1.0);
     }else{
       result = cubeRoot(result);
     }
-    print("Result3: " + result.toString());
 
     return result;
   }

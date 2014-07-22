@@ -11,9 +11,7 @@ import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 import '../../core/database/dataBase.dart';
 import '../../core/exif/exifExtractor.dart';
-
 import 'package:js/js.dart' as js;
-import 'dart:js';
 import 'dart:math';
 
 /*
@@ -114,39 +112,33 @@ class AllPhotos extends screenhelper.Screen {
    }
    
    void _onFilesSelected(List<File> files) {     
-     var number = 0;
-     var numberOfPhotosAux = 0;
-     var photoFiles = files.where((file) => file.type.startsWith('image'));
-     this.numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
-     this.numberOfPhotosLoaded += int.parse(numberOfPhotosDefined);
-     numberOfPhotosAux = this.numberOfPhotosDefined;
-     var intNumber = int.parse(numberOfPhotosAux);
-     var dateInformation = 0.0;
-     var photoToAdd = null;
-     var photosBackUp = new List<Photo>();
+     var number = 0,
+         photoFiles = files.where((file) => file.type.startsWith('image'));
+     numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
+     numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
+     var intNumber = photoFiles.length,
+         dateInformation = 0.0,
+         photoToAdd = null,
+         photosBackUp = new List<Photo>();
 
     if(intNumber > 0){
       showLoading();
     }
-    var dateInfoCount = 0.0;
     photoFiles.forEach((file) {
       var rng = new Random();
       FileReader reader = new FileReader();
       reader.onLoad.listen((e) {
         photoToAdd = new Photo(reader.result, file.name);
+        print("New photo with id: " + photoToAdd.toString());
         //dateInformation = DB.extractExifInformation(photoToAdd);
         dateInformation = rng.nextDouble();
-        print("Date:" + dateInformation.toString());
         photoToAdd.setDataFromPhoto(dateInformation);
         photosBackUp.add(photoToAdd);
         number++;
         
         if(number == intNumber){
-          var aux = DB.sortPhotos(photosBackUp);
-          for(Photo photo in aux){
-            print("Date Sorted: " + photo.dataFromPhoto.toString() + "with id: " + photo.id);
-          }
-          photos.addAll(aux);
+          photos.addAll(photosBackUp);
+          DB.sortPhotos(photos);
           photosBackUp = new List<Photo>();
           this.hiddeLoading();
         }
