@@ -19,8 +19,7 @@ class SummaryDone extends screenhelper.SpecialScreen {
    * Variables
    */
   static const String TAG = "summary-done";
-  String title = "Summary Done",
-         description = "Summary results";
+  String description = "Summary results";
   factory SummaryDone() => new Element.tag(TAG);
   bool firstTime = true;
   
@@ -28,19 +27,11 @@ class SummaryDone extends screenhelper.SpecialScreen {
    * Building Summary Done
    */
   SummaryDone.created() : super.created(){
-
+    screenTitle = "Summary Done";
   }
 
   void runStartStuff() {
     cleanAll();    
-    testJS();
-  }
-  
-  void testJS(){      
-    var exif = new JsObject(context['EXIF'], []);
-    print(exif.toString());
-    //print(exif.callMethod('memento')); // Prints false.
-    //print(exif.callMethod('test', ['Funciona assim!']));
   }
   
   /**
@@ -78,6 +69,10 @@ class SummaryDone extends screenhelper.SpecialScreen {
         print("$id is selected? $isSelected");
       }
     }
+  }
+  
+  void similarCategory(){
+    photosWithSameCategory(null);
   }
 
   /*

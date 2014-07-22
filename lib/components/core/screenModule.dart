@@ -117,6 +117,8 @@ abstract class SpecialScreen extends ScreenModule {
   
   Modal exportMenu;
   
+  String screenTitle = "";
+  
   SpecialScreen.created() : super.created() {
     initializeCategories();
     Modal.use();
@@ -286,10 +288,10 @@ abstract class SpecialScreen extends ScreenModule {
    * 
    */ 
   
-  void updatePhotoView(){
-    summaryContainer.showPhotosWithCategories(_selectedCategories);
-    standbyContainer.showPhotosWithCategories(_selectedCategories);
-    excludedContainer.showPhotosWithCategories(_selectedCategories);
+  void updatePhotoView(Photo photo){
+    summaryContainer.showPhotosWithCategories(_selectedCategories, screenTitle, photo);
+    standbyContainer.showPhotosWithCategories(_selectedCategories, screenTitle, photo);
+    excludedContainer.showPhotosWithCategories(_selectedCategories, screenTitle, photo);
   }
 
   void addActiveCategory(Category category){
@@ -340,7 +342,7 @@ abstract class SpecialScreen extends ScreenModule {
       clearSelectedCategories();
       addAllCategoriesToActive();
     }
-    updatePhotoView();
+    updatePhotoView(null);
   }
   
   /**
@@ -366,7 +368,7 @@ abstract class SpecialScreen extends ScreenModule {
       addActiveCategory(faces.FacesCategory.get());
     }
     print("Displaying Photos with faces");
-    updatePhotoView();
+    updatePhotoView(null);
   }
   
   /**
@@ -391,7 +393,7 @@ abstract class SpecialScreen extends ScreenModule {
       addActiveCategory(bw.BlackAndWhiteCategory.get());
     }
     print("Displaying Black and White Photos");
-    updatePhotoView();
+    updatePhotoView(null);
   }
   
   /**
@@ -416,7 +418,7 @@ abstract class SpecialScreen extends ScreenModule {
       addActiveCategory(color.ColorCategory.get());
     }
     print("Displaying Color Photos");
-    updatePhotoView();
+    updatePhotoView(null);
   }
   
   /**
@@ -431,7 +433,7 @@ abstract class SpecialScreen extends ScreenModule {
     this.allCategories = false;
   }
   
-  void photosWithSameCategory(){
+  void photosWithSameCategory(Photo photo){
     cleanSelection();
     if(this.sameCategory){
       this.disableSameCategory();
@@ -441,7 +443,7 @@ abstract class SpecialScreen extends ScreenModule {
       addActiveCategory(similar.SimilarCategory.get());
     }
     print("Displaying equivalent Photos");
-    updatePhotoView();
+    updatePhotoView(photo);
   }
   
   void exportSummary(){

@@ -129,7 +129,6 @@ class AllPhotos extends screenhelper.Screen {
       FileReader reader = new FileReader();
       reader.onLoad.listen((e) {
         photoToAdd = new Photo(reader.result, file.name);
-        print("New photo with id: " + photoToAdd.toString());
         //dateInformation = DB.extractExifInformation(photoToAdd);
         dateInformation = rng.nextDouble();
         photoToAdd.setDataFromPhoto(dateInformation);

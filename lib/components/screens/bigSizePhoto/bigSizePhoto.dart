@@ -17,8 +17,7 @@ import 'dart:async';
 class BigSizePhoto extends screenhelper.SpecialScreen {
   
   static const String TAG = "big-size-photo";
-  String title = "Big Size Photo",
-         description = "Photo big size";
+  String description = "Photo big size";
   factory BigSizePhoto() => new Element.tag(TAG);
   String previousPhotoID = null;
   String mainPhotoID = null;
@@ -37,6 +36,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   MutationObserver observer;
   
   BigSizePhoto.created() : super.created(){
+    screenTitle = "Big Size Photo";
     _summaryContainer = $['t-SUMMARY'];
     _standByContainer = $['t-STANDBY'];
     _excludedContainer = $['t-EXCLUDED'];
@@ -89,12 +89,17 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    */ 
   void runStartStuff() {
     cleanAll();
+    //addAllCategoriesToActive();
   }
 
   /*
    * TODO
    */
   home(_) {}
+  
+  void similarCategory(){
+    photosWithSameCategory(photo);
+  }
 
   /*
    * TODO

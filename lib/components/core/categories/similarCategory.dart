@@ -40,6 +40,7 @@ class SimilarCategory extends Category{
     var distanceToOtherPhotos = new List<double>();
     allPhotos.forEach((photoNow){
       distanceToOtherPhotos.add(calcDistance(photo.photoDescriptor, photoNow.photoDescriptor));
+      print("Distance to others: " + distanceToOtherPhotos.toString());
     });
     
     var size = distanceToOtherPhotos.length,
@@ -57,10 +58,18 @@ class SimilarCategory extends Category{
     photo.addSimilarPhotos(photosToAdd);
   }
   
+  void applyCategory(Photo photo){
+    photo.similarPhotos.forEach((similarPhoto){
+      similarPhoto.addNewCategory(this);
+    });
+    
+  }
+  
   void work(List<Photo> photosToAnalyze){
     var distanceInformation;
     photosToAnalyze.forEach((photo){
       euclideanDistance(photo, photosToAnalyze);
+      applyCategory(photo);
     });
   }
 }

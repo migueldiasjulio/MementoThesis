@@ -89,12 +89,11 @@ class CategoryManager extends Object with Observable {
         blueChannel = 0, 
         isColor = false,
         numberOfPixelsCounted = 0,
-        numberOfIterations = 0;
-    
-    var d = pixels.data;
-    var redValueInBW = 0.0;
-    var greenValueInBW = 0.0;
-    var blueValueInBW = 0.0;
+        numberOfIterations = 0,
+        d = pixels.data,
+        redValueInBW = 0.0,
+        greenValueInBW = 0.0,
+        blueValueInBW = 0.0;
     
     for (var i = 0; i < dimension.length; i += 4) {
       

@@ -6,6 +6,7 @@ import 'dart:core';
 import '../settings/mementoSettings.dart';
 import '../settings/FunctionChoosed.dart' as Function;
 import '../categories/categoryManager.dart';
+import '../categories/similarCategory.dart';
 import '../categories/category.dart';
 import '../exif/exifManager.dart';
 import '../hierarchyClustering/clusteringManager.dart';
@@ -33,28 +34,31 @@ class Container extends Object with Observable {
   
   Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
   
-  void showPhotosWithCategories(List<Category> categories){
+  void showPhotosWithCategories(List<Category> categories, String screenName, Photo displayingPhoto){
     var itsOk;
+    var specialCase = false;
     if(categories.length == _categoryManager.categories.length){
       photosToDisplay.clear();
       photosToDisplay.addAll(photos);    
     }else if(categories.length == 0){
       photosToDisplay.clear();
     }else{
-      photos.forEach((photo){
+      categories.forEach((category){
         itsOk = false;
-        categories.forEach((category){
-          if(photo.containsCategory(category)) {
-            itsOk = true;
-          }
-        });
-        if(!itsOk){
-          photosToDisplay.remove(photo);
+        if(screenName == "Big Size Photo" && category.name == "SIMILAR"){
+          displayingPhoto.similarPhotos.forEach((photo){
+            if(photos.contains(photo)){ //If its from the same container
+              photosToDisplay.add(photo);
+            }
+          });
         }else{
-          if(!photosToDisplay.contains(photo)){
-            photosToDisplay.add(photo);
-          }
-        }
+          photos.forEach((photo){
+           if(!photo.containsCategory(category)) photosToDisplay.remove(photo);
+           else{
+             if(!photosToDisplay.contains(photo)) photosToDisplay.add(photo);
+           }
+          });
+        } //else
       });
     }
   }
