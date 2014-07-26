@@ -6,7 +6,6 @@ import 'dart:core';
 import '../settings/mementoSettings.dart';
 import '../settings/FunctionChoosed.dart' as Function;
 import '../categories/categoryManager.dart';
-import '../categories/similarCategory.dart';
 import '../categories/category.dart';
 import '../exif/exifManager.dart';
 import '../hierarchyClustering/clusteringManager.dart';
@@ -222,9 +221,7 @@ class Database extends Object with Observable {
    *  Categories extraction
    */ 
   void extractCategories(){
-    //_categoryManager.categoriesPipeline(container(SUMMARY).photos);
     _categoryManager.categoriesPipeline(container(STANDBY).photos);
-    //_categoryManager.categoriesPipeline(container(EXCLUDED).photos);
   }
 
   /**

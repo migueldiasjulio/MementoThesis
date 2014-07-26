@@ -56,7 +56,9 @@ class ClusteringManager extends Object with Observable {
   
   Cluster chooseRandomly(Cluster cluster){   
     var random = new Random();
+    auxiliar.clear();
     returnAllLeafs(cluster);
+    print("All Leafs: " + auxiliar.toString());
     var indexOfTheChoosenOne = random.nextInt(auxiliar.length);
     return auxiliar.elementAt(indexOfTheChoosenOne);
   }
@@ -68,7 +70,7 @@ class ClusteringManager extends Object with Observable {
   
   List<String> cutTheTree(Cluster cluster, int numberOfSummaryPhotos, int numberOfPhotosImported){
     var selectedPhotos = new List<String>();
-    print("CUTTING THE TREE");
+    
     //Just 1 Photo case
     if(numberOfSummaryPhotos == 1){
       selectedPhotos.add(chooseRandomly(cluster).name);  
@@ -83,42 +85,45 @@ class ClusteringManager extends Object with Observable {
     }
     else{
       auxiliar.addAll(specialCaseCuttingTree(cluster, numberOfSummaryPhotos, new List<Cluster>()));
-      print("SELECTING PHOTOS NOW");
       var clustersAux = new List<Cluster>();
       clustersAux.addAll(auxiliar);
-      selectedPhotos.addAll(specialChoose(clustersAux));
+      selectedPhotos.addAll(specialChoose(clustersAux, numberOfSummaryPhotos));
       auxiliar.clear();  
     }
     print("Selected Photos: " + selectedPhotos.toString());
     return selectedPhotos;
   }
   
-  List<String> specialChoose(List<Cluster> clusters){
+  List<String> specialChoose(List<Cluster> clusters, int numberOfSummaryPhotos){
     var photosToReturn = new List<Cluster>();
     var photoNames = new List<String>();
-
-    print("FIRST PHASE");
-    print(clusters.length);
-    var a = 0;
-    for(Cluster cluster in clusters){
-      print("HERE 1");
-      var firstChild = chooseRandomly(cluster);
-      print("FIRST CHILD: " + firstChild.name);
-      photosToReturn.add(firstChild);
-      print("HERE 2");
-      var secondChild = chooseRandomly(cluster);
-      while(secondChild == firstChild){
-        secondChild = chooseRandomly(cluster);
-      }
-      print("HERE 3");
-      print("SECOND CHILD: " + secondChild.name);
-      photosToReturn.add(secondChild); 
-      
-      a++;
-      print(a.toString());
-    }
+    print("Clusters: " + clusters.toString());
     
-    print("SECOND PHASE");
+    for(Cluster cluster in clusters){
+      if(photosToReturn.length != numberOfSummaryPhotos){
+        
+        var firstChild = chooseRandomly(cluster);
+        photosToReturn.add(firstChild);
+        print("FIRST CHILD: " + firstChild.name);
+        
+        if(photosToReturn.length != numberOfSummaryPhotos){
+          var secondChild = chooseRandomly(cluster);
+          while(secondChild == firstChild){
+            secondChild = chooseRandomly(cluster);
+          }
+          print("SECOND CHILD: " + secondChild.name);
+          auxiliar.clear(); 
+          photosToReturn.add(secondChild); 
+        }else{
+          break;
+        }
+        
+      }else{
+        break;
+      }
+    }
+    print("Photos To return: " + photosToReturn.toString());
+    
     for(Cluster cluster in photosToReturn){
       photoNames.add(cluster.name);
     }
@@ -128,6 +133,7 @@ class ClusteringManager extends Object with Observable {
   
   List<Cluster> specialCaseCuttingTree(Cluster cluster, int numberOfSummaryPhotos, List<Cluster> listToReturn){
     var goal = numberOfSummaryPhotos/2;
+    goal = goal.round();
     var numberOfClusters = 2;
     var clusters = new List<Cluster>();
     clusters.add(cluster.children.elementAt(0));
@@ -137,9 +143,7 @@ class ClusteringManager extends Object with Observable {
     while(numberOfClusters != goal){
       cutAndAddTheBiggest(clusters);
       numberOfClusters = clusters.length;
-      print("Clusters: " + clusters.toString());
     }
-    
     listToReturn.addAll(clusters);
     
     return listToReturn;
@@ -159,6 +163,7 @@ class ClusteringManager extends Object with Observable {
     for(Cluster cluster in clusters){
       countLeafs += cluster.countLeafs(0);
     }
+    
     return countLeafs;
   }
   
@@ -169,6 +174,7 @@ class ClusteringManager extends Object with Observable {
         clusterReturn = cluster;
       }
     }
+    
     return clusterReturn;
   }
   
@@ -191,6 +197,7 @@ class ClusteringManager extends Object with Observable {
     var photosToReturn = new List<Photo>();
     var photoDateInfo = new List<double>();
     var distances = null;
+    auxiliar.clear();
     
     if(numberOfSummaryPhotos == numberOfPhotosImported){
       photosToReturn.addAll(photos);
@@ -204,18 +211,17 @@ class ClusteringManager extends Object with Observable {
   
       distances = calcDistances(photoDateInfo);
       ClusteringAlgorithm clusteringAlgorithm = new DefaultClusteringAlgorithm();
+      print("A iniciar o clustering");
       clusterBuilt = clusteringAlgorithm.performClustering(distances, photoIds,
           new SingleLinkageStrategy());
-      
-      print("FINAL CLUSTER: " + clusterBuilt.getChildren().toString());
-        
+      print("Clustering concluido");
+      print("Cutting the tree");
       //TODO cut tree
       photosIdsToReturn = cutTheTree(clusterBuilt, numberOfSummaryPhotos, numberOfPhotosImported);
+      print("Cut done!");
       
       //TODO choose photo object to return
       photosToReturn = IdForPhoto(photos, photosIdsToReturn);
-          
-      print("RETURNING FROM CLUSTERING");
     }
     
     return photosToReturn;

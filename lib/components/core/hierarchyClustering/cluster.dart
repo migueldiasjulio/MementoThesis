@@ -113,21 +113,19 @@ class Cluster {
         for (int i = 0; i < indent; i++) {
             print("  ");        
         }
-        String name = getName() + (isLeaf() ? " (leaf)" : "") + (distance != null ? "  distance: " 
+        var name = getName() + (isLeaf() ? " (leaf)" : "") + (distance != null ? "  distance: " 
             + distance.toString() : "");
-        print(name);
         for (Cluster child in getChildren()) {
             child.toConsole(indent + 1);
         }
     }
 
     double getTotalDistance() {
-      double dist = getDistance() == null ? 0 : getDistance();
-        if (getChildren().length > 0) {
+      var dist = getDistance() == null ? 0 : getDistance();
+      if (getChildren().length > 0) {
             dist += children.elementAt(0).getTotalDistance();
-        }
-        return dist;
-
-    }
-     
+      }
+      
+      return dist;
+    }  
 }
