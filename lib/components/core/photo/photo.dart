@@ -13,6 +13,7 @@ class Photo extends Image implements Comparable<Photo> {
   double _dataInformation = 0.0;
   Image _thumbnail;
   bool _isColor;
+  bool _hasFaces = false;
   List<Category> _categories;
   List<Photo> _similarPhotos;
   List<double> _descriptor;
@@ -37,6 +38,7 @@ class Photo extends Image implements Comparable<Photo> {
   String get mainSrc => _mainSrc;
   List<double> get photoDescriptor => _descriptor;
   bool get isColor => _isColor;
+  bool get hasFaces => _hasFaces;
   
   int compareTo(Photo o) {
     var result;
@@ -53,6 +55,10 @@ class Photo extends Image implements Comparable<Photo> {
   
   void thisOneIsColor(){
     _isColor = true;
+  }
+  
+  void thisOneHasFaces(){
+    _hasFaces = true;
   }
   
   void addSimilarPhotos(List<Photo> photos){

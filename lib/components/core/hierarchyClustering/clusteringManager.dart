@@ -6,6 +6,7 @@ import 'cluster.dart';
 import 'defaultClusteringAlgorithm.dart';
 import 'package:observe/observe.dart';
 import 'singleLinkageStrategy.dart';
+import 'dart:math';
 
 class ClusteringManager extends Object with Observable {
   
@@ -14,9 +15,10 @@ class ClusteringManager extends Object with Observable {
    */
   static ClusteringManager _instance; 
   Cluster clusterBuilt = null;
+  List<Cluster> auxiliar = null;
 
   ClusteringManager._() {
-    //TODO
+    auxiliar = new List<Cluster>();
   }
 
   static ClusteringManager get() {
@@ -43,16 +45,131 @@ class ClusteringManager extends Object with Observable {
     return distances;
   }
   
+  void returnAllLeafs(Cluster cluster){    
+    //Caso básico
+    if(cluster.isLeaf()) auxiliar.add(cluster);
+    else{
+      returnAllLeafs(cluster.children[0]);
+      returnAllLeafs(cluster.children[1]);
+    }     
+  }
+  
+  Cluster chooseRandomly(Cluster cluster){   
+    var random = new Random();
+    returnAllLeafs(cluster);
+    var indexOfTheChoosenOne = random.nextInt(auxiliar.length);
+    return auxiliar.elementAt(indexOfTheChoosenOne);
+  }
+  
+  Cluster chooseForTheBest(Cluster cluster){
+    //TODO
+    return new Cluster("");
+  }
+  
   List<String> cutTheTree(Cluster cluster, int numberOfSummaryPhotos, int numberOfPhotosImported){
     var selectedPhotos = new List<String>();
-    //TODO caso 1 foto - random ou centro
-    //TODO caso 2 fotos - Primeira divisão e  escolher uma foto de cada uma das duas
-    //TODO caso numero fotos entre 3, inclusive e numero de fotos importadas - 1
-    //TODO caso todas as fotos importadas - todos as leafs
     print("CUTTING THE TREE");
-    print("FINAL CLUSTER: " + cluster.toString());
-    print(cluster.getChildren().toString());
+    //Just 1 Photo case
+    if(numberOfSummaryPhotos == 1){
+      selectedPhotos.add(chooseRandomly(cluster).name);  
+      auxiliar.clear();
+    }
+    else if(numberOfSummaryPhotos == 2){
+      var children = cluster.getChildren();
+      selectedPhotos.add(chooseRandomly(children.elementAt(0)).name);
+      auxiliar.clear();
+      selectedPhotos.add(chooseRandomly(children.elementAt(1)).name); 
+      auxiliar.clear();
+    }
+    else{
+      auxiliar.addAll(specialCaseCuttingTree(cluster, numberOfSummaryPhotos, new List<Cluster>()));
+      print("SELECTING PHOTOS NOW");
+      var clustersAux = new List<Cluster>();
+      clustersAux.addAll(auxiliar);
+      selectedPhotos.addAll(specialChoose(clustersAux));
+      auxiliar.clear();  
+    }
+    print("Selected Photos: " + selectedPhotos.toString());
     return selectedPhotos;
+  }
+  
+  List<String> specialChoose(List<Cluster> clusters){
+    var photosToReturn = new List<Cluster>();
+    var photoNames = new List<String>();
+
+    print("FIRST PHASE");
+    print(clusters.length);
+    var a = 0;
+    for(Cluster cluster in clusters){
+      print("HERE 1");
+      var firstChild = chooseRandomly(cluster);
+      print("FIRST CHILD: " + firstChild.name);
+      photosToReturn.add(firstChild);
+      print("HERE 2");
+      var secondChild = chooseRandomly(cluster);
+      while(secondChild == firstChild){
+        secondChild = chooseRandomly(cluster);
+      }
+      print("HERE 3");
+      print("SECOND CHILD: " + secondChild.name);
+      photosToReturn.add(secondChild); 
+      
+      a++;
+      print(a.toString());
+    }
+    
+    print("SECOND PHASE");
+    for(Cluster cluster in photosToReturn){
+      photoNames.add(cluster.name);
+    }
+    
+    return photoNames;
+  }
+  
+  List<Cluster> specialCaseCuttingTree(Cluster cluster, int numberOfSummaryPhotos, List<Cluster> listToReturn){
+    var goal = numberOfSummaryPhotos/2;
+    var numberOfClusters = 2;
+    var clusters = new List<Cluster>();
+    clusters.add(cluster.children.elementAt(0));
+    clusters.add(cluster.children.elementAt(1));
+    
+    //Andar para baixo na árvore até o número de leafs ser igual numberOfSummaryPhotos
+    while(numberOfClusters != goal){
+      cutAndAddTheBiggest(clusters);
+      numberOfClusters = clusters.length;
+      print("Clusters: " + clusters.toString());
+    }
+    
+    listToReturn.addAll(clusters);
+    
+    return listToReturn;
+  }
+  
+  void cutAndAddTheBiggest(List<Cluster> clusters){
+    var biggest = returnBiggestCluster(clusters);
+    var newClusterOne = biggest.getChildren().elementAt(0);
+    var newClusterTwo = biggest.getChildren().elementAt(1);
+    clusters.add(newClusterOne);
+    clusters.add(newClusterTwo);
+    clusters.remove(biggest);
+  }
+  
+  int countLeafsInClusters(List<Cluster> clusters){
+    var countLeafs = 0;
+    for(Cluster cluster in clusters){
+      countLeafs += cluster.countLeafs(0);
+    }
+    return countLeafs;
+  }
+  
+  Cluster returnBiggestCluster(List<Cluster> clusters){
+    var clusterReturn = clusters.first;
+    for(Cluster cluster in clusters){
+      if(cluster.countLeafs(0) > clusterReturn.countLeafs(0)){
+        clusterReturn = cluster;
+      }
+    }
+    return clusterReturn;
   }
   
   List<Photo> IdForPhoto(List<Photo> photos, List<String> photosIdsToReturn){
@@ -74,27 +191,33 @@ class ClusteringManager extends Object with Observable {
     var photosToReturn = new List<Photo>();
     var photoDateInfo = new List<double>();
     var distances = null;
-    for(Photo photo in photos){
-      photoIds.add(photo.id);
-      print("Photo ID: " + photo.id);
-      photoDateInfo.add(photo.dataFromPhoto);
+    
+    if(numberOfSummaryPhotos == numberOfPhotosImported){
+      photosToReturn.addAll(photos);
     }
-
-    distances = calcDistances(photoDateInfo);
-    print(distances.toString());
-
-    ClusteringAlgorithm clusteringAlgorithm = new DefaultClusteringAlgorithm();
-    clusterBuilt = clusteringAlgorithm.performClustering(distances, photoIds,
-        new SingleLinkageStrategy());
+    else{
     
-    //TODO cut tree
-    photosIdsToReturn = cutTheTree(clusterBuilt, numberOfSummaryPhotos, numberOfPhotosImported);
-    
-    //TODO choose photo object to return
-    photosToReturn = IdForPhoto(photos, photosIdsToReturn);
-        
-    print("RETURNING FROM CLUSTERING");
-    return photosToReturn;
-  }
+      for(Photo photo in photos){
+        photoIds.add(photo.id);
+        photoDateInfo.add(photo.dataFromPhoto);
+      }
   
+      distances = calcDistances(photoDateInfo);
+      ClusteringAlgorithm clusteringAlgorithm = new DefaultClusteringAlgorithm();
+      clusterBuilt = clusteringAlgorithm.performClustering(distances, photoIds,
+          new SingleLinkageStrategy());
+      
+      print("FINAL CLUSTER: " + clusterBuilt.getChildren().toString());
+        
+      //TODO cut tree
+      photosIdsToReturn = cutTheTree(clusterBuilt, numberOfSummaryPhotos, numberOfPhotosImported);
+      
+      //TODO choose photo object to return
+      photosToReturn = IdForPhoto(photos, photosIdsToReturn);
+          
+      print("RETURNING FROM CLUSTERING");
+    }
+    
+    return photosToReturn;
+  } 
 }

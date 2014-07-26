@@ -14,8 +14,11 @@ import 'colorCategory.dart' as color;
 import 'similarCategory.dart' as similar;
 import 'category.dart';
 import 'package:observe/observe.dart';
+import 'facesCategory.dart';
 import 'dart:html';
-import 'dart:math';
+import 'descriptorFactory.dart';
+
+final _descriptorFactory = DescriptorFactory.get();
 
 class CategoryManager extends Object with Observable {
    
@@ -46,12 +49,13 @@ class CategoryManager extends Object with Observable {
       photosToAnalyze.forEach((photo){
         pixels = getPixels(photo.thumbnail.image);
         extractDescriptorAndColorInfo(photo, pixels);
+        return true;
       });
     } catch(Exception){
       //TODO something      
     }
       
-    return true;
+    return false;
   }
   
   // Get image pixels from image element.
@@ -61,21 +65,7 @@ class CategoryManager extends Object with Observable {
     context.drawImage(img, 0, 0);
     return context.getImageData(0, 0, canvas.width, canvas.height);
   }
-  
-  // Apply grayscale filter.
-  ImageData grayscale(ImageData pixels) {
-    var d = pixels.data;
-    for (var i = 0; i < d.length; i += 4) {
-      var r = d[i];
-      var g = d[i+1];
-      var b = d[i+2];
-      // CIE luminance for the RGB
-      var v = (0.2126 * r).toInt() + (0.7152 * g).toInt() + (0.0722 * b).toInt();
-      d[i] = d[i + 1] = d[i + 2] = v;
-    }
-    return pixels;
-  }
-  
+    
   void extractDescriptorAndColorInfo(Photo photo, ImageData pixels) {
     var dimension = pixels.data,
         redValues = new List<int>(),
@@ -93,7 +83,10 @@ class CategoryManager extends Object with Observable {
         d = pixels.data,
         redValueInBW = 0.0,
         greenValueInBW = 0.0,
-        blueValueInBW = 0.0;
+        blueValueInBW = 0.0,
+        facePixels = 0,
+        count = 0,
+        facesCategory = FacesCategory.get();
     
     for (var i = 0; i < dimension.length; i += 4) {
       
@@ -115,9 +108,32 @@ class CategoryManager extends Object with Observable {
       //MAKE THE COLOR CHECK
       var v = (0.2126 * redChannel).toInt() + (0.7152 * greenChannel).toInt() + (0.0722 * blueChannel).toInt();
       d[i] = d[i + 1] = d[i + 2] = v;
-      redValueInBW += d[i];
-      greenValueInBW += d[i+1];
-      blueValueInBW += d[i+2];
+      
+      //if(numberOfIterations < 5){
+        redValueInBW += d[i];
+        greenValueInBW += d[i+1];
+        blueValueInBW += d[i+2];
+        
+        //print("Red difference: " + (d[i] - redChannel).abs().toString());
+        //print("Green difference: " + (d[i+1] - greenChannel).abs().toString());        
+        //print("Blue difference: " + (d[i+2] - blueChannel).abs().toString());       
+      //}
+      
+      //face Recognition
+      count = 0;
+      if(facesCategory.isSkinRGB(redChannel, greenChannel, blueChannel)){
+        count+= 1;
+      }
+      if(facesCategory.isSkinYCrCb(redChannel, greenChannel, blueChannel)){
+        count+= 1;
+      }
+      if(facesCategory.isSkinHSI(redChannel, greenChannel, blueChannel)){
+        count+= 1;
+      }
+      if(count == 3){ 
+        facePixels+= 1;
+      }
+   
       numberOfIterations++;
     }
     
@@ -130,7 +146,6 @@ class CategoryManager extends Object with Observable {
     print("Green Values: " + Green.toString());
     print("Blue Values: " + Blue.toString());
     print("Average value" + average.toString());
-    
     
     
     var RedBW = (redValueInBW/numberOfIterations);
@@ -148,97 +163,16 @@ class CategoryManager extends Object with Observable {
       photo.thisOneIsColor();
     }
     
-    doMathAndBuildDescriptor(photo, redValues, redValuesSum, 
+    _descriptorFactory.doMathAndBuildDescriptor(photo, redValues, redValuesSum, 
                                     greenValues, greenValuesSum,  
                                     blueValues, blueValuesSum);
-  }
-  
-  void doMathAndBuildDescriptor(Photo photo, List<int> redValues, int redValuesSum, 
-                                List<int> greenValues, int greenValuesSum,
-                                List<int> blueValues, int blueValuesSum){
     
-  var size = redValues.length; //The same for the other channels
-  var descriptor = new List<double>();
-  
-  //Mean Calculation
-  var redValueMean = redValuesSum/size;
-  var greenValueMean = greenValuesSum/size;
-  var blueValueMean = blueValuesSum/size;
-  
-  //Standard Deviation
-  var redStandardDeviation = standardDeviation(redValues, redValueMean);
-  var greenStandardDeviation = standardDeviation(greenValues, greenValueMean);
-  var blueStandardDeviation = standardDeviation(blueValues, blueValueMean);
-  
-  //Skewness
-  var redSkewness = skeweness(redValues, redValueMean);
-  var greenSkewness = skeweness(greenValues, greenValueMean);
-  var blueSkewness = skeweness(blueValues, blueValueMean);
-  
-  //RED
-  descriptor.add(redValueMean);
-  descriptor.add(redStandardDeviation);
-  descriptor.add(redSkewness);
-  
-  //GREEN
-  descriptor.add(greenValueMean);
-  descriptor.add(greenStandardDeviation);
-  descriptor.add(greenSkewness);
-  
-  //BLUE
-  descriptor.add(blueValueMean);
-  descriptor.add(blueStandardDeviation);
-  descriptor.add(blueSkewness);
-  
-  photo.setDescriptor(descriptor);
-  print("Descriptor of " + photo.title + ": " + photo.photoDescriptor.toString());
-  }
-  
-  double standardDeviation(List<int> values, double mean){
-    var result = 0.0;
-    var size = values.length;
-    var sum = 0.0;
-     
-    for(int value in values){
-      var auxVar = (value - mean);  // (pij - Ei)^2
-      auxVar = pow(auxVar, 2);
-      sum += auxVar;
+    //Face Detector
+    if(facePixels > 1000){
+      photo.thisOneHasFaces();
     }
-  
-    result = sum/size;
-    result = sqrt(result);
-      
-    return result;
   }
-  
-  double skeweness(List<int> values, double mean){
-    var result = 0.0;
-    var size = values.length;
-    var sum = 0.0;
-     
-    for(int value in values){
-      var auxVar = (value - mean);  // (pij - Ei)^3
-      auxVar = pow(auxVar, 3);
-      sum += auxVar;
-    }
-  
-    result = sum/size;
-    if(result.isNegative){
-      result = result.abs();
-      result = cubeRoot(result);
-      result = result*(-1.0);
-    }else{
-      result = cubeRoot(result);
-    }
-
-    return result;
-  }
-  
-  double cubeRoot(double x) {  
-     var aux =  1.0/3.0;
-     return pow(x, aux);  
-   }  
-  
+                                          
   /**
    * Pipeline to extract categories from photos
    */ 

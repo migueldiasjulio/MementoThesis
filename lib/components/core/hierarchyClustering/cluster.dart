@@ -27,6 +27,10 @@ class Cluster {
   double getDistance() {
     return distance;
   }
+  
+  void removeChildren(Cluster cluster){
+    children.remove(cluster);
+  }
 
   void setDistance(double distance) {
     this.distance = distance;
@@ -91,18 +95,18 @@ class Cluster {
     return getChildren().length == 0;
   }
   
-  int countLeafs(Cluster node, int count) {
-        if (node.isLeaf()){
+  int countLeafs(int count) {
+        if (this.isLeaf()){
           count++;
         }
-        for (Cluster child in node.getChildren()) {
+        for (Cluster child in this.getChildren()) {
             count += child.countLeafsSecond();
         }
         return count;
   }
   
   int countLeafsSecond() {
-      return countLeafs(this, 0);
+      return countLeafs(0);
   }
     
     void toConsole(int indent) {

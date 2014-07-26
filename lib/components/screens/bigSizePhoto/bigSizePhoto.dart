@@ -8,7 +8,6 @@ import '../../core/screenModule.dart' as screenhelper;
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
-import 'dart:async';
 
 /**
  * BigSizePhoto Screen 
