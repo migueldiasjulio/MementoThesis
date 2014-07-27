@@ -44,18 +44,19 @@ class CategoryManager extends Object with Observable {
   
   bool analyzePixels(List<Photo> photosToAnalyze){
     ImageData pixels;
+    var returnValue = false;
     
     try{
       photosToAnalyze.forEach((photo){
         pixels = getPixels(photo.thumbnail.image);
         extractDescriptorAndColorInfo(photo, pixels);
-        return true;
+        returnValue =  true;
       });
     } catch(Exception){
       //TODO something      
     }
       
-    return false;
+    return returnValue;
   }
   
   // Get image pixels from image element.
@@ -184,6 +185,7 @@ class CategoryManager extends Object with Observable {
         }); 
       }
     }
+    
     print("Categories Assigned!");
   }
 }

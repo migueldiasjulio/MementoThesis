@@ -289,9 +289,9 @@ abstract class SpecialScreen extends ScreenModule {
    */ 
   
   void updatePhotoView(Photo photo){
-    summaryContainer.showPhotosWithCategories(_selectedCategories, screenTitle, photo);
-    standbyContainer.showPhotosWithCategories(_selectedCategories, screenTitle, photo);
-    excludedContainer.showPhotosWithCategories(_selectedCategories, screenTitle, photo);
+    summaryContainer.showPhotosWithCategories(_selectedCategories, photo);
+    standbyContainer.showPhotosWithCategories(_selectedCategories, photo);
+    excludedContainer.showPhotosWithCategories(_selectedCategories, photo);
   }
 
   void addActiveCategory(Category category){

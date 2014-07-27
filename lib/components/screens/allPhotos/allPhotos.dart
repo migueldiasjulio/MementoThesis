@@ -28,6 +28,7 @@ class AllPhotos extends screenhelper.Screen {
 
   Modal summaryCreation;
   Modal loading;
+  Modal maximumPhotos;
 
   InputElement _fileInput;
 
@@ -42,9 +43,10 @@ class AllPhotos extends screenhelper.Screen {
 
   AllPhotos.created() : super.created(){
     Modal.use();
-    Transition.use();
+    //Transition.use();
     summaryCreation = Modal.wire($['summaryCreation']);
     loading = Modal.wire($['loading']);
+    maximumPhotos = Modal.wire($['maximumPhotos']);
 
     _fileInput = $['files'];
     _dropZone = $['drop-zone'];
@@ -210,8 +212,7 @@ class AllPhotos extends screenhelper.Screen {
       var result;
       var numberDefinedInt = int.parse(numberOfPhotosDefined);
       if(numberDefinedInt > numberOfPhotosLoaded){
-        js.context.alert("A Summary with " + numberDefinedInt.toString() + " photos cannot be created." +  
-        "It will be created with " + numberOfPhotosLoaded.toString() + " photos.");
+        
         result = DB.buildSummary(photos, numberOfPhotosLoaded);
       }else{
         result = DB.buildSummary(photos, numberDefinedInt);

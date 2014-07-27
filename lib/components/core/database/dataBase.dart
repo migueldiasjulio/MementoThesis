@@ -33,9 +33,7 @@ class Container extends Object with Observable {
   
   Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
   
-  void showPhotosWithCategories(List<Category> categories, String screenName, Photo displayingPhoto){
-    var itsOk;
-    var specialCase = false;
+  void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto){
     if(categories.length == _categoryManager.categories.length){
       photosToDisplay.clear();
       photosToDisplay.addAll(photos);    
@@ -43,14 +41,13 @@ class Container extends Object with Observable {
       photosToDisplay.clear();
     }else{
       categories.forEach((category){
-        itsOk = false;
-        if(screenName == "Big Size Photo" && category.name == "SIMILAR"){
+        if(displayingPhoto != null && category.name == "SIMILAR"){
           displayingPhoto.similarPhotos.forEach((photo){
             if(photos.contains(photo)){ //If its from the same container
               photosToDisplay.add(photo);
             }
           });
-        }else{
+        }else{         
           photos.forEach((photo){
            if(!photo.containsCategory(category)) photosToDisplay.remove(photo);
            else{
