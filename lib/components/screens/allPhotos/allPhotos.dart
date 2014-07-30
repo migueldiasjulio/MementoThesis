@@ -11,7 +11,7 @@ import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 import '../../core/database/dataBase.dart';
 import '../../core/exif/exifExtractor.dart';
-import 'package:js/js.dart' as js;
+import '../../core/exif/exifManager.dart';
 import 'dart:math';
 
 /*
@@ -24,7 +24,8 @@ class AllPhotos extends screenhelper.Screen {
   String title = "All Photos",
    description = "Showing all photos";
   factory AllPhotos() => new Element.tag(TAG);
-  final _exifExtractor = ExifExtractor.get();
+  final _exifExtractor = ExifExtractor.get(); //TODO tirar
+  final _exifManager = ExifManager.get();
 
   Modal summaryCreation;
   Modal loading;
@@ -43,7 +44,6 @@ class AllPhotos extends screenhelper.Screen {
 
   AllPhotos.created() : super.created(){
     Modal.use();
-    //Transition.use();
     summaryCreation = Modal.wire($['summaryCreation']);
     loading = Modal.wire($['loading']);
     maximumPhotos = Modal.wire($['maximumPhotos']);
@@ -113,6 +113,9 @@ class AllPhotos extends screenhelper.Screen {
      _onFilesSelected(_fileInput.files);
    }
    
+   /*
+    *
+    */
    void _onFilesSelected(List<File> files) {     
      var number = 0,
          photoFiles = files.where((file) => file.type.startsWith('image'));
@@ -132,6 +135,7 @@ class AllPhotos extends screenhelper.Screen {
       reader.onLoad.listen((e) {
         photoToAdd = new Photo(reader.result, file.name);
         //dateInformation = DB.extractExifInformation(photoToAdd);
+        //print("Tem EXIF? " + _exifExtractor.imageHasData(photoToAdd.image).toString());
         dateInformation = rng.nextDouble();
         photoToAdd.setDataFromPhoto(dateInformation);
         photosBackUp.add(photoToAdd);
@@ -155,6 +159,9 @@ class AllPhotos extends screenhelper.Screen {
      summaryCreation.show();
    }
    
+   /*
+    *
+    */
    void hiddeSummaryBeenCreating(){
      summaryCreation.hide();
    }
@@ -204,16 +211,14 @@ class AllPhotos extends screenhelper.Screen {
     */
    void runStartStuff();
 
-   /**
+   /*
     * Build Summary
     */
     void buildSummary(){
-      //showSummaryBeenCreating();
       var result;
       var numberDefinedInt = int.parse(numberOfPhotosDefined);
       if(numberDefinedInt > numberOfPhotosLoaded){
-        
-        result = DB.buildSummary(photos, numberOfPhotosLoaded);
+        showMessageNumberOverflow();
       }else{
         result = DB.buildSummary(photos, numberDefinedInt);
       }
@@ -221,12 +226,33 @@ class AllPhotos extends screenhelper.Screen {
         goSummary();
       }
     }
+    
+    void summaryWithMaxNumber(){
+      var result = DB.buildSummary(photos, numberOfPhotosLoaded);
+      if(result){
+        hideMessageNumberOverflow();
+        goSummary();
+      }
+    }
+    
+    /*
+     * 
+     */
+    void showMessageNumberOverflow(){
+      maximumPhotos.show();
+    }
+    
+    /*
+     * 
+     */
+    void hideMessageNumberOverflow(){
+      maximumPhotos.hide();
+    }
 
    /*
     *
     */
    void goSummary(){
-     //hiddeSummaryBeenCreating();
      router.go("summary-done", {});
      
    }
@@ -238,4 +264,4 @@ class AllPhotos extends screenhelper.Screen {
      _fileInput.click();
    }
 
-}///allPhotos
+}
