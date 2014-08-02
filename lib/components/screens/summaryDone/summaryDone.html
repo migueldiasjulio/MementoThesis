@@ -53,7 +53,7 @@
                       <li>   
                         <div class="mementoImage">
                           <div class="imageBoard">
-                            <img src="{{photo.thumbnail.src}}"
+                            <img src="{{photo.thumbnailToShow.src}}"
                                  on-click="{{showImage}}"
                                  data-id="{{photo.id}}"
                                  class="image img-thumbnail"
@@ -121,7 +121,7 @@
                      on-click="{{similarCategory}}" id="categorySize"  /> 
             </template>
             <!-- Same Photos -->
-            <!-- All Categories Photos -->
+            <!--
             <template if="{{allCategories}}">
                 <img src="../../../resources/images/all.png" 
                      on-click="{{allPhotosCategory}}" id="categorySize"  /> 
@@ -130,7 +130,7 @@
                 <img src="../../../resources/images/all_ns.png" 
                      on-click="{{allPhotosCategory}}" id="categorySize"  /> 
             </template>
-            <!-- Same Photos -->
+            -->
           </div>
         </div>
        </div>

@@ -93,23 +93,19 @@ abstract class Screen extends ScreenModule {
 abstract class SpecialScreen extends ScreenModule {
   
   @observable bool selection = false;
-  
   @observable Container currentContainer;
-  
   @observable Container summaryContainer = DB.container(SUMMARY);
   @observable Container standbyContainer = DB.container(STANDBY);
   @observable Container excludedContainer = DB.container(EXCLUDED);
+  @observable bool facesCategory = false;
+  @observable bool BWCategory = false;
+  @observable bool ColorCategory = false;
+  @observable bool sameCategory = false; 
   @observable get containers => DB.containers.values;
   
   final List<String> selectedPhotos = toObservable([]);
   final List<Element> selectedElements = toObservable([]);
   final List<Category> _selectedCategories =  toObservable([]);
-  
-  @observable bool allCategories = true;
-  @observable bool facesCategory = true;
-  @observable bool BWCategory = true;
-  @observable bool ColorCategory = true;
-  @observable bool sameCategory = true;  
   
   Element _summaryContainer;
   Element _standByContainer;
@@ -120,15 +116,16 @@ abstract class SpecialScreen extends ScreenModule {
   String screenTitle = "";
   
   SpecialScreen.created() : super.created() {
-    initializeCategories();
     Modal.use();
     exportMenu = Modal.wire($['exportMenu']);
-    
     _summaryContainer = $['t-SUMMARY'];
     _standByContainer = $['t-STANDBY'];
     _excludedContainer = $['t-EXCLUDED'];
   }
   
+  /*
+   * 
+   */ 
   void decideContainerToLock(String photoId){
     var photoContainer = DB.findContainer(photoId);
     print("Container name to check: " + photoContainer.containerName);
@@ -145,41 +142,49 @@ abstract class SpecialScreen extends ScreenModule {
     }
   }
   
+  /*
+   * 
+   */
   void printContainerAttributes(){
     print("SUMMARY CONTAINER ATTRIBUTES: " + _summaryContainer.attributes.keys.toString());
     print("STANDBY CONTAINER ATTRIBUTES: " + _standByContainer.attributes.keys.toString());
     print("EXCLUDED CONTAINER ATTRIBUTES: " + _excludedContainer.attributes.keys.toString());
   }
   
+  /*
+   * 
+   */
   void removeCheckedAttribute(){
     _summaryContainer.attributes.remove('checked');
     _standByContainer.attributes.remove('checked');
     _excludedContainer.attributes.remove('checked'); 
   }
   
+  /*
+   * 
+   */
   void checkSummaryContainer(){
     _summaryContainer.setAttribute("checked", "checked");
     printContainerAttributes();
     currentContainer = summaryContainer;
   }
   
+  /*
+   * 
+   */
   void checkStandByContainer(){
     _standByContainer.setAttribute("checked", "checked");
     printContainerAttributes();
     currentContainer = standbyContainer;
   }
   
+  /*
+   * 
+   */
   void checkExcludedContainer(){
     _excludedContainer.setAttribute("checked", "checked");
     printContainerAttributes();
     currentContainer = excludedContainer;
-  }
-  
-  void initializeCategories(){  
-    _selectedCategories.add(faces.FacesCategory.get());
-    _selectedCategories.add(bw.BlackAndWhiteCategory.get());
-    _selectedCategories.add(color.ColorCategory.get());
-    _selectedCategories.add(similar.SimilarCategory.get());
   }
   
   /**
@@ -201,6 +206,9 @@ abstract class SpecialScreen extends ScreenModule {
     cleanSelection();
   }
   
+  /*
+   * Clean All
+   */
   void cleanAll(){
     this.disableSelection();
   }
@@ -254,7 +262,31 @@ abstract class SpecialScreen extends ScreenModule {
   void moveToContainer(event, detail, target){
     var container = DB.container(target.attributes['container']);
     var photos = selectedPhotos.map((id) => currentContainer.find(id));
-    DB.moveFromTo(currentContainer.name, container.name, photos);
+    if(sameCategory){
+      photos.forEach((selectedPhoto){
+        var remove = true;
+        currentContainer.similarListGroupOfPhotos.forEach((similarGroup){
+          if(similarGroup.groupFace == selectedPhoto){
+            remove = false;
+            if(similarGroup.giveMeAllPhotos.length > 1){
+              similarGroup.chooseAnotherFace();
+              similarGroup.removeFromList(selectedPhoto);
+              selectedPhoto.removeSimilarGroup();
+            }else{
+              currentContainer.removeGroupFromList(similarGroup);
+              selectedPhoto.removeSimilarGroup();
+            }
+            container.tryToEnterInAGroupOrCreateANewOne(selectedPhoto);
+          }
+        });
+        if(remove){
+          selectedPhoto.removeSimilarGroup();
+          container.tryToEnterInAGroupOrCreateANewOne(selectedPhoto);
+        }
+      });
+    }else{
+      DB.moveFromTo(currentContainer.name, container.name, photos);
+    }
     disableSelection();
   }
   
@@ -271,7 +303,6 @@ abstract class SpecialScreen extends ScreenModule {
     cleanSelection();
   }
   
-
   /*
    * Clean selected objects _ Used when the user cancel the selection operation
    */
@@ -309,42 +340,14 @@ abstract class SpecialScreen extends ScreenModule {
   /**
    * All Categories
    */ 
-  void enableAllCategories(){
-    this.allCategories = true;
-    this.facesCategory = true;
-    this.BWCategory = true;
-    this.ColorCategory = true;
-    this.sameCategory = true;
-  }
   
-  void disableAllCategories(){
-    this.allCategories = false;
-    this.facesCategory = false;
-    this.BWCategory = false;
-    this.ColorCategory = false;
-    this.sameCategory = false;
+  void addAllCategoriesToInactive(){
+    removeFromActiveCategory(faces.FacesCategory.get());
+    removeFromActiveCategory(bw.BlackAndWhiteCategory.get());
+    removeFromActiveCategory(color.ColorCategory.get());
+    removeFromActiveCategory(similar.SimilarCategory.get());  
   }
-    
-  void addAllCategoriesToActive(){
-    addActiveCategory(faces.FacesCategory.get());
-    addActiveCategory(bw.BlackAndWhiteCategory.get());
-    addActiveCategory(color.ColorCategory.get());
-    addActiveCategory(similar.SimilarCategory.get()); 
-  }
-  
-  void allPhotosCategory(){
-    cleanSelection();
-    if(this.allCategories){
-      this.disableAllCategories();
-      clearSelectedCategories();
-    }else{
-      this.enableAllCategories();
-      clearSelectedCategories();
-      addAllCategoriesToActive();
-    }
-    updatePhotoView(null);
-  }
-  
+
   /**
    * Faces Category
    */ 
@@ -355,7 +358,6 @@ abstract class SpecialScreen extends ScreenModule {
   
   void disableFacesCategory(){
     this.facesCategory = false;
-    this.allCategories = false;
   }
   
   void photosWithFacesCategory(){
@@ -380,7 +382,6 @@ abstract class SpecialScreen extends ScreenModule {
   
   void disableBWCategory(){
     this.BWCategory = false;
-    this.allCategories = false;
   }
   
   void photosWithBWCategory(){
@@ -405,7 +406,6 @@ abstract class SpecialScreen extends ScreenModule {
   
   void disableColorCategory(){
     this.ColorCategory = false;
-    this.allCategories = false;
   }
   
   void photosWithColorCategory(){
@@ -430,7 +430,6 @@ abstract class SpecialScreen extends ScreenModule {
   
   void disableSameCategory(){
     this.sameCategory = false;
-    this.allCategories = false;
   }
   
   void photosWithSameCategory(Photo photo){

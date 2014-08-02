@@ -88,7 +88,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    */ 
   void runStartStuff() {
     cleanAll();
-    //addAllCategoriesToActive();
+    addAllCategoriesToInactive();
   }
 
   /*

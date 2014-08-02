@@ -7,7 +7,6 @@ import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
 export "package:polymer/init.dart";
 import '../../core/database/dataBase.dart';
-import 'dart:js';
 
 /**
  * Summary Done Screen
@@ -31,7 +30,8 @@ class SummaryDone extends screenhelper.SpecialScreen {
   }
 
   void runStartStuff() {
-    cleanAll();    
+    cleanAll();
+    addAllCategoriesToInactive();
   }
   
   /**

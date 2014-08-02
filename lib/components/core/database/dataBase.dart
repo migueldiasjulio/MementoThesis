@@ -1,12 +1,14 @@
 library database;
 
 import '../photo/photo.dart';
+import '../photo/similarGroupOfPhotos.dart';
 import 'dart:math' as Math;
 import 'dart:core';
 import '../settings/mementoSettings.dart';
 import '../settings/FunctionChoosed.dart' as Function;
 import '../categories/categoryManager.dart';
 import '../categories/category.dart';
+import '../categories/similarCategory.dart' as similar;
 import '../exif/exifManager.dart';
 import '../hierarchyClustering/clusteringManager.dart';
 
@@ -26,37 +28,115 @@ class Container extends Object with Observable {
   final String secondname;
   final List<Photo> photos = toObservable(new Set());
   final List<Photo> photosToDisplay = toObservable(new Set());
+  List<SimilarGroupOfPhotos> similarListGroupOfPhotos = new List<SimilarGroupOfPhotos>();
   
   Container(this.name, this.secondname);
   
   String get containerName => name;
   
+  void removeGroupFromList(SimilarGroupOfPhotos similarGroup){
+    similarListGroupOfPhotos.remove(similarGroup);
+  }
+  
   Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
   
-  void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto){
-    if(categories.length == _categoryManager.categories.length){
-      photosToDisplay.clear();
-      photosToDisplay.addAll(photos);    
-    }else if(categories.length == 0){
-      photosToDisplay.clear();
+  void tryToEnterInAGroupOrCreateANewOne(Photo photo){
+    var matchGroup = returnMatch(photo);
+    if(matchGroup != null){
+      matchGroup.addToList(photo);
+      photo.setSimilarGroup(matchGroup);
     }else{
-      categories.forEach((category){
-        if(displayingPhoto != null && category.name == "SIMILAR"){
-          displayingPhoto.similarPhotos.forEach((photo){
-            if(photos.contains(photo)){ //If its from the same container
-              photosToDisplay.add(photo);
+      SimilarGroupOfPhotos newGroup = new SimilarGroupOfPhotos();
+      newGroup.addToList(photo);
+      newGroup.setGroupFace(photo);
+      photo.setSimilarGroup(newGroup); 
+      similarListGroupOfPhotos.add(newGroup);
+    }
+  }
+  
+  SimilarGroupOfPhotos returnMatch(Photo photoToAnalyze){
+    var similarGroupToReturn = null;
+    
+    similarListGroupOfPhotos.forEach((similarGroup){
+      similarGroup.giveMeAllPhotos.forEach((photo){
+        if(photo.similarPhotos.contains(photoToAnalyze)){
+          similarGroupToReturn = similarGroup;
+          return similarGroupToReturn;
+        }
+      });
+    });
+    
+    return similarGroupToReturn;
+  }
+  
+  void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto){
+    photosToDisplay.clear();
+    if(categories.length == 0){
+      photosToDisplay.addAll(photos);
+    }else{
+      if(displayingPhoto != null){
+        //BIG SIZE PHOTO SCREEN
+        if(categories.contains(similar.SimilarCategory.get())){
+          photosToDisplay.add(displayingPhoto);
+          
+          displayingPhoto.similarPhotos.forEach((photoSimilar){
+            if(photos.contains(photoSimilar)){
+              photosToDisplay.add(photoSimilar);
             }
           });
-        }else{         
-          photos.forEach((photo){
-           if(!photo.containsCategory(category)) photosToDisplay.remove(photo);
-           else{
-             if(!photosToDisplay.contains(photo)) photosToDisplay.add(photo);
-           }
+
+          var addThisOne = false;
+          photosToDisplay.forEach((photoToDisplayList){
+            categories.forEach((category){
+              if(category != similar.SimilarCategory.get()){
+                addThisOne = photoToDisplayList.containsCategory(category);
+              }
+            });
+            if(!addThisOne){
+              photosToDisplay.remove(photoToDisplayList);
+            }  
           });
-        } //else
+        }else{
+          //TODO BIG SIZE PHOTO WITHOUT SIMILAR SELECTED
+          var addThisOne = false;
+                photos.forEach((photo){
+                  categories.forEach((category){
+                    addThisOne = photo.containsCategory(category);
+                  });
+                  if(addThisOne){
+                    photosToDisplay.add(photo);
+                  }  
+                });
+        }
+      }//BIG SIZE PHOTO SCREEN
+      else if(categories.contains(similar.SimilarCategory.get())){
+        print("CONTAINER NAME: " + name);
+       
+        print("PHOTOS TO DISPLAY NEXT SIMILAR: " + photosToDisplay.toString());
+        
+        var addThisOne = null;
+        photosToDisplay.forEach((photoToDisplayList){
+          categories.forEach((category){
+            if(category != similar.SimilarCategory.get()){
+              addThisOne = photoToDisplayList.containsCategory(category);
+            }
+          });
+          if(!addThisOne && addThisOne != null){
+            photosToDisplay.remove(photoToDisplayList);
+          }  
+        });
+      }else{
+      var addThisOne = false;
+      photos.forEach((photo){
+        categories.forEach((category){
+          addThisOne = photo.containsCategory(category);
+        });
+        if(addThisOne){
+          photosToDisplay.add(photo);
+        }  
       });
     }
+   }
   }
 
   bool equals(Container otherContainer){
@@ -211,7 +291,13 @@ class Database extends Object with Observable {
       default:
         break;
     }
-    /*After clustering - Category extraction*/
+    /*After clustering - Category extraction - Similarity*/
+    var container = containers.values.elementAt(0);
+    container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
+    container = containers.values.elementAt(1);
+    container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
+    container = containers.values.elementAt(2);
+    container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
   }
   
   /**

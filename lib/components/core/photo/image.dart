@@ -1,6 +1,7 @@
 library image;
 
 import 'dart:html';
+import 'dart:math';
 
 /// A custom [Image] model
 class Image {
@@ -22,6 +23,21 @@ class Image {
     var canvas = new CanvasElement(width: width, height: height);
     var c2d = canvas.context2D;
     c2d.drawImageScaled(_img, 0, 0, width, height);
+    return new Image(canvas.toDataUrl(type));
+  }
+  
+  Image createThumbnailToShow() {
+    var type =  "image/png";
+    var maxwidth = 200;
+    var maxheight = 200;
+    var ratio = min(maxwidth/width, maxheight/height);
+    var widthThumb = width*ratio;
+    var heightThumb = height*ratio;
+    widthThumb = widthThumb.round();
+    heightThumb = heightThumb.round();
+    var canvas = new CanvasElement(width: widthThumb, height: heightThumb);
+    var c2d = canvas.context2D;
+    c2d.drawImageScaled(_img, 0, 0, widthThumb, heightThumb);
     return new Image(canvas.toDataUrl(type));
   }
 }

@@ -1,6 +1,7 @@
 library phototype;
 
 import 'image.dart';
+import 'similarGroupOfPhotos.dart';
 import '../categories/category.dart';
 
 class Photo extends Image implements Comparable<Photo> {
@@ -12,11 +13,13 @@ class Photo extends Image implements Comparable<Photo> {
   String _mainSrc;
   double _dataInformation = 0.0;
   Image _thumbnail;
+  Image _thumbnailToShow; 
   bool _isColor;
   bool _hasFaces = false;
   List<Category> _categories;
   List<Photo> _similarPhotos;
   List<double> _descriptor;
+  SimilarGroupOfPhotos _similarGroup = null;
   
   Photo(String src, String title) : id = "photo_${_COUNT++}", 
                                     title = title,
@@ -32,6 +35,13 @@ class Photo extends Image implements Comparable<Photo> {
     return _thumbnail;
   }
   
+  Image get thumbnailToShow {
+    if (_thumbnailToShow == null) {
+      _thumbnailToShow = createThumbnailToShow();
+    }
+    return _thumbnailToShow;
+  }
+  
   List<Photo> get similarPhotos => _similarPhotos;
   List<Category> get returnCategory => _categories;
   double get dataFromPhoto => _dataInformation;
@@ -39,6 +49,7 @@ class Photo extends Image implements Comparable<Photo> {
   List<double> get photoDescriptor => _descriptor;
   bool get isColor => _isColor;
   bool get hasFaces => _hasFaces;
+  SimilarGroupOfPhotos get returnSimilarGroup => _similarGroup;
   
   int compareTo(Photo o) {
     var result;
@@ -59,6 +70,14 @@ class Photo extends Image implements Comparable<Photo> {
   
   void thisOneHasFaces(){
     _hasFaces = true;
+  }
+  
+  void setSimilarGroup(SimilarGroupOfPhotos similarGroup){
+    _similarGroup = similarGroup;
+  }
+  
+  void removeSimilarGroup(){
+    _similarGroup = null;
   }
   
   void addSimilarPhotos(List<Photo> photos){
