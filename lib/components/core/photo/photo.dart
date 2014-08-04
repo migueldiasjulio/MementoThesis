@@ -14,7 +14,7 @@ class Photo extends Image implements Comparable<Photo> {
   double _dataInformation = 0.0;
   Image _thumbnail;
   Image _thumbnailToShow; 
-  bool _isColor;
+  bool _isColor = false;
   bool _hasFaces = false;
   List<Category> _categories;
   List<Photo> _similarPhotos;

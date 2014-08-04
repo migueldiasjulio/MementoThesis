@@ -48,18 +48,63 @@
                   <div class="space40"></div> <!-- Just space -->
                 </template>
                 <template if="{{container.photosToDisplay.length > 0}}">
+                  <template if="{{insideSimilarGroup}}">
+                    <img src="../../../resources/images/close.png"
+                                   on-click="{{cleanSimilarGroup}}"
+                                   style="width: 40px; height: 40px" >
+                  </template>
                   <ul id="navlist">
                     <template repeat="{{photo in currentContainer.photosToDisplay}}">   
-                      <li>   
-                        <div class="mementoImage">
-                          <div class="imageBoard">
-                            <img src="{{photo.thumbnailToShow.src}}"
-                                 on-click="{{showImage}}"
-                                 data-id="{{photo.id}}"
-                                 class="image img-thumbnail"
-                                 title="{{photo.title}}" >
-                          </div>
-                        </div> 
+                      <li>
+                      
+                         <template if="{{insideSimilarGroup}}">
+                          <div class="mementoImage">
+                            <div class="imageBoard">
+                              <img src="{{photo.thumbnailToShow.src}}"
+                                   class="image img-thumbnail"
+                                   title="{{photo.title}}"
+                                   on-click="{{showImage}}"
+                                   data-id="{{photo.id}}" >
+                              <img src="../../../resources/images/selected_blue.png"
+                                   class="notSelected"
+                                   on-click="{{showImage}}"
+                                   data-id="{{photo.id}}"
+                                   style="width: 40px; height: 40px" >
+                            </div>
+                          </div> 
+                         </template>
+                      
+                        <template if="{{sameCategory}}">
+                          <template if="{{!insideSimilarGroup}}">
+                           <div class="mementoImage">
+                            <div class="imageBoard" on-click="{{showImage}}" data-id="{{photo.id}}">
+                              <img src="{{photo.thumbnailToShow.src}}"
+                                   class="imageGroupFace img-thumbnail"
+                                   title="{{photo.title}}" >
+                              <p id="text"><span class="label label-default">{{photo.similarPhotos.length}}</span></p>
+                            </div>
+                           </div>
+                          </template>
+                        </template>
+                   
+                        <template if="{{!sameCategory}}">
+                          <div class="mementoImage">
+                            <div class="imageBoard">
+                              <img src="{{photo.thumbnailToShow.src}}"
+                                   class="image img-thumbnail"
+                                   title="{{photo.title}}"
+                                   on-click="{{showImage}}"
+                                   data-id="{{photo.id}}" >
+                              <img src="../../../resources/images/selected_blue.png"
+                                   class="notSelected"
+                                   on-click="{{showImage}}"
+                                   data-id="{{photo.id}}"
+                                   style="width: 40px; height: 40px" >
+
+                            </div>
+                          </div> 
+                        </template>
+
                       </li>                 
                     </template> 
                   </ul>
@@ -159,14 +204,14 @@
               <div style="float: left" class="btn-group">
                 <template if="{{selectedPhotos.length > 0}}">
                   <button type="button" id="Button130"
-                          on-click="{{disableSelection}}"
+                          on-click="{{cleanAll}}"
                           class="btn btn-summary btn-md">Cancel
                   </button>
                 
                 </template>
                 <template if="{{selectedPhotos.length < 1}}">
                   <button type="button" id="Button130"
-                          on-click="{{disableSelection}}"
+                          on-click="{{cleanAll}}"
                           class="btn btn-summary btn-md">Done
                   </button>
                 </template>

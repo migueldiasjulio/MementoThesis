@@ -58,7 +58,6 @@ class ClusteringManager extends Object with Observable {
     var random = new Random();
     auxiliar.clear();
     returnAllLeafs(cluster);
-    print("All Leafs: " + auxiliar.toString());
     var indexOfTheChoosenOne = random.nextInt(auxiliar.length);
     return auxiliar.elementAt(indexOfTheChoosenOne);
   }
@@ -97,21 +96,18 @@ class ClusteringManager extends Object with Observable {
   List<String> specialChoose(List<Cluster> clusters, int numberOfSummaryPhotos){
     var photosToReturn = new List<Cluster>();
     var photoNames = new List<String>();
-    print("Clusters: " + clusters.toString());
     
     for(Cluster cluster in clusters){
       if(photosToReturn.length != numberOfSummaryPhotos){
         
         var firstChild = chooseRandomly(cluster);
         photosToReturn.add(firstChild);
-        print("FIRST CHILD: " + firstChild.name);
         
         if(photosToReturn.length != numberOfSummaryPhotos){
           var secondChild = chooseRandomly(cluster);
           while(secondChild == firstChild){
             secondChild = chooseRandomly(cluster);
           }
-          print("SECOND CHILD: " + secondChild.name);
           auxiliar.clear(); 
           photosToReturn.add(secondChild); 
         }else{
@@ -122,7 +118,6 @@ class ClusteringManager extends Object with Observable {
         break;
       }
     }
-    print("Photos To return: " + photosToReturn.toString());
     
     for(Cluster cluster in photosToReturn){
       photoNames.add(cluster.name);

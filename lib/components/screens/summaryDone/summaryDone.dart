@@ -7,6 +7,9 @@ import 'package:route_hierarchical/client.dart';
 import '../../core/screenModule.dart' as screenhelper;
 export "package:polymer/init.dart";
 import '../../core/database/dataBase.dart';
+import '../../core/photo/photo.dart';
+import '../../core/photo/similarGroupOfPhotos.dart';
+
 
 /**
  * Summary Done Screen
@@ -42,34 +45,54 @@ class SummaryDone extends screenhelper.SpecialScreen {
     super.enteredView();
     cleanAll();
   }
+  
+  void imNotInsideSimilarGroupAnymore(){
+    insideSimilarGroup = false;
+  }
 
   /*
    *  Show image
    */
   void showImage(Event event, var detail, var target){
+    print("SHOW IMAGE");
     var id = target.attributes["data-id"];
     var isSelected;
     if(!selection){
-      print("ID: " + id.toString());
-      displayPhoto(id);
+      if(sameCategory){
+              print("CARREGUEI E ESTOU NESTE MODO!");
+              insideSimilarGroup = true;
+              Photo photo = DB.find(id);
+              similarGroupOfPhotosChoosed = photo.returnSimilarGroup;
+              currentContainer.showPhotosWithCategories(selectedCategories, null, similarGroupOfPhotosChoosed);
+      }else{
+        print("ID: " + id.toString());
+        displayPhoto(id);
+      }
     }
     else{
-      if(target.classes.contains('selected')){
-        target.classes.remove('selected');
-        isSelected = "false";
-        removeFromSelectedPhotos(id);
-        removeFromSelectedElements(target);
-        print("$id is selected? $isSelected");
-      }
-      else{
-        target.classes.add('selected');
-        isSelected = "true";
-        addToSelectedPhotos(id);
-        addToSelectedElements(target);
-        print("$id is selected? $isSelected");
+        var father = target.parent,
+            firstChild = father.children.elementAt(0),
+            secondChild = father.children.elementAt(1);         
+        if(firstChild.classes.contains('selectedPhoto') || secondChild.classes.contains('selected') ){
+          firstChild.classes.remove('selectedPhoto');
+          secondChild.classes.remove('selected');
+          secondChild.classes.add('notSelected');
+          isSelected = "false";
+          removeFromSelectedPhotos(id);
+          removeFromSelectedElements(firstChild, secondChild);
+          print("$id is selected? $isSelected");
+        }
+        else{
+          secondChild.classes.remove('notSelected');
+          firstChild.classes.add('selectedPhoto');
+          secondChild.classes.add('selected');
+          isSelected = "true";
+          addToSelectedPhotos(id);
+          addToSelectedElements(firstChild, secondChild);
+          print("$id is selected? $isSelected");
+        }
       }
     }
-  }
   
   void similarCategory(){
     photosWithSameCategory(null);

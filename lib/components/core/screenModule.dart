@@ -13,6 +13,7 @@ import 'categories/similarCategory.dart' as similar;
 import 'dart:html';
 import 'dart:core';
 import 'photo/photo.dart';
+import 'photo/similarGroupOfPhotos.dart';
 import 'package:bootjack/bootjack.dart';
 
 /**
@@ -70,12 +71,6 @@ abstract class ScreenModule extends PolymerElement {
     router.go(path, {});
   }
   
-  /*
-   * 
-   */ 
-  void sortPhotos(){
-    //TODO need to complete this
-  }
 }
 
 /**
@@ -101,11 +96,13 @@ abstract class SpecialScreen extends ScreenModule {
   @observable bool BWCategory = false;
   @observable bool ColorCategory = false;
   @observable bool sameCategory = false; 
+  @observable bool insideSimilarGroup = false;
   @observable get containers => DB.containers.values;
+  @observable SimilarGroupOfPhotos similarGroupOfPhotosChoosed = null;
   
   final List<String> selectedPhotos = toObservable([]);
   final List<Element> selectedElements = toObservable([]);
-  final List<Category> _selectedCategories =  toObservable([]);
+  final List<Category> selectedCategories =  toObservable([]);
   
   Element _summaryContainer;
   Element _standByContainer;
@@ -128,7 +125,6 @@ abstract class SpecialScreen extends ScreenModule {
    */ 
   void decideContainerToLock(String photoId){
     var photoContainer = DB.findContainer(photoId);
-    print("Container name to check: " + photoContainer.containerName);
     switch(photoContainer.containerName){
       case("SUMMARY"): 
         checkSummaryContainer();
@@ -213,6 +209,12 @@ abstract class SpecialScreen extends ScreenModule {
     this.disableSelection();
   }
   
+  void cleanSimilarGroup(){
+    similarGroupOfPhotosChoosed = null;
+    insideSimilarGroup = false;
+    updatePhotoView(null);
+  }
+  
   /*
    * Add to selected Photos List
    */
@@ -230,15 +232,17 @@ abstract class SpecialScreen extends ScreenModule {
   /*
    * Add to selected Elements list 
    */ 
-  void addToSelectedElements(Element element){
+  void addToSelectedElements(Element element, Element secondElement){
     this.selectedElements.add(element);
+    this.selectedElements.add(secondElement);
   }
 
   /*
    * Remove from selected Elements list
    */ 
-  void removeFromSelectedElements(Element element){
+  void removeFromSelectedElements(Element element, Element secondElement){
     this.selectedElements.remove(element);
+    this.selectedElements.remove(secondElement);
   }
 
   /*
@@ -307,8 +311,12 @@ abstract class SpecialScreen extends ScreenModule {
    * Clean selected objects _ Used when the user cancel the selection operation
    */
   void cleanSelection(){
-    for(Element element in this.selectedElements){
-      element.classes.remove('selected');
+    var size = selectedElements.length;
+    for(int i = 0; i < size; i+=2){
+      selectedElements.elementAt(i).classes.remove('selectedPhoto');
+      selectedElements.elementAt(i+1).classes.remove('selected');
+      selectedElements.elementAt(i+1).classes.add('notSelected');
+      
     }
     this.selectedElements.clear();
     this.selectedPhotos.clear();
@@ -320,21 +328,21 @@ abstract class SpecialScreen extends ScreenModule {
    */ 
   
   void updatePhotoView(Photo photo){
-    summaryContainer.showPhotosWithCategories(_selectedCategories, photo);
-    standbyContainer.showPhotosWithCategories(_selectedCategories, photo);
-    excludedContainer.showPhotosWithCategories(_selectedCategories, photo);
+    summaryContainer.showPhotosWithCategories(selectedCategories, photo, similarGroupOfPhotosChoosed);
+    standbyContainer.showPhotosWithCategories(selectedCategories, photo, similarGroupOfPhotosChoosed);
+    excludedContainer.showPhotosWithCategories(selectedCategories, photo, similarGroupOfPhotosChoosed);
   }
 
   void addActiveCategory(Category category){
-    _selectedCategories.add(category);
+    selectedCategories.add(category);
   }
   
   void removeFromActiveCategory(Category category){
-    _selectedCategories.remove(category);
+    selectedCategories.remove(category);
   }
   
   void clearSelectedCategories(){
-    _selectedCategories.clear();
+    selectedCategories.clear();
   }
   
   /**
@@ -425,19 +433,22 @@ abstract class SpecialScreen extends ScreenModule {
    * Same Category
    */ 
   void enableSameCategory(){
-    this.sameCategory = true;
+    sameCategory = true;
   }
   
   void disableSameCategory(){
-    this.sameCategory = false;
+    sameCategory = false;
+    similarGroupOfPhotosChoosed = null;
   }
   
   void photosWithSameCategory(Photo photo){
+    cleanSimilarGroup();
     cleanSelection();
     if(this.sameCategory){
       this.disableSameCategory();
       removeFromActiveCategory(similar.SimilarCategory.get());
     }else{
+      print("ENABLE TO DISABLE");
       this.enableSameCategory();
       addActiveCategory(similar.SimilarCategory.get());
     }

@@ -147,19 +147,25 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
       markDisplayingPhoto();
     } 
     else{
-      if(target.classes.contains('selected')){
-        target.classes.remove('selected');
-        isSelected = "false";
-        removeFromSelectedPhotos(id);
-        removeFromSelectedElements(target);
-        print("$id is selected? $isSelected");
-      } 
-      else{
-        target.classes.add('selected');
-        isSelected = "true";
-        addToSelectedPhotos(id);
-        addToSelectedElements(target);
-        print("$id is selected? $isSelected");
+      if(sameCategory){
+        Photo photo = DB.find(id);
+        similarGroupOfPhotosChoosed = photo.returnSimilarGroup;
+        currentContainer.showPhotosWithCategories(selectedCategories, null, similarGroupOfPhotosChoosed);
+      }else{
+        if(target.classes.contains('selected')){
+          target.classes.remove('selected');
+          isSelected = "false";
+          removeFromSelectedPhotos(id);
+          removeFromSelectedElements(target);
+          print("$id is selected? $isSelected");
+        } 
+        else{
+          target.classes.add('selected');
+          isSelected = "true";
+          addToSelectedPhotos(id);
+          addToSelectedElements(target);
+          print("$id is selected? $isSelected");
+        }
       }
     }
   }  

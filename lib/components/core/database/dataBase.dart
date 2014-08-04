@@ -29,7 +29,7 @@ class Container extends Object with Observable {
   final List<Photo> photos = toObservable(new Set());
   final List<Photo> photosToDisplay = toObservable(new Set());
   List<SimilarGroupOfPhotos> similarListGroupOfPhotos = new List<SimilarGroupOfPhotos>();
-  
+
   Container(this.name, this.secondname);
   
   String get containerName => name;
@@ -69,7 +69,22 @@ class Container extends Object with Observable {
     return similarGroupToReturn;
   }
   
-  void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto){
+  List<Photo> giveMeAllHeader(){
+    var listToReturn = new List<Photo>();
+    
+    similarListGroupOfPhotos.forEach((group){
+      listToReturn.add(group.groupFace);
+    });
+    
+    return listToReturn;
+  }
+  
+  bool isFromThisContainer(SimilarGroupOfPhotos similarGroup){
+    return similarListGroupOfPhotos.contains(similarGroup);
+  }
+  
+  void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto,
+                                 SimilarGroupOfPhotos similarGroupChoosed){
     photosToDisplay.clear();
     if(categories.length == 0){
       photosToDisplay.addAll(photos);
@@ -108,23 +123,28 @@ class Container extends Object with Observable {
                   }  
                 });
         }
-      }//BIG SIZE PHOTO SCREEN
-      else if(categories.contains(similar.SimilarCategory.get())){
-        print("CONTAINER NAME: " + name);
-       
-        print("PHOTOS TO DISPLAY NEXT SIMILAR: " + photosToDisplay.toString());
-        
-        var addThisOne = null;
-        photosToDisplay.forEach((photoToDisplayList){
-          categories.forEach((category){
-            if(category != similar.SimilarCategory.get()){
-              addThisOne = photoToDisplayList.containsCategory(category);
+      }//DisplayingPhoto != null
+      //SUMMARY DONE SCREEN
+      else if(categories.contains(similar.SimilarCategory.get())){    
+        if(similarGroupChoosed != null && isFromThisContainer(similarGroupChoosed)){
+          print("VOU FAZER DISPLAY DAS FOTOS DO SIMILAR GROUP");
+          photosToDisplay.addAll(similarGroupChoosed.giveMeAllPhotos);
+        }else{
+          photosToDisplay.addAll(giveMeAllHeader());
+        }
+        if(categories.length > 1){
+          var addThisPhoto = false;
+          photosToDisplay.forEach((photoToDisplay){
+            categories.forEach((category){
+              if(!(category == similar.SimilarCategory.get())){
+                addThisPhoto = photoToDisplay.containsCategory(category);
+              }       
+            });
+            if(!addThisPhoto){
+              photosToDisplay.remove(photoToDisplay);
             }
           });
-          if(!addThisOne && addThisOne != null){
-            photosToDisplay.remove(photoToDisplayList);
-          }  
-        });
+        }
       }else{
       var addThisOne = false;
       photos.forEach((photo){
@@ -135,8 +155,8 @@ class Container extends Object with Observable {
           photosToDisplay.add(photo);
         }  
       });
-    }
-   }
+    }//End of Summary Done 
+   }//If categories selected > 0
   }
 
   bool equals(Container otherContainer){
