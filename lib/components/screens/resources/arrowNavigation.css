@@ -3,9 +3,13 @@
   height: 40px;
 }
 
+.arrowCursor{
+ cursor:pointer;
+}
+
 #thumb-back, #thumb-forward{ position:absolute; z-index:5; bottom:5px; height:150px; width:40px; }
-#thumb-back{ margin-left: 10px; left:0; background: url('back.png') no-repeat center center;}
-#thumb-forward{ margin-right: 10px; right:0; background:url('forward.png') no-repeat center center;}
+#thumb-back{ margin-left: 10px; left:0; background: url('../../../resources/images/back.png') no-repeat center center;}
+#thumb-forward{ margin-right: 10px; right:0; background:url('../../../resources/images/forward.png') no-repeat center center;}
 #thumb-back:hover, #thumb-forward:hover{ cursor:pointer; background-color:rgba(256,256,256, 0.2); }
 #thumb-back:hover{ border-right:1px solid rgba(256,256,256, 0.2); }
 #thumb-forward:hover{ border-left:1px solid rgba(256,256,256, 0.2); }

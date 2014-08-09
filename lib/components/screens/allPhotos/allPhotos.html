@@ -92,13 +92,13 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <p id="modalMargin1">Creating the Summary</p>
+            <p id="modalMargin1">Memento - Summary Creation</p>
           </div>
           <div class="modal-body">
-            <p id="message">Please wait while we create your Summary.</p>
+            <p id="message">Creating your summary. Please wait..</p>
           </div>
           <div id="modalMargin1" class="modal-footer">
-            <button class="btn btn-default" data-dismiss="summaryCreation">Cancel</button>
+            <button data-dismiss="modal" on-click="{{cancelSummaryCreation}}" class="btn btn-default">Cancel</button>
           </div>
         </div>
       </div>
@@ -108,16 +108,16 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 id="modalMargin1">Loading your photos...</h4>
+            <h4 id="modalMargin1">Memento - Loading your photos</h4>
           </div>
           <div class="modal-body">
           <div id="centerText">
               <!-- <img src="../../../resources/images/loading.gif" /> -->
-              <h5>Please wait.</h5>
+              <h5>Please wait..</h5>
           </div>
         </div>
         <div id="modalMargin1" class="modal-footer">
-          <button class="btn btn-default" data-dismiss="loading">Cancel</button>
+          <button class="btn btn-default" data-dismiss="modal" on-click="{{cancelImport}}">Cancel</button>
         </div>
       </div>
     </div>
@@ -127,18 +127,16 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 id="modalMargin1">Summary Creation</h4>
+            <h4 id="modalMargin1">Memento - Summary Creation</h4>
           </div>
           <div class="modal-body">
           <div id="centerText">
               <!-- <img src="../../../resources/images/loading.gif" /> -->
-              <h5>A Summary with that number of photos cannot be created. 
-              It will be created with x photos."</h5>
+              <h5>A Summary with {{numberOfPhotosDefined}} photos cannot be created.</h5>
           </div>
         </div>
         <div id="modalMargin1" class="modal-footer">
-          <button class="btn btn-default" data-dismiss="loading">Cancel</button>
-          <button class="btn btn-success" on-click="{{summaryWithMaxNumber}}">Ok</button> 
+          <button class="btn btn-default" data-dismiss="modal">Ok</button>
         </div>
       </div>
     </div>

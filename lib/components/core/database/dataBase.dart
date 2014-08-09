@@ -34,8 +34,25 @@ class Container extends Object with Observable {
   
   String get containerName => name;
   
+  void clearData(){
+    photos.clear();
+    photosToDisplay.clear();
+    similarListGroupOfPhotos.clear();
+  }
+  
   void removeGroupFromList(SimilarGroupOfPhotos similarGroup){
     similarListGroupOfPhotos.remove(similarGroup);
+    sortListGroupOfPhotos();
+  }
+  
+  void removePhotoFromGroups(Photo photo){
+    similarListGroupOfPhotos.forEach((similarGroup){
+      if(similarGroup.giveMeAllPhotos.contains(photo)){
+        similarGroup.removeFromList(photo);
+      }
+    });
+    
+    sortListGroupOfPhotos();
   }
   
   Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
@@ -52,6 +69,13 @@ class Container extends Object with Observable {
       photo.setSimilarGroup(newGroup); 
       similarListGroupOfPhotos.add(newGroup);
     }
+    
+    sortListGroupOfPhotos();
+  }
+  
+  void sortListGroupOfPhotos(){
+    
+    //similarListGroupOfPhotos.sort();
   }
   
   SimilarGroupOfPhotos returnMatch(Photo photoToAnalyze){
@@ -92,7 +116,9 @@ class Container extends Object with Observable {
       if(displayingPhoto != null){
         //BIG SIZE PHOTO SCREEN
         if(categories.contains(similar.SimilarCategory.get())){
-          photosToDisplay.add(displayingPhoto);
+          if(photos.contains(displayingPhoto)){
+            photosToDisplay.add(displayingPhoto);
+          }
           
           displayingPhoto.similarPhotos.forEach((photoSimilar){
             if(photos.contains(photoSimilar)){
@@ -100,17 +126,19 @@ class Container extends Object with Observable {
             }
           });
 
-          var addThisOne = false;
-          photosToDisplay.forEach((photoToDisplayList){
-            categories.forEach((category){
-              if(category != similar.SimilarCategory.get()){
-                addThisOne = photoToDisplayList.containsCategory(category);
+          if(categories.length > 1){
+            var addThisPhoto = false;
+            photosToDisplay.forEach((photoToDisplay){
+              categories.forEach((category){
+                if(!(category == similar.SimilarCategory.get())){
+                  addThisPhoto = photoToDisplay.containsCategory(category);
+                }       
+              });
+              if(!addThisPhoto){
+                photosToDisplay.remove(photoToDisplay);
               }
             });
-            if(!addThisOne){
-              photosToDisplay.remove(photoToDisplayList);
-            }  
-          });
+          }
         }else{
           //TODO BIG SIZE PHOTO WITHOUT SIMILAR SELECTED
           var addThisOne = false;
@@ -127,7 +155,6 @@ class Container extends Object with Observable {
       //SUMMARY DONE SCREEN
       else if(categories.contains(similar.SimilarCategory.get())){    
         if(similarGroupChoosed != null && isFromThisContainer(similarGroupChoosed)){
-          print("VOU FAZER DISPLAY DAS FOTOS DO SIMILAR GROUP");
           photosToDisplay.addAll(similarGroupChoosed.giveMeAllPhotos);
         }else{
           photosToDisplay.addAll(giveMeAllHeader());
@@ -284,6 +311,22 @@ class Database extends Object with Observable {
   }
 
   /**
+   * Clean Database data
+   * 
+   */ 
+  bool cleanAllData(){
+    var result = true;
+    
+    containers.forEach((containerName, container){
+      container.clearData();
+    });
+    
+    photoToDisplay = null;
+    
+    return result;
+  }
+  
+  /**
    * Build Summary
    */
   bool buildSummary(List<Photo> photos, int numberOfPhotosDefined){
@@ -314,10 +357,13 @@ class Database extends Object with Observable {
     /*After clustering - Category extraction - Similarity*/
     var container = containers.values.elementAt(0);
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
+    container.sortListGroupOfPhotos();
     container = containers.values.elementAt(1);
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
+    container.sortListGroupOfPhotos();
     container = containers.values.elementAt(2);
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
+    container.sortListGroupOfPhotos();
   }
   
   /**
@@ -357,8 +403,10 @@ class Database extends Object with Observable {
   void buildClusterSummary(int numberOfPhotos){
         
     secondNormalization();
+    print("CLUSTERING");
     var summaryPhotos = _clusteringManager.doClustering(container(STANDBY).photos, numberOfPhotos,
         container(STANDBY).photos.length);
+    print("ACABEI O CLUSTERING");
     moveFromTo(STANDBY, SUMMARY, summaryPhotos);
       
     printContainersState(); //TODO

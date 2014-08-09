@@ -35,6 +35,11 @@
         <!-- Tab content -->
        <template repeat="{{container in containers}}">
        <div class="{{container.name}}">
+       <template if="{{insideSimilarGroup}}">
+          <img src="../../../resources/images/close.png"
+               on-click="{{cleanSimilarGroup}}"
+               style="width: 40px; height: 40px" >
+        </template>
         <template if="{{currentContainer.photos.isEmpty}}">
           <div class="space40"></div> <!-- Just space -->
           <div id="centerText" class="title large font25 height20">Empty.</div>
@@ -48,11 +53,6 @@
                   <div class="space40"></div> <!-- Just space -->
                 </template>
                 <template if="{{container.photosToDisplay.length > 0}}">
-                  <template if="{{insideSimilarGroup}}">
-                    <img src="../../../resources/images/close.png"
-                                   on-click="{{cleanSimilarGroup}}"
-                                   style="width: 40px; height: 40px" >
-                  </template>
                   <ul id="navlist">
                     <template repeat="{{photo in currentContainer.photosToDisplay}}">   
                       <li>
@@ -81,7 +81,12 @@
                               <img src="{{photo.thumbnailToShow.src}}"
                                    class="imageGroupFace img-thumbnail"
                                    title="{{photo.title}}" >
-                              <p id="text"><span class="label label-default">{{photo.similarPhotos.length}}</span></p>
+                              <p id="text"><span class="label label-default">{{photo.returnSimilarGroup.giveMeAllPhotos.length}}</span></p>
+                              <img src="../../../resources/images/selected_blue.png"
+                                   class="notSelected"
+                                   on-click="{{showImage}}"
+                                   data-id="{{photo.id}}"
+                                   style="width: 40px; height: 40px" >
                             </div>
                            </div>
                           </template>
@@ -204,14 +209,14 @@
               <div style="float: left" class="btn-group">
                 <template if="{{selectedPhotos.length > 0}}">
                   <button type="button" id="Button130"
-                          on-click="{{cleanAll}}"
+                          on-click="{{disableSelection}}"
                           class="btn btn-summary btn-md">Cancel
                   </button>
                 
                 </template>
                 <template if="{{selectedPhotos.length < 1}}">
                   <button type="button" id="Button130"
-                          on-click="{{cleanAll}}"
+                          on-click="{{disableSelection}}"
                           class="btn btn-summary btn-md">Done
                   </button>
                 </template>

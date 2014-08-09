@@ -75,6 +75,7 @@ class ClusteringManager extends Object with Observable {
       selectedPhotos.add(chooseRandomly(cluster).name);  
       auxiliar.clear();
     }
+    //2 Photos case
     else if(numberOfSummaryPhotos == 2){
       var children = cluster.getChildren();
       selectedPhotos.add(chooseRandomly(children.elementAt(0)).name);
@@ -83,6 +84,7 @@ class ClusteringManager extends Object with Observable {
       auxiliar.clear();
     }
     else{
+      //more than 2 and < total number of photos loaded
       auxiliar.addAll(specialCaseCuttingTree(cluster, numberOfSummaryPhotos, new List<Cluster>()));
       var clustersAux = new List<Cluster>();
       clustersAux.addAll(auxiliar);

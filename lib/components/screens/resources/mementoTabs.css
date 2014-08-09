@@ -75,7 +75,7 @@
   z-index: 10;
   opacity: 1;
   overflow-y: hidden;
-  overflow-x: scroll;
+  overflow-x: hidden;
   visibility: visible;
   height:150px;
   padding: 5px;

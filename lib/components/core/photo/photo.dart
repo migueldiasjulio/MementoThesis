@@ -14,6 +14,7 @@ class Photo extends Image implements Comparable<Photo> {
   double _dataInformation = 0.0;
   Image _thumbnail;
   Image _thumbnailToShow; 
+  Image _miniThumbnailToShow; 
   bool _isColor = false;
   bool _hasFaces = false;
   List<Category> _categories;
@@ -37,9 +38,16 @@ class Photo extends Image implements Comparable<Photo> {
   
   Image get thumbnailToShow {
     if (_thumbnailToShow == null) {
-      _thumbnailToShow = createThumbnailToShow();
+      _thumbnailToShow = createThumbnailToShow(false);
     }
     return _thumbnailToShow;
+  }
+  
+  Image get miniThumbnailToShow {
+    if (_miniThumbnailToShow == null) {
+      _miniThumbnailToShow = createThumbnailToShow(true);
+    }
+    return _miniThumbnailToShow;
   }
   
   List<Photo> get similarPhotos => _similarPhotos;

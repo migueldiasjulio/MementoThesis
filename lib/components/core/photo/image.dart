@@ -26,10 +26,17 @@ class Image {
     return new Image(canvas.toDataUrl(type));
   }
   
-  Image createThumbnailToShow() {
-    var type =  "image/png";
-    var maxwidth = 200;
-    var maxheight = 200;
+  Image createThumbnailToShow(bool isMini) {
+    var type =  "image/png",
+    maxwidth = 0,
+    maxheight = 0;
+    if(isMini){
+      maxwidth = 135;
+      maxheight = 135;
+    }else{
+      maxwidth = 200;
+      maxheight = 200;
+    }
     var ratio = min(maxwidth/width, maxheight/height);
     var widthThumb = width*ratio;
     var heightThumb = height*ratio;

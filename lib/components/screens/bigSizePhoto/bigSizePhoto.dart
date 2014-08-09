@@ -20,10 +20,9 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   factory BigSizePhoto() => new Element.tag(TAG);
   String previousPhotoID = null;
   String mainPhotoID = null;
-  Element selectedPhoto;
-  Element previousPhoto;
-
-  @observable Photo photo;
+  Element selectedPhoto = null;
+  Element previousPhoto = null;
+  @observable bool isInOverflow = false;
   
   Element _summaryContainer;
   Element _standByContainer;
@@ -55,10 +54,9 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
         enter: (e) { 
           photo = DB.photoToDisplayPlease;
           print("Photo ID: " + photo.id);
-          print("Photo src: " + photo.thumbnail.src);
-          print("Photo title: " + photo.thumbnail.title.toString());
-          removeCheckedAttribute();
           decideContainerToLock(photo.id);
+          previousPhoto = $['photo.id'];
+          print("Previous photo: " + previousPhoto.toString());
           //markDisplayingPhoto();
         });
    }
@@ -105,6 +103,8 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    */
   void returnToSummary(){
     disableSelection();
+    removeCheckedAttribute();
+    cleanElementSelected();
     router.go("summary-done", {});
   }
 
@@ -122,6 +122,23 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     aux.scrollLeft += 500;  
   }
   
+  /*
+   * 
+   */
+  void checkOverflow(){
+    var element = document.querySelector('#element');
+    
+    if( (element.offsetHeight < element.scrollHeight) || (element.offsetWidth < element.scrollWidth)){
+      isInOverflow = true;
+    }
+    else{
+      isInOverflow = false;
+    }
+  }
+
+  /*
+   *
+   */ 
   void markDisplayingPhoto(){
     previousPhotoID = mainPhotoID;
     mainPhotoID = photo.id;
@@ -135,6 +152,47 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     selectedPhoto.classes.add('choosed');
   }
   
+  void markPhotoWithElement(Element element){
+    previousPhoto = selectedPhoto;
+    selectedPhoto = element;
+    if(previousPhoto != null){
+      previousPhoto.classes.remove('choosed');
+      selectedPhoto.classes.add('choosed');
+    }else{
+      selectedPhoto.classes.add('choosed');
+    }
+  }
+  
+  void cleanElementSelected(){
+    selectedPhoto.classes.remove('choosed');
+  }
+  
+  void previousPhotoInList(){
+    var auxiliar = 0,
+        lastPhoto = null;
+    auxiliar = currentContainer.photosToDisplay.indexOf(photo);
+    if(auxiliar == 0){
+      lastPhoto = currentContainer.photosToDisplay.last;
+      photo = lastPhoto;
+    }else{
+      auxiliar -= 1;
+      photo = currentContainer.photosToDisplay.elementAt(auxiliar);
+    }
+  }
+  
+  void nextPhotoInList(){
+    var auxiliar = currentContainer.photosToDisplay.indexOf(photo),
+        firstPhoto = null,
+        lastPhoto = currentContainer.photosToDisplay.last;
+    if(photo == lastPhoto){
+      firstPhoto = currentContainer.photosToDisplay.first;
+      photo = firstPhoto;   
+    }else{
+      auxiliar += 1;
+      photo = currentContainer.photosToDisplay.elementAt(auxiliar);
+    }
+  }
+  
   /*
    *
    */
@@ -142,31 +200,31 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     var id = target.attributes["data-id"];
     var isSelected;
     if(!selection){
-      print(target.attributes['data-incby']);
       this.photo = DB.find(target.attributes['data-id']);
-      markDisplayingPhoto();
-    } 
+      markPhotoWithElement(target);
+    }
     else{
-      if(sameCategory){
-        Photo photo = DB.find(id);
-        similarGroupOfPhotosChoosed = photo.returnSimilarGroup;
-        currentContainer.showPhotosWithCategories(selectedCategories, null, similarGroupOfPhotosChoosed);
-      }else{
-        if(target.classes.contains('selected')){
-          target.classes.remove('selected');
+        var father = target.parent,
+            firstChild = father.children.elementAt(0),
+            secondChild = father.children.elementAt(1);         
+        if(firstChild.classes.contains('selectedPhoto') || secondChild.classes.contains('selected') ){
+          firstChild.classes.remove('selectedPhoto');
+          secondChild.classes.remove('selected');
+          secondChild.classes.add('notSelected');
           isSelected = "false";
           removeFromSelectedPhotos(id);
-          removeFromSelectedElements(target);
+          removeFromSelectedElements(firstChild, secondChild);
           print("$id is selected? $isSelected");
-        } 
+        }
         else{
-          target.classes.add('selected');
+          secondChild.classes.remove('notSelected');
+          firstChild.classes.add('selectedPhoto');
+          secondChild.classes.add('selected');
           isSelected = "true";
           addToSelectedPhotos(id);
-          addToSelectedElements(target);
+          addToSelectedElements(firstChild, secondChild);
           print("$id is selected? $isSelected");
         }
       }
-    }
-  }  
+  }
 }

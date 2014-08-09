@@ -39,6 +39,7 @@ class AllPhotos extends screenhelper.Screen {
   @observable String numberOfPhotosDefined = "20";
   int numberOfPhotosLoaded = 0;
   Element startSummary;
+  List<FileReader> _fileReaders = new List<FileReader>();
   
   final List<Photo> photos = toObservable([]);
 
@@ -113,71 +114,55 @@ class AllPhotos extends screenhelper.Screen {
      _onFilesSelected(_fileInput.files);
    }
    
+   void cancelImport(){
+     _fileReaders.forEach((fileReader){
+       fileReader.abort();
+     });
+     hiddeLoading();
+   }
+   
    /*
     *
     */
-   void _onFilesSelected(List<File> files) {     
-     var number = 0,
-         photoFiles = files.where((file) => file.type.startsWith('image'));
-     numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
-     numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
-     var intNumber = photoFiles.length,
-         dateInformation = 0.0,
-         photoToAdd = null,
-         photosBackUp = new List<Photo>();
-
+   void _onFilesSelected(List<File> files) {  
+     
+     var photoFiles = files.where((file) => file.type.startsWith('image')),
+         intNumber = photoFiles.length; 
+     
     if(intNumber > 0){
-      showLoading();
-    }
-    photoFiles.forEach((file) {
-      var rng = new Random();
-      FileReader reader = new FileReader();
-      reader.onLoad.listen((e) {
-        photoToAdd = new Photo(reader.result, file.name);
-        //dateInformation = DB.extractExifInformation(photoToAdd);
-        //print("Tem EXIF? " + _exifExtractor.imageHasData(photoToAdd.image).toString());
-        dateInformation = rng.nextDouble();
-        photoToAdd.setDataFromPhoto(dateInformation);
-        photosBackUp.add(photoToAdd);
-        number++;
-        
-        if(number == intNumber){
-          photos.addAll(photosBackUp);
-          DB.sortPhotos(photos);
+      var number = 0,
+          dateInformation = 0.0,
+          photoToAdd = null,
           photosBackUp = new List<Photo>();
-          this.hiddeLoading();
-        }
-      });
-      reader.readAsDataUrl(file);
-    });
-   }
-   
-   /*
-    * Show upload photos loading modal
-    */
-   void showSummaryBeenCreating(){
-     summaryCreation.show();
-   }
-   
-   /*
-    *
-    */
-   void hiddeSummaryBeenCreating(){
-     summaryCreation.hide();
-   }
-
-   /*
-    *
-    */
-   void showLoading(){
-     loading.show();
-   }
-
-   /*
-    * 
-    */
-   void hiddeLoading(){
-     loading.hide();
+      numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
+      numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
+      
+      showLoading();
+     
+      for(File file in photoFiles){
+        var rng = new Random();
+        FileReader reader = new FileReader();
+        _fileReaders.add(reader);
+        reader.onLoad.listen((e){
+          photoToAdd = new Photo(reader.result, file.name);
+          //dateInformation = DB.extractExifInformation(photoToAdd);
+          //print("Tem EXIF? " + _exifExtractor.imageHasData(photoToAdd.image).toString());
+          dateInformation = rng.nextDouble();
+          photoToAdd.setDataFromPhoto(dateInformation);
+          photosBackUp.add(photoToAdd);
+          number++;
+          
+          if(number == intNumber){
+            photos.addAll(photosBackUp);
+            DB.sortPhotos(photos);
+            photosBackUp = new List<Photo>();
+            _fileReaders.clear();
+            this.hiddeLoading();
+          }
+        });
+        reader.readAsDataUrl(file); 
+      }
+    } 
    }
 
    /*
@@ -215,24 +200,58 @@ class AllPhotos extends screenhelper.Screen {
     * Build Summary
     */
     void buildSummary(){
-      var result;
+
+      var result = false;
       var numberDefinedInt = int.parse(numberOfPhotosDefined);
-      if(numberDefinedInt > numberOfPhotosLoaded){
+      if((numberDefinedInt > numberOfPhotosLoaded) || (numberDefinedInt <= 0)){
         showMessageNumberOverflow();
       }else{
+        showSummaryBeenCreating();
+        print("Devia ter mostrado");
         result = DB.buildSummary(photos, numberDefinedInt);
       }
       if(result){
+        hiddeSummaryBeenCreating();
         goSummary();
       }
     }
     
-    void summaryWithMaxNumber(){
-      var result = DB.buildSummary(photos, numberOfPhotosLoaded);
-      if(result){
-        hideMessageNumberOverflow();
-        goSummary();
-      }
+    /*
+     * 
+     */
+    void cancelSummaryCreation(){
+      //TODO
+      var result = DB.cleanAllData();
+    }
+    
+    
+    /*
+     * Show upload photos loading modal
+     */
+    void showSummaryBeenCreating(){
+      print("SHOW");
+      summaryCreation.show();
+    }
+    
+    /*
+     *
+     */
+    void hiddeSummaryBeenCreating(){
+      summaryCreation.hide();
+    }
+
+    /*
+     *
+     */
+    void showLoading(){
+      loading.show();
+    }
+
+    /*
+     * 
+     */
+    void hiddeLoading(){
+      loading.hide();
     }
     
     /*

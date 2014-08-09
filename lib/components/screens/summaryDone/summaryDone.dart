@@ -58,11 +58,12 @@ class SummaryDone extends screenhelper.SpecialScreen {
     var id = target.attributes["data-id"];
     var isSelected;
     if(!selection){
-      if(sameCategory){
+      if(sameCategory && similarGroupOfPhotosChoosed == null){
               print("CARREGUEI E ESTOU NESTE MODO!");
               insideSimilarGroup = true;
               Photo photo = DB.find(id);
               similarGroupOfPhotosChoosed = photo.returnSimilarGroup;
+              print("Similar Group Size: " + similarGroupOfPhotosChoosed.giveMeAllPhotos.length.toString());
               currentContainer.showPhotosWithCategories(selectedCategories, null, similarGroupOfPhotosChoosed);
       }else{
         print("ID: " + id.toString());
@@ -71,24 +72,41 @@ class SummaryDone extends screenhelper.SpecialScreen {
     }
     else{
         var father = target.parent,
-            firstChild = father.children.elementAt(0),
-            secondChild = father.children.elementAt(1);         
-        if(firstChild.classes.contains('selectedPhoto') || secondChild.classes.contains('selected') ){
+            firstChild = null,
+            secondChild = null;
+        
+        if(similarGroupOfPhotosChoosed == null && sameCategory){
+          firstChild = father.children.elementAt(0);
+          //secondChild = father.children.elementAt(2); 
+        }else{
+          firstChild = father.children.elementAt(0);
+          secondChild = father.children.elementAt(1);   
+        } 
+        
+        if(firstChild.classes.contains('selectedPhoto') /*|| secondChild.classes.contains('selected')*/ ){
           firstChild.classes.remove('selectedPhoto');
-          secondChild.classes.remove('selected');
-          secondChild.classes.add('notSelected');
           isSelected = "false";
           removeFromSelectedPhotos(id);
-          removeFromSelectedElements(firstChild, secondChild);
+          if(similarGroupOfPhotosChoosed != null || !sameCategory){
+            secondChild.classes.remove('selected');
+            secondChild.classes.add('notSelected');
+            removeFromSelectedElements(firstChild, secondChild);
+          }else{
+            removeFromSelectedElements(firstChild, null);
+          }
           print("$id is selected? $isSelected");
         }
         else{
-          secondChild.classes.remove('notSelected');
           firstChild.classes.add('selectedPhoto');
-          secondChild.classes.add('selected');
           isSelected = "true";
           addToSelectedPhotos(id);
-          addToSelectedElements(firstChild, secondChild);
+          if(similarGroupOfPhotosChoosed != null || !sameCategory){
+            secondChild.classes.remove('notSelected');
+            secondChild.classes.add('selected');
+            addToSelectedElements(firstChild, secondChild);
+          }else{
+            addToSelectedElements(firstChild, null);
+          }
           print("$id is selected? $isSelected");
         }
       }

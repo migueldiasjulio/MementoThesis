@@ -100,6 +100,8 @@ abstract class SpecialScreen extends ScreenModule {
   @observable get containers => DB.containers.values;
   @observable SimilarGroupOfPhotos similarGroupOfPhotosChoosed = null;
   
+  @observable Photo photo = null;
+  
   final List<String> selectedPhotos = toObservable([]);
   final List<Element> selectedElements = toObservable([]);
   final List<Category> selectedCategories =  toObservable([]);
@@ -137,16 +139,7 @@ abstract class SpecialScreen extends ScreenModule {
         break;
     }
   }
-  
-  /*
-   * 
-   */
-  void printContainerAttributes(){
-    print("SUMMARY CONTAINER ATTRIBUTES: " + _summaryContainer.attributes.keys.toString());
-    print("STANDBY CONTAINER ATTRIBUTES: " + _standByContainer.attributes.keys.toString());
-    print("EXCLUDED CONTAINER ATTRIBUTES: " + _excludedContainer.attributes.keys.toString());
-  }
-  
+    
   /*
    * 
    */
@@ -156,13 +149,31 @@ abstract class SpecialScreen extends ScreenModule {
     _excludedContainer.attributes.remove('checked'); 
   }
   
+  void checkDestination(String containerName){
+    switch(containerName){
+      case("SUMMARY"): 
+        checkSummaryContainer();
+        break;
+      case("STANDBY"): 
+        checkStandByContainer();
+        break;
+      case("EXCLUDED"): 
+        checkExcludedContainer();
+        break;
+    }
+  }
+  
   /*
    * 
    */
   void checkSummaryContainer(){
     _summaryContainer.setAttribute("checked", "checked");
-    printContainerAttributes();
     currentContainer = summaryContainer;
+    cleanAll();
+    Element element = $['nav-SUMMARY2'];
+    if(element != null){
+      print("Element: " + element.id);
+    }
   }
   
   /*
@@ -170,8 +181,8 @@ abstract class SpecialScreen extends ScreenModule {
    */
   void checkStandByContainer(){
     _standByContainer.setAttribute("checked", "checked");
-    printContainerAttributes();
     currentContainer = standbyContainer;
+    cleanAll();
   }
   
   /*
@@ -179,14 +190,30 @@ abstract class SpecialScreen extends ScreenModule {
    */
   void checkExcludedContainer(){
     _excludedContainer.setAttribute("checked", "checked");
-    printContainerAttributes();
     currentContainer = excludedContainer;
+    cleanAll();
   }
   
   /**
    * Selection Functions
    */ 
   
+  /*
+   * Clean All
+   */
+  void cleanAll(){
+    disableSelection();
+    cleanCategoriesStuff();
+  }
+  
+  void cleanCategoriesStuff(){
+    cleanSimilarGroup();
+    facesCategory = false;
+    BWCategory = false;
+    ColorCategory = false;
+    sameCategory = false; 
+    
+  }
   /*
    * Enable Selection
    */
@@ -200,13 +227,6 @@ abstract class SpecialScreen extends ScreenModule {
   void disableSelection(){
     this.selection = false;
     cleanSelection();
-  }
-  
-  /*
-   * Clean All
-   */
-  void cleanAll(){
-    this.disableSelection();
   }
   
   void cleanSimilarGroup(){
@@ -260,37 +280,88 @@ abstract class SpecialScreen extends ScreenModule {
    *  Move Functions
    */ 
   
+  bool groupFaceComparation(Photo photo, Photo secondPhoto){
+    return photo == secondPhoto;
+  }
+  
   /*
    * Move to container
    */
   void moveToContainer(event, detail, target){
-    var container = DB.container(target.attributes['container']);
-    var photos = selectedPhotos.map((id) => currentContainer.find(id));
-    if(sameCategory){
+    var container = DB.container(target.attributes['container']),
+        photos = selectedPhotos.map((id) => currentContainer.find(id)),
+        photoCopy = new List<Photo>(),
+        groupsToDelete = new List<SimilarGroupOfPhotos>();
+    photoCopy.addAll(photos);
+    if(sameCategory && photo == null){
+      if(similarGroupOfPhotosChoosed == null){
+        photos = new List<Photo>();
+        photoCopy.forEach((groupFaceSelected){
+          photos.addAll(groupFaceSelected.returnSimilarGroup.giveMeAllPhotos);
+        });
+        photoCopy.clear();
+        photoCopy.addAll(photos);
+      }
+      //PLACE THIS IN A FUNCTION TODO
       photos.forEach((selectedPhoto){
-        var remove = true;
-        currentContainer.similarListGroupOfPhotos.forEach((similarGroup){
-          if(similarGroup.groupFace == selectedPhoto){
+        var remove = true,
+            group = selectedPhoto.returnSimilarGroup;
+          if(group.groupFace == selectedPhoto){
             remove = false;
-            if(similarGroup.giveMeAllPhotos.length > 1){
-              similarGroup.chooseAnotherFace();
-              similarGroup.removeFromList(selectedPhoto);
+            if(group.giveMeAllPhotos.length > 1){
+              group.chooseAnotherFace();
+              group.removeFromList(selectedPhoto);
               selectedPhoto.removeSimilarGroup();
             }else{
-              currentContainer.removeGroupFromList(similarGroup);
+              groupsToDelete.add(group);
               selectedPhoto.removeSimilarGroup();
             }
             container.tryToEnterInAGroupOrCreateANewOne(selectedPhoto);
           }
-        });
+
+        if(groupsToDelete.length > 0){
+          currentContainer.removeGroupFromList(groupsToDelete.first);
+          groupsToDelete.clear();
+        }
+
         if(remove){
           selectedPhoto.removeSimilarGroup();
+          currentContainer.removePhotoFromGroups(selectedPhoto);
           container.tryToEnterInAGroupOrCreateANewOne(selectedPhoto);
         }
       });
-    }else{
       DB.moveFromTo(currentContainer.name, container.name, photos);
+    }else{
+      if(photo != null){
+        DB.moveFromTo(currentContainer.name, container.name, photos);
+        print("Vou fazer check a destination");
+        checkDestination(container.name);
+      }else{
+        DB.moveFromTo(currentContainer.name, container.name, photos);
+      }
+      //PLACE THIS IN A FUNCTION TODO
+      photoCopy.forEach((selectedPhoto){
+        var remove = true,
+            group = selectedPhoto.returnSimilarGroup;
+          if(group.groupFace == selectedPhoto){
+           remove = false;
+           if(group.giveMeAllPhotos.length > 1){
+             group.chooseAnotherFace();
+             group.removeFromList(selectedPhoto);
+            selectedPhoto.removeSimilarGroup();
+           }else{
+              currentContainer.removeGroupFromList(group);
+              selectedPhoto.removeSimilarGroup();
+           }
+            container.tryToEnterInAGroupOrCreateANewOne(selectedPhoto);
+           }
+         if(remove){
+          selectedPhoto.removeSimilarGroup();
+          container.tryToEnterInAGroupOrCreateANewOne(selectedPhoto);
+         }
+      });  
     }
+    
     disableSelection();
   }
   

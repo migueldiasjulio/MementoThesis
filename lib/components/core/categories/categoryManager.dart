@@ -143,22 +143,25 @@ class CategoryManager extends Object with Observable {
     var Blue = (blueValuesSum/numberOfIterations);
     var average = (Red+Green+Blue)/3;
     
+    /*
     print("Red Values: " + Red.toString());
     print("Green Values: " + Green.toString());
     print("Blue Values: " + Blue.toString());
     print("Average value" + average.toString());
-    
+    */
     
     var RedBW = (redValueInBW/numberOfIterations);
     var GreenBW = (greenValueInBW/numberOfIterations);
     var BlueBW = (blueValueInBW/numberOfIterations);
     var averageBW = (RedBW+GreenBW+BlueBW)/3;
     
+    /*
     print("Red BW Values: " + RedBW.toString());
     print("Green BW Values: " + GreenBW.toString());
     print("Blue BW Values: " + BlueBW.toString());
     print("Average BW value" + averageBW.toString());
-    
+   */ 
+ 
     var difference = (average - averageBW).abs();
     if(difference > 2.0){
       photo.thisOneIsColor();
