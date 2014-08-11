@@ -122,15 +122,15 @@
            <template repeat="{{container in containers}}">
             <!-- Tab content -->
             <div id="{{container.secondname}}" class="{{container.secondname}}">
-              <template if="{{currentContainer.photos.isEmpty}}">
+              <template id="firstTemplate" if="{{currentContainer.photos.isEmpty}}">
                   <div class="space40"></div> <!-- Just space -->
                   <div id="centerText" class="title large font25 height20">Empty.</div>
                   <div class="space40"></div> <!-- Just space -->
               </template>
-              <template if="{{currentContainer.photos.isNotEmpty}}">
+              <template id="secondTemplate-{{container.name}}" if="{{currentContainer.photos.isNotEmpty}}">
                 <div class="row">
                   <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">     
-                    <section class="centerStuff">
+                    <section id="centeringStuff" class="centerStuff">
                       <template if="{{container.photosToDisplay.length < 1}}">
                         <div class="space40"></div> <!-- Just space -->
                         <div id="centerText" class="title large font25 height20">Nothing to show.</div>
@@ -158,7 +158,7 @@
                                          data-id="{{photo.id}}"
                                          style="width: 40px; height: 40px" >
                                     </div>
-                                  </div> 
+                                </div> 
                                  
                               </li>                 
                             </template> 

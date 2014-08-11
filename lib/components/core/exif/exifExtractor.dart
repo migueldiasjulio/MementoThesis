@@ -648,7 +648,7 @@ class ExifExtractor extends Object with Observable {
       return img.exifdata[tag];
   }
 
-  function getAllTags(img) {
+  Map getAllTags(img) {
       if (!imageHasData(img)) return {};
       var a, 
           data = img.exifdata,
@@ -661,7 +661,7 @@ class ExifExtractor extends Object with Observable {
       return tags;
   }
 
-  function pretty(img) {
+  String pretty(img) {
       if (!imageHasData(img)) return "";
       var a,
           data = img.exifdata,
@@ -698,8 +698,7 @@ class ExifExtractor extends Object with Observable {
       TiffTags : TiffTags,
       GPSTags : GPSTags,
       StringValues : StringValues
-  };
-  */ 
-
+  }; 
+*/
   
 }

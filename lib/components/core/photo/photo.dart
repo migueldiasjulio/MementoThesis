@@ -21,6 +21,7 @@ class Photo extends Image implements Comparable<Photo> {
   List<Photo> _similarPhotos;
   List<double> _descriptor;
   SimilarGroupOfPhotos _similarGroup = null;
+  double _histogramValuesDifference = 0.0;
   
   Photo(String src, String title) : id = "photo_${_COUNT++}", 
                                     title = title,
@@ -58,6 +59,7 @@ class Photo extends Image implements Comparable<Photo> {
   bool get isColor => _isColor;
   bool get hasFaces => _hasFaces;
   SimilarGroupOfPhotos get returnSimilarGroup => _similarGroup;
+  double get histogramDiff => _histogramValuesDifference;
   
   int compareTo(Photo o) {
     var result;
@@ -70,6 +72,10 @@ class Photo extends Image implements Comparable<Photo> {
     }
 
     return result;
+  }
+  
+  void setHistogramDiff(double newValue){
+    _histogramValuesDifference = newValue;
   }
   
   void thisOneIsColor(){
@@ -100,11 +106,9 @@ class Photo extends Image implements Comparable<Photo> {
     _dataInformation = newDataPhoto;
   }
   
-  bool containsCategory(Category category){
-    return _categories.contains(category);
-  }
+  bool containsCategory(Category category) => _categories.contains(category);
 
-  void set setCategories(List<Category> categories) {
+  void setCategories(List<Category> categories) {
     this._categories = categories;
   }
 

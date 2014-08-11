@@ -8,6 +8,7 @@ import '../../core/screenModule.dart' as screenhelper;
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
+import 'dart:async';
 
 /**
  * BigSizePhoto Screen 
@@ -41,6 +42,9 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     _scrollableSummary = $['SUMMARY2'];
     _scrollableStandby = $['STANDBY2'];
     _scrollableExcluded = $['EXCLUDED2'];
+    
+    //observer = new MutationObserver(_onMutation);
+    //observer.observe(shadowRoot.querySelector('#timestamps'), childList: true);
   }
 
   /**
@@ -53,13 +57,49 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
         path: '',
         enter: (e) { 
           photo = DB.photoToDisplayPlease;
-          print("Photo ID: " + photo.id);
           decideContainerToLock(photo.id);
-          previousPhoto = $['photo.id'];
-          print("Previous photo: " + previousPhoto.toString());
-          //markDisplayingPhoto();
+          markDisplayingPhoto();
         });
    }
+  
+  /*
+   *
+   */ 
+  void markDisplayingPhoto(){
+    
+    var photoId = photo.id,
+        secondTemplate = null;
+    
+    var photoContainer = DB.findContainer(photoId),
+        selectedElementToGoDown = null;
+    switch(photoContainer.name){
+      case("SUMMARY") : print("Summary"); secondTemplate = $['secondTemplate-SUMMARY'];
+        break;
+      case("STANDBY") : print("Standby"); secondTemplate = $['secondTemplate-STANDBY'];
+        break;
+      case("EXCLUDED") : print("Excluded"); secondTemplate = $['secondTemplate-EXCLUDED'];
+        break;
+      default: break;
+    }
+    
+    print("Second Template id: " + secondTemplate.id.toString());
+    print("Children?: " + secondTemplate.children.toString());
+    
+            
+    /*
+    previousPhotoID = mainPhotoID;
+    mainPhotoID = photo.id;
+    if(previousPhotoID != null){
+      previousPhoto = $[previousPhotoID];
+      previousPhoto.classes.remove('choosed');      
+    }
+    print("ID: " + mainPhotoID);
+    selectedPhoto = $[photo.id];
+    print("SELECTED PHOTO: " + selectedPhoto.toString());
+    selectedPhoto.classes.add('choosed');
+    */
+  }
+  
     /*
     route.addRoute(
         name: 'show',
@@ -77,9 +117,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    * TODO
    */
   @override
-  void enteredView() {
-    super.enteredView();
-  }
+  void enteredView() => super.enteredView();
   
   /*
    * TODO
@@ -94,9 +132,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    */
   home(_) {}
   
-  void similarCategory(){
-    photosWithSameCategory(photo);
-  }
+  void similarCategory() => photosWithSameCategory(photo);
 
   /*
    * TODO
@@ -134,22 +170,6 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     else{
       isInOverflow = false;
     }
-  }
-
-  /*
-   *
-   */ 
-  void markDisplayingPhoto(){
-    previousPhotoID = mainPhotoID;
-    mainPhotoID = photo.id;
-    if(previousPhotoID != null){
-      previousPhoto = $[previousPhotoID];
-      previousPhoto.classes.remove('choosed');      
-    }
-    print("ID: " + mainPhotoID);
-    selectedPhoto = $[photo.id];
-    print("SELECTED PHOTO: " + selectedPhoto.toString());
-    selectedPhoto.classes.add('choosed');
   }
   
   void markPhotoWithElement(Element element){

@@ -7,6 +7,10 @@ import 'defaultClusteringAlgorithm.dart';
 import 'package:observe/observe.dart';
 import 'singleLinkageStrategy.dart';
 import 'dart:math';
+import '../histogram/histogramManager.dart';
+import '../database/dataBase.dart';
+
+final _HistogramManager = HistogramManager.get();
 
 class ClusteringManager extends Object with Observable {
   
@@ -29,10 +33,10 @@ class ClusteringManager extends Object with Observable {
   }
   
   List<List<double>> calcDistances(List<double> photosDateInfo){
-    var distances = new List<List<double>>();
-    var size = photosDateInfo.length;
-    var distance = 0.0;
-    var listOfDistances = new List<double>();
+    var distances = new List<List<double>>(),
+        size = photosDateInfo.length,
+        distance = 0.0,
+        listOfDistances = new List<double>();
     for(int i = 0; i < size; i++){
       for(int j = 0; j < size; j++){
         distance = (photosDateInfo.elementAt(j) - photosDateInfo.elementAt(i)).abs();
@@ -63,9 +67,19 @@ class ClusteringManager extends Object with Observable {
   }
   
   Cluster chooseForTheBest(Cluster cluster){
-    //TODO
-    return new Cluster("");
+    auxiliar.clear();
+    returnAllLeafs(cluster);
+    
+    var listOfPhotos = new List<Photo>();
+    
+    cluster.children.forEach((child){
+      listOfPhotos.add(DB.find(cluster.name));
+    });
+    
+    return cluster.children.where((c) => 
+        c.name == _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos).id).first;
   }
+  
   
   List<String> cutTheTree(Cluster cluster, int numberOfSummaryPhotos, int numberOfPhotosImported){
     var selectedPhotos = new List<String>();
@@ -96,8 +110,8 @@ class ClusteringManager extends Object with Observable {
   }
   
   List<String> specialChoose(List<Cluster> clusters, int numberOfSummaryPhotos){
-    var photosToReturn = new List<Cluster>();
-    var photoNames = new List<String>();
+    var photosToReturn = new List<Cluster>(),
+        photoNames = new List<String>();
     
     for(Cluster cluster in clusters){
       if(photosToReturn.length != numberOfSummaryPhotos){
@@ -129,10 +143,10 @@ class ClusteringManager extends Object with Observable {
   }
   
   List<Cluster> specialCaseCuttingTree(Cluster cluster, int numberOfSummaryPhotos, List<Cluster> listToReturn){
-    var goal = numberOfSummaryPhotos/2;
+    var goal = numberOfSummaryPhotos/2,
+        numberOfClusters = 2,
+        clusters = new List<Cluster>();
     goal = goal.round();
-    var numberOfClusters = 2;
-    var clusters = new List<Cluster>();
     clusters.add(cluster.children.elementAt(0));
     clusters.add(cluster.children.elementAt(1));
     
@@ -147,9 +161,9 @@ class ClusteringManager extends Object with Observable {
   }
   
   void cutAndAddTheBiggest(List<Cluster> clusters){
-    var biggest = returnBiggestCluster(clusters);
-    var newClusterOne = biggest.getChildren().elementAt(0);
-    var newClusterTwo = biggest.getChildren().elementAt(1);
+    var biggest = returnBiggestCluster(clusters),
+        newClusterOne = biggest.getChildren().elementAt(0),
+        newClusterTwo = biggest.getChildren().elementAt(1);
     clusters.add(newClusterOne);
     clusters.add(newClusterTwo);
     clusters.remove(biggest);
@@ -189,11 +203,11 @@ class ClusteringManager extends Object with Observable {
   }
   
   List<Photo> doClustering(List<Photo> photos, int numberOfSummaryPhotos, int numberOfPhotosImported){
-    var photoIds = new List<String>();
-    var photosIdsToReturn = new List<String>();
-    var photosToReturn = new List<Photo>();
-    var photoDateInfo = new List<double>();
-    var distances = null;
+    var photoIds = new List<String>(),
+        photosIdsToReturn = new List<String>(),
+        photosToReturn = new List<Photo>(),
+        photoDateInfo = new List<double>(),
+        distances = null;
     auxiliar.clear();
     
     if(numberOfSummaryPhotos == numberOfPhotosImported){

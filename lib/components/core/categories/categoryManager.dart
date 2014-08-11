@@ -17,8 +17,10 @@ import 'package:observe/observe.dart';
 import 'facesCategory.dart';
 import 'dart:html';
 import 'descriptorFactory.dart';
+import '../histogram/histogramManager.dart';
 
 final _descriptorFactory = DescriptorFactory.get();
+final _histogramManager = HistogramManager.get();
 
 class CategoryManager extends Object with Observable {
    
@@ -110,16 +112,6 @@ class CategoryManager extends Object with Observable {
       var v = (0.2126 * redChannel).toInt() + (0.7152 * greenChannel).toInt() + (0.0722 * blueChannel).toInt();
       d[i] = d[i + 1] = d[i + 2] = v;
       
-      //if(numberOfIterations < 5){
-        redValueInBW += d[i];
-        greenValueInBW += d[i+1];
-        blueValueInBW += d[i+2];
-        
-        //print("Red difference: " + (d[i] - redChannel).abs().toString());
-        //print("Green difference: " + (d[i+1] - greenChannel).abs().toString());        
-        //print("Blue difference: " + (d[i+2] - blueChannel).abs().toString());       
-      //}
-      
       //face Recognition
       count = 0;
       if(facesCategory.isSkinRGB(redChannel, greenChannel, blueChannel)){
@@ -137,6 +129,9 @@ class CategoryManager extends Object with Observable {
    
       numberOfIterations++;
     }
+    
+    //Histogram
+    _histogramManager.receiveData(redValues, greenValues, blueValues, photo);
     
     var Red = (redValuesSum/numberOfIterations);
     var Green = (greenValuesSum/numberOfIterations);

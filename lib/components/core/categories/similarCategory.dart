@@ -4,9 +4,6 @@ import 'category.dart';
 import '../photo/photo.dart';
 import '../photo/similarGroupOfPhotos.dart';
 import 'dart:math';
-import '../QTclustering/qtClusteringManager.dart';
-
-final _QTClustering = QTClusteringManager.get(); //TODO
 
 class SimilarCategory extends Category{
   

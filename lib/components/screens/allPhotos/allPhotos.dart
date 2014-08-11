@@ -10,9 +10,9 @@ import '../../core/photo/photo.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 import '../../core/database/dataBase.dart';
-import '../../core/exif/exifExtractor.dart';
 import '../../core/exif/exifManager.dart';
 import 'dart:math';
+import 'dart:async';
 
 /*
  * All Photos Screen class
@@ -24,24 +24,19 @@ class AllPhotos extends screenhelper.Screen {
   String title = "All Photos",
    description = "Showing all photos";
   factory AllPhotos() => new Element.tag(TAG);
-  final _exifExtractor = ExifExtractor.get(); //TODO tirar
   final _exifManager = ExifManager.get();
-
-  Modal summaryCreation;
-  Modal loading;
-  Modal maximumPhotos;
-
+  final List<Photo> photos = toObservable([]);
+  Modal summaryCreation,
+        loading,
+        maximumPhotos;
   InputElement _fileInput;
-
-  Element _dropZone;
+  Element _dropZone,
+          _addPhotos,
+          startSummary;
   HtmlEscape sanitizer = new HtmlEscape();
-  Element _addPhotos;
   @observable String numberOfPhotosDefined = "20";
   int numberOfPhotosLoaded = 0;
-  Element startSummary;
   List<FileReader> _fileReaders = new List<FileReader>();
-  
-  final List<Photo> photos = toObservable([]);
 
   AllPhotos.created() : super.created(){
     Modal.use();
@@ -65,9 +60,7 @@ class AllPhotos extends screenhelper.Screen {
    * Entering View
    */ 
   @override
-  void enteredView() {
-    super.enteredView();
-  }
+  void enteredView() => super.enteredView();
 
   /*
    * Setup Routes
@@ -110,10 +103,11 @@ class AllPhotos extends screenhelper.Screen {
    /*
     * On file Input
     */
-   void _onFileInputChange() {
-     _onFilesSelected(_fileInput.files);
-   }
+   void _onFileInputChange() => _onFilesSelected(_fileInput.files);
    
+   /*
+    * 
+    */ 
    void cancelImport(){
      _fileReaders.forEach((fileReader){
        fileReader.abort();
@@ -145,10 +139,10 @@ class AllPhotos extends screenhelper.Screen {
         _fileReaders.add(reader);
         reader.onLoad.listen((e){
           photoToAdd = new Photo(reader.result, file.name);
+          dateInformation = file.lastModified;
           //dateInformation = DB.extractExifInformation(photoToAdd);
-          //print("Tem EXIF? " + _exifExtractor.imageHasData(photoToAdd.image).toString());
-          dateInformation = rng.nextDouble();
-          photoToAdd.setDataFromPhoto(dateInformation);
+          //dateInformation = rng.nextDouble();
+          photoToAdd.setDataFromPhoto(dateInformation.ceilToDouble());
           photosBackUp.add(photoToAdd);
           number++;
           
@@ -161,6 +155,7 @@ class AllPhotos extends screenhelper.Screen {
           }
         });
         reader.readAsDataUrl(file); 
+        
       }
     } 
    }
@@ -200,9 +195,8 @@ class AllPhotos extends screenhelper.Screen {
     * Build Summary
     */
     void buildSummary(){
-
-      var result = false;
-      var numberDefinedInt = int.parse(numberOfPhotosDefined);
+      var result = false,
+          numberDefinedInt = int.parse(numberOfPhotosDefined);
       if((numberDefinedInt > numberOfPhotosLoaded) || (numberDefinedInt <= 0)){
         showMessageNumberOverflow();
       }else{
@@ -219,68 +213,28 @@ class AllPhotos extends screenhelper.Screen {
     /*
      * 
      */
-    void cancelSummaryCreation(){
-      //TODO
-      var result = DB.cleanAllData();
-    }
-    
-    
-    /*
-     * Show upload photos loading modal
-     */
-    void showSummaryBeenCreating(){
-      print("SHOW");
-      summaryCreation.show();
-    }
-    
-    /*
-     *
-     */
-    void hiddeSummaryBeenCreating(){
-      summaryCreation.hide();
-    }
-
-    /*
-     *
-     */
-    void showLoading(){
-      loading.show();
-    }
-
-    /*
-     * 
-     */
-    void hiddeLoading(){
-      loading.hide();
-    }
+    Future goSummary() => router.go("summary-done", {}); 
     
     /*
      * 
      */
-    void showMessageNumberOverflow(){
-      maximumPhotos.show();
-    }
+    void cancelSummaryCreation() => DB.cleanAllData();
+    
+    
     
     /*
-     * 
+     * Modal function
      */
-    void hideMessageNumberOverflow(){
-      maximumPhotos.hide();
-    }
-
-   /*
-    *
-    */
-   void goSummary(){
-     router.go("summary-done", {});
-     
-   }
+    void showSummaryBeenCreating() => summaryCreation.show();
+    void hiddeSummaryBeenCreating() => summaryCreation.hide();
+    void showLoading() => loading.show();
+    void hiddeLoading() => loading.hide();
+    void showMessageNumberOverflow() => maximumPhotos.show();
+    void hideMessageNumberOverflow() => maximumPhotos.hide();
    
    /*
     * Open file uploader
     */
-   void openFileUploader(){
-     _fileInput.click();
-   }
+   void openFileUploader() => _fileInput.click();
 
 }

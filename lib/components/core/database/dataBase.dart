@@ -11,7 +11,6 @@ import '../categories/category.dart';
 import '../categories/similarCategory.dart' as similar;
 import '../exif/exifManager.dart';
 import '../hierarchyClustering/clusteringManager.dart';
-
 import 'package:observe/observe.dart';
 
 const String SUMMARY = "SUMMARY";
@@ -23,28 +22,45 @@ final _categoryManager = CategoryManager.get();
 final _exifManager = ExifManager.get();
 final _clusteringManager = ClusteringManager.get();
 
+/**
+ * 
+ */
 class Container extends Object with Observable {
   final String name;
   final String secondname;
   final List<Photo> photos = toObservable(new Set());
   final List<Photo> photosToDisplay = toObservable(new Set());
   List<SimilarGroupOfPhotos> similarListGroupOfPhotos = new List<SimilarGroupOfPhotos>();
-
+  
   Container(this.name, this.secondname);
   
   String get containerName => name;
   
+  /*
+   * 
+   */
+  Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
+  
+  /*
+   * 
+   */
   void clearData(){
     photos.clear();
     photosToDisplay.clear();
     similarListGroupOfPhotos.clear();
   }
   
+  /*
+   * 
+   */
   void removeGroupFromList(SimilarGroupOfPhotos similarGroup){
     similarListGroupOfPhotos.remove(similarGroup);
     sortListGroupOfPhotos();
   }
   
+  /*
+   * 
+   */
   void removePhotoFromGroups(Photo photo){
     similarListGroupOfPhotos.forEach((similarGroup){
       if(similarGroup.giveMeAllPhotos.contains(photo)){
@@ -54,8 +70,6 @@ class Container extends Object with Observable {
     
     sortListGroupOfPhotos();
   }
-  
-  Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
   
   void tryToEnterInAGroupOrCreateANewOne(Photo photo){
     var matchGroup = returnMatch(photo);
@@ -103,9 +117,7 @@ class Container extends Object with Observable {
     return listToReturn;
   }
   
-  bool isFromThisContainer(SimilarGroupOfPhotos similarGroup){
-    return similarListGroupOfPhotos.contains(similarGroup);
-  }
+  bool isFromThisContainer(SimilarGroupOfPhotos similarGroup) => similarListGroupOfPhotos.contains(similarGroup);
   
   void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto,
                                  SimilarGroupOfPhotos similarGroupChoosed){
@@ -186,17 +198,20 @@ class Container extends Object with Observable {
    }//If categories selected > 0
   }
 
-  bool equals(Container otherContainer){
-    return this.name == otherContainer.name;
-  }
+  /*
+   * 
+   */
+  bool equals(Container otherContainer) => this.name == otherContainer.name;
 }
 
+/**
+ * 
+ */
 class Database extends Object with Observable {
   
   Photo photoToDisplay;
   MementoSettings _settings = MementoSettings.get();
   final Map<String, Container> containers = toObservable({});
-  /*BigSizePhoto screen need this*/
   final String SUMMARY = "SUMMARY";
   final String STANDBY = "STANDBY";
   final String EXCLUDED = "EXCLUDED";
@@ -204,9 +219,6 @@ class Database extends Object with Observable {
   final String STANDBY2 = "STANDBY2";
   final String EXCLUDED2 = "EXCLUDED2";
 
-  /**
-   * Singleton
-   */
   static Database _instance;
  
   Database._() {
@@ -225,6 +237,9 @@ class Database extends Object with Observable {
     return _instance;
   }
 
+  /*
+   * 
+   */
   Photo find(String id) {
     var aux;
     var photo;
@@ -237,6 +252,9 @@ class Database extends Object with Observable {
     return photo;
   }
   
+  /*
+   * 
+   */
   Container findContainer(String photoID){
    var _container;
    var aux;
@@ -255,25 +273,19 @@ class Database extends Object with Observable {
     photoToDisplay = find(id);
   }
   
-  double extractExifInformation(Photo photo){
-    return _exifManager.extractExifInformation(photo);
-  }
+  double extractExifInformation(Photo photo) => _exifManager.extractExifInformation(photo);
   
   /**
    *  Used when Photos are beeing uploaded. We need to normalize data
    *  information so we can sort all photos directly in the same screen
    */ 
-  double firstNormalization(DateTime date){
-    return _exifManager.firstNormalization(date);
-  }
+  double firstNormalization(DateTime date) => _exifManager.firstNormalization(date);
   
   /**
    * Used when all photos are uploaded and the user informs to start the summary build.
    * All integer that represents DateTime are now normalized between 0 and 1.
    */ 
-  void secondNormalization(){
-    _exifManager.secondNormalization(container(STANDBY).photos);
-  }
+  void secondNormalization() => _exifManager.secondNormalization(container(STANDBY).photos);
 
   /**
    * Add a new element to the database
@@ -320,7 +332,6 @@ class Database extends Object with Observable {
     containers.forEach((containerName, container){
       container.clearData();
     });
-    
     photoToDisplay = null;
     
     return result;
@@ -369,9 +380,7 @@ class Database extends Object with Observable {
   /**
    *  Categories extraction
    */ 
-  void extractCategories(){
-    _categoryManager.categoriesPipeline(container(STANDBY).photos);
-  }
+  void extractCategories() => _categoryManager.categoriesPipeline(container(STANDBY).photos);
 
   /**
    * First X photos
