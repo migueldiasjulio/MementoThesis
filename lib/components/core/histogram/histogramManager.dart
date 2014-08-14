@@ -21,9 +21,9 @@ class HistogramManager extends Object with Observable{
     var sortedList = new List<Photo>();
     sortedList.addAll(photosToSort);
     
-    sortedList.sort((a, b) => (a.histogramDiff).compareTo(b.histogramDiff));
+    //photosToSort.sort((a, b) => (a.histogramDiff).compareTo(b.histogramDiff));
     
-    return sortedList;
+    return photosToSort;
   }
   
   Photo returnPhotoWithBestExposureLevel(List<Photo> photosToDecide){
@@ -88,7 +88,7 @@ class HistogramManager extends Object with Observable{
         + blackAndWhiteList.elementAt(0).toString() + "% and Light percentage: " 
         + blackAndWhiteList.elementAt(1).toString() + "%. Diff: " + difference.toString()); 
     
-    
+    photo.setHistogramDiff(difference); 
   }
   
 }

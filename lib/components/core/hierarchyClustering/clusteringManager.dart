@@ -76,8 +76,20 @@ class ClusteringManager extends Object with Observable {
       listOfPhotos.add(DB.find(cluster.name));
     });
     
-    return cluster.children.where((c) => 
-        c.name == _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos).id).first;
+    print("ListOfPhotos: " + listOfPhotos.length.toString());
+    
+    var aux = _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos);
+    var clusterToReturn = null;
+    var childrens = cluster.children;
+    
+    childrens.forEach((child){
+     if(child.name == aux.id){
+       clusterToReturn = child;
+     }
+    });
+    
+    return clusterToReturn;
+
   }
   
   
@@ -86,15 +98,15 @@ class ClusteringManager extends Object with Observable {
     
     //Just 1 Photo case
     if(numberOfSummaryPhotos == 1){
-      selectedPhotos.add(chooseRandomly(cluster).name);  
+      selectedPhotos.add(chooseForTheBest(cluster).name);  
       auxiliar.clear();
     }
     //2 Photos case
     else if(numberOfSummaryPhotos == 2){
       var children = cluster.getChildren();
-      selectedPhotos.add(chooseRandomly(children.elementAt(0)).name);
+      selectedPhotos.add(chooseForTheBest(children.elementAt(0)).name);
       auxiliar.clear();
-      selectedPhotos.add(chooseRandomly(children.elementAt(1)).name); 
+      selectedPhotos.add(chooseForTheBest(children.elementAt(1)).name); 
       auxiliar.clear();
     }
     else{
@@ -116,13 +128,13 @@ class ClusteringManager extends Object with Observable {
     for(Cluster cluster in clusters){
       if(photosToReturn.length != numberOfSummaryPhotos){
         
-        var firstChild = chooseRandomly(cluster);
+        var firstChild = chooseForTheBest(cluster);
         photosToReturn.add(firstChild);
         
         if(photosToReturn.length != numberOfSummaryPhotos){
-          var secondChild = chooseRandomly(cluster);
+          var secondChild = chooseForTheBest(cluster);
           while(secondChild == firstChild){
-            secondChild = chooseRandomly(cluster);
+            secondChild = chooseForTheBest(cluster);
           }
           auxiliar.clear(); 
           photosToReturn.add(secondChild); 

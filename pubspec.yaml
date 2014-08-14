@@ -2,7 +2,7 @@ name: memento
 author: Miguel Julio
 description: Memento
 dependencies:
-    polymer: '>=0.11.0-dev.1 <0.12.0'
+    polymer: '>=0.11.0-dev.1 <0.13.0'
     polymer_expressions: '>=0.11.0 <0.12.0'
     browser: '>=0.10.0 <1.0.0'
     js: any

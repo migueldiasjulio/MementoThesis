@@ -26,10 +26,12 @@
                      <img src="../../../resources/images/back.png" 
                      on-click="{{previousPhotoInList}}" class="arrowCursor" id="arrowSize"  />
                     </template>
-                    <img id="{{photo.id}}" class="imageDisplay imageDisplaying" src="{{photo.mainSrc}}" >
+                    <img id="{{photo.id}}" class="imageDisplay imageDisplaying" src="{{photo.mainSrc}}" > 
                     <template if="{{currentContainer.photosToDisplay.length > 1}}">
                       <img src="../../../resources/images/forward.png" 
-                           on-click="{{nextPhotoInList}}" class="arrowCursor" id="arrowSize"  /> 
+                           on-click="{{nextPhotoInList}}" 
+                           class="arrowCursor" 
+                           id="arrowSize"  /> 
                     </template>
                   </div>                 
                 </div>
