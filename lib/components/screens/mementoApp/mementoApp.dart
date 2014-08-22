@@ -9,7 +9,6 @@ import '../bigSizePhoto/bigSizePhoto.dart';
 import '../../core/screenModule.dart' as screenmodule;
 import '../../core/database/dataBase.dart';
 import '../../core/settings/mementoSettings.dart';
-import '../../core/settings/index.dart';
 
 /**
  * Screeen Modules of Memento
@@ -30,7 +29,6 @@ class MementoApp extends PolymerElement {
   @observable screenmodule.ScreenModule myScreen = null;
   Map<String, screenmodule.ScreenModule> get screens => myScreens;
   var router;
-  Index _index = Index.get();
   MementoSettings settings = MementoSettings.get();
   Database myDataBase = Database.get();
 

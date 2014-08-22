@@ -6,7 +6,11 @@ import 'package:observe/observe.dart';
 import 'package:js/js.dart' as js;
 import 'dart:math' as Math;
 import 'dart:core';
-import 'dart:html';
+import 'dart:html' as html;
+
+import 'dart:async';
+import 'dart:js' as js;
+import 'dart:typed_data';
 
 class ExifExtractor extends Object with Observable {
   
@@ -162,9 +166,9 @@ class ExifExtractor extends Object with Observable {
           0x001E : "GPSDifferential"
       };
       
-      /*
+      
       var StringValues = {
-          ExposureProgram : {
+          "ExposureProgram" : {
               0 : "Not defined",
               1 : "Manual",
               2 : "Normal program",
@@ -175,7 +179,7 @@ class ExifExtractor extends Object with Observable {
               7 : "Portrait mode",
               8 : "Landscape mode"
           },
-          MeteringMode : {
+          "MeteringMode" : {
               0 : "Unknown",
               1 : "Average",
               2 : "CenterWeightedAverage",
@@ -185,7 +189,7 @@ class ExifExtractor extends Object with Observable {
               6 : "Partial",
               255 : "Other"
           },
-          LightSource : {
+          "LightSource" : {
               0 : "Unknown",
               1 : "Daylight",
               2 : "Fluorescent",
@@ -208,7 +212,7 @@ class ExifExtractor extends Object with Observable {
               24 : "ISO studio tungsten",
               255 : "Other"
           },
-          Flash : {
+          "Flash" : {
               0x0000 : "Flash did not fire",
               0x0001 : "Flash fired",
               0x0005 : "Strobe return light not detected",
@@ -232,7 +236,7 @@ class ExifExtractor extends Object with Observable {
               0x005D : "Flash fired, auto mode, return light not detected, red-eye reduction mode",
               0x005F : "Flash fired, auto mode, return light detected, red-eye reduction mode"
           },
-          SensingMethod : {
+          "SensingMethod" : {
               1 : "Not defined",
               2 : "One-chip color area sensor",
               3 : "Two-chip color area sensor",
@@ -241,56 +245,56 @@ class ExifExtractor extends Object with Observable {
               7 : "Trilinear sensor",
               8 : "Color sequential linear sensor"
           },
-          SceneCaptureType : {
+          "SceneCaptureType" : {
               0 : "Standard",
               1 : "Landscape",
               2 : "Portrait",
               3 : "Night scene"
           },
-          SceneType : {
+          "SceneType" : {
               1 : "Directly photographed"
           },
-          CustomRendered : {
+          "CustomRendered" : {
               0 : "Normal process",
               1 : "Custom process"
           },
-          WhiteBalance : {
+          "WhiteBalance" : {
               0 : "Auto white balance",
               1 : "Manual white balance"
           },
-          GainControl : {
+          "GainControl" : {
               0 : "None",
               1 : "Low gain up",
               2 : "High gain up",
               3 : "Low gain down",
               4 : "High gain down"
           },
-          Contrast : {
+          "Contrast" : {
               0 : "Normal",
               1 : "Soft",
               2 : "Hard"
           },
-          Saturation : {
+          "Saturation" : {
               0 : "Normal",
               1 : "Low saturation",
               2 : "High saturation"
           },
-          Sharpness : {
+          "Sharpness" : {
               0 : "Normal",
               1 : "Soft",
               2 : "Hard"
           },
-          SubjectDistanceRange : {
+          "SubjectDistanceRange" : {
               0 : "Unknown",
               1 : "Macro",
               2 : "Close view",
               3 : "Distant view"
           },
-          FileSource : {
+          "FileSource" : {
               3 : "DSC"
           },
 
-          Components : {
+          "Components" : {
               0 : "",
               1 : "Y",
               2 : "Cb",
@@ -301,7 +305,6 @@ class ExifExtractor extends Object with Observable {
           }
       };
 
-      */
   ExifExtractor._() {
     //TODO
   }
@@ -315,69 +318,30 @@ class ExifExtractor extends Object with Observable {
   
   /*FUNCTIONS*/
 
-  bool imageHasData(img) {
-      return !!(img.exifdata);
+  function getImageData(String base64Info) {
+
+    var arrayBuffer = base64ToArrayBuffer(base64Info);
+    var dataToSave = handleBinaryFile(arrayBuffer);
+    //TODO save data in photo instance
+   }
+   
+  function handleBinaryFile(binFile) {
+    var data = findEXIFinJPEG(binFile);
+    return data;
   }
 
-  /*
-  function base64ToArrayBuffer(base64, contentType) {
-      contentType = contentType || base64.match(/^data\:([^\;]+)\;base64,/mi)[1] || ''; // e.g. 'data:image/jpeg;base64,...' => 'image/jpeg'
-      base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
-      var binary = atob(base64);
-      var len = binary.length;
-      var buffer = new ArrayBuffer(len);
-      var view = new Uint8Array(buffer);
+  function base64ToArrayBuffer(String base64) {
+      //var contentType = contentType || base64.match("/^data\:([^\;]+)\;base64,/mi")[1] || ''; // e.g. 'data:image/jpeg;base64,...' => 'image/jpeg'
+      RegExp exp = new RegExp("/^data\:([^\;]+)\;base64,/gmi");
+      base64.replaceAll(exp , '');
+      var binary = html.window.atob(base64),
+          len = binary.length,
+          buffer = new ByteBuffer(len),
+          view = buffer.asUint8List();
       for (var i = 0; i < len; i++) {
-          view[i] = binary.charCodeAt(i);
+        view[i] = binary.charCodeAt(i);
       }
       return buffer;
-  }
-
-  void getImageData(img, callback) {
-      void handleBinaryFile(binFile) {
-          var data = findEXIFinJPEG(binFile);
-          img.exifdata = data || {};
-          if (callback) {
-              callback.call(img);
-          }
-      }
-
-      if (img instanceof Image || img instanceof HTMLImageElement) {
-          if (/^data\:/i.test(img.src)) { // Data URI
-              var arrayBuffer = base64ToArrayBuffer(img.src);
-              handleBinaryFile(arrayBuffer);
-
-          } else if (/^blob\:/i.test(img.src)) { // Object URL
-              var fileReader = new FileReader();
-              fileReader.onload((e) {
-                  handleBinaryFile(e.target.result);
-              });
-              objectURLToBlob(img.src, function (blob) {
-                  fileReader.readAsArrayBuffer(blob);
-              });
-          } else {
-              var http = new XMLHttpRequest();
-              http.onload = function() {
-                  if (http.status == "200") {
-                      handleBinaryFile(http.response);
-                  } else {
-                      throw "Could not load image";
-                  }
-                  http = null;
-              };
-              http.open("GET", img.src, true);
-              http.responseType = "arraybuffer";
-              http.send(null);
-          }
-      } else if (window.FileReader && (img instanceof window.Blob || img instanceof window.File)) {
-          var fileReader = new FileReader();
-          fileReader.onload((e) {
-              if (debug) print("Got file of length " + e.target.result.byteLength);
-              handleBinaryFile(e.target.result);
-          });
-
-          fileReader.readAsArrayBuffer(img);
-      }
   }
 
   function findEXIFinJPEG(file) {
@@ -417,125 +381,6 @@ class ExifExtractor extends Object with Observable {
           }
       }
   }
-
-
-  function readTags(file, tiffStart, dirStart, strings, bigEnd) {
-      var entries = file.getUint16(dirStart, !bigEnd),
-          tags = {}, 
-          entryOffset, tag,
-          i;
-          
-      for (i=0;i<entries;i++) {
-          entryOffset = dirStart + i*12 + 2;
-          tag = strings[file.getUint16(entryOffset, !bigEnd)];
-          if (!tag && debug) print("Unknown tag: " + file.getUint16(entryOffset, !bigEnd));
-          tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd);
-      }
-      return tags;
-  }
-
-
-  function readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
-      var type = file.getUint16(entryOffset+2, !bigEnd),
-          numValues = file.getUint32(entryOffset+4, !bigEnd),
-          valueOffset = file.getUint32(entryOffset+8, !bigEnd) + tiffStart,
-          offset,
-          vals, val, n,
-          numerator, denominator;
-
-      switch (type) {
-          case 1: // byte, 8-bit unsigned int 
-            break;
-          case 7: // undefined, 8-bit byte, value depending on field
-              if (numValues == 1) {
-                  return file.getUint8(entryOffset + 8, !bigEnd);
-              } else {
-                  offset = numValues > 4 ? valueOffset : (entryOffset + 8);
-                  vals = [];
-                  for (n=0;n<numValues;n++) {
-                      vals[n] = file.getUint8(offset + n);
-                  }
-                  return vals;
-              }
-
-          case 2: // ascii, 8-bit byte
-              offset = numValues > 4 ? valueOffset : (entryOffset + 8);
-              return getStringFromDB(file, offset, numValues-1);
-
-          case 3: // short, 16 bit int
-              if (numValues == 1) {
-                  return file.getUint16(entryOffset + 8, !bigEnd);
-              } else {
-                  offset = numValues > 2 ? valueOffset : (entryOffset + 8);
-                  vals = [];
-                  for (n=0;n<numValues;n++) {
-                      vals[n] = file.getUint16(offset + 2*n, !bigEnd);
-                  }
-                  return vals;
-              }
-
-          case 4: // long, 32 bit int
-              if (numValues == 1) {
-                  return file.getUint32(entryOffset + 8, !bigEnd);
-              } else {
-                  vals = [];
-                  for (n=0;n<numValues;n++) {
-                      vals[n] = file.getUint32(valueOffset + 4*n, !bigEnd);
-                  }
-                  return vals;
-              }
-
-          case 5:    // rational = two long values, first is numerator, second is denominator
-              if (numValues == 1) {
-                  numerator = file.getUint32(valueOffset, !bigEnd);
-                  denominator = file.getUint32(valueOffset+4, !bigEnd);
-                  val = new Number(numerator / denominator);
-                  val.numerator = numerator;
-                  val.denominator = denominator;
-                  return val;
-              } else {
-                  vals = [];
-                  for (n=0;n<numValues;n++) {
-                      numerator = file.getUint32(valueOffset + 8*n, !bigEnd);
-                      denominator = file.getUint32(valueOffset+4 + 8*n, !bigEnd);
-                      vals[n] = new Number(numerator / denominator);
-                      vals[n].numerator = numerator;
-                      vals[n].denominator = denominator;
-                  }
-                  return vals;
-              }
-
-          case 9: // slong, 32 bit signed int
-              if (numValues == 1) {
-                  return file.getInt32(entryOffset + 8, !bigEnd);
-              } else {
-                  vals = [];
-                  for (n=0;n<numValues;n++) {
-                      vals[n] = file.getInt32(valueOffset + 4*n, !bigEnd);
-                  }
-                  return vals;
-              }
-
-          case 10: // signed rational, two slongs, first is numerator, second is denominator
-              if (numValues == 1) {
-                  return file.getInt32(valueOffset, !bigEnd) / file.getInt32(valueOffset+4, !bigEnd);
-              } else {
-                  vals = [];
-                  for (n=0;n<numValues;n++) {
-                      vals[n] = file.getInt32(valueOffset + 8*n, !bigEnd) / file.getInt32(valueOffset+4 + 8*n, !bigEnd);
-                  }
-                  return vals;
-              }
-      }
-  }
-
-  String getStringFromDB(buffer, start, length) {
-      var outstr = "";
-      for (int n = start; n < start+length; n++) {
-          outstr += String.fromCharCode(buffer.getUint8(n));
-      }
-      return outstr;
-  }
   
   function readEXIFData(file, start) {
       if (getStringFromDB(file, start, 4) != "Exif") {
@@ -572,8 +417,8 @@ class ExifExtractor extends Object with Observable {
 
       tags = readTags(file, tiffOffset, tiffOffset + firstIFDOffset, TiffTags, bigEnd);
 
-      if (tags.ExifIFDPointer) {
-          exifData = readTags(file, tiffOffset, tiffOffset + tags.ExifIFDPointer, ExifTags, bigEnd);
+      if (tags["ExifIFDPointer"]) {
+          exifData = readTags(file, tiffOffset, tiffOffset + tags["ExifIFDPointer"], ExifTags, bigEnd);
           for (tag in exifData) {
               switch (tag) {
                   case "LightSource" :
@@ -596,7 +441,10 @@ class ExifExtractor extends Object with Observable {
       
                   case "ExifVersion" :
                   case "FlashpixVersion" :
-                      exifData[tag] = String.fromCharCode(exifData[tag][0], exifData[tag][1], exifData[tag][2], exifData[tag][3]);
+                      exifData[tag] =  new String.fromCharCode(exifData[tag][0]) + 
+                                       new String.fromCharCode(exifData[tag][1]) + 
+                                       new String.fromCharCode(exifData[tag][2]) +
+                                       new String.fromCharCode(exifData[tag][3]);
                       break;
       
                   case "ComponentsConfiguration" : 
@@ -611,8 +459,8 @@ class ExifExtractor extends Object with Observable {
           }
       }
 
-      if (tags.GPSInfoIFDPointer) {
-          gpsData = readTags(file, tiffOffset, tiffOffset + tags.GPSInfoIFDPointer, GPSTags, bigEnd);
+      if (tags["GPSInfoIFDPointer"]) {
+          gpsData = readTags(file, tiffOffset, tiffOffset + tags["GPSInfoIFDPointer"], GPSTags, bigEnd);
           for (tag in gpsData) {
               switch (tag) {
                   case "GPSVersionID" : 
@@ -630,75 +478,133 @@ class ExifExtractor extends Object with Observable {
   }
 
 
-  function getData(img, callback) {
-      if ((img instanceof ImageElement || img instanceof HTMLImageElement) && !img.complete) return false;
-      
-      if (!imageHasData(img)) {
-          getImageData(img, callback);
-      } else {
-          if (callback) {
-              callback.call(img);
-          }
-      }
-      return true;
-  }
-
-  function getTag(img, tag) {
-      if (!imageHasData(img)) return;
-      return img.exifdata[tag];
-  }
-
-  Map getAllTags(img) {
-      if (!imageHasData(img)) return {};
-      var a, 
-          data = img.exifdata,
-          tags = {};
-      for (a in data) {
-          if (data.hasOwnProperty(a)) {
-              tags[a] = data[a];
-          }
+  Map readTags(file, tiffStart, dirStart, strings, bigEnd) {
+      var entries = file.getUint16(dirStart, !bigEnd),
+          tags = {}, 
+          entryOffset, tag,
+          i;
+          
+      for (i=0;i<entries;i++) {
+          entryOffset = dirStart + i*12 + 2;
+          tag = strings[file.getUint16(entryOffset, !bigEnd)];
+          if (!tag && debug) print("Unknown tag: " + file.getUint16(entryOffset, !bigEnd));
+          tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd);
       }
       return tags;
   }
 
-  String pretty(img) {
-      if (!imageHasData(img)) return "";
-      var a,
-          data = img.exifdata,
-          strPretty = "";
-      for (a in data) {
-          if (data.hasOwnProperty(a)) {
-              if (typeof data[a] == "object") {
-                  if (data[a] instanceof Number) {
-                      strPretty += a + " : " + data[a] + " [" + data[a].numerator + "/" + data[a].denominator + "]\r\n";
-                  } else {
-                      strPretty += a + " : [" + data[a].length + " values]\r\n";
-                  }
+
+  List readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
+      var type = file.getUint16(entryOffset+2, !bigEnd),
+          numValues = file.getUint32(entryOffset+4, !bigEnd),
+          valueOffset = file.getUint32(entryOffset+8, !bigEnd) + tiffStart,
+          offset,
+          vals, val, n,
+          numerator, denominator;
+
+      switch (type) {
+          case 1: // byte, 8-bit unsigned int 
+            break;
+            
+          case 7: // undefined, 8-bit byte, value depending on field
+              if (numValues == 1) {
+                  return file.getUint8(entryOffset + 8, !bigEnd);
               } else {
-                  strPretty += a + " : " + data[a] + "\r\n";
+                  offset = numValues > 4 ? valueOffset : (entryOffset + 8);
+                  vals = [];
+                  for (n=0;n<numValues;n++) {
+                      vals[n] = file.getUint8(offset + n);
+                  }
+                  return vals;
               }
-          }
+              break;
+
+          case 2: // ascii, 8-bit byte
+              offset = numValues > 4 ? valueOffset : (entryOffset + 8);
+              var returnValue = getStringFromDB(file, offset, numValues-1),
+                  list = new List();
+              list.add(returnValue);
+              return list;
+                  
+          case 3: // short, 16 bit int
+              if (numValues == 1) {
+                  return file.getUint16(entryOffset + 8, !bigEnd);
+              } else {
+                  offset = numValues > 2 ? valueOffset : (entryOffset + 8);
+                  vals = [];
+                  for (n=0;n<numValues;n++) {
+                      vals[n] = file.getUint16(offset + 2*n, !bigEnd);
+                  }
+                  return vals;
+              }
+              break;
+
+          case 4: // long, 32 bit int
+              if (numValues == 1) {
+                  return file.getUint32(entryOffset + 8, !bigEnd);
+              } else {
+                  vals = [];
+                  for (n=0;n<numValues;n++) {
+                      vals[n] = file.getUint32(valueOffset + 4*n, !bigEnd);
+                  }
+                  return vals;
+              }
+              break;
+
+          case 5:    // rational = two long values, first is numerator, second is denominator
+              if (numValues == 1) {
+                  numerator = file.getUint32(valueOffset, !bigEnd);
+                  denominator = file.getUint32(valueOffset+4, !bigEnd);
+                  val = new Number(numerator / denominator);
+                  val.numerator = numerator;
+                  val.denominator = denominator;
+                  return val;
+              } else {
+                  vals = [];
+                  for (n=0;n<numValues;n++) {
+                      numerator = file.getUint32(valueOffset + 8*n, !bigEnd);
+                      denominator = file.getUint32(valueOffset+4 + 8*n, !bigEnd);
+                      vals[n] = new Number(numerator / denominator);
+                      vals[n].numerator = numerator;
+                      vals[n].denominator = denominator;
+                  }
+                  return vals;
+              }
+              break;
+
+          case 9: // slong, 32 bit signed int
+              if (numValues == 1) {
+                  return file.getInt32(entryOffset + 8, !bigEnd);
+              } else {
+                  vals = [];
+                  for (n=0;n<numValues;n++) {
+                      vals[n] = file.getInt32(valueOffset + 4*n, !bigEnd);
+                  }
+                  return vals;
+              }
+              break;
+
+          case 10: // signed rational, two slongs, first is numerator, second is denominator
+              if (numValues == 1) {
+                  return file.getInt32(valueOffset, !bigEnd) / file.getInt32(valueOffset+4, !bigEnd);
+              } else {
+                  vals = [];
+                  for (n=0;n<numValues;n++) {
+                      vals[n] = file.getInt32(valueOffset + 8*n, !bigEnd) / file.getInt32(valueOffset+4 + 8*n, !bigEnd);
+                  }
+                  return vals;
+              }
       }
-      return strPretty;
-  }
-
-  function readFromBinaryFile(file) {
-      return findEXIFinJPEG(file);
-  }
-
- 
-  return {
-      readFromBinaryFile : readFromBinaryFile,
-      pretty : pretty,
-      getTag : getTag,
-      getAllTags : getAllTags,
-      getData : getData,
       
-      Tags : ExifTags,
-      TiffTags : TiffTags,
-      GPSTags : GPSTags,
-      StringValues : StringValues
-  }; 
-*/
+      return null;
+  }
+
+  String getStringFromDB(buffer, start, length) {
+      var outstr = "";
+      for (int n = start; n < start+length; n++) {
+          outstr += new String.fromCharCode(buffer.getUint8(n));
+      }
+      return outstr;
+  }
   
 }

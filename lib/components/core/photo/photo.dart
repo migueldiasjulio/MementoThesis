@@ -3,6 +3,7 @@ library phototype;
 import 'image.dart';
 import 'similarGroupOfPhotos.dart';
 import '../categories/category.dart';
+import '../exif/exifData.dart';
 
 class Photo extends Image implements Comparable<Photo> {
 
@@ -22,6 +23,7 @@ class Photo extends Image implements Comparable<Photo> {
   List<double> _descriptor;
   SimilarGroupOfPhotos _similarGroup = null;
   double _histogramValuesDifference = 0.0;
+  ExifData _exifData = null;
   
   Photo(String src, String title) : id = "photo_${_COUNT++}", 
                                     title = title,
@@ -60,6 +62,11 @@ class Photo extends Image implements Comparable<Photo> {
   bool get hasFaces => _hasFaces;
   SimilarGroupOfPhotos get returnSimilarGroup => _similarGroup;
   double get histogramDiff => _histogramValuesDifference;
+  ExifData get returnExifData => _exifData;
+  
+  void setExifData(ExifData exifInfo){
+    _exifData = exifInfo;
+  }
   
   int compareTo(Photo o) {
     var result;

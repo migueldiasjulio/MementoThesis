@@ -139,8 +139,9 @@ class AllPhotos extends screenhelper.Screen {
         _fileReaders.add(reader);
         reader.onLoad.listen((e){
           photoToAdd = new Photo(reader.result, file.name);
-          dateInformation = file.lastModified;
-          //dateInformation = DB.extractExifInformation(photoToAdd);
+          //dateInformation = file.lastModified;
+          //print("Reader Result: " + reader.result.buffer.toString());
+          dateInformation = DB.extractExifInformation(photoToAdd);
           //dateInformation = rng.nextDouble();
           photoToAdd.setDataFromPhoto(dateInformation.ceilToDouble());
           photosBackUp.add(photoToAdd);

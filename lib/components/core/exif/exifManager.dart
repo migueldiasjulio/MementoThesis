@@ -4,6 +4,9 @@ import '../photo/photo.dart';
 import 'dart:js';
 import 'package:observe/observe.dart';
 import 'package:js/js.dart' as js;
+import 'exifExtractor.dart';
+
+final _exifExtractor = ExifExtractor.get();
 
 class ExifManager extends Object with Observable {
   
@@ -27,6 +30,15 @@ class ExifManager extends Object with Observable {
     return _instance;
   }
   
+  /*
+   * Get a specific Tag
+   */
+  String getTag(Photo photo, tag) {
+      if (photo.returnExifData == null) return '';
+      return '';
+      //return photo.exifData.returnTag(tag); TODO
+  }
+  
   /**
    * Extract EXIF Information 
    */ 
@@ -34,6 +46,7 @@ class ExifManager extends Object with Observable {
     var dateToReturn = 0.0;
     
     //TODO extracts exif information
+    //_exifExtractor.handleBinaryFile();
     
     //TODO return data normalized
     dateToReturn = firstNormalization(new DateTime(2)); //TODO change this
@@ -41,6 +54,8 @@ class ExifManager extends Object with Observable {
     return dateToReturn;
     
   }
+  
+  
   
   /**
    * Normalize Information 

@@ -1,18 +1,29 @@
 <link rel="import" href="../../../../../packages/polymer/polymer.html">
-<polymer-element name="index-modal">
+<polymer-element name="header-element">
   <template>
-   <!-- <link rel="stylesheet" href="mementoApp.css"> -->
-   <a href="www.google.com">Miguel</a>
-   
-     <!-- modal for help -->
+  
+    <a href="www.google.com">Miguel</a>
+    <ul class="nav navbar-nav navbar-right" id="navbarNav">
+      <li>
+        <a on-click="{{showHelp}}">Help</a>
+      </li>
+      <li>
+        <a on-click="{{showAbout}}">About</a>
+      </li>
+      <li>
+        <a on-click="{{showSettings}}">Settings</a>
+      </li>
+    </ul>
+  
+      <!-- modal for help -->
       <div id="help" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4>Help Menu</h4>
+              <h4>Memento - Help menu</h4>
             </div>
             <div class="modal-body">
-              <p>Change with the screen</p>
+              <p>//TODO</p>
             </div>
             <div class="modal-footer">
               <a class="btn btn-default" data-dismiss="modal">Close</a>
@@ -27,7 +38,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4>About Memento</h4>
+            <h4>Memento - About</h4>
           </div> <!-- modal header -->
           <div class="modal-body">
             <br>
@@ -44,12 +55,12 @@
       </div>
     </div>
     
-   <!-- modal for about -->
+     <!-- modal for about -->
     <div class="modal fade" id="settings" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4>Settings</h4>
+            <h4>Memento - Settings</h4>
           </div> <!-- modal header -->
           <div class="modal-body">
             <h5>Summary Algorithm</h5>
@@ -116,6 +127,7 @@
         </div>
       </div>
     </div>
+
  </template>
-<script type="application/dart" src="indexModal.dart"></script>
+<script type="application/dart" src="header.dart"></script>
 </polymer-element>
