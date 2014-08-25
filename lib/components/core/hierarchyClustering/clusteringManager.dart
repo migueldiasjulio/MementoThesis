@@ -9,8 +9,12 @@ import 'singleLinkageStrategy.dart';
 import 'dart:math';
 import '../histogram/histogramManager.dart';
 import '../database/dataBase.dart';
+import '../descriptor/mathWithDescriptor.dart';
+import 'manipulationOverClusters.dart';
 
 final _HistogramManager = HistogramManager.get();
+final _MathWithDescriptor = MathWithDescriptor.get();
+final _ManipulationOverClusters = ManipulationOverClusters.get();
 
 class ClusteringManager extends Object with Observable {
   
@@ -20,6 +24,7 @@ class ClusteringManager extends Object with Observable {
   static ClusteringManager _instance; 
   Cluster clusterBuilt = null;
   List<Cluster> auxiliar = null;
+  List<Cluster> secondAuxiliar = null;
 
   ClusteringManager._() {
     auxiliar = new List<Cluster>();
@@ -32,68 +37,55 @@ class ClusteringManager extends Object with Observable {
     return _instance;
   }
   
-  List<List<double>> calcDistances(List<double> photosDateInfo){
-    var distances = new List<List<double>>(),
-        size = photosDateInfo.length,
-        distance = 0.0,
-        listOfDistances = new List<double>();
-    for(int i = 0; i < size; i++){
-      for(int j = 0; j < size; j++){
-        distance = (photosDateInfo.elementAt(j) - photosDateInfo.elementAt(i)).abs();
-        listOfDistances.add(distance);     
-      }
-      distances.insert(i, listOfDistances);
-      listOfDistances = new List<double>();
-    }
-    
-    return distances;
-  }
-  
-  void returnAllLeafs(Cluster cluster){    
+  void returnAllLeafs(Cluster cluster, 
+                      bool specialCase){    
     //Caso básico
-    if(cluster.isLeaf()) auxiliar.add(cluster);
-    else{
-      returnAllLeafs(cluster.children[0]);
-      returnAllLeafs(cluster.children[1]);
-    }     
+      if(cluster.isLeaf()) auxiliar.add(cluster);
+      else{
+        returnAllLeafs(cluster.children[0], false);
+        returnAllLeafs(cluster.children[1], false);
+      }    
   }
   
   Cluster chooseRandomly(Cluster cluster){   
     var random = new Random();
     auxiliar.clear();
-    returnAllLeafs(cluster);
+    returnAllLeafs(cluster, false);
     var indexOfTheChoosenOne = random.nextInt(auxiliar.length);
     return auxiliar.elementAt(indexOfTheChoosenOne);
   }
   
+  Cluster chooseRandomlyFromList(List<Cluster> clusters){   
+    var random = new Random();
+    var indexOfTheChoosenOne = random.nextInt(clusters.length);
+    return clusters.elementAt(indexOfTheChoosenOne);
+  }
+  
   Cluster chooseForTheBest(Cluster cluster){
     auxiliar.clear();
-    returnAllLeafs(cluster);
+    returnAllLeafs(cluster, false);
     
-    var listOfPhotos = new List<Photo>();
-    
-    cluster.children.forEach((child){
-      listOfPhotos.add(DB.find(cluster.name));
-    });
-    
+    var listOfPhotos = _ManipulationOverClusters.clustersToPhotos(auxiliar);
     print("ListOfPhotos: " + listOfPhotos.length.toString());
     
     var aux = _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos);
+    print("Best choosed: " + aux.toString());
     var clusterToReturn = null;
     var childrens = cluster.children;
     
-    childrens.forEach((child){
+    auxiliar.forEach((child){
      if(child.name == aux.id){
        clusterToReturn = child;
      }
     });
     
     return clusterToReturn;
-
   }
   
   
-  List<String> cutTheTree(Cluster cluster, int numberOfSummaryPhotos, int numberOfPhotosImported){
+  List<String> cutTheTree(Cluster cluster,
+                          int numberOfSummaryPhotos, 
+                          int numberOfPhotosImported){
     var selectedPhotos = new List<String>();
     
     //Just 1 Photo case
@@ -117,27 +109,157 @@ class ClusteringManager extends Object with Observable {
       selectedPhotos.addAll(specialChoose(clustersAux, numberOfSummaryPhotos));
       auxiliar.clear();  
     }
+    
     print("Selected Photos: " + selectedPhotos.toString());
     return selectedPhotos;
   }
   
-  List<String> specialChoose(List<Cluster> clusters, int numberOfSummaryPhotos){
+  bool isSimilarToPreviousChoosed(Cluster clusterChoosed, 
+                                  List<Cluster> photosToReturn){
+    var photoChoosed = _ManipulationOverClusters.clusterToPhoto(clusterChoosed),
+        photosAlreadyChoosed = _ManipulationOverClusters.clustersToPhotos(photosToReturn);
+    
+    photosAlreadyChoosed.forEach((photoAlreadyChoosed){
+      if(photoChoosed.almostTheSamePhoto.contains(photoAlreadyChoosed)) { return true; }
+    });
+    
+    return false;
+  }
+  
+  bool isSimilarToOthersInCluster(Cluster clusterChoosed, 
+                                  List<Cluster> restOfCluster){
+    var valueToReturn = false;
+    
+    if(restOfCluster.length == 0){
+      return false;
+    }else{
+ 
+      var photoChoosed = _ManipulationOverClusters.clusterToPhoto(clusterChoosed),   
+          otherPhotos = _ManipulationOverClusters.clustersToPhotos(secondAuxiliar);
+      
+      otherPhotos.forEach((photo){
+        if(photoChoosed.almostTheSamePhoto.contains(photo)) valueToReturn = true;
+      });
+    }
+    
+    return valueToReturn;
+  }
+  
+  bool isNotTheLastOne(List<Cluster> clusters,
+                       Cluster cluster) => cluster.equals(clusters.last);
+  
+  bool existSufficientPhotos(List<Cluster> photosToReturn, 
+                             Cluster clusterChoosed, 
+                             List<Cluster> listOfClusterWherePhotoExist, 
+                             List<Cluster> restOfClusters,
+                             int numberOfSummaryPhotos){ //In Cluster And Rest Of Clusters
+    var returnValue = false,
+        clusterWherePhotoExists = listOfClusterWherePhotoExist,
+        photosToGo = (numberOfSummaryPhotos - photosToReturn.length);
+    if(restOfClusters == null){
+      clusterWherePhotoExists.remove(clusterChoosed);
+      if(!isSimilarToOthersInCluster(clusterChoosed, clusterWherePhotoExists)){ 
+        
+        
+        
+        returnValue = true; }
+    }else{
+      if((!isSimilarToOthersInCluster(clusterChoosed, clusterWherePhotoExists))
+          && (!isSimilarToPreviousChoosed(clusterChoosed, photosToReturn))){ returnValue = true; }
+    }
+    
+    return returnValue;
+  }
+  
+  
+  
+  List<String> specialChoose(List<Cluster> clusters, 
+                             int numberOfSummaryPhotos){
     var photosToReturn = new List<Cluster>(),
-        photoNames = new List<String>();
+        photoNames = new List<String>(),
+        index = 0,
+        clusterAux = null;
     
     for(Cluster cluster in clusters){
       if(photosToReturn.length != numberOfSummaryPhotos){
         
-        var firstChild = chooseForTheBest(cluster);
+        var firstChild = chooseRandomly(cluster),
+            continueCycle = false;
+        
+        //If it is not the last cluster
+        if(isNotTheLastOne(clusters, cluster)){
+          var clustersToGo = clusters.getRange(index, (clusters.length-1)),
+              list = clustersToGo.toList();
+                
+          while((isSimilarToPreviousChoosed(firstChild, photosToReturn)
+              || isSimilarToOthersInCluster(firstChild, auxiliar))
+              && existSufficientPhotos(photosToReturn, firstChild, auxiliar, list, numberOfSummaryPhotos)){ 
+            if(auxiliar.length > 1){ //Se houverem fotos no cluster
+              auxiliar.remove(firstChild);
+              firstChild = chooseRandomlyFromList(auxiliar);
+            }else{
+              continueCycle = true;
+              break;
+            }
+          }
+          
+          if(continueCycle){
+            continueCycle = false;
+            continue;
+          }
+          
+        }else{
+          
+          while((isSimilarToPreviousChoosed(firstChild, photosToReturn)
+                || isSimilarToOthersInCluster(firstChild, auxiliar))
+                && existSufficientPhotos(photosToReturn, firstChild, auxiliar, null, numberOfSummaryPhotos)){ 
+            auxiliar.remove(firstChild);
+            firstChild = chooseRandomlyFromList(auxiliar);
+          } 
+        }
+        auxiliar.clear(); 
         photosToReturn.add(firstChild);
         
         if(photosToReturn.length != numberOfSummaryPhotos){
-          var secondChild = chooseForTheBest(cluster);
-          while(secondChild == firstChild){
-            secondChild = chooseForTheBest(cluster);
-          }
-          auxiliar.clear(); 
-          photosToReturn.add(secondChild); 
+          
+          
+          var secondChild = chooseRandomly(cluster);
+              continueCycle = false;
+              
+              //If it is not the last cluster
+              if(isNotTheLastOne(clusters, cluster)){
+                var clustersToGo = clusters.getRange(index, (clusters.length-1)),
+                    list = clustersToGo.toList();
+                      
+                while((isSimilarToPreviousChoosed(secondChild, photosToReturn)
+                    || isSimilarToOthersInCluster(secondChild, auxiliar))
+                    && existSufficientPhotos(photosToReturn, secondChild, auxiliar, list, numberOfSummaryPhotos)){ 
+                  if(auxiliar.length > 1){ //Se houverem fotos no cluster
+                    auxiliar.remove(secondChild);
+                    secondChild = chooseRandomlyFromList(auxiliar);
+                  }else{
+                    continueCycle = true;
+                    break;
+                  }
+                }
+                
+                if(continueCycle){
+                  continueCycle = false;
+                  continue;
+                }
+                
+              }else{
+                while((isSimilarToPreviousChoosed(secondChild, photosToReturn)
+                      || isSimilarToOthersInCluster(secondChild, auxiliar))
+                      && existSufficientPhotos(photosToReturn, secondChild, auxiliar, null, numberOfSummaryPhotos)){ 
+                  auxiliar.remove(secondChild);
+                  secondChild = chooseRandomlyFromList(auxiliar);
+                } 
+              }
+              auxiliar.clear(); 
+              photosToReturn.add(secondChild);
+          
+          
         }else{
           break;
         }
@@ -145,8 +267,11 @@ class ClusteringManager extends Object with Observable {
       }else{
         break;
       }
+      
+      index++;
     }
     
+    //TODO put it on a function
     for(Cluster cluster in photosToReturn){
       photoNames.add(cluster.name);
     }
@@ -164,54 +289,12 @@ class ClusteringManager extends Object with Observable {
     
     //Andar para baixo na árvore até o número de leafs ser igual numberOfSummaryPhotos
     while(numberOfClusters != goal){
-      cutAndAddTheBiggest(clusters);
+      _ManipulationOverClusters.cutAndAddTheBiggest(clusters);
       numberOfClusters = clusters.length;
     }
     listToReturn.addAll(clusters);
     
     return listToReturn;
-  }
-  
-  void cutAndAddTheBiggest(List<Cluster> clusters){
-    var biggest = returnBiggestCluster(clusters),
-        newClusterOne = biggest.getChildren().elementAt(0),
-        newClusterTwo = biggest.getChildren().elementAt(1);
-    clusters.add(newClusterOne);
-    clusters.add(newClusterTwo);
-    clusters.remove(biggest);
-  }
-  
-  int countLeafsInClusters(List<Cluster> clusters){
-    var countLeafs = 0;
-    for(Cluster cluster in clusters){
-      countLeafs += cluster.countLeafs(0);
-    }
-    
-    return countLeafs;
-  }
-  
-  Cluster returnBiggestCluster(List<Cluster> clusters){
-    var clusterReturn = clusters.first;
-    for(Cluster cluster in clusters){
-      if(cluster.countLeafs(0) > clusterReturn.countLeafs(0)){
-        clusterReturn = cluster;
-      }
-    }
-    
-    return clusterReturn;
-  }
-  
-  List<Photo> IdForPhoto(List<Photo> photos, List<String> photosIdsToReturn){
-    var photosToReturn = new List<Photo>();
-    for(Photo photo in photos){
-      for(String photoId in photosIdsToReturn){
-        if(photo.id == photoId){
-          photosToReturn.add(photo);
-        }
-      }
-    }
-    
-    return photosToReturn;
   }
   
   List<Photo> doClustering(List<Photo> photos, int numberOfSummaryPhotos, int numberOfPhotosImported){
@@ -232,7 +315,7 @@ class ClusteringManager extends Object with Observable {
         photoDateInfo.add(photo.dataFromPhoto);
       }
   
-      distances = calcDistances(photoDateInfo);
+      distances = _MathWithDescriptor.calcDistances(photoDateInfo);
       ClusteringAlgorithm clusteringAlgorithm = new DefaultClusteringAlgorithm();
       print("A iniciar o clustering");
       clusterBuilt = clusteringAlgorithm.performClustering(distances, photoIds,
@@ -244,7 +327,7 @@ class ClusteringManager extends Object with Observable {
       print("Cut done!");
       
       //TODO choose photo object to return
-      photosToReturn = IdForPhoto(photos, photosIdsToReturn);
+      photosToReturn = _ManipulationOverClusters.IdForPhoto(photos, photosIdsToReturn);
     }
     
     return photosToReturn;

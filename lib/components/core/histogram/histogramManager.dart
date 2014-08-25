@@ -21,9 +21,9 @@ class HistogramManager extends Object with Observable{
     var sortedList = new List<Photo>();
     sortedList.addAll(photosToSort);
     
-    //photosToSort.sort((a, b) => (a.histogramDiff).compareTo(b.histogramDiff));
+    sortedList.sort((a, b) => (a.histogramDiff).compareTo(b.histogramDiff));
     
-    return photosToSort;
+    return sortedList;
   }
   
   Photo returnPhotoWithBestExposureLevel(List<Photo> photosToDecide){

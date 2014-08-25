@@ -1,0 +1,37 @@
+<link rel="import" href="../../../../../../packages/polymer/polymer.html">
+<polymer-element name="photos-list" attributes="photosToShow modifiedVariable">
+
+  <template>
+  <link rel="stylesheet" href="photosList.css">
+  <link rel="stylesheet" href="../../resources/mementoGrid.css">
+  <link rel="stylesheet" href="../../resources/mementoPosition.css"> 
+  <link rel="stylesheet" href="../../resources/mementoButtons.css">
+
+<section class="centerStuff">
+  <ul id="navlist">
+    <template id="thumbnailsShow" repeat="{{photo in photosToShow}}">
+    <li>
+      <div class="mementoImage" id="{{photo.title}}">
+        <figure on-click="{{showMoreInfo}}">
+          <img data-id="{{photo.id}}" class="image"
+            src="{{photo.thumbnailToShow.src}}"
+            id="{{photo.id}}">
+          <figcaption class="hideThis">
+            <p>{{photo.title}}</p>
+            <br> 
+            <br> 
+            <br> 
+            Taken: xxxx/xx/xx 
+            <br>
+            Modified: xxxx/xx/xx
+          </figcaption>
+        </figure>
+      </div>
+    </li>
+    </template>
+  </ul>
+</section>
+
+</template>
+<script type="application/dart" src="photosList.dart"></script>
+</polymer-element>

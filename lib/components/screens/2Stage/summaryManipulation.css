@@ -69,12 +69,6 @@
   overflow:hidden;
 }
 
-.img-thumbnail {
-  border: 1px solid #000;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 /* Bottom Section */
 
 #screenFooter{
@@ -90,5 +84,4 @@
 #categories{
   border-bottom: 1px solid #8A949B;
   padding:5px;
-  
 }

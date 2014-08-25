@@ -36,6 +36,8 @@ class SimilarGroupOfPhotos {
     return photoReturn;
   }
   
+  //Photo chooseForTheBest(){} TODO
+  
   void addToList(Photo photo){
     _allGroupPhotos.add(photo);
   }

@@ -1,38 +1,40 @@
-library summaryDone;
+library summaryManipulation;
 
 import 'dart:html';
 import 'dart:core';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
-import '../../core/screenModule.dart' as screenhelper;
+import '../defaultScreen/screenModule.dart' as screenhelper;
 export "package:polymer/init.dart";
 import '../../core/database/dataBase.dart';
 import '../../core/photo/photo.dart';
-import '../../core/photo/similarGroupOfPhotos.dart';
-
+import '../screenAdvisor.dart';
 
 /**
  * Summary Done Screen
  */
-@CustomTag(SummaryDone.TAG)
-class SummaryDone extends screenhelper.SpecialScreen {
+@CustomTag(SummaryManipulation.TAG)
+class SummaryManipulation extends screenhelper.SpecialScreen {
 
   /**
    * Variables
    */
-  static const String TAG = "summary-done";
-  String description = "Summary results";
-  factory SummaryDone() => new Element.tag(TAG);
+  final _ScreenAdvisor = ScreenAdvisor.get();
+  static const String TAG = "summary-manipulation";
+  String  title = "Summary Manipulation",
+          description = "Summary results";
+  factory SummaryManipulation() => new Element.tag(TAG);
   bool firstTime = true;
   
   /**
    * Building Summary Done
    */
-  SummaryDone.created() : super.created(){
-    screenTitle = "Summary Done";
+  SummaryManipulation.created() : super.created(){
+    screenTitle = "Summary Manipulation";
   }
 
   void runStartStuff() {
+    _ScreenAdvisor.setScreenType(title);
     cleanAll();
     addAllCategoriesToInactive();
   }
@@ -142,7 +144,7 @@ class SummaryDone extends screenhelper.SpecialScreen {
    */
   void displayPhoto(String id){
     DB.setPhotoToDisplay(id);
-    router.go("big-size-photo", {});
+    router.go("displaying-photo", {});
     //router.go("big-size-photo.show", {id: id});
   }
 }

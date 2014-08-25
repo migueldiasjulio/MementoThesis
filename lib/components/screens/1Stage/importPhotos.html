@@ -1,7 +1,8 @@
 <link rel="import" href="../../../../../packages/polymer/polymer.html">
-<polymer-element name="all-photos">
+<link rel="import" href="auxiliarElements/photosList.html">
+<polymer-element name="import-photos">
 <template>
-  <link rel="stylesheet" href="allPhotos.css">
+  <link rel="stylesheet" href="importPhotos.css">
   <link rel="stylesheet" href="../resources/mementoGrid.css">
   <link rel="stylesheet" href="../resources/mementoPosition.css"> 
   <link rel="stylesheet" href="../resources/mementoButtons.css">
@@ -9,7 +10,7 @@
   
     <section id="firstSection">
       <div id="drop-zone">  
-        <template if="{{photos.length == 0}}">
+        <template if="{{photos.isEmpty}}">
             <div id="nothing"></div> <!-- Just space -->
             <div id="defaultInformation">
               <p id="helpMessage1">Drag and Drop your photos here</p>
@@ -23,17 +24,11 @@
             <div id="nothing"></div> <!-- Just space -->
         </template>  
         <template if="{{photos.isNotEmpty}}">    
-          <section class="centerStuff">
-            <ul id="navlist">
-              <template id="thumbnailsShow" repeat="{{photo in photos}}">   
-                <li>   
-                  <div class="mementoImage" id="{{photo.title}}">
-                    <img title="{{photo.title}}" class="image img-thumbnail" src="{{photo.thumbnailToShow.src}}">  
-                  </div> 
-                </li>                 
-              </template> 
-            </ul>
-          </section>
+
+    
+        <!-- Photos List  -->
+         <photos-list photosToShow="{{photos}}" modifiedVariable="{{modified}}"></photos-list> 
+        
         </template>     
       </div> <!-- drop zone -->
     </section> <!-- firstSection -->
@@ -43,13 +38,23 @@
       <form class="form-inline" role="form">
         <div class="row">        
           <div class="col col-lg-4 col-md-4 col-sm-4 col-xs-3">
-            <button id="Button130" type="button" 
-              class="btn btn-summary btn-md"
-              on-click="{{openFileUploader}}">Add Photos
-            </button>
-            <div id="inputFiles">
-              <input type="file" id="files" name="files[]" multiple />
-            </div>  
+            <div class="btn-group">
+              <button id="Button130" type="button" 
+                class="btn btn-summary btn-md"
+                on-click="{{openFileUploader}}">Add Photos
+              </button>
+            </div>
+            <template if="{{photos.length >= 1}}">
+              <div class="btn-group">
+                <button id="Button130" type="button" 
+                  class="btn btn-summary btn-md"
+                  on-click="{{showDataInformation}}">Show data
+                </button> 
+              </div> 
+            </template>
+              <div id="inputFiles">
+                <input type="file" id="files" name="files[]" multiple />
+              </div>
           </div>
           <div class="col col-lg-8 col-md-8 col-sm-8 col-xs-7">  
             <template if="{{photos.length >= 1}}">
@@ -112,7 +117,6 @@
           </div>
           <div class="modal-body">
           <div id="centerText">
-              <!-- <img src="../../../resources/images/loading.gif" /> -->
               <h5>Please wait..</h5>
           </div>
         </div>
@@ -123,7 +127,7 @@
     </div>
     </div> <!-- loading modal -->
     
-        <div id="maximumPhotos" class="modal fade" tabindex="-1" role="dialog">
+     <div id="maximumPhotos" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -131,7 +135,6 @@
           </div>
           <div class="modal-body">
           <div id="centerText">
-              <!-- <img src="../../../resources/images/loading.gif" /> -->
               <h5>A Summary with {{numberOfPhotosDefined}} photos cannot be created.</h5>
           </div>
         </div>
@@ -144,7 +147,6 @@
   
   </div><!-- main --> 
 </template> 
-<script type="application/dart" src="allPhotos.dart"></script> 
+<script type="application/dart" src="importPhotos.dart"></script> 
 <script src="../../../../../packages/browser/dart.js"></script> 
-<script src="../resources/exif.js"></script>
 </polymer-element>

@@ -1,7 +1,7 @@
 <link rel="import" href="../../../../../packages/polymer/polymer.html">
-<polymer-element name="big-size-photo"> 
+<polymer-element name="displaying-photo"> 
 <template>
-<link rel="stylesheet" href="bigSizePhoto.css">
+<link rel="stylesheet" href="displayingPhoto.css">
   <link rel="stylesheet" href="../resources/mementoButtons.css">
   <link rel="stylesheet" href="../resources/mementoTabs.css">
   <link rel="stylesheet" href="../resources/mementoGrid.css">
@@ -85,17 +85,6 @@
                 <img src="../../../resources/images/same_ns.png" 
                      on-click="{{similarCategory}}" id="categorySize"  /> 
             </template>
-            <!-- Same Photos -->
-            <!-- 
-            <template if="{{allCategories}}">
-                <img src="../../../resources/images/all.png" 
-                     on-click="{{allPhotosCategory}}" id="categorySize"  /> 
-            </template>
-            <template if="{{!allCategories}}">
-                <img src="../../../resources/images/all_ns.png" 
-                     on-click="{{allPhotosCategory}}" id="categorySize"  /> 
-            </template>
-            -->
           </div>
         </div>
        </div>
@@ -149,7 +138,7 @@
                                 <div class="mementoSpecialImage">
                                   <div class="imageBoard">
                                     <img src="{{photo.miniThumbnailToShow.src}}"
-                                         class="image img-thumbnail"
+                                         class="image"
                                          title="{{photo.title}}"
                                          on-click="{{showImage}}"
                                          id="{{photo.title}}"
@@ -289,5 +278,5 @@
       
   </div><!-- main --> 
 </template> <!-- main template -->
-<script type="application/dart" src="bigSizePhoto.dart"></script> 
+<script type="application/dart" src="displayingPhoto.dart"></script> 
 </polymer-element>

@@ -1,0 +1,10 @@
+@import url("../../../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../../../packages/bootjack/css/bootstrap-theme.css");
+
+#navbarNav{
+ margin-right: 10px;
+}
+
+.white{
+  color: white;
+}

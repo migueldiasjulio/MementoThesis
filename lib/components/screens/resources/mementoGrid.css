@@ -4,7 +4,8 @@
   display: inline-block;
   width: 200px;
   height: 200px;
-  position:relative; 
+  position:relative;
+  text-align: center; 
 }
 
 .mementoSpecialImage{
@@ -21,12 +22,12 @@
 }
 
 .navlistHorizontal li{
-display: inline-block;
+  display: inline-block;
 }
 
 #navlist li{
-display: inline;
-list-style-type: none;
+  display: inline-block;
+  list-style-type: none;
 }
 
 .imageDisplay{
@@ -55,7 +56,9 @@ list-style-type: none;
   left: 0px;
   bottom: 0px;
   display:block;
-  border: 2px solid white;   
+  border: 4px solid #fff;
+  margin-top: 5px;
+  margin-bottom: 5px; 
   margin: auto;                                 
 }
 

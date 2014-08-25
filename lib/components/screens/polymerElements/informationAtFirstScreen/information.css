@@ -1,0 +1,56 @@
+@import url("../../../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../../../packages/bootjack/css/bootstrap-theme.css");
+
+#default {
+  backgroud-color: #333333;
+  height: 100%; 
+}
+
+.outer {
+    display: table;
+    height: calc(100% - 140px); 
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+#presentation {
+  overflow: hidden;
+  height: 100%; 
+  padding: 10px;
+}
+
+#startSummary {
+  width: 200px;
+}
+
+.jumbotronImage{
+  width: 40%;
+  height: 20%;
+}
+
+.jumbotron {
+  background-color: #F0F0F0;
+}
+
+#myScreen {
+  overflow: hidden;
+}
+
+.centerfy {
+  text-align: center;
+}
+
+#information {
+  margin-top: 0px;
+  background: #D1D2D5;
+  height: 140px; 
+}

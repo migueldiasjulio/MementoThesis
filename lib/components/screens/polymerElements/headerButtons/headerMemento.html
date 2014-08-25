@@ -1,19 +1,21 @@
-<link rel="import" href="../../../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../../../../packages/polymer/polymer.html">
 <polymer-element name="header-element">
   <template>
+  <link rel="stylesheet" href="headerMemento.css">
   
-    <a href="www.google.com">Miguel</a>
-    <ul class="nav navbar-nav navbar-right" id="navbarNav">
-      <li>
-        <a on-click="{{showHelp}}">Help</a>
-      </li>
-      <li>
-        <a on-click="{{showAbout}}">About</a>
-      </li>
-      <li>
-        <a on-click="{{showSettings}}">Settings</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right" id="navbarNav">
+        <li>
+          <a class="white" on-click="{{showHelp}}">Help</a>
+        </li>
+        <li>
+          <a class="white" on-click="{{showAbout}}">About</a>
+        </li>
+        <li>
+          <a class="white" on-click="{{showSettings}}">Settings</a>
+        </li>
+      </ul>
+   </div>
   
       <!-- modal for help -->
       <div id="help" class="modal fade" tabindex="-1" role="dialog">
@@ -23,7 +25,18 @@
               <h4>Memento - Help menu</h4>
             </div>
             <div class="modal-body">
-              <p>//TODO</p>
+              <template if="{{mainPage}}">
+                <p>Main Screen</p>
+              </template>
+              <template if="{{importPhotos}}">
+                <p>Import Photos</p>
+              </template>
+              <template if="{{summaryManipulation}}">
+                <p>Summary Manipulation</p>
+              </template>
+              <template if="{{displayingPhoto}}">
+                <p>Displaying Photo</p>
+              </template>
             </div>
             <div class="modal-footer">
               <a class="btn btn-default" data-dismiss="modal">Close</a>
@@ -45,6 +58,7 @@
             <b>Built by:</b> Miguel Júlio and Manuel Fonseca <br>
             <b>Supported by:</b><a href="http://www.inevo.pt/"> inEvo</a><br>
             <b>Institution:</b><a href="http://tecnico.ulisboa.pt/">Instituto Superior Técnico Lisboa</a><br>
+            <b>Contact:</b> miguel.julio@ist.utl.pt<br>
             <br>
             <p>&copy; Memento 2014</p>
           </div> <!-- modal body -->
@@ -129,5 +143,5 @@
     </div>
 
  </template>
-<script type="application/dart" src="header.dart"></script>
+<script type="application/dart" src="headerMemento.dart"></script>
 </polymer-element>

@@ -22,6 +22,7 @@ class Photo extends Image implements Comparable<Photo> {
   List<Photo> _similarPhotos;
   List<double> _descriptor;
   SimilarGroupOfPhotos _similarGroup = null;
+  List<Photo> almostTheSamePhoto;
   double _histogramValuesDifference = 0.0;
   ExifData _exifData = null;
   
@@ -30,6 +31,7 @@ class Photo extends Image implements Comparable<Photo> {
                                     _mainSrc = src,
                                     _similarPhotos = new List<Photo>(), 
                                     _categories = new List<Category>(),
+                                    almostTheSamePhoto = new List<Photo>(),
                                     super(src);
 
   Image get thumbnail {

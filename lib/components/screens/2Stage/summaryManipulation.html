@@ -1,7 +1,7 @@
 <link rel="import" href="../../../../../packages/polymer/polymer.html">
-<polymer-element name="summary-done">
+<polymer-element name="summary-manipulation">
 <template>
-  <link rel="stylesheet" href="summaryDone.css">
+  <link rel="stylesheet" href="summaryManipulation.css">
   <link rel="stylesheet" href="../resources/mementoButtons.css">
   <link rel="stylesheet" href="../resources/mementoTabs.css">
   <link rel="stylesheet" href="../resources/mementoGrid.css">
@@ -59,10 +59,8 @@
                       
                          <template if="{{insideSimilarGroup}}">
                           <div class="mementoImage">
-                            <div class="imageBoard">
                               <img src="{{photo.thumbnailToShow.src}}"
-                                   class="image img-thumbnail"
-                                   title="{{photo.title}}"
+                                   class="image"
                                    on-click="{{showImage}}"
                                    data-id="{{photo.id}}" >
                               <img src="../../../resources/images/selected_blue.png"
@@ -71,15 +69,14 @@
                                    data-id="{{photo.id}}"
                                    style="width: 40px; height: 40px" >
                             </div>
-                          </div> 
                          </template>
                       
                         <template if="{{sameCategory}}">
                           <template if="{{!insideSimilarGroup}}">
                            <div class="mementoImage">
-                            <div class="imageBoard" on-click="{{showImage}}" data-id="{{photo.id}}">
+                            <div on-click="{{showImage}}" data-id="{{photo.id}}">
                               <img src="{{photo.thumbnailToShow.src}}"
-                                   class="imageGroupFace img-thumbnail"
+                                   class="imageGroupFace image"
                                    title="{{photo.title}}" >
                               <p id="text"><span class="label label-default">{{photo.returnSimilarGroup.giveMeAllPhotos.length}}</span></p>
                               <img src="../../../resources/images/selected_blue.png"
@@ -96,7 +93,7 @@
                           <div class="mementoImage">
                             <div class="imageBoard">
                               <img src="{{photo.thumbnailToShow.src}}"
-                                   class="image img-thumbnail"
+                                   class="image"
                                    title="{{photo.title}}"
                                    on-click="{{showImage}}"
                                    data-id="{{photo.id}}" >
@@ -170,17 +167,6 @@
                 <img src="../../../resources/images/same_ns.png" 
                      on-click="{{similarCategory}}" id="categorySize"  /> 
             </template>
-            <!-- Same Photos -->
-            <!--
-            <template if="{{allCategories}}">
-                <img src="../../../resources/images/all.png" 
-                     on-click="{{allPhotosCategory}}" id="categorySize"  /> 
-            </template>
-            <template if="{{!allCategories}}">
-                <img src="../../../resources/images/all_ns.png" 
-                     on-click="{{allPhotosCategory}}" id="categorySize"  /> 
-            </template>
-            -->
           </div>
         </div>
        </div>
@@ -208,17 +194,21 @@
             <div class="col col-xs-5 col-sm-4 col-md-3 col-lg-1">
               <div style="float: left" class="btn-group">
                 <template if="{{selectedPhotos.length > 0}}">
-                  <button type="button" id="Button130"
-                          on-click="{{disableSelection}}"
-                          class="btn btn-summary btn-md">Cancel
-                  </button>
+                  <div class="btn-group">
+                    <button type="button" id="Button130"
+                            on-click="{{disableSelection}}"
+                            class="btn btn-summary btn-md">Cancel
+                    </button>
+                  </div>
                 
                 </template>
                 <template if="{{selectedPhotos.length < 1}}">
-                  <button type="button" id="Button130"
-                          on-click="{{disableSelection}}"
-                          class="btn btn-summary btn-md">Done
-                  </button>
+                  <div class="btn-group">
+                    <button type="button" id="Button130"
+                            on-click="{{disableSelection}}"
+                            class="btn btn-summary btn-md">Done
+                    </button>
+                  </div>
                 </template>
               </div>
             </div>
@@ -296,7 +286,7 @@
   
   </div> <!-- main --> 
 </template>
-<script type="application/dart" src="summaryDone.dart"></script>
+<script type="application/dart" src="summaryManipulation.dart"></script>
 <script src="../../../../../packages/browser/dart.js"></script>
 <script src="../../../../../packages/browser/exif.js"></script>
 </polymer-element>

@@ -1,0 +1,97 @@
+<link rel="import" href="../../../../../../packages/polymer/polymer.html">
+<polymer-element name="information-buttons">
+  <template>
+  <link rel="stylesheet" href="information.css">
+  
+  <div>
+  <!-- This must be a polymer element -->
+        <section id="information">
+          <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
+              <h3>Create</h3>
+                <p> Learn how to summarize your collection.</p>
+                <p><button 
+                      style="width: 100px" 
+                      type="button" 
+                      class="btn btn-default"
+                      on-click="{{showHowToSummarize}}">Learn &raquo;</button>
+             </div>
+             <div class="col-xs-6 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
+              <h3>Summary algorithm</h3>
+                <p>Choose summary algorithm.</p>
+                <p><button 
+                      style="width: 100px" 
+                      type="button" 
+                      class="btn btn-default"
+                      on-click="{{chooseAlgorithm}}">Choose &raquo;</button>
+             </div>
+            </div>
+         </section> <!-- information -->
+         <!-- This must be a polymer element -->
+  
+ 
+  <div id="howToSummarize" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="modalMargin1">Memento - Create a summary</h4>
+          </div>
+          <div class="modal-body">
+          <div id="centerText">
+              <h5>Put Image here explaining.</h5>
+          </div>
+        </div>
+        <div id="modalMargin1" class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+    </div> <!-- loading modal -->
+    
+    <div id="changeAlgorithm" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4>Memento - Choose summary algorithm</h4>
+          </div> <!-- modal header -->
+          <div class="modal-body">
+            <h5>Summary Algorithm</h5>
+            
+            <div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="algorithm" id="firstx" value="option1" checked>
+                  First x photos algorithm
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="algorithm" id="random" value="option2">
+                  Random algorithm
+                </label>
+             </div>
+             <div class="radio">
+              <label>
+                <input type="radio"  name="algorithm" id="hierachical" value="option3">
+                Hierarchical clustering algorithm
+              </label>
+             </div>
+           </div>
+           
+            <br>
+           
+          </div> <!-- modal body -->
+          <div class="modal-footer">
+            <a class="btn btn-default" data-dismiss="modal">Close</a>
+            <a class="btn btn-success" data-dismiss="modal">Apply</a>
+          </div> <!-- modal footer -->
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  </template>
+<script type="application/dart" src="information.dart"></script>
+<script src="../../../../../../packages/browser/dart.js"></script> 
+</polymer-element>

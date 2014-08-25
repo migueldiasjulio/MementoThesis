@@ -1,11 +1,11 @@
-library allPhotos;
+library importPhotos;
 
 import 'dart:html';
 import 'dart:core';
 import 'package:polymer/polymer.dart';
 export "package:polymer/init.dart";
 import 'package:route_hierarchical/client.dart';
-import '../../core/screenModule.dart' as screenhelper;
+import '../defaultScreen/screenModule.dart' as screenhelper;
 import '../../core/photo/photo.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
@@ -13,19 +13,23 @@ import '../../core/database/dataBase.dart';
 import '../../core/exif/exifManager.dart';
 import 'dart:math';
 import 'dart:async';
+import '../screenAdvisor.dart';
+import 'firstAuxFunctions.dart';
 
 /*
- * All Photos Screen class
+ * Import Photos Screen class
  */
-@CustomTag(AllPhotos.TAG)
-class AllPhotos extends screenhelper.Screen {
+@CustomTag(ImportPhotos.TAG)
+class ImportPhotos extends screenhelper.Screen {
 
-  static const String TAG = "all-photos";
-  String title = "All Photos",
-   description = "Showing all photos";
-  factory AllPhotos() => new Element.tag(TAG);
+  final _firstAuxFunctions = FirstAuxFunctions.get();
+  final _ScreenAdvisor = ScreenAdvisor.get();
+  static const String TAG = "import-photos";
+  String title = "Import Photos",
+         description = "Showing all photos";
+  factory ImportPhotos() => new Element.tag(TAG);
   final _exifManager = ExifManager.get();
-  final List<Photo> photos = toObservable([]);
+  final ObservableList<Photo> photos = toObservable([]);
   Modal summaryCreation,
         loading,
         maximumPhotos;
@@ -37,8 +41,9 @@ class AllPhotos extends screenhelper.Screen {
   @observable String numberOfPhotosDefined = "20";
   int numberOfPhotosLoaded = 0;
   List<FileReader> _fileReaders = new List<FileReader>();
+  @observable bool modified = false;
 
-  AllPhotos.created() : super.created(){
+  ImportPhotos.created() : super.created(){
     Modal.use();
     summaryCreation = Modal.wire($['summaryCreation']);
     loading = Modal.wire($['loading']);
@@ -54,6 +59,12 @@ class AllPhotos extends screenhelper.Screen {
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
+    
+    photos.changes.listen((records) => changeToModified());
+  }
+  
+  void changeToModified(){
+    modified = !modified;
   }
 
   /*
@@ -139,20 +150,20 @@ class AllPhotos extends screenhelper.Screen {
         _fileReaders.add(reader);
         reader.onLoad.listen((e){
           photoToAdd = new Photo(reader.result, file.name);
-          //dateInformation = file.lastModified;
-          //print("Reader Result: " + reader.result.buffer.toString());
-          dateInformation = DB.extractExifInformation(photoToAdd);
-          //dateInformation = rng.nextDouble();
+          dateInformation = file.lastModified;
+          //dateInformation = DB.extractExifInformation(photoToAdd);
           photoToAdd.setDataFromPhoto(dateInformation.ceilToDouble());
           photosBackUp.add(photoToAdd);
           number++;
           
           if(number == intNumber){
+            //_firstAuxFunctions.photos.addAll(photosBackUp);
+            //_firstAuxFunctions.changed = true;
+            DB.sortPhotos(photosBackUp);
             photos.addAll(photosBackUp);
-            DB.sortPhotos(photos);
-            photosBackUp = new List<Photo>();
             _fileReaders.clear();
             this.hiddeLoading();
+            photosBackUp = new List<Photo>();
           }
         });
         reader.readAsDataUrl(file); 
@@ -160,7 +171,7 @@ class AllPhotos extends screenhelper.Screen {
       }
     } 
    }
-
+   
    /*
     * Increment number of summary photos
     */
@@ -190,7 +201,9 @@ class AllPhotos extends screenhelper.Screen {
    /*
     * 
     */
-   void runStartStuff();
+   void runStartStuff(){
+     _ScreenAdvisor.setScreenType(title);
+   }
 
    /*
     * Build Summary
@@ -214,14 +227,33 @@ class AllPhotos extends screenhelper.Screen {
     /*
      * 
      */
-    Future goSummary() => router.go("summary-done", {}); 
+    Future goSummary() => router.go("summary-manipulation", {}); 
     
     /*
      * 
      */
     void cancelSummaryCreation() => DB.cleanAllData();
     
+    void showDataInformation(){
+      toogleShowingData();
+      organizeAndDisplayData(_firstAuxFunctions.elementsImported);
+    }
     
+    void organizeAndDisplayData(List<Element> displayedImages){
+      switch(showingData){
+        case true: 
+          displayedImages.forEach((displayedImage){
+            _firstAuxFunctions.toogleToOn(displayedImage);
+          });
+          break;
+        case false : 
+          displayedImages.forEach((displayedImage){
+            _firstAuxFunctions.toogleToOff(displayedImage);
+          });
+          break;
+        default: break;
+      }
+    }
     
     /*
      * Modal function

@@ -9,6 +9,7 @@ class SimilarCategory extends Category{
   
   static SimilarCategory _instance;
   final double _thresholdDistance = 50.0;
+  final double _almostTheSame = 10.0;
   final double _samePhotoDistance = 0.0;
   List<SimilarGroupOfPhotos> _similarGroups = null;
 
@@ -43,18 +44,20 @@ class SimilarCategory extends Category{
     });
 
     var size = distanceToOtherPhotos.length,
-        photosToAdd = new List<Photo>();
+        photosToAdd = new List<Photo>(),
+        almostTheSame = new List<Photo>();
     for(int i = 0; i < size; i++){
       if(distanceToOtherPhotos.elementAt(i) != _samePhotoDistance 
           && distanceToOtherPhotos.elementAt(i) < _thresholdDistance){
         photosToAdd.add(allPhotos.elementAt(i));
-      
-        print("Added to " + photo.title + ": " + allPhotos.elementAt(i).title + " with distance: " 
-            + distanceToOtherPhotos.elementAt(i).toString());
+      }
+      if(distanceToOtherPhotos.elementAt(i) < _almostTheSame){
+        almostTheSame.add(allPhotos.elementAt(i));
       }
     }
     
     photo.addSimilarPhotos(photosToAdd);
+    photo.almostTheSamePhoto.addAll(almostTheSame);
   }
   
   List<SimilarGroupOfPhotos> workSimilarCase(List<Photo> photos){

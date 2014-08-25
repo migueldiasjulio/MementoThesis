@@ -3,17 +3,17 @@ library screenModule;
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
 export 'package:route_hierarchical/client.dart';
-import 'database/dataBase.dart';
-import 'settings/mementoSettings.dart';
-import 'categories/category.dart';
-import 'categories/facesCategory.dart' as faces;
-import 'categories/blackAndWhiteCategory.dart' as bw;
-import 'categories/colorCategory.dart' as color;
-import 'categories/similarCategory.dart' as similar;
+import '../../core/database/dataBase.dart';
+import '../../core/settings/mementoSettings.dart';
+import '../../core/categories/category.dart';
+import '../../core/categories/facesCategory.dart' as faces;
+import '../../core/categories/blackAndWhiteCategory.dart' as bw;
+import '../../core/categories/colorCategory.dart' as color;
+import '../../core/categories/similarCategory.dart' as similar;
 import 'dart:html';
 import 'dart:core';
-import 'photo/photo.dart';
-import 'photo/similarGroupOfPhotos.dart';
+import '../../core/photo/photo.dart';
+import '../../core/photo/similarGroupOfPhotos.dart';
 import 'package:bootjack/bootjack.dart';
 
 /**
@@ -79,7 +79,18 @@ abstract class ScreenModule extends PolymerElement {
  */
 abstract class Screen extends ScreenModule {
 
+  @observable bool showingData = false;
+  
+  void toogleShowingData(){
+    if(showingData){ showingData = false; }
+    else { showingData = true; }
+  }
+  
+  void showDataInformation();
+  void organizeAndDisplayData(List<Element> displayedImages);
+  
   Screen.created() : super.created();
+  
 }
 
 /**

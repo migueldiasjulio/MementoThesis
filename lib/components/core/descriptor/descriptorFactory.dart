@@ -1,7 +1,7 @@
 library descriptorFactory;
 
 import 'package:observe/observe.dart';
-import '../mementoMath.dart';
+import '../auxiliarFunctions/mementoMath.dart';
 import '../photo/photo.dart';
 
 final _mementoMath = MementoMath.get();
@@ -61,6 +61,5 @@ class DescriptorFactory extends Object with Observable {
   descriptor.add(blueSkewness);
   
   photo.setDescriptor(descriptor);
-  //print("Descriptor of " + photo.title + ": " + photo.photoDescriptor.toString());
   }
 }

@@ -3,10 +3,10 @@ library app;
 import 'package:route_hierarchical/client.dart';
 import 'package:polymer/polymer.dart';
 export "package:polymer/init.dart";
-import '../allPhotos/allPhotos.dart';
-import '../summaryDone/summaryDone.dart';
-import '../bigSizePhoto/bigSizePhoto.dart';
-import '../../core/screenModule.dart' as screenmodule;
+import '../1Stage/importPhotos.dart';
+import '../2Stage/summaryManipulation.dart';
+import '../3Stage/displayingPhoto.dart';
+import '../defaultScreen/screenModule.dart' as screenmodule;
 import '../../core/database/dataBase.dart';
 import '../../core/settings/mementoSettings.dart';
 
@@ -14,9 +14,9 @@ import '../../core/settings/mementoSettings.dart';
  * Screeen Modules of Memento
  */
 Map<String, screenmodule.ScreenModule> myScreens = {
-  "all-photos": new AllPhotos(),
-  "summary-done": new SummaryDone(),
-  "big-size-photo": new BigSizePhoto()
+  "import-photos": new ImportPhotos(),
+  "summary-manipulation": new SummaryManipulation(),
+  "displaying-photo": new DisplayingPhoto()
 };
 
 /**
@@ -38,7 +38,6 @@ class MementoApp extends PolymerElement {
   MementoApp.created() : super.created() {
     router = new Router(useFragment: true);
     screens.forEach((path, module) {
-      print(path);
       router.root.addRoute(
           name: path,
           preEnter: (_) {
@@ -65,7 +64,7 @@ class MementoApp extends PolymerElement {
   void navigate(event, detail, target) {
     router.go('${target.dataset['target']}', {});
   }
-
+  
   /**
    * When the screen is changed
    */

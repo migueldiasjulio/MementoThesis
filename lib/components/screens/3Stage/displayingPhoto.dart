@@ -1,24 +1,27 @@
-library bigSize;
+library displayingPhoto;
 
 import 'dart:html';
 import 'dart:core';
 import 'package:polymer/polymer.dart';
 import 'package:route_hierarchical/client.dart';
-import '../../core/screenModule.dart' as screenhelper;
+import '../defaultScreen/screenModule.dart' as screenhelper;
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
 import 'dart:async';
+import '../screenAdvisor.dart';
 
 /**
  * BigSizePhoto Screen 
  */
-@CustomTag(BigSizePhoto.TAG)
-class BigSizePhoto extends screenhelper.SpecialScreen {
+@CustomTag(DisplayingPhoto.TAG)
+class DisplayingPhoto extends screenhelper.SpecialScreen {
   
-  static const String TAG = "big-size-photo";
-  String description = "Photo big size";
-  factory BigSizePhoto() => new Element.tag(TAG);
+  final _ScreenAdvisor = ScreenAdvisor.get();
+  static const String TAG = "displaying-photo";
+  String title = "Displaying Photo",
+         description = "Photo big size";
+  factory DisplayingPhoto() => new Element.tag(TAG);
   String previousPhotoID = null;
   String mainPhotoID = null;
   Element selectedPhoto = null;
@@ -34,7 +37,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   
   MutationObserver observer;
   
-  BigSizePhoto.created() : super.created(){
+  DisplayingPhoto.created() : super.created(){
     screenTitle = "Big Size Photo";
     _summaryContainer = $['t-SUMMARY'];
     _standByContainer = $['t-STANDBY'];
@@ -123,6 +126,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
    * TODO
    */ 
   void runStartStuff() {
+    _ScreenAdvisor.setScreenType(title);
     cleanAll();
     addAllCategoriesToInactive();
   }
@@ -141,7 +145,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
     disableSelection();
     removeCheckedAttribute();
     cleanElementSelected();
-    router.go("summary-done", {});
+    router.go("summary-manipulation", {});
   }
 
   //Arrow move Left
@@ -184,7 +188,7 @@ class BigSizePhoto extends screenhelper.SpecialScreen {
   }
   
   void cleanElementSelected(){
-    selectedPhoto.classes.remove('choosed');
+    if(selectedPhoto != null) selectedPhoto.classes.remove('choosed');
   }
   
   void previousPhotoInList(){
