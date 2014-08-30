@@ -8,36 +8,35 @@ import '../defaultScreen/screenModule.dart' as screenhelper;
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
-import 'dart:async';
 import '../screenAdvisor.dart';
+import 'thirdAuxFunctions.dart';
+import '../../core/categories/facesCategory.dart' as faces;
+import '../../core/categories/toningCategory.dart' as toning;
+import '../../core/categories/similarCategory.dart' as similar;
+import '../../core/categories/dayMomentCategory.dart' as dayMoment;
 
 /**
  * BigSizePhoto Screen 
  */
 @CustomTag(DisplayingPhoto.TAG)
 class DisplayingPhoto extends screenhelper.SpecialScreen {
-  
+
   final _ScreenAdvisor = ScreenAdvisor.get();
+  final _ThirdAuxFunctions = ThirdAuxFunctions.get();
   static const String TAG = "displaying-photo";
   String title = "Displaying Photo",
          description = "Photo big size";
   factory DisplayingPhoto() => new Element.tag(TAG);
-  String previousPhotoID = null;
-  String mainPhotoID = null;
-  Element selectedPhoto = null;
-  Element previousPhoto = null;
-  @observable bool isInOverflow = false;
-  
-  Element _summaryContainer;
-  Element _standByContainer;
-  Element _excludedContainer;
-  Element _scrollableSummary;
-  Element _scrollableStandby;
-  Element _scrollableExcluded;
-  
+  Element _summaryContainer,
+          _standByContainer,
+          _excludedContainer,
+          _scrollableSummary,
+          _scrollableStandby,
+          _scrollableExcluded;
   MutationObserver observer;
-  
-  DisplayingPhoto.created() : super.created(){
+  @observable bool needToCheckOverflow = false;
+
+  DisplayingPhoto.created() : super.created() {
     screenTitle = "Big Size Photo";
     _summaryContainer = $['t-SUMMARY'];
     _standByContainer = $['t-STANDBY'];
@@ -45,65 +44,20 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     _scrollableSummary = $['SUMMARY2'];
     _scrollableStandby = $['STANDBY2'];
     _scrollableExcluded = $['EXCLUDED2'];
-    
-    //observer = new MutationObserver(_onMutation);
-    //observer.observe(shadowRoot.querySelector('#timestamps'), childList: true);
   }
 
   /**
-   * TODO
+   * 
    */
   @override
-   void setupRoutes(Route route) {
-    route.addRoute(
-        name: 'home',
-        path: '',
-        enter: (e) { 
-          photo = DB.photoToDisplayPlease;
-          decideContainerToLock(photo.id);
-          markDisplayingPhoto();
-        });
-   }
-  
-  /*
-   *
-   */ 
-  void markDisplayingPhoto(){
-    
-    var photoId = photo.id,
-        secondTemplate = null;
-    
-    var photoContainer = DB.findContainer(photoId),
-        selectedElementToGoDown = null;
-    switch(photoContainer.name){
-      case("SUMMARY") : print("Summary"); secondTemplate = $['secondTemplate-SUMMARY'];
-        break;
-      case("STANDBY") : print("Standby"); secondTemplate = $['secondTemplate-STANDBY'];
-        break;
-      case("EXCLUDED") : print("Excluded"); secondTemplate = $['secondTemplate-EXCLUDED'];
-        break;
-      default: break;
-    }
-    
-    print("Second Template id: " + secondTemplate.id.toString());
-    print("Children?: " + secondTemplate.children.toString());
-    
-            
-    /*
-    previousPhotoID = mainPhotoID;
-    mainPhotoID = photo.id;
-    if(previousPhotoID != null){
-      previousPhoto = $[previousPhotoID];
-      previousPhoto.classes.remove('choosed');      
-    }
-    print("ID: " + mainPhotoID);
-    selectedPhoto = $[photo.id];
-    print("SELECTED PHOTO: " + selectedPhoto.toString());
-    selectedPhoto.classes.add('choosed');
-    */
+  void setupRoutes(Route route) {
+    route.addRoute(name: 'home', path: '', enter: (e) {
+      photo = DB.photoToDisplayPlease;
+      decideContainerToLock(photo.id);
+    });
   }
   
-    /*
+  /*
     route.addRoute(
         name: 'show',
         path: '/:id',
@@ -115,140 +69,290 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
         }
     );
    }*/
-    
+
   /*
-   * TODO
+   * Entering View
    */
   @override
   void enteredView() => super.enteredView();
-  
+
   /*
-   * TODO
-   */ 
+   * Run This on start
+   */
   void runStartStuff() {
     _ScreenAdvisor.setScreenType(title);
     cleanAll();
     addAllCategoriesToInactive();
+    checkOverflow();
+  }
+  
+  void cleanAll(){
+    disableSelection();
+    cleanCategoriesStuff();
   }
 
   /*
    * TODO
    */
   home(_) {}
-  
+
   void similarCategory() => photosWithSameCategory(photo);
 
   /*
    * TODO
    */
-  void returnToSummary(){
+  void returnToSummary() {
     disableSelection();
     removeCheckedAttribute();
     cleanElementSelected();
     router.go("summary-manipulation", {});
   }
-
-  //Arrow move Left
-  void moveLeft(Event event, var detail, Element target){
-    var aux;
-    aux = target.parent.children[3];
-    aux.scrollLeft -= 500;
-  }
-  
-  //Arrow move Right
-  void moveRight(Event event, var detail, Element target){
-    var aux;
-    aux = target.parent.children[3];
-    aux.scrollLeft += 500;  
-  }
-  
+ 
   /*
    * 
    */
-  void checkOverflow(){
-    var element = document.querySelector('#element');
-    
-    if( (element.offsetHeight < element.scrollHeight) || (element.offsetWidth < element.scrollWidth)){
-      isInOverflow = true;
-    }
-    else{
-      isInOverflow = false;
-    }
-  }
+  bool checkOverflow() => toogleThNeedToCheckOverflow();
+  bool toogleThNeedToCheckOverflow() => needToCheckOverflow = !needToCheckOverflow;
+
   
-  void markPhotoWithElement(Element element){
-    previousPhoto = selectedPhoto;
-    selectedPhoto = element;
-    if(previousPhoto != null){
-      previousPhoto.classes.remove('choosed');
-      selectedPhoto.classes.add('choosed');
-    }else{
-      selectedPhoto.classes.add('choosed');
-    }
-  }
-  
-  void cleanElementSelected(){
-    if(selectedPhoto != null) selectedPhoto.classes.remove('choosed');
-  }
-  
-  void previousPhotoInList(){
+  void markPhotoWithElement(Element element) => _ThirdAuxFunctions.markPhotoWithElement(element);
+  void cleanElementSelected() => _ThirdAuxFunctions.cleanElementSelected();
+
+  void previousPhotoInList() {
     var auxiliar = 0,
         lastPhoto = null;
     auxiliar = currentContainer.photosToDisplay.indexOf(photo);
-    if(auxiliar == 0){
+    if (auxiliar == 0) {
       lastPhoto = currentContainer.photosToDisplay.last;
       photo = lastPhoto;
-    }else{
+    } else {
       auxiliar -= 1;
       photo = currentContainer.photosToDisplay.elementAt(auxiliar);
     }
   }
-  
-  void nextPhotoInList(){
+
+  void nextPhotoInList() {
     var auxiliar = currentContainer.photosToDisplay.indexOf(photo),
         firstPhoto = null,
         lastPhoto = currentContainer.photosToDisplay.last;
-    if(photo == lastPhoto){
+    if (photo == lastPhoto) {
       firstPhoto = currentContainer.photosToDisplay.first;
-      photo = firstPhoto;   
-    }else{
+      photo = firstPhoto;
+    } else {
       auxiliar += 1;
       photo = currentContainer.photosToDisplay.elementAt(auxiliar);
     }
   }
-  
-  /*
-   *
+
+  void facesCategoryExecution() => photosWithFacesCategory(photo);
+  void dayMomentCategoryExecution() => photosWithDayMomentCategory(photo);
+  void toningCategoryExecution() => photosWithToningCategory(photo);
+  void similarCategoryExecution() => photosWithSameCategory(photo);
+
+  void clearAllCategoriesInDisplayMode() {
+    removeFromActiveCategory(faces.FacesCategory.get());
+    removeFromActiveCategory(toning.ToningCategory.get());
+    removeFromActiveCategory(dayMoment.DayMomentCategory.get());
+  }
+
+  /**
+   * Faces Category
    */
-  void showImage(Event event, var detail, Element target){
+  void enableFacesCategory() {
+    facesCategory = true;
+    toningCategory = false;
+    dayMomentCategory = false;
+    clearAllCategoriesInDisplayMode();
+  }
+
+  void disableFacesCategory() {
+    facesCategory = false;
+    toningCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearAllCategoriesInDisplayMode();
+  }
+
+  void photosWithFacesCategory(Photo photo) {
+    cleanGroups();
+    cleanSelection();
+    if (facesCategory) {
+      disableFacesCategory();
+    } else {
+      enableFacesCategory();
+      addActiveCategory(faces.FacesCategory.get());
+    }
+    lastGroupVisited = facesGroupOfPhotosChoosed;
+    updatePhotoView(photo, facesGroupOfPhotosChoosed);
+  }
+
+  /**
+   * Toning Category
+   */
+  void enableColorCategory() {
+    facesCategory = false;
+    toningCategory = true;
+    dayMomentCategory = false;
+    clearAllCategoriesInDisplayMode();
+  }
+
+  void disableColorCategory() {
+    facesCategory = false;
+    toningCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearAllCategoriesInDisplayMode();
+  }
+
+  void photosWithToningCategory(Photo photo) {
+    cleanGroups();
+    cleanSelection();
+    if (toningCategory) {
+      this.disableColorCategory();
+    } else {
+      this.enableColorCategory();
+      addActiveCategory(toning.ToningCategory.get());
+    }
+    lastGroupVisited = colorGroupOfPhotosChoosed;
+    updatePhotoView(photo, colorGroupOfPhotosChoosed);
+  }
+
+  /**
+   * Day Moment Category
+   */
+  void enableDayMomentCategory() {
+    facesCategory = false;
+    toningCategory = false;
+    dayMomentCategory = true;
+    clearAllCategoriesInDisplayMode();
+  }
+
+  void disableDayMomentCategory() {
+    facesCategory = false;
+    toningCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearAllCategoriesInDisplayMode();
+  }
+
+  void photosWithDayMomentCategory(Photo photo) {
+    cleanGroups();
+    cleanSelection();
+    if (dayMomentCategory) {
+      disableDayMomentCategory();
+    } else {
+      enableDayMomentCategory();
+      addActiveCategory(dayMoment.DayMomentCategory.get());
+    }
+    lastGroupVisited = dayMomentGroupOfPhotosChoosed;
+    updatePhotoView(photo, dayMomentGroupOfPhotosChoosed);
+  }
+
+  /**
+   * Same Category
+   */
+  void enableSameCategory() {
+    facesCategory = false;
+    toningCategory = false;
+    dayMomentCategory = false;
+    sameCategory = true;
+    clearSelectedCategories();
+  }
+
+  void disableSameCategory() {
+    facesCategory = false;
+    toningCategory = false;
+    sameCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearSelectedCategories();
+  }
+
+  void photosWithSameCategory(Photo photo) {
+    cleanGroups();
+    cleanSelection();
+    if (sameCategory) {
+      disableSameCategory();
+    } else {
+      enableSameCategory();
+      addActiveCategory(similar.SimilarCategory.get());
+    }
+    lastGroupVisited = similarGroupOfPhotosChoosed;
+    updatePhotoView(photo, similarGroupOfPhotosChoosed);
+  }
+
+  void getOutOfGroupInDisplayMode() {
+    cleanGroups();
+    updatePhotoView(photo, lastGroupVisited);
+  }
+
+  //Specific implementation for this screen
+  bool allGroupsAreNull() {
+    return facesGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty 
+        && colorGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty 
+        && dayMomentGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty;
+  }
+
+  //Specific implementation for this screen
+  bool isAnyCategoryOn() => (toningCategory == true || facesCategory == true || dayMomentCategory == true);
+
+  /*
+   *  Show image
+   */
+  void showImage(Event event, var detail, var target) {
     var id = target.attributes["data-id"];
     var isSelected;
-    if(!selection){
-      this.photo = DB.find(target.attributes['data-id']);
-      markPhotoWithElement(target);
-    }
-    else{
-        var father = target.parent,
-            firstChild = father.children.elementAt(0),
-            secondChild = father.children.elementAt(1);         
-        if(firstChild.classes.contains('selectedPhoto') || secondChild.classes.contains('selected') ){
-          firstChild.classes.remove('selectedPhoto');
+    if (!selection) {
+      if (isAnyCategoryOn() && allGroupsAreNull()) {
+        insideGroup = true;
+        Photo photo = DB.find(id);
+        var correctGroup = giveMeTheRightGroupLookingToBools(true);
+        correctGroup = photo.returnTheCorrectGroup(false, toningCategory, facesCategory, dayMomentCategory); //Forcing similarCategory to go false
+        putItToTheRightGroup(correctGroup);
+        print("Correct group: " + correctGroup.groupName.toString());
+        currentContainer.showPhotosWithCategories(selectedCategories, photo, correctGroup);
+      } else {
+        photo = DB.find(target.attributes['data-id']);
+        markPhotoWithElement(target);
+      }
+    } else {
+      var father = target.parent,
+          firstChild = null,
+          secondChild = null;
+
+      if (allGroupsAreNull() && isAnyCategoryOn()) {
+        firstChild = target.children.elementAt(0);
+        secondChild = target.children.elementAt(2);
+      } else {
+        firstChild = father.children.elementAt(0);
+        secondChild = father.children.elementAt(1);
+      }
+
+      if (firstChild.classes.contains('selectedPhoto')) {
+        firstChild.classes.remove('selectedPhoto');
+        isSelected = "false";
+        removeFromSelectedPhotos(id);
+        if (!allGroupsAreNull() || !isAnyCategoryOn()) {
           secondChild.classes.remove('selected');
           secondChild.classes.add('notSelected');
-          isSelected = "false";
-          removeFromSelectedPhotos(id);
           removeFromSelectedElements(firstChild, secondChild);
-          print("$id is selected? $isSelected");
+        } else {
+          removeFromSelectedElements(firstChild, null);
         }
-        else{
+        print("$id is selected? $isSelected");
+      } else {
+        firstChild.classes.add('selectedPhoto');
+        isSelected = "true";
+        addToSelectedPhotos(id);
+        if (!allGroupsAreNull() || !isAnyCategoryOn()) {
           secondChild.classes.remove('notSelected');
-          firstChild.classes.add('selectedPhoto');
           secondChild.classes.add('selected');
-          isSelected = "true";
-          addToSelectedPhotos(id);
           addToSelectedElements(firstChild, secondChild);
-          print("$id is selected? $isSelected");
+        } else {
+          addToSelectedElements(firstChild, secondChild);
         }
+        print("$id is selected? $isSelected");
       }
+    }
   }
 }

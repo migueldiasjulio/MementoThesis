@@ -2,7 +2,7 @@ library qtclusteringmanager;
 
 import '../photo/photo.dart';
 //import 'cluster.dart';
-import '../photo/similarGroupOfPhotos.dart';
+import '../photo/GroupOfPhotos/similarGroupOfPhotos.dart';
 import 'package:observe/observe.dart';
 import 'dart:math';
 import 'cluster.dart';

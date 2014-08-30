@@ -1,0 +1,91 @@
+<link rel="import" href="../../../../../../packages/polymer/polymer.html">
+<polymer-element name="last-screen-photos" 
+  attributes="photo photosToDisplay container insideGroup sameCategory toningCategory facesCategory dayMomentCategory needToCheckOverflow">
+
+  <template>
+  <link rel="stylesheet" href="containerPhotos.css">
+  <link rel="stylesheet" href="../../resources/mementoGrid.css">
+  <link rel="stylesheet" href="../../resources/mementoPosition.css"> 
+  <link rel="stylesheet" href="../../resources/mementoButtons.css">
+  
+                          <template if="{{isInOverflow}}">
+                            <div on-click="{{moveLeft}}" id="thumb-back"></div>
+                          </template>   
+                           
+                          <ul id="nav-{{container.secondname}}" class="navlistHorizontal">
+                            <template repeat="{{photo in photosToDisplay}}">  
+                              <li> 
+                              
+                                <template if="{{insideGroup || !sameCategory}}">
+                                  <!-- this gonna be an element -->
+                                  <div class="mementoSpecialImage">
+                                      <img src="{{photo.miniThumbnailToShow.src}}"
+                                           class="image"
+                                           on-click="{{showImage}}"
+                                           data-id="{{photo.id}}" >
+                                      <img src="../../../../resources/images/selected_blue.png"
+                                           class="notSelected"
+                                           on-click="{{showImage}}"
+                                           data-id="{{photo.id}}"
+                                           style="width: 40px; height: 40px" >
+                                    </div>
+                                   <!-- this gonna be an element -->
+                                 </template>
+                           
+                                <template if="{{!insideGroup}}">  <!-- im not inside a group -->
+
+                                  <template if="{{sameCategory}}">
+                                    <template if="{{!toningCategory && !facesCategory && !dayMomentCategory}}">
+                                      <!-- this gonna be an element -->
+                                      <div class="mementoSpecialImage">
+                                        <img src="{{photo.miniThumbnailToShow.src}}"
+                                             class="image"
+                                             title="{{photo.title}}"
+                                             on-click="{{showImage}}"
+                                             data-id="{{photo.id}}" >
+                                        <img src="../../../../resources/images/selected_blue.png"
+                                             class="notSelected"
+                                             on-click="{{showImage}}"
+                                             data-id="{{photo.id}}"
+                                             style="width: 40px; height: 40px" >
+                                      </div>
+                                      <!-- this gonna be an element -->
+                                    </template>
+                                    
+                                    <template if="{{facesCategory || dayMomentCategory || toningCategory}}">
+                                      <div class="mementoSpecialImage">
+                                        <div on-click="{{showImage}}" data-id="{{photo.id}}">
+                                          <img src="{{photo.miniThumbnailToShow.src}}"
+                                               class="imageGroupFace image"
+                                               title="{{photo.title}}" >
+                                          <template if="{{facesCategory}}">
+                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                          </template>
+                                          <template if="{{dayMomentCategory}}">
+                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                          </template>
+                                          <template if="{{toningCategory}}">
+                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                          </template>
+                                          <img src="../../../../resources/images/selected_blue.png"
+                                               class="notSelected"
+                                               on-click="{{showImage}}"
+                                               data-id="{{photo.id}}"
+                                               style="width: 40px; height: 40px" >
+                                        </div>
+                                      </div>
+                                    </template>
+                                  </template> 
+                                </template> 
+                                 
+                              </li>                 
+                            </template> 
+                          </ul>
+                          
+                          <template if="{{isInOverflow}}">
+                            <div on-click="{{moveRight}}" id="thumb-forward"></div>
+                          </template>
+
+</template>
+<script type="application/dart" src="containerPhotos.dart"></script>
+</polymer-element>

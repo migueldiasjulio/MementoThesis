@@ -2,7 +2,7 @@ library similarcategory;
 
 import 'category.dart';
 import '../photo/photo.dart';
-import '../photo/similarGroupOfPhotos.dart';
+import '../photo/GroupOfPhotos/similarGroupOfPhotos.dart';
 import 'dart:math';
 
 class SimilarCategory extends Category{
@@ -68,13 +68,14 @@ class SimilarCategory extends Category{
    photos.forEach((photo){
     if(!auxOne.contains(photo) && (photo.similarPhotos.length > 0)){
       similarGroupOfPhotos = new SimilarGroupOfPhotos();
+      similarGroupOfPhotos.setGroupName("Similar");
       similarGroupOfPhotos.addToList(photo);
       similarGroupOfPhotos.setGroupFace(photo);
       photo.setSimilarGroup(similarGroupOfPhotos);
       auxOne.add(photo);
       
       photo.similarPhotos.forEach((similar){
-        if(!auxOne.contains(similar) && photos.contains(similar)){
+        if(!auxOne.contains(similar)){
           auxOne.add(similar);
           similarGroupOfPhotos.addToList(similar);
           similar.setSimilarGroup(similarGroupOfPhotos);
@@ -92,31 +93,21 @@ class SimilarCategory extends Category{
       similarGroupList.add(similarGroupOfPhotos);
     }
    });
+   
+   similarGroupList.sort();
+   similarGroupList = similarGroupList.reversed.toList();
 
+   // JUST DEBUG
    similarGroupList.forEach((similarGroup){
      print("ANOTHER GROUP WITH FACE: " + similarGroup.groupFace.id);
      similarGroup.giveMeAllPhotos.forEach((photo){
        print("Photo: " + photo.id);
-     });
+     }); 
    });
-   //SORT HERE
    
    return similarGroupList;
   }
-  
-  List<List<Photo>> sortBySize(List<List<Photo>> listsToSort){
-    var maxSize = 0;
-    var listLength = 0;
-    listsToSort.forEach((list){
-      listLength = list.length;
-      if(listLength > maxSize){
-        maxSize = listLength;
-        //putInTheCorrectLocation(list);
-      }
-    });
-    return new List<List<Photo>>();
-  }
-  
+    
   void work(List<Photo> photosToAnalyze){ 
     photosToAnalyze.forEach((photo){
       euclideanDistance(photo, photosToAnalyze); 

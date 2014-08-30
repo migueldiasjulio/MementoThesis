@@ -9,6 +9,11 @@ export "package:polymer/init.dart";
 import '../../core/database/dataBase.dart';
 import '../../core/photo/photo.dart';
 import '../screenAdvisor.dart';
+import '../../core/categories/facesCategory.dart' as faces;
+import '../../core/categories/toningCategory.dart' as toning;
+import '../../core/categories/similarCategory.dart' as similar;
+import '../../core/categories/dayMomentCategory.dart' as dayMoment;
+import 'dart:js' as js show JsObject, context;
 
 /**
  * Summary Done Screen
@@ -32,11 +37,25 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   SummaryManipulation.created() : super.created(){
     screenTitle = "Summary Manipulation";
   }
-
+  
   void runStartStuff() {
     _ScreenAdvisor.setScreenType(title);
     cleanAll();
     addAllCategoriesToInactive();
+    summaryContainer.showPhotosWithCategories(selectedCategories, null, null);
+    standbyContainer.showPhotosWithCategories(selectedCategories, null, null);
+    excludedContainer.showPhotosWithCategories(selectedCategories, null, null);
+  }
+  
+  //Specific implementation for this screen
+  void cleanAll(){
+    disableSelection();
+    cleanCategoriesStuff();
+  }
+  
+  bool checkOverflow(){
+    //I dont need this here
+    return false;
   }
   
   /**
@@ -48,27 +67,39 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     cleanAll();
   }
   
-  void imNotInsideSimilarGroupAnymore(){
-    insideSimilarGroup = false;
+  //Specific implementation for this screen
+  bool allGroupsAreNull(){
+    return similarGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty &&
+           facesGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty &&
+           colorGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty &&
+           dayMomentGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty;
+  }
+  
+  //Specific implementation for this screen
+  bool isAnyCategoryOn(){
+    return sameCategory == true ||
+        toningCategory == true ||
+        facesCategory == true ||
+        dayMomentCategory == true;
   }
 
   /*
    *  Show image
    */
   void showImage(Event event, var detail, var target){
-    print("SHOW IMAGE");
     var id = target.attributes["data-id"];
     var isSelected;
     if(!selection){
-      if(sameCategory && similarGroupOfPhotosChoosed == null){
-              print("CARREGUEI E ESTOU NESTE MODO!");
-              insideSimilarGroup = true;
+      if(isAnyCategoryOn() && allGroupsAreNull()){
+              insideGroup = true;
               Photo photo = DB.find(id);
-              similarGroupOfPhotosChoosed = photo.returnSimilarGroup;
-              print("Similar Group Size: " + similarGroupOfPhotosChoosed.giveMeAllPhotos.length.toString());
-              currentContainer.showPhotosWithCategories(selectedCategories, null, similarGroupOfPhotosChoosed);
+              var correctGroup = giveMeTheRightGroupLookingToBools(false);
+              correctGroup = photo.returnTheCorrectGroup(sameCategory, toningCategory, 
+                                                         facesCategory,  dayMomentCategory);
+              putItToTheRightGroup(correctGroup);
+              print("Correct group: " + correctGroup.groupName.toString());
+              currentContainer.showPhotosWithCategories(selectedCategories, null, correctGroup);
       }else{
-        print("ID: " + id.toString());
         displayPhoto(id);
       }
     }
@@ -77,19 +108,19 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
             firstChild = null,
             secondChild = null;
         
-        if(similarGroupOfPhotosChoosed == null && sameCategory){
-          firstChild = father.children.elementAt(0);
-          //secondChild = father.children.elementAt(2); 
+        if(allGroupsAreNull() && isAnyCategoryOn()){
+          firstChild = target.children.elementAt(0);
+          secondChild = target.children.elementAt(2); 
         }else{
           firstChild = father.children.elementAt(0);
           secondChild = father.children.elementAt(1);   
         } 
         
-        if(firstChild.classes.contains('selectedPhoto') /*|| secondChild.classes.contains('selected')*/ ){
+        if(firstChild.classes.contains('selectedPhoto')){
           firstChild.classes.remove('selectedPhoto');
           isSelected = "false";
           removeFromSelectedPhotos(id);
-          if(similarGroupOfPhotosChoosed != null || !sameCategory){
+          if(!allGroupsAreNull() || !isAnyCategoryOn()){
             secondChild.classes.remove('selected');
             secondChild.classes.add('notSelected');
             removeFromSelectedElements(firstChild, secondChild);
@@ -102,20 +133,154 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
           firstChild.classes.add('selectedPhoto');
           isSelected = "true";
           addToSelectedPhotos(id);
-          if(similarGroupOfPhotosChoosed != null || !sameCategory){
+          if(!allGroupsAreNull() || !isAnyCategoryOn()){
             secondChild.classes.remove('notSelected');
             secondChild.classes.add('selected');
             addToSelectedElements(firstChild, secondChild);
           }else{
-            addToSelectedElements(firstChild, null);
+            addToSelectedElements(firstChild, secondChild);
           }
           print("$id is selected? $isSelected");
         }
       }
     }
+    
+  void facesCategoryExecution() => photosWithFacesCategory(null);
+  void dayMomentCategoryExecution() => photosWithDayMomentCategory(null);
+  void toningCategoryExecution() => photosWithToningCategory(null);
+  void similarCategoryExecution() => photosWithSameCategory(null);
   
-  void similarCategory(){
-    photosWithSameCategory(null);
+  /**
+   * Faces Category
+   */ 
+  void enableFacesCategory(){
+    facesCategory = true;
+    toningCategory = false;
+    sameCategory = false;
+    dayMomentCategory = false;
+    clearSelectedCategories();
+  }
+  
+  void disableFacesCategory(){
+    facesCategory = false;
+    toningCategory = false;
+    sameCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearSelectedCategories();
+  }
+  
+  void photosWithFacesCategory(Photo photo){
+    cleanGroups();
+    cleanSelection();
+    if(facesCategory){
+      disableFacesCategory();
+      //removeFromActiveCategory(faces.FacesCategory.get());
+    }else{
+      enableFacesCategory();
+      addActiveCategory(faces.FacesCategory.get());
+    }
+    lastGroupVisited = facesGroupOfPhotosChoosed;
+    updatePhotoView(photo, facesGroupOfPhotosChoosed);
+  }
+  
+  /**
+   * Toning Category
+   */ 
+  void enableColorCategory(){
+    facesCategory = false;
+    toningCategory = true;
+    sameCategory = false;
+    dayMomentCategory = false;
+    clearSelectedCategories();
+  }
+  
+  void disableColorCategory(){
+    facesCategory = false;
+    toningCategory = false;
+    sameCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearSelectedCategories();
+  }
+  
+  void photosWithToningCategory(Photo photo){
+    cleanGroups();
+    cleanSelection();
+    if(toningCategory){
+      this.disableColorCategory();
+    }else{
+      this.enableColorCategory();
+      addActiveCategory(toning.ToningCategory.get());
+    }
+    lastGroupVisited = colorGroupOfPhotosChoosed;
+    updatePhotoView(photo, colorGroupOfPhotosChoosed);
+  }
+  
+  /**
+   * Same Category
+   */ 
+  void enableSameCategory(){
+    facesCategory = false;
+    toningCategory = false;
+    sameCategory = true;
+    dayMomentCategory = false;
+    clearSelectedCategories();
+  }
+  
+  void disableSameCategory(){
+    facesCategory = false;
+    toningCategory = false;
+    sameCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearSelectedCategories();
+  }
+  
+  void photosWithSameCategory(Photo photo){
+    cleanGroups();
+    cleanSelection();
+    if(sameCategory){
+      disableSameCategory();
+    }else{
+      enableSameCategory();
+      addActiveCategory(similar.SimilarCategory.get());
+    }
+    lastGroupVisited = similarGroupOfPhotosChoosed;
+    updatePhotoView(photo, similarGroupOfPhotosChoosed);
+  }
+  
+  /**
+   * Same Category
+   */ 
+  void enableDayMomentCategory(){
+    facesCategory = false;
+    toningCategory = false;
+    sameCategory = false;
+    dayMomentCategory = true;
+    clearSelectedCategories();
+  }
+  
+  void disableDayMomentCategory(){
+    facesCategory = false;
+    toningCategory = false;
+    sameCategory = false;
+    dayMomentCategory = false;
+    cleanGroups();
+    clearSelectedCategories();
+  }
+  
+  void photosWithDayMomentCategory(Photo photo){
+    cleanGroups();
+    cleanSelection();
+    if(dayMomentCategory){
+      disableDayMomentCategory();
+    }else{
+      enableDayMomentCategory();
+      addActiveCategory(dayMoment.DayMomentCategory.get());
+    }
+    lastGroupVisited = dayMomentGroupOfPhotosChoosed;
+    updatePhotoView(photo, dayMomentGroupOfPhotosChoosed);
   }
 
   /*

@@ -11,10 +11,12 @@ import 'package:bootjack/bootjack.dart';
 import 'dart:convert' show HtmlEscape;
 import '../../core/database/dataBase.dart';
 import '../../core/exif/exifManager.dart';
-import 'dart:math';
 import 'dart:async';
 import '../screenAdvisor.dart';
 import 'firstAuxFunctions.dart';
+import '../workers/starter.dart';
+import '../workers/summaryCreation.dart';
+import 'dart:isolate';
 
 /*
  * Import Photos Screen class
@@ -22,6 +24,8 @@ import 'firstAuxFunctions.dart';
 @CustomTag(ImportPhotos.TAG)
 class ImportPhotos extends screenhelper.Screen {
 
+  final _Starter = Starter.get();
+  final _SummaryBuilder = SummaryCreation.get();
   final _firstAuxFunctions = FirstAuxFunctions.get();
   final _ScreenAdvisor = ScreenAdvisor.get();
   static const String TAG = "import-photos";
@@ -36,12 +40,14 @@ class ImportPhotos extends screenhelper.Screen {
   InputElement _fileInput;
   Element _dropZone,
           _addPhotos,
-          startSummary;
+          startSummary,
+          _sucessWithImport;
   HtmlEscape sanitizer = new HtmlEscape();
   @observable String numberOfPhotosDefined = "20";
   int numberOfPhotosLoaded = 0;
-  List<FileReader> _fileReaders = new List<FileReader>();
   @observable bool modified = false;
+  @observable bool workIsComplete = false;
+  ReceivePort receivePort = new ReceivePort();
 
   ImportPhotos.created() : super.created(){
     Modal.use();
@@ -53,6 +59,8 @@ class ImportPhotos extends screenhelper.Screen {
     _dropZone = $['drop-zone'];
     _addPhotos= $['addPhotos'];
     startSummary = $['startSummary'];
+    _sucessWithImport = $['sucessWithImport'];
+    _sucessWithImport.hidden = true;
 
     _fileInput.onChange.listen((e) => _onFileInputChange());
     _dropZone.onDragOver.listen(_onDragOver);
@@ -61,6 +69,11 @@ class ImportPhotos extends screenhelper.Screen {
     _dropZone.onDrop.listen(_onDrop);
     
     photos.changes.listen((records) => changeToModified());
+    
+  }
+  
+  void workIsCompleteModified(){
+    print("THATS OK!");
   }
   
   void changeToModified(){
@@ -120,9 +133,7 @@ class ImportPhotos extends screenhelper.Screen {
     * 
     */ 
    void cancelImport(){
-     _fileReaders.forEach((fileReader){
-       fileReader.abort();
-     });
+     _Starter.killFileReaders();
      hiddeLoading();
    }
    
@@ -130,46 +141,43 @@ class ImportPhotos extends screenhelper.Screen {
     *
     */
    void _onFilesSelected(List<File> files) {  
-     
-     var photoFiles = files.where((file) => file.type.startsWith('image')),
-         intNumber = photoFiles.length; 
+    DB.addFilesToList(files); //TODO  
+    var photoFiles = files.where((file) => file.type.startsWith('image')),
+        intNumber = photoFiles.length; 
      
     if(intNumber > 0){
-      var number = 0,
-          dateInformation = 0.0,
-          photoToAdd = null,
-          photosBackUp = new List<Photo>();
+      var dateInformation = 0.0,
+          fileReaders = new List<FileReader>(),
+          files = photoFiles.toList();
+      
       numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
       numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
-      
       showLoading();
-     
-      for(File file in photoFiles){
-        var rng = new Random();
-        FileReader reader = new FileReader();
-        _fileReaders.add(reader);
-        reader.onLoad.listen((e){
-          photoToAdd = new Photo(reader.result, file.name);
-          dateInformation = file.lastModified;
-          //dateInformation = DB.extractExifInformation(photoToAdd);
-          photoToAdd.setDataFromPhoto(dateInformation.ceilToDouble());
-          photosBackUp.add(photoToAdd);
-          number++;
-          
-          if(number == intNumber){
-            //_firstAuxFunctions.photos.addAll(photosBackUp);
-            //_firstAuxFunctions.changed = true;
-            DB.sortPhotos(photosBackUp);
-            photos.addAll(photosBackUp);
-            _fileReaders.clear();
-            this.hiddeLoading();
-            photosBackUp = new List<Photo>();
-          }
-        });
-        reader.readAsDataUrl(file); 
-        
-      }
+      startWorking(files);
     } 
+   }
+   
+   void startWorking(List<File> filesToProcess) {
+     receivePort = new ReceivePort();
+
+     receivePort.listen((msg){
+       if (msg is SendPort){
+         msg.send("Alright");
+       }else{
+         photos.addAll(_Starter.damnPhotos);
+         DB.sortPhotos(photos);
+         _Starter.cleanProcessedPhotos();
+         _Starter.cleanFileReaders();
+         hiddeLoading();
+         //_sucessWithImport.hidden = false;
+       }
+     });
+     
+     //!HACK
+     Isolate.spawnUri(
+             _Starter.runInIsolate(receivePort.sendPort, filesToProcess),
+             [],
+             receivePort.sendPort);
    }
    
    /*
@@ -204,23 +212,36 @@ class ImportPhotos extends screenhelper.Screen {
    void runStartStuff(){
      _ScreenAdvisor.setScreenType(title);
    }
+   
+   void startWorkingOnSummary(List<Photo> photos, int numberDefinedInt) {
+     receivePort = new ReceivePort();
+
+     receivePort.listen((msg){
+       if (msg is SendPort){
+         msg.send("Alright");
+       }else{
+         hiddeSummaryBeenCreating();
+         goSummary();
+       }
+     });
+     
+     //!HACK
+     Isolate.spawnUri(
+             _SummaryBuilder.runInIsolate(receivePort.sendPort, photos, numberDefinedInt),
+             [],
+             receivePort.sendPort);
+   }
 
    /*
     * Build Summary
     */
     void buildSummary(){
-      var result = false,
-          numberDefinedInt = int.parse(numberOfPhotosDefined);
+      var numberDefinedInt = int.parse(numberOfPhotosDefined);
       if((numberDefinedInt > numberOfPhotosLoaded) || (numberDefinedInt <= 0)){
         showMessageNumberOverflow();
       }else{
         showSummaryBeenCreating();
-        print("Devia ter mostrado");
-        result = DB.buildSummary(photos, numberDefinedInt);
-      }
-      if(result){
-        hiddeSummaryBeenCreating();
-        goSummary();
+        startWorkingOnSummary(photos, numberDefinedInt);
       }
     }
     
@@ -230,7 +251,7 @@ class ImportPhotos extends screenhelper.Screen {
     Future goSummary() => router.go("summary-manipulation", {}); 
     
     /*
-     * 
+     *  Cancel the Summary Creation
      */
     void cancelSummaryCreation() => DB.cleanAllData();
     

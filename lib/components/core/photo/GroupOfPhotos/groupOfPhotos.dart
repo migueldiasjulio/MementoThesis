@@ -1,19 +1,26 @@
-library similargroupofphotos;
+library groupofphotos;
 
-import 'photo.dart';
+import '../photo.dart';
 import 'dart:math';
 
-class SimilarGroupOfPhotos {
+class GroupOfPhotos implements Comparable<GroupOfPhotos> {
   
-  List<Photo> _allGroupPhotos;
+  List<Photo> _allGroupPhotos = null;
   Photo _groupFace = null;
+  String _name = "";
   
-  SimilarGroupOfPhotos(){
+  GroupOfPhotos(){
     _allGroupPhotos = new List<Photo>();
   }
   
   List<Photo> get giveMeAllPhotos => _allGroupPhotos;
   Photo get groupFace => _groupFace;
+  String get groupName => _name;
+  
+  void clear(){
+    _allGroupPhotos.clear();
+    _groupFace = null;
+  }
   
   void setGroupFace(Photo photo){
     _groupFace = photo;
@@ -21,6 +28,10 @@ class SimilarGroupOfPhotos {
   
   void chooseAnotherFace(){
     setGroupFace(chooseRandomly());
+  }
+  
+  void setGroupName(String name){
+    _name = name;
   }
 
   Photo chooseRandomly(){
@@ -48,6 +59,19 @@ class SimilarGroupOfPhotos {
   
   void addAllToList(List<Photo> listOfPhotos){
     _allGroupPhotos.addAll(listOfPhotos);
+  }
+  
+  int compareTo(GroupOfPhotos o) {
+    var result;
+    if (o == null || o.giveMeAllPhotos.length == 0) {
+      result = -1;
+    } else if (o.giveMeAllPhotos.length == 0) {
+      result = 1;
+    } else {
+      result = (this.giveMeAllPhotos.length).compareTo(o.giveMeAllPhotos.length);
+    }
+
+    return result;
   }
   
 }

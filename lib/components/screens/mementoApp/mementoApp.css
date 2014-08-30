@@ -43,6 +43,7 @@
 
 #myScreen {
   overflow: hidden;
+  /*margin-top: -10px; Dafuq*/
 }
 
 .centerfy {

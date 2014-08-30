@@ -22,7 +22,11 @@
               </small>
             </div>
             <div id="nothing"></div> <!-- Just space -->
-        </template>  
+        </template> 
+        <div id="sucessWithImport" tabindex="-1" class="alert alert-success">
+          <a class="close" data-dismiss="sucessWithImport">&times;</a>
+          <strong>Success!</strong> Memento luck.
+        </div> 
         <template if="{{photos.isNotEmpty}}">    
 
     
@@ -97,10 +101,10 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <p id="modalMargin1">Memento - Summary Creation</p>
+            <h4 id="modalMargin1">Memento - Summary Creation</h4>
           </div>
           <div class="modal-body">
-            <p id="message">Creating your summary. Please wait..</p>
+            <h5 id="message">Creating your summary. Please wait.</h5>
           </div>
           <div id="modalMargin1" class="modal-footer">
             <button data-dismiss="modal" on-click="{{cancelSummaryCreation}}" class="btn btn-default">Cancel</button>

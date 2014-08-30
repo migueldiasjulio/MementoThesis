@@ -4,6 +4,7 @@ import 'category.dart';
 import '../photo/photo.dart';
 import 'dart:math';
 import 'package:observe/observe.dart';
+import '../photo/GroupOfPhotos/facesGroupOfPhotos.dart';
 
 
 class HSI extends Object with Observable {
@@ -128,14 +129,39 @@ class FacesCategory extends Category{
    
      return false;
    }
-  
-  void work(List<Photo> photosToAnalyze){
-    photosToAnalyze.forEach((photo){
+   
+   List<FacesGroupOfPhotos> workFacesGroups(List<Photo> photos){
+    var listToReturn = new List<FacesGroupOfPhotos>();
+    
+    FacesGroupOfPhotos withFaces = new FacesGroupOfPhotos();
+    withFaces.setGroupName("With Faces");
+    FacesGroupOfPhotos withoutFaces = new FacesGroupOfPhotos();
+    withoutFaces.setGroupName("Without Faces");
+    photos.forEach((photo){
       if(photo.hasFaces){
-        print("Photo " + photo.title + " has faces");
-        photo.addNewCategory(_instance);
+        if(withFaces.giveMeAllPhotos.length == 0){
+          withFaces.setGroupFace(photo);
+          print("Group with Faces. Group face: " + photo.id.toString());
+        }
+        withFaces.addToList(photo);
+        photo.setFacesGroup(withFaces); 
+      }
+      else{
+        if(withoutFaces.giveMeAllPhotos.length == 0){
+          withoutFaces.setGroupFace(photo);
+          print("Group without Faces. Group face: " + photo.id.toString());
+        }
+        withoutFaces.addToList(photo);
+        photo.setFacesGroup(withoutFaces);
       }
     });
-    //TODO DO SOMETHING
+    
+    listToReturn.add(withFaces);
+    listToReturn.add(withoutFaces);
+    return listToReturn;
+  }
+  
+  void work(List<Photo> photosToAnalyze){
+    //Nothing to do
   }
 }

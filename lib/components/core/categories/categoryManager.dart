@@ -9,8 +9,7 @@ library categorymanager;
 
 import '../photo/photo.dart';
 import 'facesCategory.dart' as faces;
-import 'blackAndWhiteCategory.dart' as bw;
-import 'colorCategory.dart' as color;
+import 'toningCategory.dart' as toning;
 import 'similarCategory.dart' as similar;
 import 'category.dart';
 import 'package:observe/observe.dart';
@@ -28,8 +27,7 @@ class CategoryManager extends Object with Observable {
 
   CategoryManager._() {
     categories.add(faces.FacesCategory.get());
-    categories.add(bw.BlackAndWhiteCategory.get());
-    categories.add(color.ColorCategory.get());
+    categories.add(toning.ToningCategory.get());
     categories.add(similar.SimilarCategory.get());
   }
 
