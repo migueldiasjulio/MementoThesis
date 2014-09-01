@@ -62,6 +62,8 @@ class PixelWorkflow extends Object with Observable {
         count = 0,
         facesCategory = FacesCategory.get(),
         grayPixel = 0;
+        
+        photo.setDataSaved(dimension);
     
     for (var i = 0; i < dimension.length; i += 4) {
       

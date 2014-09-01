@@ -308,8 +308,10 @@ class Container extends Object with Observable {
     });
     print(">>>>>Lets try to enter in a group or create a new one<<<<<");
 
-    var listOfGroups = giveMeTheCorrectListOfGroups(groupOfPhotos),
+    var listOfGroupsAux = giveMeTheCorrectListOfGroups(groupOfPhotos),
+        listOfGroups = new List<GroupOfPhotos>(),
         groupName = groupOfPhotos.groupName;
+        listOfGroups.addAll(listOfGroupsAux.toList());   
     print("Enter with this type of Group: " + groupOfPhotos.groupName.toString());
     print("Correct List Of Groups of this type: " + listOfGroups.length.toString());
 
@@ -350,28 +352,62 @@ class Container extends Object with Observable {
             }
           });
         } else {
+          print("VOU ENTRAR AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          print("Group name to enter: " + group.groupName.toString());
           if (group.groupName == groupOfPhotos.groupName) {
-            if (group.giveMeAllPhotos.length == 0) {
+            if (group.giveMeAllPhotos.length == 0){
               group.setGroupFace(photo);
             }
             photo.addGroup(group);
             group.addToList(photo);
             print("Adicionado ao grupo: " + group.groupName.toString());
+          }else{
+            if(group.groupName == listOfGroupsAux.last.groupName){
+              var newGroup = instanceTheCorrectGroup(groupOfPhotos);
+              print("Novo grupo criado do tipo: " + newGroup.groupName.toString());
+              photo.addGroup(newGroup);
+              newGroup.setGroupFace(photo);
+              newGroup.addToList(photo);
+              putItIntoTheCorrectList(newGroup);
+            }
           }
         }
       });
     }
 
-    sortListGroupOfPhotos(listOfGroups);
+    sortListGroupOfPhotos(listOfGroupsAux);
     print(">>>>>Lets try to enter in a group or create a new one<<<<<");
+  }
+  
+  List<Photo> giveMeAllHeaderFromThisList(List<Photo> similarPhotos, GroupOfPhotos group){
+    var listToReturn = new List<Photo>(),
+        correctList = giveMeTheCorrectListOfGroups(group),
+        groupPhotos;
+    
+    correctList.forEach((groupOfTheList) {
+      if (groupOfTheList.giveMeAllPhotos.isNotEmpty) {
+        groupPhotos = groupOfTheList.giveMeAllPhotos;
+        var gotIt = false;
+        groupPhotos.forEach((photoInsideGroup){
+          if(similarPhotos.contains(photoInsideGroup)){
+            if(!gotIt){
+              listToReturn.add(photoInsideGroup);
+              gotIt = true;
+            }
+          }
+        });
+      }
+    });
+    
+    return listToReturn;
   }
 
   List<Photo> giveMeAllHeader(GroupOfPhotos group) {
     var listToReturn = new List<Photo>(),
         correctList = giveMeTheCorrectListOfGroups(group);
-
+        
     correctList.forEach((groupOfTheList) {
-      if (groupOfTheList.giveMeAllPhotos.isNotEmpty) {
+      if (groupOfTheList.giveMeAllPhotos.isNotEmpty){
         listToReturn.add(groupOfTheList.groupFace);
       }
     });
@@ -385,7 +421,6 @@ class Container extends Object with Observable {
   }
 
   void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto, GroupOfPhotos groupChoosed) {
-    print("Number of active categories: " + categories.length.toString());
     photosToDisplay.clear();
     if (categories.length == 0) {
       photosToDisplay.addAll(photos); //CASO GERAL
@@ -399,8 +434,7 @@ class Container extends Object with Observable {
             if (photos.contains(photoSimilar)) {
               photosToDisplay.add(photoSimilar);
             }
-          });
-          
+          });     
             if (categories.length > 1) {
               if (groupChoosed.giveMeAllPhotos.isNotEmpty && isFromThisContainer(groupChoosed)) {
                 var photosFromGroup = groupChoosed.giveMeAllPhotos,
@@ -408,10 +442,15 @@ class Container extends Object with Observable {
                 photosToDisplayNext.addAll(photosToDisplay.toList());
                 photosToDisplay.clear();
                 photosFromGroup.forEach((photoInsideGroup){
-                  if(photosToDisplayNext.contains(photoInsideGroup)){photosToDisplay.add(photoInsideGroup); }
+                  if(photosToDisplayNext.contains(photoInsideGroup)){
+                    photosToDisplay.add(photoInsideGroup);
+                  }
                 });
               } else {
-                photosToDisplay.addAll(giveMeAllHeader(groupChoosed));
+                var photosToDisplaySaved = new List<Photo>();
+                photosToDisplaySaved.addAll(photosToDisplay.toList());
+                photosToDisplay.clear();
+                photosToDisplay.addAll(giveMeAllHeaderFromThisList(photosToDisplaySaved ,groupChoosed));
               }
             }
       } //DisplayingPhoto != null
@@ -457,7 +496,8 @@ class Database extends Object with Observable {
     var containersToBuild = [SUMMARY, STANDBY, EXCLUDED, SUMMARY2, STANDBY2, EXCLUDED2];
     var leng = ((containersToBuild.length) / 2).round();
     for (int i = 0; i < leng; i++) {
-      containers[containersToBuild.elementAt(i)] = new Container(containersToBuild.elementAt(i), containersToBuild.elementAt(i + leng));
+      containers[containersToBuild.elementAt(i)] = new Container(containersToBuild.elementAt(i), 
+          containersToBuild.elementAt(i + leng));
     }
   }
 

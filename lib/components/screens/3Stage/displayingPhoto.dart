@@ -27,10 +27,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   String title = "Displaying Photo",
          description = "Photo big size";
   factory DisplayingPhoto() => new Element.tag(TAG);
-  Element _summaryContainer,
-          _standByContainer,
-          _excludedContainer,
-          _scrollableSummary,
+  Element _scrollableSummary,
           _scrollableStandby,
           _scrollableExcluded;
   MutationObserver observer;
@@ -38,9 +35,6 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
 
   DisplayingPhoto.created() : super.created() {
     screenTitle = "Big Size Photo";
-    _summaryContainer = $['t-SUMMARY'];
-    _standByContainer = $['t-STANDBY'];
-    _excludedContainer = $['t-EXCLUDED'];
     _scrollableSummary = $['SUMMARY2'];
     _scrollableStandby = $['STANDBY2'];
     _scrollableExcluded = $['EXCLUDED2'];
@@ -83,7 +77,10 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     _ScreenAdvisor.setScreenType(title);
     cleanAll();
     addAllCategoriesToInactive();
-    checkOverflow();
+    summaryContainer.showPhotosWithCategories(selectedCategories, null, null);
+    standbyContainer.showPhotosWithCategories(selectedCategories, null, null);
+    excludedContainer.showPhotosWithCategories(selectedCategories, null, null);
+    //checkOverflow();
   }
   
   void cleanAll(){
@@ -175,7 +172,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
 
   void photosWithFacesCategory(Photo photo) {
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if (facesCategory) {
       disableFacesCategory();
     } else {
@@ -206,7 +203,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
 
   void photosWithToningCategory(Photo photo) {
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if (toningCategory) {
       this.disableColorCategory();
     } else {
@@ -237,7 +234,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
 
   void photosWithDayMomentCategory(Photo photo) {
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if (dayMomentCategory) {
       disableDayMomentCategory();
     } else {
@@ -256,7 +253,6 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     toningCategory = false;
     dayMomentCategory = false;
     sameCategory = true;
-    clearSelectedCategories();
   }
 
   void disableSameCategory() {
@@ -270,7 +266,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
 
   void photosWithSameCategory(Photo photo) {
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if (sameCategory) {
       disableSameCategory();
     } else {

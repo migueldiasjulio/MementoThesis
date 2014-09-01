@@ -32,7 +32,7 @@ class Downloader extends Object with Observable {
       if(msg == "STOP"){  }
       
       var zipInstance = new js.JsObject(js.context['JSZip'], []);
-      zipInstance.callMethod('file',["Memento.txt", "Your resulted summary is inside '"'Summary Photos'"' folder.\n"]);
+      zipInstance.callMethod('file',["README.txt", "Your resulted summary is inside '"'Summary Photos'"' folder.\n"]);
       var imgFolder = zipInstance.callMethod('folder', ["Summary Photos"]);
       
       //LOOP HERE
@@ -41,12 +41,16 @@ class Downloader extends Object with Observable {
           summaryFiles = DB.giveMeAllSummaryFiles(),
           size = summaryPhotos.length,
           fileName = "",
-          fileData;
+          imgData;
       for(int i = 0; i < size; i++){
         fileName = summaryFiles.elementAt(i).name;
-        fileData = summaryPhotos.elementAt(i).src;
-        imgFolder.callMethod('file', [fileName, fileData, {}]);
+        imgData = summaryPhotos.elementAt(i).miniThumbnailToShow.src;
+        print(imgData);
+        print("File Data: " + imgData.toString());
+        imgFolder.callMethod('file', [fileName, imgData]);
       }
+      
+      //zip.file("hello.txt").asUint8Array();
       //img.file("smile.gif", imgData, {base64: true});
       
       var content = zipInstance.callMethod('generate', []);

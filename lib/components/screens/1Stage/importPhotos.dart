@@ -17,6 +17,7 @@ import 'firstAuxFunctions.dart';
 import '../workers/starter.dart';
 import '../workers/summaryCreation.dart';
 import 'dart:isolate';
+import 'dart:js' as js show JsObject, context;
 
 /*
  * Import Photos Screen class
@@ -141,6 +142,7 @@ class ImportPhotos extends screenhelper.Screen {
     *
     */
    void _onFilesSelected(List<File> files) {  
+     var exif = new js.JsObject(js.context['EXIF'], []);
     DB.addFilesToList(files); //TODO  
     var photoFiles = files.where((file) => file.type.startsWith('image')),
         intNumber = photoFiles.length; 
@@ -153,11 +155,11 @@ class ImportPhotos extends screenhelper.Screen {
       numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
       numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
       showLoading();
-      startWorking(files);
+      startWorking(files, exif);
     } 
    }
    
-   void startWorking(List<File> filesToProcess) {
+   void startWorking(List<File> filesToProcess, js.JsObject exifInstance) {
      receivePort = new ReceivePort();
 
      receivePort.listen((msg){
@@ -175,7 +177,7 @@ class ImportPhotos extends screenhelper.Screen {
      
      //!HACK
      Isolate.spawnUri(
-             _Starter.runInIsolate(receivePort.sendPort, filesToProcess),
+             _Starter.runInIsolate(receivePort.sendPort, filesToProcess, exifInstance),
              [],
              receivePort.sendPort);
    }

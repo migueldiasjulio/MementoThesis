@@ -38,6 +38,7 @@
         <template if="{{insideGroup}}">
           <img src="../../../resources/images/close.png"
                on-click="{{getOutOfGroup}}"
+               class="topIndex"
                style="width: 40px; height: 40px" >
           </template>
           <template if="{{currentContainer.photos.isEmpty}}">
@@ -367,4 +368,5 @@
 <script src="../../../../../packages/browser/exif.js"></script>
 <script src="../defaultScreen/jszip.js"></script>
 <script src="../defaultScreen/FileSaver.js"></script>
+<script src="../defaultScreen/imageData.js"></script>
 </polymer-element>

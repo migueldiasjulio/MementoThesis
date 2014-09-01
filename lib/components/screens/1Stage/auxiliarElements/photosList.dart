@@ -9,6 +9,8 @@ import '../../../core/photo/photo.dart';
 import 'dart:html';
 import 'package:observe/observe.dart';
 import '../firstAuxFunctions.dart';
+import 'dart:js' as js show JsObject, context;
+import '../../../core/database/dataBase.dart';
 
 final _firstAuxFunctions = FirstAuxFunctions.get();
 
@@ -25,7 +27,15 @@ class PhotosList extends PolymerElement {
     saveImportedElements(photosToShow);
   }
   
+  void testJS(){
+    var exif = new js.JsObject(js.context['EXIF'], []); 
+    var photo = $['photo_1'];
+    var exifWorking = exif.callMethod('loadAllImages',[]);
+    print(exifWorking.toString()); 
+  }
+ 
   void showMoreInfo(Event event, var detail, Element target){
+    //testJS();
     var children = target.children,
         figcaption = children[1];
     
@@ -46,7 +56,6 @@ class PhotosList extends PolymerElement {
     listAux.forEach((photo){
       thisID = photo.id;
       element = $[thisID];
-      print("Element: " + element.toString());
       elementParent = element.parent;
       elementToAdd = elementParent.children[1];
 

@@ -117,7 +117,8 @@
               <template if="{{insideGroup}}">
                 <img src="../../../resources/images/close.png"
                      on-click="{{getOutOfGroupInDisplayMode}}"
-                     style="width: 40px; height: 40px" >
+                     class="topIndex"
+                     style="width: 40px; height: 40px;" >
               </template>
               <template id="firstTemplate" if="{{currentContainer.photos.isEmpty}}">
                   <div class="space40"></div> <!-- Just space -->
@@ -201,10 +202,10 @@
                                             <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
                                           </template>
                                           <template if="{{dayMomentCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                            <p id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
                                           </template>
                                           <template if="{{toningCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                            <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
                                           </template>
                                           <img src="../../../resources/images/selected_blue.png"
                                                class="notSelected"
@@ -225,7 +226,7 @@
                             <div on-click="{{moveRight}}" id="thumb-forward"></div>
                           </template>
                           
-                           <!-- <last-screen-photos></last-screen-photos> -->
+                           <!-- TO PUT <last-screen-photos></last-screen-photos> -->
                           
                       </template>
                     </section> 

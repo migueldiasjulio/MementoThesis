@@ -5,6 +5,7 @@ import 'dart:html';
 import 'package:observe/observe.dart';
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
+import 'dart:js' as js show JsObject, context;
 
 class Starter extends Object with Observable {
   
@@ -34,11 +35,14 @@ class Starter extends Object with Observable {
   }
    
    runInIsolate(SendPort sendPort,  
-                List<File> filesToProcess) {
+                List<File> filesToProcess,
+                js.JsObject exif) {
      
     //Stablishing connection 
     ReceivePort receivePort = new ReceivePort();
     sendPort.send(receivePort.sendPort);
+    var exif = new js.JsObject(js.context['EXIF'], []); 
+    var faceDetector = new js.JsObject(js.context['FaceDetector'], []); 
 
     receivePort.listen((msg) {
       var photoToAdd = null,
@@ -53,8 +57,17 @@ class Starter extends Object with Observable {
         
         reader.onLoad.listen((e){
           photoToAdd = new Photo(reader.result, file.name);
+          
           //dateInformation = DB.extractExifInformation(photoToAdd);
           dateInformation = file.lastModified;
+          
+          var photo = photoToAdd.image;
+
+          //var faceDetectorX = faceDetector.callMethod('comp',[photo]);
+          //print(faceDetectorX.toString());
+          //var exifWorking = exif.callMethod('pretty',[photo]);
+          //print(exifWorking); 
+          
           photoToAdd.setLastModifiedInformation(file.lastModifiedDate);
           photoToAdd.setDataFromPhoto(dateInformation.ceilToDouble());
           _processedPhotos.add(photoToAdd);

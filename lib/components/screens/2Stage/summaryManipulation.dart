@@ -172,7 +172,7 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   
   void photosWithFacesCategory(Photo photo){
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if(facesCategory){
       disableFacesCategory();
       //removeFromActiveCategory(faces.FacesCategory.get());
@@ -206,7 +206,7 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   
   void photosWithToningCategory(Photo photo){
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if(toningCategory){
       this.disableColorCategory();
     }else{
@@ -239,7 +239,7 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   
   void photosWithSameCategory(Photo photo){
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if(sameCategory){
       disableSameCategory();
     }else{
@@ -272,7 +272,7 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   
   void photosWithDayMomentCategory(Photo photo){
     cleanGroups();
-    cleanSelection();
+    disableSelection();
     if(dayMomentCategory){
       disableDayMomentCategory();
     }else{

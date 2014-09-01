@@ -14,8 +14,10 @@
       <div class="mementoImage" id="{{photo.title}}">
         <figure on-click="{{showMoreInfo}}">
           <img data-id="{{photo.id}}" class="image"
-            src="{{photo.thumbnailToShow.src}}"
+            exif="true"
+            src="{{photo.image.src}}"
             id="{{photo.id}}">
+            <!-- thumbnailToShow -->
           <figcaption class="hideThis">
             <p>{{photo.title}}</p>
             <br> 
@@ -35,4 +37,6 @@
 
 </template>
 <script type="application/dart" src="photosList.dart"></script>
+<script src="../exif.js"></script> 
+<script src="../binaryajax.js"></script>
 </polymer-element>

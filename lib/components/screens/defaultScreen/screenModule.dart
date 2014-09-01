@@ -365,12 +365,14 @@ abstract class SpecialScreen extends ScreenModule {
   void deleteFromAllGroups(Container destinationContainer, Photo photo){
     var remove = true,
         lists = currentContainer.allContainerGroups(),
+        listsAux = new List<List<GroupOfPhotos>>(),
         groupsToDelete = new List<GroupOfPhotos>();
+        listsAux.addAll(lists.toList());
         print("Teste 1C- Caso normal de move. Foto: " + photo.id.toString() + " a iniciar o processo.");
         List<GroupOfPhotos> groups = new List<GroupOfPhotos>();
-    lists.forEach((groupsX){
+        listsAux.forEach((groupsX){
       groups.clear();
-      groups.addAll(groupsX);
+      groups.addAll(groupsX.toList());
       groups.forEach((group){
               //Se for cara do grupo
               print("Teste 1C - Group: " + group.groupName.toString());
@@ -382,9 +384,14 @@ abstract class SpecialScreen extends ScreenModule {
                   //Se tiver mais fotos no grupo
                   if(group.giveMeAllPhotos.length > 1){
                     print("Teste 1C2- Caso normal de move. Existem mais fotos no grupo. Nao vou apagar");
-                    group.chooseAnotherFace();
                     group.removeFromList(photo);
                     photo.removeGroup(group);
+                    group.chooseAnotherFace();
+                    print("New Face");
+                    
+                    print("Removed");
+                    
+                    print("Finalizado!");
                   //Se nao tiver mais fotos apagar o grupo
                   }else{
                     print("Teste 1C3- Caso normal de move. Não existem mais fotos no grupo. Vou apagar o grupo");
@@ -439,15 +446,21 @@ abstract class SpecialScreen extends ScreenModule {
                                                                 facesCategory,  
                                                                 dayMomentCategory).giveMeAllPhotos);
         });
-        if(photo != null){sameCategory = true;}
         photoCopy.clear();
-        photoCopy.addAll(photos);
+        if(photo != null){
+          sameCategory = true;
+          var similarPhotosOfDisplayedOne = photo.similarPhotos;
+          photos.forEach((specialPhoto){
+           if(similarPhotosOfDisplayedOne.contains(specialPhoto)){photoCopy.add(specialPhoto);} 
+          });
+        }else{photoCopy.addAll(photos);}
       }
       //por cada foto do grupo
-      photos.forEach((selectedPhoto){
+      photoCopy.forEach((selectedPhoto){
         deleteFromAllGroups(container, selectedPhoto);
       });
-      DB.moveFromTo(currentContainer.name, container.name, photos);
+      DB.moveFromTo(currentContainer.name, container.name, photoCopy);
+      container.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited);
       if(photo != null){checkDestination(container.name); }
     }else{
       print("Teste 1A- Caso normal de move. As fotos já foram movidas para o container de destino");
@@ -457,7 +470,8 @@ abstract class SpecialScreen extends ScreenModule {
       photoCopy.forEach((selectedPhoto){
         print("Iterating: " + selectedPhoto.id.toString());
         deleteFromAllGroups(container, selectedPhoto);
-      });  
+      }); 
+      container.showPhotosWithCategories(selectedCategories, photo, new GroupOfPhotos());
     }//LASTSCREEN
     
     disableSelection();
