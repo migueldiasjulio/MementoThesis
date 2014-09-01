@@ -79,6 +79,12 @@ class Container extends Object with Observable {
     colorListGroupOfPhotos.clear();
     dayMomentListGroupOfPhotos.clear();
   }
+  
+  void clearTheRightGroup(GroupOfPhotos group, List<GroupOfPhotos> list){
+    list.forEach((element){
+      if(element.groupName == group.groupName){element.clear();}
+    });  
+  }
 
   /*
    * 
@@ -86,27 +92,27 @@ class Container extends Object with Observable {
   void removeGroupFromList(GroupOfPhotos group) {
     switch (group.groupName) {
       case "With Faces":
-        facesListGroupOfPhotos.remove(group);
+        clearTheRightGroup(group, facesListGroupOfPhotos);
         sortListGroupOfPhotos(facesListGroupOfPhotos);
         break;
       case "Without Faces":
-        facesListGroupOfPhotos.remove(group);
+        clearTheRightGroup(group, facesListGroupOfPhotos);
         sortListGroupOfPhotos(facesListGroupOfPhotos);
         break;
       case "Night":
-        dayMomentListGroupOfPhotos.remove(group);
+        clearTheRightGroup(group, dayMomentListGroupOfPhotos);
         sortListGroupOfPhotos(dayMomentListGroupOfPhotos);
         break;
       case "Day":
-        dayMomentListGroupOfPhotos.remove(group);
+        clearTheRightGroup(group, dayMomentListGroupOfPhotos);
         sortListGroupOfPhotos(dayMomentListGroupOfPhotos);
         break;
       case "Color":
-        colorListGroupOfPhotos.remove(group);
+        clearTheRightGroup(group, colorListGroupOfPhotos);
         sortListGroupOfPhotos(colorListGroupOfPhotos);
         break;
       case "Black and White":
-        colorListGroupOfPhotos.remove(group);
+        clearTheRightGroup(group, colorListGroupOfPhotos);
         sortListGroupOfPhotos(colorListGroupOfPhotos);
         break;
       case "Similar":
@@ -281,7 +287,6 @@ class Container extends Object with Observable {
         facesListGroupOfPhotos.add(group);
         break;
       case "Night":
-        DayMomentGroupOfPhotos night = new DayMomentGroupOfPhotos();
         dayMomentListGroupOfPhotos.add(group);
         break;
       case "Day":
@@ -361,23 +366,27 @@ class Container extends Object with Observable {
             photo.addGroup(group);
             group.addToList(photo);
             print("Adicionado ao grupo: " + group.groupName.toString());
-          }else{
-            if(group.groupName == listOfGroupsAux.last.groupName){
-              var newGroup = instanceTheCorrectGroup(groupOfPhotos);
-              print("Novo grupo criado do tipo: " + newGroup.groupName.toString());
-              photo.addGroup(newGroup);
-              newGroup.setGroupFace(photo);
-              newGroup.addToList(photo);
-              putItIntoTheCorrectList(newGroup);
-            }
           }
         }
+        print("Number of Elements: " + listOfGroups.length.toString()); 
       });
     }
 
-    sortListGroupOfPhotos(listOfGroupsAux);
+    //sortListGroupOfPhotos(listOfGroupsAux);
+
     print(">>>>>Lets try to enter in a group or create a new one<<<<<");
   }
+  
+  bool existsWithThatName(GroupOfPhotos group, List<GroupOfPhotos> groups){
+    var returnValue = false;
+    
+    groups.forEach((element){
+      if(element.groupName == group.groupName){return true;}
+    });
+    return returnValue;
+  }
+  
+  
   
   List<Photo> giveMeAllHeaderFromThisList(List<Photo> similarPhotos, GroupOfPhotos group){
     var listToReturn = new List<Photo>(),
