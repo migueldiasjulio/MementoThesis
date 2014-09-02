@@ -8,33 +8,32 @@ import '../../core/database/dataBase.dart';
 import 'dart:js' as js show JsObject, context;
 
 class Downloader extends Object with Observable {
-  
+
   static Downloader _instance;
-  
+
   Downloader._();
-  
+
   static Downloader get() {
     if (_instance == null) {
       _instance = new Downloader._();
     }
     return _instance;
   }
-   
-   runInIsolate(SendPort sendPort,  
-                Container summaryContainer) {
-     
-    //Stablishing connection 
+
+  runInIsolate(SendPort sendPort, Container summaryContainer) {
+
+    //Stablishing connection
     ReceivePort receivePort = new ReceivePort();
     sendPort.send(receivePort.sendPort);
 
     receivePort.listen((msg) {
-      
-      if(msg == "STOP"){  }
-      
+
+      if (msg == "STOP") {}
+
       var zipInstance = new js.JsObject(js.context['JSZip'], []);
-      zipInstance.callMethod('file',["README.txt", "Your resulted summary is inside '"'Summary Photos'"' folder.\n"]);
+      zipInstance.callMethod('file', ["README.txt", "Your resulted summary is inside '" 'Summary Photos' "' folder.\n"]);
       var imgFolder = zipInstance.callMethod('folder', ["Summary Photos"]);
-      
+
       //LOOP HERE
       //var img = zip.folder("images");
       var summaryPhotos = summaryContainer.photos,
@@ -42,21 +41,19 @@ class Downloader extends Object with Observable {
           size = summaryPhotos.length,
           fileName = "",
           imgData;
-      for(int i = 0; i < size; i++){
+      for (int i = 0; i < size; i++) {
         fileName = summaryFiles.elementAt(i).name;
-        imgData = summaryPhotos.elementAt(i).miniThumbnailToShow.src;
-        print(imgData);
-        print("File Data: " + imgData.toString());
+        imgData = summaryPhotos.elementAt(i).mainSrc;
         imgFolder.callMethod('file', [fileName, imgData]);
       }
-      
+
       //zip.file("hello.txt").asUint8Array();
       //img.file("smile.gif", imgData, {base64: true});
-      
+
       var content = zipInstance.callMethod('generate', []);
       var fileSaver = js.context.callMethod('saveAs', [content, 'memento.zip']);
-      
-      sendPort.send("Process is finished!");   
+
+      sendPort.send("Process is finished!");
     });
   }
 }

@@ -20,18 +20,42 @@ abstract class AlgorithmOptions extends PolymerElement {
     //TODO
   }
   
+  void checkTheRightAlgorithm(){
+    cleanAllElements();
+    var functionRightNow = _settings.whichAlgorithmInUse(),
+        functionName = functionRightNow.toString();
+    if(functionName == "FunctionCoosed.FIRSTX"){
+      var element = $['firstx'];
+      element.setAttribute("checked", "checked");
+    }
+    if(functionName == "FunctionCoosed.RANDOM"){
+      var element = $['random'];
+      element.setAttribute("checked", "checked");
+    }
+    if(functionName == "FunctionCoosed.HIERARCHICAL"){
+      var element = $['hierachical'];
+      element.setAttribute("checked", "checked");
+    }
+  }
+  
+  void cleanAllElements(){
+    var element =  $['firstx'];
+    element.attributes.remove("checked");
+    element = $['random'];
+    element.attributes.remove("checked");
+    element = $['hierachical'];
+    element.attributes.remove("checked");
+  }
+  
   void defineFirstX(){
-    print("First X");
     _settings.setFunction("FIRSTX");
   }
   
   void defineRandom(){
-    print("Random");
     _settings.setFunction("RANDOM");
   }
   
   void defineHierarchical(){
-    print("Hierachical");
     _settings.setFunction("HIERARCHICAL");
   }
   

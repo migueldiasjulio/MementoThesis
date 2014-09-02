@@ -40,9 +40,7 @@ class Starter extends Object with Observable {
      
     //Stablishing connection 
     ReceivePort receivePort = new ReceivePort();
-    sendPort.send(receivePort.sendPort);
-    var exif = new js.JsObject(js.context['EXIF'], []); 
-    var faceDetector = new js.JsObject(js.context['FaceDetector'], []); 
+    sendPort.send(receivePort.sendPort); 
 
     receivePort.listen((msg) {
       var photoToAdd = null,

@@ -250,6 +250,9 @@ abstract class SpecialScreen extends ScreenModule {
     });
     
     //!HACK
+    List aa = new List();
+    aa.add(receivePort.sendPort);
+    aa.add(summaryContainer);
     Isolate.spawnUri(
             _Downloader.runInIsolate(receivePort.sendPort, summaryContainer),
             [],

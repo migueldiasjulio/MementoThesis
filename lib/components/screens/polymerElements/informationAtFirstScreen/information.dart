@@ -11,27 +11,38 @@ import '../../../core/settings/mementoSettings.dart';
 
 @CustomTag(InformationButtons.TAG)
 class InformationButtons extends AlgorithmOptions {
-  
+
   static const String TAG = "information-buttons";
   factory InformationButtons() => new Element.tag(TAG);
   MementoSettings _settings = MementoSettings.get();
-  Modal howToSummarize,
-        changeAlgorithm;
-  
-  InformationButtons.created() : super.created(){
+  Modal howToSummarize, changeAlgorithm;
+
+  InformationButtons.created() : super.created() {
     Modal.use();
   }
-  
-  void showHowToSummarize(){
-    if(howToSummarize == null) howToSummarize = Modal.wire($['howToSummarize']);
-    
+
+  void showHowToSummarize() {
+    if (howToSummarize == null) howToSummarize = Modal.wire($['howToSummarize']);
+
     howToSummarize.show();
   }
-  
-  void chooseAlgorithm(){
-    if(changeAlgorithm == null) changeAlgorithm = Modal.wire($['changeAlgorithm']);
+
+  void chooseAlgorithm() {
+
+    $['firstx']..onClick.listen((e) {
+          defineFirstX();
+        });
+    $['random']..onClick.listen((e) {
+          defineRandom();
+        });
+    $['hierachical']..onClick.listen((e) {
+          defineHierarchical();
+        });
     
+    checkTheRightAlgorithm();
+    if (changeAlgorithm == null) changeAlgorithm = Modal.wire($['changeAlgorithm']);
+
     changeAlgorithm.show();
   }
-  
+
 }

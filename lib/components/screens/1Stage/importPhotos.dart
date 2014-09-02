@@ -143,7 +143,9 @@ class ImportPhotos extends screenhelper.Screen {
     */
    void _onFilesSelected(List<File> files) {  
      var exif = new js.JsObject(js.context['EXIF'], []);
-    DB.addFilesToList(files); //TODO  
+     var faceDetector = new js.JsObject(js.context['FaceDetector'], []);
+    DB.addFilesToList(files);
+    
     var photoFiles = files.where((file) => file.type.startsWith('image')),
         intNumber = photoFiles.length; 
      
@@ -255,7 +257,7 @@ class ImportPhotos extends screenhelper.Screen {
     /*
      *  Cancel the Summary Creation
      */
-    void cancelSummaryCreation() => DB.cleanAllData();
+    bool cancelSummaryCreation() => DB.cleanAllData();
     
     void showDataInformation(){
       toogleShowingData();

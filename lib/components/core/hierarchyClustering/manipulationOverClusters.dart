@@ -11,6 +11,7 @@ class ManipulationOverClusters extends Object with Observable {
   * Singleton
   */
  static ManipulationOverClusters _instance; 
+ var auxiliar = new List<Cluster>();
 
  ManipulationOverClusters._() {}
 
@@ -20,6 +21,8 @@ class ManipulationOverClusters extends Object with Observable {
    }
    return _instance;
  }
+ 
+ void cleanAuxiliar() => auxiliar.clear();
  
  void cutAndAddTheBiggest(List<Cluster> clusters){
    var biggest = returnBiggestCluster(clusters),
@@ -63,6 +66,25 @@ class ManipulationOverClusters extends Object with Observable {
    
    return photosToReturn;
  }
+ 
+ List<String> clustersToPhotosId(List<Cluster> clusters){
+   var namesToReturn = new List<String>();
+   
+   clusters.forEach((cluster){
+     namesToReturn.add(cluster.name);
+   });
+   
+   return namesToReturn;
+ }
+ 
+   void returnAllLeafsFromThisCluster(Cluster cluster) {
+     //Caso básico
+     if (cluster.isLeaf()) auxiliar.add(cluster); 
+     else {
+       returnAllLeafsFromThisCluster(cluster.children[0]);
+       returnAllLeafsFromThisCluster(cluster.children[1]);
+     }
+   }
  
  List<Photo> IdForPhoto(List<Photo> photos, List<String> photosIdsToReturn){
    var photosToReturn = new List<Photo>();

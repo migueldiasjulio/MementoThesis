@@ -2,15 +2,18 @@ library headerButtons;
 
 import 'package:polymer/polymer.dart';
 import 'dart:core';
+import 'dart:html';
 export "package:polymer/init.dart";
 import 'package:bootjack/bootjack.dart';
 export 'package:route_hierarchical/client.dart';
 import '../algorithmOptions.dart';
 import '../../screenAdvisor.dart';
+import '../../../core/settings/mementoSettings.dart';
 
 @CustomTag('header-element')
 class HeaderElement extends AlgorithmOptions {
   
+  MementoSettings _settings = MementoSettings.get();
   final _ScreenAdvisor = ScreenAdvisor.get();
   Modal help, settings, about;
   @observable String screenName = "";
@@ -33,7 +36,7 @@ class HeaderElement extends AlgorithmOptions {
         ..onClick.listen((e) {
         defineRandom();
             });
-        $['hierachical']
+    $['hierachical']
         ..onClick.listen((e) {
         defineHierarchical();
             });
@@ -72,7 +75,8 @@ class HeaderElement extends AlgorithmOptions {
     help.show();
   }
   
-  void showSettings(){    
+  void showSettings(){
+    checkTheRightAlgorithm();
     settings.show();
   }
   
