@@ -1,0 +1,19 @@
+@import url("../../../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../../../packages/bootjack/css/bootstrap-theme.css");
+
+/* Bottom Section */
+
+#screenFooter{
+  padding:5px;
+}
+
+#bottomZone{
+  border-top: 1px solid #8A949B;
+  background: #D1D2D5;
+  height: 95px;
+}
+
+#categories{
+  border-bottom: 1px solid #8A949B;
+  padding:5px;
+}

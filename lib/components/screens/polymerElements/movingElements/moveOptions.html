@@ -1,0 +1,54 @@
+<link rel="import"
+  href="../../../../../../packages/polymer/polymer.html">
+  
+<polymer-element name="move-options" attributes="moveToContainerFunction
+currentContainer summaryContainer standbyContainer excludedContainer"> <template>
+<link rel="stylesheet" href="moveOptions.css">
+<link rel="stylesheet" href="../../resources/checkbox.css">
+<link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoPosition.css">
+<link rel="stylesheet" href="../../resources/mementoTabs.css">
+<link rel="stylesheet" href="../../resources/mementoGrid.css">
+<link rel="stylesheet" href="../../resources/mementoButtons.css">
+
+                  <div class="btn-group">
+                     <template if={{currentContainer.equals(summaryContainer)}}>
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainerPlease}}"
+                              container="STANDBY"
+                              class="btn btn-standby-container btn-md buttonMargin">Stand-by
+                      </button> 
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainerPlease}}"
+                              container="EXCLUDED"
+                              class="btn btn-excluded-container btn-md buttonMargin">Excluded
+                      </button> 
+                    </template>
+                    <template if={{currentContainer.equals(standbyContainer)}}>
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainerPlease}}"
+                              container="SUMMARY"
+                              class="btn btn-summary-container btn-md buttonMargin">Summary
+                      </button> 
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainerPlease}}"
+                              container="EXCLUDED"
+                              class="btn btn-excluded-container btn-md buttonMargin">Excluded
+                      </button> 
+                    </template>
+                    <template if={{currentContainer.equals(excludedContainer)}}>
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainerPlease}}"
+                              container="SUMMARY"
+                              class="btn btn-summary-container btn-md buttonMargin">Summary
+                      </button> 
+                      <button type="button" id="Button130"
+                              on-click="{{moveToContainerPlease}}"
+                              container="STANDBY"
+                              class="btn btn-standby-container btn-md buttonMargin">Stand-by
+                      </button> 
+                    </template>
+                  </div>
+
+<!-- Just space --> </template> <script type="application/dart"
+  src="moveOptions.dart"></script> </polymer-element>

@@ -1,5 +1,9 @@
 <link rel="import" href="../../../../../packages/polymer/polymer.html">
-<link rel="import" href="auxiliarElements/containerPhotos.html">
+<link rel="import" href="../polymerElements/emptySpaceAndMessage/emptySpaceAndMessage.html">
+<link rel="import" href="../polymerElements/nothingToShowMessage/nothingToShowMessage.html">
+<link rel="import" href="../polymerElements/movingElements/moveOptions.html">
+<link rel="import" href="../polymerElements/categories/categories.html">
+<link rel="import" href="auxiliarElements/containerPhotos/containerPhotos.html">
 <polymer-element name="displaying-photo"> 
 <template>
 <link rel="stylesheet" href="displayingPhoto.css">
@@ -25,7 +29,8 @@
                   <div class="btn-group">
                     <template if="{{currentContainer.photosToDisplay.length > 1}}">
                      <img src="../../../resources/images/back.png" 
-                     on-click="{{previousPhotoInList}}" class="arrowCursor" id="arrowSize"  />
+                     on-click="{{previousPhotoInList}}" 
+                     class="arrowCursor" id="arrowSize"  />
                     </template>
                     <img id="{{photo.id}}" class="imageDisplay imageDisplaying" src="{{photo.mainSrc}}" > 
                     <template if="{{currentContainer.photosToDisplay.length > 1}}">
@@ -42,54 +47,19 @@
       </div>
     </section> <!-- firstSection -->
     
-    <section id="screenFooter">   
-      <div id="categories">
-        <div class="row">
-        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div id="centerText">
-            <!-- Same Photos -->
-            <template if="{{sameCategory}}"> 
-              <!-- Faces -->
-              <template if="{{facesCategory}}">
-                  <img src="../../../resources/images/people.png" 
-                       on-click="{{facesCategoryExecution}}" id="categorySize" /> 
-              </template>
-              <template if="{{!facesCategory}}">
-                  <img src="../../../resources/images/people_ns.png" 
-                       on-click="{{facesCategoryExecution}}" id="categorySize"  /> 
-              </template>
-              <!-- Faces -->
-              <!-- Day Moment Photos -->
-              <template if="{{dayMomentCategory}}">
-                  <img src="../../../resources/images/time.png" 
-                       on-click="{{dayMomentCategoryExecution}}" id="categorySize"  /> 
-              </template>
-              <template if="{{!dayMomentCategory}}">
-                  <img src="../../../resources/images/time_ns.png" 
-                       on-click="{{dayMomentCategoryExecution}}" id="categorySize"  /> 
-              </template>
-              <!-- Day Moment Photos -->
-              <!-- Toning -->
-              <template if="{{toningCategory}}">
-                  <img src="../../../resources/images/toning.png" 
-                       on-click="{{toningCategoryExecution}}" id="categorySize"  /> 
-              </template>
-              <template if="{{!toningCategory}}">
-                  <img src="../../../resources/images/toning_ns.png" 
-                       on-click="{{toningCategoryExecution}}" id="categorySize"  /> 
-              </template>
-              <!-- Toning -->
-              <img src="../../../resources/images/similar.png" 
-                   on-click="{{similarCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <template if="{{!sameCategory}}">
-                <img src="../../../resources/images/similar_ns.png" 
-                     on-click="{{similarCategoryExecution}}" id="categorySize"  /> 
-            </template>
-          </div>
-        </div>
-       </div>
-      </div>
+    <section id="screenFooter"> 
+     <div id="categories">
+      <categories-element 
+      sameCategory="{{sameCategory}}" 
+      facesCategory ="{{facesCategory}}"
+      dayMomentCategory="{{dayMomentCategory}}"
+      toningCategory="{{toningCategory}}"
+      facesCategoryExecutionFunction="{{facesCategoryExecutionFunction}}"
+      dayMomentCategoryExecutionFunction="{{dayMomentCategoryExecutionFunction}}"
+      toningCategoryExecutionFunction="{{toningCategoryExecutionFunction}}"
+      similarCategoryExecutionFunction="{{similarCategoryExecutionFunction}}">
+      </categories-element>
+     </div>
       
       <div id="BigSizeTabs">
         <section id="tabbed">        
@@ -117,117 +87,34 @@
               <template if="{{insideGroup}}">
                 <img src="../../../resources/images/close.png"
                      on-click="{{getOutOfGroupInDisplayMode}}"
-                     class="topIndex"
-                     style="width: 40px; height: 40px;" >
+                     class="topIndex 40pxSquare" >
               </template>
               <template id="firstTemplate" if="{{currentContainer.photos.isEmpty}}">
-                  <div class="space40"></div> <!-- Just space -->
-                  <div id="centerText" class="title large font25 height20">Empty.</div>
-                  <div class="space40"></div> <!-- Just space -->
+                  <empty-message></empty-message>
               </template>
               <template id="secondTemplate-{{container.name}}" if="{{currentContainer.photos.isNotEmpty}}">
                 <div class="row">
                   <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
                     <template if="{{container.photosToDisplay.length < 1}}">
-                      <div class="space40"></div> <!-- Just space -->
-                      <div id="centerText" class="title large font25 height20">Nothing to show.</div>
-                      <div class="space40"></div> <!-- Just space -->
+                      <nothing-to-show></nothing-to-show>
                     </template>    
                     <section id="centeringStuff" class="centerStuff">
                       <template if="{{container.photosToDisplay.length > 0}}">
                       
-                        <!-- <last-screen-photos 
-                                  photo="{{photo}}"
-                                  photosToDisplay="{{currentContainer.photosToDisplay}}"
-                                  container="{{container}}"
-                                  insideGroup="{{insideGroup}}"
-                                  sameCategory="{{sameCategory}}"
-                                  toningCategory="{{toningCategory}}"
-                                  facesCategory="{{facesCategory}}"
-                                  dayMomentCategory="{{dayMomentCategory}}"
-                                  needToCheckOverflow="{{needToCheckOverflow}}">
-                             </last-screen-photos> -->
+                       <last-screen-photos 
+                          photo="{{photo}}"
+                          photosToDisplay="{{currentContainer.photosToDisplay}}"
+                          container="{{container}}"
+                          insideGroup="{{insideGroup}}"
+                          sameCategory="{{sameCategory}}"
+                          showImageFunction="{{showImageFunction}}"   
+                          toningCategory="{{toningCategory}}"
+                          facesCategory="{{facesCategory}}"
+                          dayMomentCategory="{{dayMomentCategory}}"
+                          needToCheckOverflow="{{needToCheckOverflow}}"
+                          currentContainer="{{currentContainer}}">
+                        </last-screen-photos> 
                         
-                          <template if="{{isInOverflow}}">
-                            <div on-click="{{moveLeft}}" id="thumb-back"></div>
-                          </template>   
-                           
-                          <ul id="nav-{{container.secondname}}" class="navlistHorizontal">
-                            <template repeat="{{photo in currentContainer.photosToDisplay}}">  
-                              <li> 
-                              
-                                <template if="{{insideGroup || !sameCategory}}">
-                                  <!-- this gonna be an element -->
-                                  <div class="mementoSpecialImage">
-                                      <img src="{{photo.miniThumbnailToShow.src}}"
-                                           class="image"
-                                           on-click="{{showImage}}"
-                                           data-id="{{photo.id}}" >
-                                      <img src="../../../resources/images/selected_blue.png"
-                                           class="notSelected"
-                                           on-click="{{showImage}}"
-                                           data-id="{{photo.id}}"
-                                           style="width: 40px; height: 40px" >
-                                    </div>
-                                   <!-- this gonna be an element -->
-                                 </template>
-                           
-                                <template if="{{!insideGroup}}">  <!-- im not inside a group -->
-
-                                  <template if="{{sameCategory}}">
-                                    <template if="{{!toningCategory && !facesCategory && !dayMomentCategory}}">
-                                      <!-- this gonna be an element -->
-                                      <div class="mementoSpecialImage">
-                                        <img src="{{photo.miniThumbnailToShow.src}}"
-                                             class="image"
-                                             title="{{photo.title}}"
-                                             on-click="{{showImage}}"
-                                             data-id="{{photo.id}}" >
-                                        <img src="../../../resources/images/selected_blue.png"
-                                             class="notSelected"
-                                             on-click="{{showImage}}"
-                                             data-id="{{photo.id}}"
-                                             style="width: 40px; height: 40px" >
-                                      </div>
-                                      <!-- this gonna be an element -->
-                                    </template>
-                                    
-                                    <template if="{{facesCategory || dayMomentCategory || toningCategory}}">
-                                      <div class="mementoSpecialImage">
-                                        <div on-click="{{showImage}}" data-id="{{photo.id}}">
-                                          <img src="{{photo.miniThumbnailToShow.src}}"
-                                               class="imageGroupFace image"
-                                               title="{{photo.title}}" >
-                                          <template if="{{facesCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
-                                          </template>
-                                          <template if="{{dayMomentCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
-                                          </template>
-                                          <template if="{{toningCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
-                                          </template>
-                                          <img src="../../../resources/images/selected_blue.png"
-                                               class="notSelected"
-                                               on-click="{{showImage}}"
-                                               data-id="{{photo.id}}"
-                                               style="width: 40px; height: 40px" >
-                                        </div>
-                                      </div>
-                                    </template>
-                                  </template> 
-                                </template> 
-                                 
-                              </li>                 
-                            </template> 
-                          </ul>
-                          
-                          <template if="{{isInOverflow}}">
-                            <div on-click="{{moveRight}}" id="thumb-forward"></div>
-                          </template>
-                          
-                           <!-- TO PUT <last-screen-photos></last-screen-photos> -->
-                          
                       </template>
                     </section> 
                   </div>
@@ -282,7 +169,7 @@
               <template if="{{selectedPhotos.length > 0}}">
                 <div id="centerText">
                   <template if="{{!insideGroup && !toningCategory && !facesCategory && !dayMomentCategory}}"> <!-- hack -->
-                  Move <strong>{{selectedPhotos.length}} photos</strong> to def
+                  Move <strong>{{selectedPhotos.length}} photos</strong> to
                   </template>
                   <template if="{{facesCategory || toningCategory || dayMomentCategory}}">
                     <template if="{{!insideGroup}}">
@@ -292,44 +179,14 @@
                     Move <strong>{{selectedPhotos.length}} photos</strong> to 
                     </template>
                   </template> 
-                  <div class="btn-group">
-                     <template if={{currentContainer.equals(summaryContainer)}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="STANDBY"
-                              class="btn btn-standby-container btn-md buttonMargin">Stand-by
-                      </button> 
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="EXCLUDED"
-                              class="btn btn-excluded-container btn-md buttonMargin">Excluded
-                      </button> 
-                    </template>
-                    <template if={{currentContainer.equals(standbyContainer)}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="SUMMARY"
-                              class="btn btn-summary-container btn-md buttonMargin">Summary
-                      </button> 
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="EXCLUDED"
-                              class="btn btn-excluded-container btn-md buttonMargin">Excluded
-                      </button> 
-                    </template>
-                    <template if={{currentContainer.equals(excludedContainer)}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="SUMMARY"
-                              class="btn btn-summary-container btn-md buttonMargin">Summary
-                      </button> 
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="STANDBY"
-                              class="btn btn-standby-container btn-md buttonMargin">Stand-by
-                      </button> 
-                    </template>
-                  </div>
+                  
+                  <move-options moveToContainerFunction="{{moveToContainerFunction}}"
+                  currentContainer="{{currentContainer}}"
+                  summaryContainer="{{summaryContainer}}"
+                  standbyContainer="{{standbyContainer}}"
+                  excludedContainer="{{excludedContainer}}"
+                  ></move-options>
+                  
                   container.
                  </div> 
                 </template> <!-- container to move -->  

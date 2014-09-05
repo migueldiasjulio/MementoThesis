@@ -1,12 +1,14 @@
-<link rel="import" href="../../../../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../../../../../packages/polymer/polymer.html">
 <polymer-element name="last-screen-photos" 
-  attributes="photo photosToDisplay container insideGroup sameCategory toningCategory facesCategory dayMomentCategory needToCheckOverflow">
+  attributes="needToCheckOverflow container photosToDisplay insideGroup sameCategory
+  showImageFunction toningCategory facesCategory dayMomentCategory photo currentContainer">
 
   <template>
   <link rel="stylesheet" href="containerPhotos.css">
-  <link rel="stylesheet" href="../../resources/mementoGrid.css">
-  <link rel="stylesheet" href="../../resources/mementoPosition.css"> 
-  <link rel="stylesheet" href="../../resources/mementoButtons.css">
+  <link rel="stylesheet" href="../../../resources/mementoGrid.css">
+  <link rel="stylesheet" href="../../../resources/mementoPosition.css"> 
+  <link rel="stylesheet" href="../../../resources/mementoButtons.css">
+    <link rel="stylesheet" href="../../../resources/arrowNavigation.css">
   
                           <template if="{{isInOverflow}}">
                             <div on-click="{{moveLeft}}" id="thumb-back"></div>
@@ -21,11 +23,11 @@
                                   <div class="mementoSpecialImage">
                                       <img src="{{photo.miniThumbnailToShow.src}}"
                                            class="image"
-                                           on-click="{{showImage}}"
+                                           on-click="{{showImagePlease}}"
                                            data-id="{{photo.id}}" >
-                                      <img src="../../../../resources/images/selected_blue.png"
+                                      <img src="../../../../../resources/images/selected_blue.png"
                                            class="notSelected"
-                                           on-click="{{showImage}}"
+                                           on-click="{{showImagePlease}}"
                                            data-id="{{photo.id}}"
                                            style="width: 40px; height: 40px" >
                                     </div>
@@ -41,11 +43,11 @@
                                         <img src="{{photo.miniThumbnailToShow.src}}"
                                              class="image"
                                              title="{{photo.title}}"
-                                             on-click="{{showImage}}"
+                                             on-click="{{showImagePlease}}"
                                              data-id="{{photo.id}}" >
-                                        <img src="../../../../resources/images/selected_blue.png"
+                                        <img src="../../../../../resources/images/selected_blue.png"
                                              class="notSelected"
-                                             on-click="{{showImage}}"
+                                             on-click="{{showImagePlease}}"
                                              data-id="{{photo.id}}"
                                              style="width: 40px; height: 40px" >
                                       </div>
@@ -54,7 +56,7 @@
                                     
                                     <template if="{{facesCategory || dayMomentCategory || toningCategory}}">
                                       <div class="mementoSpecialImage">
-                                        <div on-click="{{showImage}}" data-id="{{photo.id}}">
+                                        <div on-click="{{showImagePlease}}" data-id="{{photo.id}}">
                                           <img src="{{photo.miniThumbnailToShow.src}}"
                                                class="imageGroupFace image"
                                                title="{{photo.title}}" >
@@ -67,9 +69,9 @@
                                           <template if="{{toningCategory}}">
                                             <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
                                           </template>
-                                          <img src="../../../../resources/images/selected_blue.png"
+                                          <img src="../../../../../resources/images/selected_blue.png"
                                                class="notSelected"
-                                               on-click="{{showImage}}"
+                                               on-click="{{showImagePlease}}"
                                                data-id="{{photo.id}}"
                                                style="width: 40px; height: 40px" >
                                         </div>

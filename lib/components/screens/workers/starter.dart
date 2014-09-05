@@ -63,8 +63,9 @@ class Starter extends Object with Observable {
 
           //var faceDetectorX = faceDetector.callMethod('comp',[photo]);
           //print(faceDetectorX.toString());
-          //var exifWorking = exif.callMethod('pretty',[photo]);
-          //print(exifWorking); 
+          print("EXIF: " + exif.toString());
+          var exifWorking = exif.callMethod('pretty',[photo]);
+          print("Exif info: " + exifWorking.toString()); 
           
           photoToAdd.setLastModifiedInformation(file.lastModifiedDate);
           photoToAdd.setDataFromPhoto(dateInformation.ceilToDouble());

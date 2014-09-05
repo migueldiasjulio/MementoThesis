@@ -6,9 +6,7 @@ import '../photo/GroupOfPhotos/facesGroupOfPhotos.dart';
 import '../photo/GroupOfPhotos/colorGroupOfPhotos.dart';
 import '../photo/GroupOfPhotos/dayMomentGroupOfPhotos.dart';
 import '../photo/GroupOfPhotos/groupOfPhotos.dart';
-import 'dart:math' as Math;
-import 'dart:core';
-import 'dart:html';
+
 import '../settings/mementoSettings.dart';
 import '../settings/FunctionChoosed.dart' as Function;
 import '../categories/categoryManager.dart';
@@ -17,9 +15,15 @@ import '../categories/facesCategory.dart' as faces;
 import '../categories/dayMomentCategory.dart' as dayMoment;
 import '../categories/toningCategory.dart' as color;
 import '../categories/similarCategory.dart' as similar;
+
+import 'package:observe/observe.dart';
+import 'dart:math' as Math;
+import 'dart:core';
+import 'dart:html';
+
 import '../exif/exifManager.dart';
 import '../hierarchyClustering/clusteringManager.dart';
-import 'package:observe/observe.dart';
+import 'dataBaseAuxiliarFunctions.dart';
 
 const String SUMMARY = "SUMMARY";
 const String STANDBY = "STANDBY";
@@ -29,6 +33,7 @@ final DB = Database.get();
 final _categoryManager = CategoryManager.get();
 final _exifManager = ExifManager.get();
 final _clusteringManager = ClusteringManager.get();
+final _databaseAuxiliarFunctions = DatabaseAuxiliarFunctions.get();
 
 /**
  * 
@@ -45,20 +50,29 @@ class Container extends Object with Observable {
 
   Container(this.name, this.secondname);
 
+  /**
+   * 
+   */
   String get containerName => name;
 
+  /**
+   * 
+   */
   bool containerHasThatName(String name) {
     var pics = photos.where((photo) => photo.title == name);
     return pics.isNotEmpty;
   }
-  /*
+  
+  /**
    * 
    */
   Photo find(String id) => photos.firstWhere((p) => p.id == id, orElse: () => null);
 
+  /**
+   * 
+   */
   List<List<GroupOfPhotos>> allContainerGroups() {
     var listToReturn = new List<List<GroupOfPhotos>>();
-
     listToReturn.add(facesListGroupOfPhotos);
     listToReturn.add(dayMomentListGroupOfPhotos);
     listToReturn.add(colorListGroupOfPhotos);
@@ -80,6 +94,9 @@ class Container extends Object with Observable {
     dayMomentListGroupOfPhotos.clear();
   }
   
+  /**
+   * 
+   */
   void clearTheRightGroup(GroupOfPhotos group, List<GroupOfPhotos> list){
     list.forEach((element){
       if(element.groupName == group.groupName){element.clear();}
@@ -193,6 +210,9 @@ class Container extends Object with Observable {
     sortListGroupOfPhotos(listToSort);
   }
 
+  /**
+   * 
+   */
   void sortEverything() {
     sortListGroupOfPhotos(facesListGroupOfPhotos);
     sortListGroupOfPhotos(dayMomentListGroupOfPhotos);
@@ -200,7 +220,10 @@ class Container extends Object with Observable {
     sortListGroupOfPhotos(similarListGroupOfPhotos);
   }
 
-  void sortListGroupOfPhotos(List<GroupOfPhotos> listToSort) {
+  /**
+   * 
+   */
+  void sortListGroupOfPhotos(List<GroupOfPhotos> listToSort){
     listToSort.sort();
   }
 
@@ -372,8 +395,7 @@ class Container extends Object with Observable {
       });
     }
 
-    //sortListGroupOfPhotos(listOfGroupsAux);
-
+    sortListGroupOfPhotos(listOfGroupsAux);
     print(">>>>>Lets try to enter in a group or create a new one<<<<<");
   }
   
@@ -596,6 +618,9 @@ class Database extends Object with Observable {
     container(name).photosToDisplay.addAll(photos);
   }
 
+  /*
+   * 
+   */
   Container container(String name) => containers[name];
 
   /**
@@ -617,7 +642,6 @@ class Database extends Object with Observable {
 
   /**
    * Clean Database data
-   * 
    */
   bool cleanAllData() {
     var result = true;
@@ -669,6 +693,9 @@ class Database extends Object with Observable {
     _categoryManager.categoriesPipeline(container(STANDBY).photos);
   }
 
+  /*
+   * 
+   */
   void secondExtractions() {
     var container = containers.values.elementAt(0);
     container.facesListGroupOfPhotos.addAll(faces.FacesCategory.get().workFacesGroups(container.photos));
@@ -723,10 +750,10 @@ class Database extends Object with Observable {
    * With cluster algorithm
    */
   void buildClusterSummary(int numberOfPhotos) {
-
     secondNormalization();
     print("CLUSTERING");
-    var summaryPhotos = _clusteringManager.doClustering(container(STANDBY).photos, numberOfPhotos, container(STANDBY).photos.length);
+    var containerPhotos = container(STANDBY).photos;
+    var summaryPhotos = _clusteringManager.doClustering(containerPhotos, numberOfPhotos, containerPhotos.length);
     print("ACABEI O CLUSTERING");
     moveFromTo(STANDBY, SUMMARY, summaryPhotos);
 
@@ -757,4 +784,4 @@ class Database extends Object with Observable {
     });
   }
 
-}//dataBase
+}

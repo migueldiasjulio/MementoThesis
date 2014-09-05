@@ -9,7 +9,7 @@ import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
 export "package:polymer/init.dart";
 import '../screenAdvisor.dart';
-import 'thirdAuxFunctions.dart';
+import 'auxiliarFunctions/thirdAuxFunctions.dart';
 import '../../core/categories/facesCategory.dart' as faces;
 import '../../core/categories/toningCategory.dart' as toning;
 import '../../core/categories/similarCategory.dart' as similar;
@@ -21,25 +21,49 @@ import '../../core/categories/dayMomentCategory.dart' as dayMoment;
 @CustomTag(DisplayingPhoto.TAG)
 class DisplayingPhoto extends screenhelper.SpecialScreen {
 
+  /*
+   * 
+   */
   final _ScreenAdvisor = ScreenAdvisor.get();
   final _ThirdAuxFunctions = ThirdAuxFunctions.get();
   static const String TAG = "displaying-photo";
   String title = "Displaying Photo",
-         description = "Photo big size";
+      description = "Photo big size";
   factory DisplayingPhoto() => new Element.tag(TAG);
-  Element _scrollableSummary,
-          _scrollableStandby,
-          _scrollableExcluded;
+  Element _scrollableSummary, _scrollableStandby, _scrollableExcluded, _goLeft;
   MutationObserver observer;
   @observable bool needToCheckOverflow = false;
-
+  int countLeft = 0;
+  int countRight = 0;
+  @observable var moveToContainerFunction;
+  @observable var facesCategoryExecutionFunction;
+  @observable var dayMomentCategoryExecutionFunction;
+  @observable var toningCategoryExecutionFunction;
+  @observable var similarCategoryExecutionFunction;
+  @observable var showImageFunction;
+  /*
+   * 
+   */
   DisplayingPhoto.created() : super.created() {
     screenTitle = "Big Size Photo";
     _scrollableSummary = $['SUMMARY2'];
     _scrollableStandby = $['STANDBY2'];
     _scrollableExcluded = $['EXCLUDED2'];
+    _goLeft = $['goLeft'];
+    print(_goLeft.toString());
+    
+    moveToContainerFunction = moveToContainer;
+    facesCategoryExecutionFunction = facesCategoryExecution;
+    dayMomentCategoryExecutionFunction = dayMomentCategoryExecution;
+    toningCategoryExecutionFunction = toningCategoryExecution;
+    similarCategoryExecutionFunction = similarCategoryExecution;
+    showImageFunction = showImage;
   }
 
+  void photoChanged(){
+    updatePhotoView(photo, lastGroupVisited);
+  }
+  
   /**
    * 
    */
@@ -50,7 +74,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
       decideContainerToLock(photo.id);
     });
   }
-  
+
   /*
     route.addRoute(
         name: 'show',
@@ -68,8 +92,15 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
    * Entering View
    */
   @override
-  void enteredView() => super.enteredView();
-
+  void enteredView(){
+    super.enteredView();
+    
+    window.onKeyDown.listen((KeyboardEvent e) {
+      if(e.keyCode.toString() == "37"){}
+      if(e.keyCode.toString() == "39"){}
+    });
+    
+  }
   /*
    * Run This on start
    */
@@ -80,10 +111,16 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     summaryContainer.showPhotosWithCategories(selectedCategories, null, null);
     standbyContainer.showPhotosWithCategories(selectedCategories, null, null);
     excludedContainer.showPhotosWithCategories(selectedCategories, null, null);
-    //checkOverflow();
+    checkOverflow();
+    
+    window.onKeyDown.listen((KeyboardEvent e) {
+      if(e.keyCode.toString() == "37"){previousPhotoInList();}
+      if(e.keyCode.toString() == "39"){nextPhotoInList(); }
+    });
+    
   }
-  
-  void cleanAll(){
+
+  void cleanAll() {
     disableSelection();
     cleanCategoriesStuff();
   }
@@ -104,18 +141,31 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     cleanElementSelected();
     router.go("summary-manipulation", {});
   }
- 
+
   /*
    * 
    */
   bool checkOverflow() => toogleThNeedToCheckOverflow();
+  
+  /*
+   * 
+   */
   bool toogleThNeedToCheckOverflow() => needToCheckOverflow = !needToCheckOverflow;
 
-  
+  /*
+   * 
+   */
   void markPhotoWithElement(Element element) => _ThirdAuxFunctions.markPhotoWithElement(element);
+  
+  /*
+   * 
+   */
   void cleanElementSelected() => _ThirdAuxFunctions.cleanElementSelected();
-
-  void previousPhotoInList() {
+  
+  /*
+   * 
+   */
+  void previousPhotoInList() {    
     var auxiliar = 0,
         lastPhoto = null;
     auxiliar = currentContainer.photosToDisplay.indexOf(photo);
@@ -128,6 +178,9 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     }
   }
 
+  /*
+   * 
+   */
   void nextPhotoInList() {
     var auxiliar = currentContainer.photosToDisplay.indexOf(photo),
         firstPhoto = null,
@@ -141,11 +194,17 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     }
   }
 
+  /*
+   * 
+   */
   void facesCategoryExecution() => photosWithFacesCategory(photo);
   void dayMomentCategoryExecution() => photosWithDayMomentCategory(photo);
   void toningCategoryExecution() => photosWithToningCategory(photo);
   void similarCategoryExecution() => photosWithSameCategory(photo);
 
+  /*
+   * 
+   */
   void clearAllCategoriesInDisplayMode() {
     removeFromActiveCategory(faces.FacesCategory.get());
     removeFromActiveCategory(toning.ToningCategory.get());
@@ -162,25 +221,15 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     clearAllCategoriesInDisplayMode();
   }
 
+  /*
+   * 
+   */
   void disableFacesCategory() {
     facesCategory = false;
     toningCategory = false;
     dayMomentCategory = false;
     cleanGroups();
     clearAllCategoriesInDisplayMode();
-  }
-
-  void photosWithFacesCategory(Photo photo) {
-    cleanGroups();
-    disableSelection();
-    if (facesCategory) {
-      disableFacesCategory();
-    } else {
-      enableFacesCategory();
-      addActiveCategory(faces.FacesCategory.get());
-    }
-    lastGroupVisited = facesGroupOfPhotosChoosed;
-    updatePhotoView(photo, facesGroupOfPhotosChoosed);
   }
 
   /**
@@ -193,25 +242,15 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     clearAllCategoriesInDisplayMode();
   }
 
+  /*
+   * 
+   */
   void disableColorCategory() {
     facesCategory = false;
     toningCategory = false;
     dayMomentCategory = false;
     cleanGroups();
     clearAllCategoriesInDisplayMode();
-  }
-
-  void photosWithToningCategory(Photo photo) {
-    cleanGroups();
-    disableSelection();
-    if (toningCategory) {
-      this.disableColorCategory();
-    } else {
-      this.enableColorCategory();
-      addActiveCategory(toning.ToningCategory.get());
-    }
-    lastGroupVisited = colorGroupOfPhotosChoosed;
-    updatePhotoView(photo, colorGroupOfPhotosChoosed);
   }
 
   /**
@@ -224,25 +263,15 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     clearAllCategoriesInDisplayMode();
   }
 
+  /*
+   * 
+   */
   void disableDayMomentCategory() {
     facesCategory = false;
     toningCategory = false;
     dayMomentCategory = false;
     cleanGroups();
     clearAllCategoriesInDisplayMode();
-  }
-
-  void photosWithDayMomentCategory(Photo photo) {
-    cleanGroups();
-    disableSelection();
-    if (dayMomentCategory) {
-      disableDayMomentCategory();
-    } else {
-      enableDayMomentCategory();
-      addActiveCategory(dayMoment.DayMomentCategory.get());
-    }
-    lastGroupVisited = dayMomentGroupOfPhotosChoosed;
-    updatePhotoView(photo, dayMomentGroupOfPhotosChoosed);
   }
 
   /**
@@ -255,6 +284,9 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     sameCategory = true;
   }
 
+  /*
+   * 
+   */
   void disableSameCategory() {
     facesCategory = false;
     toningCategory = false;
@@ -264,31 +296,25 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     clearSelectedCategories();
   }
 
-  void photosWithSameCategory(Photo photo) {
-    cleanGroups();
-    disableSelection();
-    if (sameCategory) {
-      disableSameCategory();
-    } else {
-      enableSameCategory();
-      addActiveCategory(similar.SimilarCategory.get());
-    }
-    lastGroupVisited = similarGroupOfPhotosChoosed;
-    updatePhotoView(photo, similarGroupOfPhotosChoosed);
-  }
-
+  /*
+   * 
+   */
   void getOutOfGroupInDisplayMode() {
     cleanGroups();
     updatePhotoView(photo, lastGroupVisited);
   }
 
+  /*
+   * 
+   */
   //Specific implementation for this screen
   bool allGroupsAreNull() {
-    return facesGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty 
-        && colorGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty 
-        && dayMomentGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty;
+    return facesGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty && colorGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty && dayMomentGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty;
   }
 
+  /*
+   * 
+   */
   //Specific implementation for this screen
   bool isAnyCategoryOn() => (toningCategory == true || facesCategory == true || dayMomentCategory == true);
 
@@ -296,8 +322,8 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
    *  Show image
    */
   void showImage(Event event, var detail, var target) {
-    var id = target.attributes["data-id"];
-    var isSelected;
+    var id = target.attributes["data-id"],
+        isSelected;
     if (!selection) {
       if (isAnyCategoryOn() && allGroupsAreNull()) {
         insideGroup = true;

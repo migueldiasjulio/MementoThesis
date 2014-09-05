@@ -1,147 +1,136 @@
-<link rel="import" href="../../../../../../packages/polymer/polymer.html">
-<polymer-element name="header-element">
-  <template>
-  <link rel="stylesheet" href="headerMemento.css">
-  
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
-      <ul class="nav navbar-nav navbar-right" id="navbarNav">
-        <li>
-          <a class="white" on-click="{{showHelp}}">Help</a>
-        </li>
-        <li>
-          <a class="white" on-click="{{showAbout}}">About</a>
-        </li>
-        <li>
-          <a class="white" on-click="{{showSettings}}">Settings</a>
-        </li>
-      </ul>
-   </div>
-  
-      <!-- modal for help -->
-      <div id="help" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4>Memento - Help menu</h4>
-            </div>
-            <div class="modal-body">
-              <template if="{{mainPage}}">
-                <p>Main Screen</p>
-              </template>
-              <template if="{{importPhotos}}">
-                <p>Import Photos</p>
-              </template>
-              <template if="{{summaryManipulation}}">
-                <p>Summary Manipulation</p>
-              </template>
-              <template if="{{displayingPhoto}}">
-                <p>Displaying Photo</p>
-              </template>
-            </div>
-            <div class="modal-footer">
-              <a class="btn btn-default" data-dismiss="modal">Close</a>
-            </div>
-          </div>
-        </div>
-      </div> 
-      <!-- modal for help -->
-    
-    <!-- modal for about -->
-    <div class="modal fade" id="about" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4>Memento - About</h4>
-          </div> <!-- modal header -->
-          <div class="modal-body">
-            <br>
-            <b>Built by:</b> Miguel Júlio and Manuel Fonseca <br>
-            <b>Supported by:</b><a href="http://www.inevo.pt/"> inEvo</a><br>
-            <b>Institution:</b><a href="http://tecnico.ulisboa.pt/">Instituto Superior Técnico Lisboa</a><br>
-            <b>Contact:</b> miguel.julio@ist.utl.pt<br>
-            <br>
-            <p>&copy; Memento 2014</p>
-          </div> <!-- modal body -->
-          <div class="modal-footer">
-            <a class="btn btn-default" data-dismiss="modal">Close</a>
-          </div> <!-- modal footer -->
-        </div>
-      </div>
-    </div>
-    
-     <!-- modal for about -->
-    <div class="modal fade" id="settings" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4>Memento - Settings</h4>
-          </div> <!-- modal header -->
-          <div class="modal-body">
-            <h5>Summary Algorithm</h5>
-            
-            <div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="algorithm" id="firstx" value="option1">
-                  First x photos algorithm
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="algorithm" id="random" value="option2">
-                  Random algorithm
-                </label>
-             </div>
-             <div class="radio">
-              <label>
-                <input type="radio"  name="algorithm" id="hierachical" value="option3">
-                Hierarchical clustering algorithm
-              </label>
-             </div>
-           </div>
-           
-            <br>
-            
-           <div>
-             <h5>Default number of photos to summary</h5>
-             <div class="radio">
-                <label>
-                  <input type="radio" 
-                         name="number" 
-                         id="optionsRadios1" 
-                         value="option1" checked>
-                  Number of imported photos
-                </label>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" 
-                         name="number" 
-                         id="optionsRadios2" 
-                         value="option2">        
-                  Other: 
-                  <span style="width: 150px" class="input-group">
-                    <input type="text" class="form-control bfh-number" data-min="5" data-max="25" data-wrap="true">
-                    <span class="input-group-addon bfh-number-btn inc">
-                      <span class="glyphicon glyphicon-chevron-up"></span>
-                    </span>
-                    <span class="input-group-addon bfh-number-btn dec">
-                      <span class="glyphicon glyphicon-chevron-down"></span>
-                    </span>
-                  </span>
-                </label>
-              </div>
-            </div> 
-           
-          </div> <!-- modal body -->
-          <div class="modal-footer">
-            <a class="btn btn-default" data-dismiss="modal">Close</a>
-            <a class="btn btn-success" data-dismiss="modal">Apply</a>
-          </div> <!-- modal footer -->
-        </div>
-      </div>
+<link rel="import"
+  href="../../../../../../packages/polymer/polymer.html">
+<link rel="stylesheet" href="../../resources/checkbox.css">
+<link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoPosition.css">
+<polymer-element name="header-element"> <template>
+<link rel="stylesheet" href="headerMemento.css">
+
+<header id="headerHeight" class="padding">
+  <nav id="headerBar" class="navbar navbar-inverse navbar-fixed-top"
+    role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse"
+        data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span> <span
+          class="icon-bar"></span> <span class="icon-bar"></span> <span
+          class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand logo-nav" href="#"> <img id="memento"
+        src="../../../../resources/images/Memento_branco.svg">
+      </a>
     </div>
 
- </template>
-<script type="application/dart" src="headerMemento.dart"></script>
-</polymer-element>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right" id="navbarNav">
+        <li><a class="white" on-click="{{showHelp}}">Help</a></li>
+        <li><a class="white" on-click="{{showAbout}}">About</a></li>
+        <li><a class="white" on-click="{{showSettings}}">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+  <!-- nav -->
+</header> <!-- header --> <!-- modal for help -->
+
+<div id="help" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Memento - Help menu</h4>
+      </div>
+      <div class="modal-body">
+        <template if="{{mainPage}}">
+        <p>Main Screen</p>
+        </template>
+        <template if="{{importPhotos}}">
+        <p>Import Photos</p>
+        </template>
+        <template if="{{summaryManipulation}}">
+        <p>Summary Manipulation</p>
+        </template>
+        <template if="{{displayingPhoto}}">
+        <p>Displaying Photo</p>
+        </template>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal for help --> <!-- modal for about -->
+<div class="modal fade" id="about" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Memento - About</h4>
+      </div>
+      <!-- modal header -->
+      <div class="modal-body">
+        <br> <b>Built by:</b> Miguel Júlio and Manuel Fonseca <br>
+        <b>Supported by:</b><a href="http://www.inevo.pt/"> inEvo</a><br>
+        <b>Institution:</b><a href="http://tecnico.ulisboa.pt/">Instituto
+          Superior Técnico Lisboa</a><br> <b>Contact:</b>
+        miguel.julio@ist.utl.pt<br> <br>
+        <p>&copy; Memento 2014</p>
+      </div>
+      <!-- modal body -->
+      <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Close</a>
+      </div>
+      <!-- modal footer -->
+    </div>
+  </div>
+</div>
+
+<!-- modal for about -->
+<div class="modal fade" id="settings" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Memento - Settings</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Choose an algorithm</h4>
+        <br />
+
+        <section>
+          <div>
+            <input type="radio" name="radiog_dark" id="firstx"
+              class="css-checkbox" /> <label for="firstx"
+              class="css-label">First x algorithm</label>
+          </div>
+          <div>
+            <input type="radio" name="radiog_dark" id="random"
+              class="css-checkbox" /> <label for="random"
+              class="css-label">Random algorithm</label>
+          </div>
+          <div>
+            <input type="radio" name="radiog_dark" id="hierachical"
+              class="css-checkbox" /> <label for="hierachical"
+              class="css-label">Hierarchical algorithm</label>
+          </div>
+        </section>
+
+        <br>
+        
+        <h4>Default number of photos to summary</h4>
+        
+        <br/>
+        
+        
+
+      </div>
+      <!-- modal body -->
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal"
+          class="btn btn-default">Close</button>
+        <button type="button" data-dismiss="modal"
+          class="btn btn-primary">Save changes</button>
+      </div>
+      <!-- modal footer -->
+    </div>
+  </div>
+</div>
+
+</template> <script type="application/dart" src="headerMemento.dart"></script> </polymer-element>

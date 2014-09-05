@@ -1,0 +1,62 @@
+<link rel="import" href="../../../../../../packages/polymer/polymer.html">
+  
+<polymer-element name="categories-element" 
+attributes="facesCategoryExecutionFunction dayMomentCategoryExecutionFunction toningCategoryExecutionFunction
+similarCategoryExecutionFunction sameCategory facesCategory dayMomentCategory toningCategory"> 
+<template>
+<link rel="stylesheet" href="categories.css">
+<link rel="stylesheet" href="../../resources/checkbox.css">
+<link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoPosition.css">
+<link rel="stylesheet" href="../../resources/mementoTabs.css">
+<link rel="stylesheet" href="../../resources/mementoGrid.css">
+<link rel="stylesheet" href="../../resources/mementoButtons.css">
+
+        <div class="row">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div id="centerText">
+            <!-- Same Photos -->
+            <template if="{{sameCategory}}"> 
+              <!-- Faces -->
+              <template if="{{facesCategory}}">
+                  <img src="../../../../resources/images/people.png" 
+                       on-click="{{facesCategoryExecutionPlease}}" id="categorySize" /> 
+              </template>
+              <template if="{{!facesCategory}}">
+                  <img src="../../../../resources/images/people_ns.png" 
+                       on-click="{{facesCategoryExecutionPlease}}" id="categorySize"  /> 
+              </template>
+              <!-- Faces -->
+              <!-- Day Moment Photos -->
+              <template if="{{dayMomentCategory}}">
+                  <img src="../../../../resources/images/time.png" 
+                       on-click="{{dayMomentCategoryExecutionPlease}}" id="categorySize"  /> 
+              </template>
+              <template if="{{!dayMomentCategory}}">
+                  <img src="../../../../resources/images/time_ns.png" 
+                       on-click="{{dayMomentCategoryExecutionPlease}}" id="categorySize"  /> 
+              </template>
+              <!-- Day Moment Photos -->
+              <!-- Toning -->
+              <template if="{{toningCategory}}">
+                  <img src="../../../../resources/images/toning.png" 
+                       on-click="{{toningCategoryExecutionPlease}}" id="categorySize"  /> 
+              </template>
+              <template if="{{!toningCategory}}">
+                  <img src="../../../../resources/images/toning_ns.png" 
+                       on-click="{{toningCategoryExecutionPlease}}" id="categorySize"  /> 
+              </template>
+              <!-- Toning -->
+              <img src="../../../../resources/images/similar.png" 
+                   on-click="{{similarCategoryExecutionPlease}}" id="categorySize"  /> 
+            </template>
+            <template if="{{!sameCategory}}">
+                <img src="../../../../resources/images/similar_ns.png" 
+                     on-click="{{similarCategoryExecutionPlease}}" id="categorySize"  /> 
+            </template>
+          </div>
+        </div>
+       </div>
+      
+<!-- Just space --> </template> <script type="application/dart"
+  src="categories.dart"></script> </polymer-element>

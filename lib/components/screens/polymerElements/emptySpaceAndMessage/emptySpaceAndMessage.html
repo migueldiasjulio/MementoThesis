@@ -1,16 +1,19 @@
-<!DOCTYPE html>
+<link rel="import"
+  href="../../../../../../packages/polymer/polymer.html">
+  
+<polymer-element name="empty-message"> <template>
+<link rel="stylesheet" href="emptySpaceAndMessage.css">
+<link rel="stylesheet" href="../../resources/checkbox.css">
+<link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoPosition.css">
+<link rel="stylesheet" href="../../resources/mementoTabs.css">
+<link rel="stylesheet" href="../../resources/mementoGrid.css">
+<link rel="stylesheet" href="../../resources/mementoButtons.css">
 
-<html>
-  <head>
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>emptySpaceAndMessage</title>
-  </head>
- 
-  <body>   
-    <p id="text"></p>
-    <script type="application/dart" src="emptySpaceAndMessage.dart"></script>
-    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
-    <script src="packages/browser/dart.js"></script>
-  </body>
-</html>
+<div class="space40"></div>
+<!-- Just space -->
+<div id="centerText" class="title large font25 height20">Empty.</div>
+<div class="space40"></div>
+
+<!-- Just space --> </template> <script type="application/dart"
+  src="emptySpaceAndMessage.dart"></script> </polymer-element>

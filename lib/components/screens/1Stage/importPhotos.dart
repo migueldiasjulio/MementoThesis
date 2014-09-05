@@ -13,7 +13,7 @@ import '../../core/database/dataBase.dart';
 import '../../core/exif/exifManager.dart';
 import 'dart:async';
 import '../screenAdvisor.dart';
-import 'firstAuxFunctions.dart';
+import 'auxiliarFunctions/firstAuxFunctions.dart';
 import '../workers/starter.dart';
 import '../workers/summaryCreation.dart';
 import 'dart:isolate';
@@ -45,11 +45,15 @@ class ImportPhotos extends screenhelper.Screen {
           _sucessWithImport;
   HtmlEscape sanitizer = new HtmlEscape();
   @observable String numberOfPhotosDefined = "20";
+  @observable String numberOfPhotosImported = "1";
   int numberOfPhotosLoaded = 0;
   @observable bool modified = false;
   @observable bool workIsComplete = false;
   ReceivePort receivePort = new ReceivePort();
 
+  /*
+   * 
+   */ 
   ImportPhotos.created() : super.created(){
     Modal.use();
     summaryCreation = Modal.wire($['summaryCreation']);
@@ -69,14 +73,19 @@ class ImportPhotos extends screenhelper.Screen {
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
     
-    photos.changes.listen((records) => changeToModified());
-    
+    //photos.changes.listen((records) => changeToModified());  
   }
   
+  /*
+   * 
+   */ 
   void workIsCompleteModified(){
     print("THATS OK!");
   }
   
+  /*
+   * 
+   */ 
   void changeToModified(){
     modified = !modified;
   }
@@ -150,17 +159,22 @@ class ImportPhotos extends screenhelper.Screen {
         intNumber = photoFiles.length; 
      
     if(intNumber > 0){
+      organizeAndDisplayData(showingData);
       var dateInformation = 0.0,
           fileReaders = new List<FileReader>(),
           files = photoFiles.toList();
       
       numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
+      numberOfPhotosImported = (photos.length + photoFiles.length).toString();
       numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
       showLoading();
       startWorking(files, exif);
     } 
    }
    
+   /*
+    * 
+    */ 
    void startWorking(List<File> filesToProcess, js.JsObject exifInstance) {
      receivePort = new ReceivePort();
 
@@ -173,7 +187,6 @@ class ImportPhotos extends screenhelper.Screen {
          _Starter.cleanProcessedPhotos();
          _Starter.cleanFileReaders();
          hiddeLoading();
-         //_sucessWithImport.hidden = false;
        }
      });
      
@@ -217,6 +230,9 @@ class ImportPhotos extends screenhelper.Screen {
      _ScreenAdvisor.setScreenType(title);
    }
    
+   /*
+    * 
+    */ 
    void startWorkingOnSummary(List<Photo> photos, int numberDefinedInt) {
      receivePort = new ReceivePort();
 
@@ -259,26 +275,18 @@ class ImportPhotos extends screenhelper.Screen {
      */
     bool cancelSummaryCreation() => DB.cleanAllData();
     
+    /*
+     * 
+     */ 
     void showDataInformation(){
       toogleShowingData();
-      organizeAndDisplayData(_firstAuxFunctions.elementsImported);
+      changeToModified();
     }
     
-    void organizeAndDisplayData(List<Element> displayedImages){
-      switch(showingData){
-        case true: 
-          displayedImages.forEach((displayedImage){
-            _firstAuxFunctions.toogleToOn(displayedImage);
-          });
-          break;
-        case false : 
-          displayedImages.forEach((displayedImage){
-            _firstAuxFunctions.toogleToOff(displayedImage);
-          });
-          break;
-        default: break;
-      }
-    }
+    /*
+     * 
+     */
+    void organizeAndDisplayData(showingData) => _firstAuxFunctions.organizeAndDisplayData(showingData);
     
     /*
      * Modal function

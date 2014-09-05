@@ -1,0 +1,47 @@
+<link rel="import" href="../../../../../../packages/polymer/polymer.html">
+  
+<polymer-element name="export-summary" attributes="exportToHardDriveFunction
+downloading openExportModal"> <template>
+<link rel="stylesheet" href="exportSummary.css">
+<link rel="stylesheet" href="../../resources/checkbox.css">
+<link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoPosition.css">
+<link rel="stylesheet" href="../../resources/mementoTabs.css">
+<link rel="stylesheet" href="../../resources/mementoGrid.css">
+<link rel="stylesheet" href="../../resources/mementoButtons.css">
+
+       <div id="exportMenu" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 id="modalTitle" style="margin: 0">Memento - Export summary</h4>
+            </div>
+            <div class="modal-body">
+                <div id="centerText">     
+                      <a><img src="../../../../resources/images/own_device.png" 
+                      on-click="{{exportToHardDrive}}" id="exportImage"/></a>
+                      <br/>
+                      <br/>
+                      <a><strong on-click="{{exportToHardDrive}}" >Download summary</strong></a>
+                      <template if="{{downloading}}">
+                        <br/>
+                        <br/>
+                        <strong>Please wait..</strong>
+                        <br/>
+                      </template>
+                </div>
+             </div>
+             <div id="modalMargin1" class="modal-footer">
+             <template if="{{downloading}}">
+              <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+             </template>
+             <template if="{{!downloading}}">
+              <button class="btn btn-default" data-dismiss="modal">Close</button>
+             </template>
+            </div>
+          </div>
+        </div>
+      </div> <!-- modal -->
+      
+<!-- Just space --> </template> <script type="application/dart"
+  src="exportSummary.dart"></script> </polymer-element>

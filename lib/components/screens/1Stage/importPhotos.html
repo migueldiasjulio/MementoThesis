@@ -1,9 +1,10 @@
 <link rel="import" href="../../../../../packages/polymer/polymer.html">
-<link rel="import" href="auxiliarElements/photosList.html">
+<link rel="import" href="auxiliarElements/photosList/photosList.html">
 <polymer-element name="import-photos">
 <template>
   <link rel="stylesheet" href="importPhotos.css">
   <link rel="stylesheet" href="../resources/mementoGrid.css">
+  <link rel="stylesheet" href="../resources/mementoSize.css">
   <link rel="stylesheet" href="../resources/mementoPosition.css"> 
   <link rel="stylesheet" href="../resources/mementoButtons.css">
   <div id="main">
@@ -48,14 +49,6 @@
                 on-click="{{openFileUploader}}">Add Photos
               </button>
             </div>
-            <template if="{{photos.length >= 1}}">
-              <div class="btn-group">
-                <button id="Button130" type="button" 
-                  class="btn btn-summary btn-md"
-                  on-click="{{showDataInformation}}">Show data
-                </button> 
-              </div> 
-            </template>
               <div id="inputFiles">
                 <input type="file" id="files" name="files[]" multiple />
               </div>
@@ -101,10 +94,13 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 id="modalMargin1">Memento - Summary Creation</h4>
+            <h4 id="modalMargin1">Memento - Start summary</h4>
           </div>
-          <div class="modal-body">
-            <h5 id="message">Creating your summary. Please wait.</h5>
+          <div id="centerText" class="modal-body">
+            <img src="../../../resources/images/loading.gif"
+             class="loadingSize" >
+             <br/>
+             <h5 id="message">Creating your summary. Please wait..</h5>
           </div>
           <div id="modalMargin1" class="modal-footer">
             <button data-dismiss="modal" on-click="{{cancelSummaryCreation}}" class="btn btn-default">Cancel</button>
@@ -117,11 +113,13 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 id="modalMargin1">Memento - Loading your photos</h4>
+            <h4 id="modalMargin1">Memento - Add photos</h4>
           </div>
           <div class="modal-body">
           <div id="centerText">
-              <h5>Please wait..</h5>
+               <img src="../../../resources/images/loading.gif" class="loadingSize" >
+               <br/>
+               <h5>Loading your photos. Please wait..</h5>
           </div>
         </div>
         <div id="modalMargin1" class="modal-footer">
@@ -135,11 +133,17 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 id="modalMargin1">Memento - Summary Creation</h4>
+            <h4 id="modalMargin1">Memento - Start summary</h4>
           </div>
           <div class="modal-body">
           <div id="centerText">
               <h5>A Summary with {{numberOfPhotosDefined}} photos cannot be created.</h5>
+              <br/>
+              <br/>
+              <form class="form-inline" role="form">
+                <img src="../../../resources/images/yes.png" class="correctOption">
+                Please define a number of photos between 1 and {{numberOfPhotosImported}}.
+              </form>
           </div>
         </div>
         <div id="modalMargin1" class="modal-footer">
@@ -153,8 +157,8 @@
 </template> 
 <script type="application/dart" src="importPhotos.dart"></script> 
 <script src="../../../../../packages/browser/dart.js"></script> 
-<script src="ccv.js"></script> 
-<script src="startFaceDetector.js"></script> 
-<script src="exif.js"></script> 
-<script src="binaryajax.js"></script>
+<script src="js/ccv.js"></script> 
+<script src="js/startFaceDetector.js"></script> 
+<script src="js/exif.js"></script> 
+<script src="js/binaryajax.js"></script>
 </polymer-element>

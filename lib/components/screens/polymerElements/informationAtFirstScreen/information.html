@@ -1,8 +1,10 @@
 <link rel="import" href="../../../../../../packages/polymer/polymer.html">
-<polymer-element name="information-buttons">
+<polymer-element name="information-buttons" attributes="router passingScreens">
   <template>
   <link rel="stylesheet" href="information.css">
-  
+  <link rel="stylesheet" href="../../resources/mementoSize.css">
+  <link rel="stylesheet" href="../../resources/mementoPosition.css">
+  <link rel="stylesheet" href="../../resources/checkbox.css">  
   <div>
   <!-- This must be a polymer element -->
         <section id="information">
@@ -34,15 +36,23 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 id="modalMargin1">Memento - Create a summary</h4>
+            <h4 id="modalMargin1">Memento - How to create a summary</h4>
           </div>
           <div class="modal-body">
           <div id="centerText">
               <h5>Put Image here explaining.</h5>
+              
+              Start creating your summary by clicking
+              <button  class="btn btn-md btn-primary" 
+                       id="startSummary"
+                       on-click="{{navigate}}" 
+                       data-target="{{passingScreens.keys.first}}" data-dismiss="modal"> 
+                       Start Summary <strong id="hello">&raquo;</strong>
+              </button>
           </div>
         </div>
         <div id="modalMargin1" class="modal-footer">
-          <button class="btn btn-default" data-dismiss="modal">Ok</button>
+          <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
         </div>
       </div>
     </div>
@@ -52,38 +62,31 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4>Memento - Choose summary algorithm</h4>
+            <h4>Memento - Summary algorithm</h4>
           </div> <!-- modal header -->
           <div class="modal-body">
-            <h5>Summary Algorithm</h5>
+            <h4>Choose an algorithm</h4>
+            <br/>
             
             <div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="algorithm" id="firstx" value="option1" checked>
-                  First x photos algorithm
-                </label>
+              <div>
+                  <input type="radio" name="radiog_dark" id="firstx" class="css-checkbox" />
+                  <label for="firstx" class="css-label">First x algorithm</label>     
               </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" name="algorithm" id="random" value="option2">
-                  Random algorithm
-                </label>
+              <div>
+                  <input type="radio" name="radiog_dark" id="random" class="css-checkbox" />
+                  <label for="random" class="css-label">Random algorithm</label>
              </div>
-             <div class="radio">
-              <label>
-                <input type="radio"  name="algorithm" id="hierachical" value="option3">
-                Hierarchical clustering algorithm
-              </label>
+             <div>
+              <input type="radio" name="radiog_dark" id="hierachical" class="css-checkbox" />
+                  <label for="hierachical" class="css-label">Hierarchical algorithm</label>
              </div>
            </div>
            
-            <br>
-           
           </div> <!-- modal body -->
           <div class="modal-footer">
-            <a class="btn btn-default" data-dismiss="modal">Close</a>
-            <a class="btn btn-success" data-dismiss="modal">Apply</a>
+            <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+            <button type="button" data-dismiss="modal" class="btn btn-primary">Save changes</button>
           </div> <!-- modal footer -->
         </div>
       </div>

@@ -6,15 +6,24 @@ import 'dart:js' as js show JsObject, context;
 
 /// A custom [Image] model
 class Image {
+  /*
+   * 
+   */ 
   ImageElement _img;
   List<int> _dataSave;
 
+  /*
+   * 
+   */ 
   Image(String src, {String title, int width, int height}) {
     _img = new ImageElement(src: src, width: width, height: height);
 
     if (title != null) { _img.title = title; }
   }
 
+  /*
+   * 
+   */ 
   String get src => _img.src;
   int get width => _img.width;
   int get height => _img.height;
@@ -22,9 +31,14 @@ class Image {
   ImageElement get image => _img;
   List<int> get dataSave => _dataSave;
   
-
+  /*
+   * 
+   */ 
   List<int> setDataSaved(List<int> data) => _dataSave = data;
 
+  /*
+   * 
+   */ 
   Image createThumbnail(int width, int height, {String type: "image/png"}) {
     var canvas = new CanvasElement(width: width, height: height);
     var c2d = canvas.context2D;
@@ -32,6 +46,9 @@ class Image {
     return new Image(canvas.toDataUrl(type));
   }
   
+  /*
+   * 
+   */ 
   void getData(){
     var canvas = new CanvasElement(width: width, height: height);
     var c2d = canvas.context2D;
@@ -44,6 +61,9 @@ class Image {
     _dataSave = arrayBuffer;
   }
   
+  /*
+   * 
+   */ 
   Image createThumbnailToShow(bool isMini){
     //getData();
     var type =  "image/png",

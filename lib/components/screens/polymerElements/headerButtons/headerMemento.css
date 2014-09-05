@@ -8,3 +8,42 @@
 .white{
   color: white;
 }
+
+.padding{
+ padding: 10px; 
+}
+
+#headerHeight,
+#headerBar{
+  height: 40px;
+}
+
+#memento{
+  width: 140px;
+  height: 50px; 
+  margin-top: -15px; 
+}
+
+#helpButton:hover {
+  background: #bbbbbb;
+}
+
+h1, p {
+  color: #333;
+}
+
+#container-id {
+  width: 100%;
+  position: relative;
+  background-color: #F0F0F0;
+  overflow: hidden;
+  height: calc(100% - 40px);
+}
+
+.modal-footer{
+  margin: 0;
+}
+
+#navbarNav{
+ margin-right: 10px;
+}

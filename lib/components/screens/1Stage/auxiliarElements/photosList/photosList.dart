@@ -5,28 +5,44 @@ import 'dart:core';
 export "package:polymer/init.dart";
 import 'package:bootjack/bootjack.dart';
 export 'package:route_hierarchical/client.dart';
-import '../../../core/photo/photo.dart';
+import '../../../../core/photo/photo.dart';
 import 'dart:html';
 import 'package:observe/observe.dart';
-import '../firstAuxFunctions.dart';
+import '../../auxiliarFunctions/firstAuxFunctions.dart';
 import 'dart:js' as js show JsObject, context;
-import '../../../core/database/dataBase.dart';
 
 final _firstAuxFunctions = FirstAuxFunctions.get();
 
+/*
+ * 
+ */ 
 @CustomTag('photos-list')
 class PhotosList extends PolymerElement {
 
+  /*
+   * 
+   */ 
   @published ObservableList<Photo> photosToShow = toObservable([]);
   @published bool modifiedVariable = false;
-  List<Photo> photosAlreadyWithElement = new List<Photo>();
+  //List<Photo> photosAlreadyWithElement = new List<Photo>();
   
+  /*
+   * 
+   */ 
   PhotosList.created() : super.created(){}
   
+  /*
+   * 
+   */ 
   void modifiedVariableChanged(){
-    saveImportedElements(photosToShow);
+    print("CHANGED!");
+    saveImportedElements();
+    _firstAuxFunctions.organizeAndDisplayData(modifiedVariable);
   }
   
+  /*
+   * 
+   */ 
   void testJS(){
     var exif = new js.JsObject(js.context['EXIF'], []); 
     var photo = $['photo_1'];
@@ -34,6 +50,9 @@ class PhotosList extends PolymerElement {
     print(exifWorking.toString()); 
   }
  
+  /*
+   * 
+   */ 
   void showMoreInfo(Event event, var detail, Element target){
     //testJS();
     var children = target.children,
@@ -42,18 +61,17 @@ class PhotosList extends PolymerElement {
     _firstAuxFunctions.toogleFigCaption(figcaption); 
   }
   
-  void saveImportedElements(List<Photo> importedPhotos){
-    var listAux = importedPhotos;
-    listAux = listAux.skip(photosAlreadyWithElement.length);
-    photosAlreadyWithElement.addAll(listAux);
-    
+  /*
+   * 
+   */ 
+  void saveImportedElements(){ 
     var element,
         allImportedPhotos = new List<Element>(),
         thisID,
         elementParent,
         elementToAdd;
     
-    listAux.forEach((photo){
+    photosToShow.forEach((photo){
       thisID = photo.id;
       element = $[thisID];
       elementParent = element.parent;
@@ -62,6 +80,7 @@ class PhotosList extends PolymerElement {
       allImportedPhotos.add(elementToAdd);
     });
     
+    _firstAuxFunctions.elementsImported.clear();  
     _firstAuxFunctions.elementsImported.addAll(allImportedPhotos);  
   }
 }

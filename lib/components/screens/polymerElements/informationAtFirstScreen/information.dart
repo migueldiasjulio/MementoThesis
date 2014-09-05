@@ -8,27 +8,49 @@ export "package:polymer/init.dart";
 import 'package:bootjack/bootjack.dart';
 import '../algorithmOptions.dart';
 import '../../../core/settings/mementoSettings.dart';
+import '../../defaultScreen/screenModule.dart' as screenmodule;
 
+/*
+ * 
+ */ 
 @CustomTag(InformationButtons.TAG)
 class InformationButtons extends AlgorithmOptions {
 
+  /*
+   * 
+   */ 
   static const String TAG = "information-buttons";
   factory InformationButtons() => new Element.tag(TAG);
   MementoSettings _settings = MementoSettings.get();
   Modal howToSummarize, changeAlgorithm;
-
+  @published Router router;
+  @published Map<String, screenmodule.ScreenModule> passingScreens;
+  /*
+   * 
+   */ 
   InformationButtons.created() : super.created() {
     Modal.use();
   }
 
+  /*
+   * 
+   */ 
   void showHowToSummarize() {
     if (howToSummarize == null) howToSummarize = Modal.wire($['howToSummarize']);
-
     howToSummarize.show();
   }
+  
+  /**
+   * Navigate to the home of the selected module
+   */
+  void navigate(event, detail, target) {
+    router.go('${target.dataset['target']}', {});
+  }
 
+  /*
+   * 
+   */ 
   void chooseAlgorithm() {
-
     $['firstx']..onClick.listen((e) {
           defineFirstX();
         });

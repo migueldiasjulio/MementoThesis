@@ -2,6 +2,7 @@ library summaryManipulationAuxiliar;
 
 import 'dart:html';
 import 'package:observe/observe.dart';
+import '../defaultScreen/screenModule.dart' as screenhelper;
 
 class SummaryManipulationAuxiliar extends Object with Observable{
   

@@ -18,8 +18,8 @@ import '../../core/photo/GroupOfPhotos/similarGroupOfPhotos.dart';
 import '../../core/photo/GroupOfPhotos/colorGroupOfPhotos.dart';
 import '../../core/photo/GroupOfPhotos/facesGroupOfPhotos.dart';
 import '../../core/photo/GroupOfPhotos/dayMomentGroupOfPhotos.dart';
-import 'package:bootjack/bootjack.dart';
 import '../workers/downloader.dart';
+import 'package:bootjack/bootjack.dart';
 import 'dart:isolate';
 import 'dart:js' as js show JsObject, context;
 
@@ -94,7 +94,7 @@ abstract class Screen extends ScreenModule {
   }
   
   void showDataInformation();
-  void organizeAndDisplayData(List<Element> displayedImages);
+  void organizeAndDisplayData(bool showingData);
   
   Screen.created() : super.created();
   
@@ -132,8 +132,9 @@ abstract class SpecialScreen extends ScreenModule {
   Element _summaryContainer,
           _standByContainer,
           _excludedContainer;
-  Modal exportMenu;
   String screenTitle = "";
+  //@observable bool openExportModal = false;
+  Modal exportMenu;
   
   SpecialScreen.created() : super.created() {
     Modal.use();
@@ -146,6 +147,9 @@ abstract class SpecialScreen extends ScreenModule {
     facesGroupOfPhotosChoosed.setGroupName("With Faces");
     dayMomentGroupOfPhotosChoosed.setGroupName("Day");
   }
+  
+  
+  //bool toogleOpenExportModal() => openExportModal = !openExportModal;
   
   /*
    * Decide witch container to lock
@@ -224,18 +228,17 @@ abstract class SpecialScreen extends ScreenModule {
     cleanAll();
     checkOverflow();
   }
-  
-  
-  void exportSummary(){
-    exportMenu.show();
-  }
 
+  void exportSummary(){
+     exportMenu.show();
+   }
+  
   void exportToFacebook(){}
   
   void exportToHardDrive(){  
     downloading = true;
     startWorking();
-  } 
+  }
   
   void startWorking() {
     receivePort = new ReceivePort();
@@ -246,6 +249,7 @@ abstract class SpecialScreen extends ScreenModule {
       }else{
         downloading = false;
         exportMenu.hide();
+        //toogleOpenExportModal();
       }
     });
     
@@ -504,20 +508,19 @@ abstract class SpecialScreen extends ScreenModule {
   bool allGroupsAreNull();
   bool isAnyCategoryOn();
   
-  
-  bool groupFaceComparation(Photo photo, Photo secondPhoto) => photo == secondPhoto;
-  
   GroupOfPhotos giveMeTheRightGroupLookingToBools(bool imOnLastScreen){
-    GroupOfPhotos groupToReturn = null;
-    if(facesCategory){ groupToReturn = facesGroupOfPhotosChoosed; }
-    if(dayMomentCategory){ groupToReturn = dayMomentGroupOfPhotosChoosed; }
-    if(toningCategory){ groupToReturn = colorGroupOfPhotosChoosed; }
-    if(!imOnLastScreen){
-      if(sameCategory){ groupToReturn = similarGroupOfPhotosChoosed; }
-    }
-    return groupToReturn;
-  }
-  
+     GroupOfPhotos groupToReturn = null;
+     if(facesCategory){ groupToReturn = facesGroupOfPhotosChoosed; }
+     if(dayMomentCategory){ groupToReturn = dayMomentGroupOfPhotosChoosed; }
+     if(toningCategory){ groupToReturn = colorGroupOfPhotosChoosed; }
+     if(!imOnLastScreen){
+       if(sameCategory){ groupToReturn = similarGroupOfPhotosChoosed; }
+     }
+     return groupToReturn;
+   }
+   
+  bool groupFaceComparation(Photo photo, Photo secondPhoto) => photo == secondPhoto;
+    
   List<GroupOfPhotos> giveMeAllGroups(){
     var groups = new List<GroupOfPhotos>();
     groups.add(facesGroupOfPhotosChoosed);
@@ -576,18 +579,66 @@ abstract class SpecialScreen extends ScreenModule {
   
   void enableFacesCategory(); 
   void disableFacesCategory();
-  void photosWithFacesCategory(Photo photo);
+  void photosWithFacesCategory(Photo photo){
+    cleanGroups();
+    disableSelection();
+    if(facesCategory){
+      disableFacesCategory();
+      //removeFromActiveCategory(faces.FacesCategory.get());
+    }else{
+      enableFacesCategory();
+      addActiveCategory(faces.FacesCategory.get());
+    }
+    lastGroupVisited = facesGroupOfPhotosChoosed;
+    updatePhotoView(photo, facesGroupOfPhotosChoosed);
+  }
   
   void enableColorCategory();
   void disableColorCategory(); 
-  void photosWithToningCategory(Photo photo);
+  void photosWithToningCategory(Photo photo){
+    cleanGroups();
+    disableSelection();
+    if(toningCategory){
+      this.disableColorCategory();
+    }else{
+      this.enableColorCategory();
+      addActiveCategory(toning.ToningCategory.get());
+    }
+    lastGroupVisited = colorGroupOfPhotosChoosed;
+    updatePhotoView(photo, colorGroupOfPhotosChoosed);
+  }
   
   void enableSameCategory();
   void disableSameCategory();
-  void photosWithSameCategory(Photo photo);
+  void photosWithSameCategory(Photo photo){
+    cleanGroups();
+    disableSelection();
+    if(sameCategory){
+      disableSameCategory();
+    }else{
+      enableSameCategory();
+      addActiveCategory(similar.SimilarCategory.get());
+    }
+    lastGroupVisited = similarGroupOfPhotosChoosed;
+    updatePhotoView(photo, similarGroupOfPhotosChoosed);
+  }
   
   void enableDayMomentCategory();
   void disableDayMomentCategory();
-  void photosWithDayMomentCategory(Photo photo);
+  
+  void photosWithDayMomentCategory(Photo photo){
+    cleanGroups();
+    disableSelection();
+    if(dayMomentCategory){
+      disableDayMomentCategory();
+    }else{
+      enableDayMomentCategory();
+      addActiveCategory(dayMoment.DayMomentCategory.get());
+    }
+    lastGroupVisited = dayMomentGroupOfPhotosChoosed;
+    updatePhotoView(photo, dayMomentGroupOfPhotosChoosed);
+  }
+  
+
   
 }

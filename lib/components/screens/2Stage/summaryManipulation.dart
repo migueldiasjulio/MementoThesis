@@ -9,11 +9,8 @@ export "package:polymer/init.dart";
 import '../../core/database/dataBase.dart';
 import '../../core/photo/photo.dart';
 import '../screenAdvisor.dart';
-import '../../core/categories/facesCategory.dart' as faces;
-import '../../core/categories/toningCategory.dart' as toning;
-import '../../core/categories/similarCategory.dart' as similar;
-import '../../core/categories/dayMomentCategory.dart' as dayMoment;
 import 'dart:js' as js show JsObject, context;
+import 'summaryManipulationAuxiliar.dart';
 
 /**
  * Summary Done Screen
@@ -24,18 +21,31 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   /**
    * Variables
    */
+  final _secondAuxFunctions = SummaryManipulationAuxiliar.get();
   final _ScreenAdvisor = ScreenAdvisor.get();
   static const String TAG = "summary-manipulation";
   String  title = "Summary Manipulation",
           description = "Summary results";
   factory SummaryManipulation() => new Element.tag(TAG);
   bool firstTime = true;
+  @observable var moveToContainerFunction;
+  @observable var facesCategoryExecutionFunction;
+  @observable var dayMomentCategoryExecutionFunction;
+  @observable var toningCategoryExecutionFunction;
+  @observable var similarCategoryExecutionFunction;
+  
   
   /**
    * Building Summary Done
    */
   SummaryManipulation.created() : super.created(){
     screenTitle = "Summary Manipulation";
+    moveToContainerFunction = moveToContainer;
+    
+    facesCategoryExecutionFunction = facesCategoryExecution;
+    dayMomentCategoryExecutionFunction = dayMomentCategoryExecution;
+    toningCategoryExecutionFunction = toningCategoryExecution;
+    similarCategoryExecutionFunction = similarCategoryExecution;
   }
   
   void runStartStuff() {
@@ -170,20 +180,6 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     clearSelectedCategories();
   }
   
-  void photosWithFacesCategory(Photo photo){
-    cleanGroups();
-    disableSelection();
-    if(facesCategory){
-      disableFacesCategory();
-      //removeFromActiveCategory(faces.FacesCategory.get());
-    }else{
-      enableFacesCategory();
-      addActiveCategory(faces.FacesCategory.get());
-    }
-    lastGroupVisited = facesGroupOfPhotosChoosed;
-    updatePhotoView(photo, facesGroupOfPhotosChoosed);
-  }
-  
   /**
    * Toning Category
    */ 
@@ -202,19 +198,6 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     dayMomentCategory = false;
     cleanGroups();
     clearSelectedCategories();
-  }
-  
-  void photosWithToningCategory(Photo photo){
-    cleanGroups();
-    disableSelection();
-    if(toningCategory){
-      this.disableColorCategory();
-    }else{
-      this.enableColorCategory();
-      addActiveCategory(toning.ToningCategory.get());
-    }
-    lastGroupVisited = colorGroupOfPhotosChoosed;
-    updatePhotoView(photo, colorGroupOfPhotosChoosed);
   }
   
   /**
@@ -237,19 +220,6 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     clearSelectedCategories();
   }
   
-  void photosWithSameCategory(Photo photo){
-    cleanGroups();
-    disableSelection();
-    if(sameCategory){
-      disableSameCategory();
-    }else{
-      enableSameCategory();
-      addActiveCategory(similar.SimilarCategory.get());
-    }
-    lastGroupVisited = similarGroupOfPhotosChoosed;
-    updatePhotoView(photo, similarGroupOfPhotosChoosed);
-  }
-  
   /**
    * Same Category
    */ 
@@ -268,19 +238,6 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     dayMomentCategory = false;
     cleanGroups();
     clearSelectedCategories();
-  }
-  
-  void photosWithDayMomentCategory(Photo photo){
-    cleanGroups();
-    disableSelection();
-    if(dayMomentCategory){
-      disableDayMomentCategory();
-    }else{
-      enableDayMomentCategory();
-      addActiveCategory(dayMoment.DayMomentCategory.get());
-    }
-    lastGroupVisited = dayMomentGroupOfPhotosChoosed;
-    updatePhotoView(photo, dayMomentGroupOfPhotosChoosed);
   }
 
   /*
@@ -310,6 +267,6 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   void displayPhoto(String id){
     DB.setPhotoToDisplay(id);
     router.go("displaying-photo", {});
-    //router.go("big-size-photo.show", {id: id});
+    //router.go("displaying-photo", {id: id});
   }
 }

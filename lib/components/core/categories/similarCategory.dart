@@ -51,7 +51,8 @@ class SimilarCategory extends Category{
           && distanceToOtherPhotos.elementAt(i) < _thresholdDistance){
         photosToAdd.add(allPhotos.elementAt(i));
       }
-      if(distanceToOtherPhotos.elementAt(i) < _almostTheSame){
+      if(distanceToOtherPhotos.elementAt(i) < _almostTheSame &&
+          distanceToOtherPhotos.elementAt(i) != _samePhotoDistance){
         almostTheSame.add(allPhotos.elementAt(i));
       }
     }
@@ -69,13 +70,13 @@ class SimilarCategory extends Category{
     if(!auxOne.contains(photo) && (photo.similarPhotos.length > 0)){
       similarGroupOfPhotos = new SimilarGroupOfPhotos();
       similarGroupOfPhotos.setGroupName("Similar");
-      similarGroupOfPhotos.addToList(photo);
       similarGroupOfPhotos.setGroupFace(photo);
+      similarGroupOfPhotos.addToList(photo);
       photo.setSimilarGroup(similarGroupOfPhotos);
       auxOne.add(photo);
       
       photo.similarPhotos.forEach((similar){
-        if(!auxOne.contains(similar)){
+        if(!auxOne.contains(similar) && photos.contains(similar)){
           auxOne.add(similar);
           similarGroupOfPhotos.addToList(similar);
           similar.setSimilarGroup(similarGroupOfPhotos);
@@ -90,20 +91,12 @@ class SimilarCategory extends Category{
         }
       }); 
       
-      similarGroupList.add(similarGroupOfPhotos);
+      if(similarGroupOfPhotos.giveMeAllPhotos.length > 1){similarGroupList.add(similarGroupOfPhotos);}
     }
    });
    
    similarGroupList.sort();
    similarGroupList = similarGroupList.reversed.toList();
-
-   // JUST DEBUG
-   similarGroupList.forEach((similarGroup){
-     print("ANOTHER GROUP WITH FACE: " + similarGroup.groupFace.id);
-     similarGroup.giveMeAllPhotos.forEach((photo){
-       print("Photo: " + photo.id);
-     }); 
-   });
    
    return similarGroupList;
   }

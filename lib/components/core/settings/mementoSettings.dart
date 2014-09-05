@@ -4,6 +4,9 @@ import 'FunctionChoosed.dart' as Function;
 
 class MementoSettings {
 
+  /*
+   * 
+   */ 
   static MementoSettings _instance;
   var _function = Function.FunctionChoosed.FIRSTX;
 

@@ -2,6 +2,12 @@ library thirdauxfunctions;
 
 import 'dart:html';
 import 'package:observe/observe.dart';
+import '../../../core/photo/GroupOfPhotos/groupOfPhotos.dart';
+import '../../defaultScreen/screenModule.dart' as screenhelper;
+import '../../../core/photo/photo.dart';
+import '../../../core/database/dataBase.dart';
+export "package:polymer/init.dart";
+import '../../../core/categories/category.dart';
 
 class ThirdAuxFunctions extends Object with Observable{
   
@@ -10,9 +16,7 @@ class ThirdAuxFunctions extends Object with Observable{
          mainPhotoID = null;
   Element selectedPhoto = null,
           previousPhoto = null;
-  @observable bool isInOverflow = false;
   
-
   ThirdAuxFunctions._(); 
   
   static ThirdAuxFunctions get() {
@@ -21,10 +25,7 @@ class ThirdAuxFunctions extends Object with Observable{
     }
     return _instance;
   }
-  
-  bool setIfItIsInOverflow(bool overflow) => isInOverflow = overflow;  
-  bool get isOverflowing => isInOverflow;
-  
+    
   void cleanElementSelected() {
     if (selectedPhoto != null) {selectedPhoto.classes.remove('choosed');}
   }

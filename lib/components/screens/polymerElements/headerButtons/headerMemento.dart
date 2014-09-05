@@ -10,9 +10,15 @@ import '../algorithmOptions.dart';
 import '../../screenAdvisor.dart';
 import '../../../core/settings/mementoSettings.dart';
 
+/*
+ * 
+ */ 
 @CustomTag('header-element')
 class HeaderElement extends AlgorithmOptions {
   
+  /*
+   * 
+   */ 
   MementoSettings _settings = MementoSettings.get();
   final _ScreenAdvisor = ScreenAdvisor.get();
   Modal help, settings, about;
@@ -22,6 +28,9 @@ class HeaderElement extends AlgorithmOptions {
   @observable bool displayingPhoto = false;
   @observable bool mainPage = true;
   
+  /*
+   * 
+   */ 
   HeaderElement.created() : super.created(){
     Modal.use();
     help = Modal.wire($['help']);
@@ -42,6 +51,9 @@ class HeaderElement extends AlgorithmOptions {
             });
   }
   
+  /*
+   * 
+   */ 
   void setBools(bool defaultScreen, 
                 bool importPhotos,
                 bool summaryManipulation,
@@ -52,6 +64,9 @@ class HeaderElement extends AlgorithmOptions {
     this.displayingPhoto = displayingPhoto;
   }
   
+  /*
+   * 
+   */ 
   void setBoolOfScreen(String screenName){
     switch(screenName){
       case "Import Photos" :
@@ -69,17 +84,26 @@ class HeaderElement extends AlgorithmOptions {
     }
   }
   
+  /*
+   * 
+   */ 
   void showHelp(){
     screenName = _ScreenAdvisor.screenName;
     setBoolOfScreen(screenName);
     help.show();
   }
   
+  /*
+   * 
+   */ 
   void showSettings(){
     checkTheRightAlgorithm();
     settings.show();
   }
   
+  /*
+   * 
+   */ 
   void showAbout(){
     about.show();
   }

@@ -1,4 +1,8 @@
 <link rel="import" href="../../../../../packages/polymer/polymer.html">
+<link rel="import" href="../polymerElements/emptySpaceAndMessage/emptySpaceAndMessage.html">
+<link rel="import" href="../polymerElements/nothingToShowMessage/nothingToShowMessage.html">
+<link rel="import" href="../polymerElements/movingElements/moveOptions.html">
+<link rel="import" href="../polymerElements/categories/categoriesManipulation.html">
 <polymer-element name="summary-manipulation">
 <template>
   <link rel="stylesheet" href="summaryManipulation.css">
@@ -38,19 +42,14 @@
         <template if="{{insideGroup}}">
           <img src="../../../resources/images/close.png"
                on-click="{{getOutOfGroup}}"
-               class="topIndex"
-               style="width: 40px; height: 40px" >
+               class="topIndex 40pxSquare" >
           </template>
           <template if="{{currentContainer.photos.isEmpty}}">
-            <div class="space40"></div> <!-- Just space -->
-            <div id="centerText" class="title large font25 height20">Empty.</div>
-            <div class="space40"></div> <!-- Just space -->
+            <empty-message></empty-message>
           </template>
           <template if="{{currentContainer.photos.isNotEmpty}}">
               <template if="{{container.photosToDisplay.length < 1}}">
-                <div class="space40"></div> <!-- Just space -->
-                <div id="centerText" class="title large font25 height20">Nothing to show.</div>
-                <div class="space40"></div> <!-- Just space -->
+                <nothing-to-show></nothing-to-show>
               </template>
               <section class="centerStuff">
                 <template if="{{container.photosToDisplay.length > 0}}">
@@ -58,109 +57,62 @@
                     <template repeat="{{photo in currentContainer.photosToDisplay}}">   
                       <li>
                       
-                         <template if="{{insideGroup}}">
-                          <div class="mementoImage">
-                              <img src="{{photo.thumbnailToShow.src}}"
-                                   class="image"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}" >
-                              <img src="../../../resources/images/selected_blue.png"
-                                   class="notSelected"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}"
-                                   style="width: 40px; height: 40px" >
-                            </div>
-                         </template>
+                                <template if="{{insideGroup}}">
+                                  <div class="mementoImage">
+                                      <img src="{{photo.thumbnailToShow.src}}"
+                                           class="image"
+                                           on-click="{{showImage}}"
+                                           data-id="{{photo.id}}" >
+                                      <img src="../../../resources/images/selected_blue.png"
+                                           class="notSelected 40pxSquare"
+                                           on-click="{{showImage}}"
+                                           data-id="{{photo.id}}" >
+                                    </div>
+                                 </template>
                          
-                         <template if="{{facesCategory}}">
-                          <template if="{{!insideGroup}}">
-                           <div class="mementoImage">
-                            <div on-click="{{showImage}}" data-id="{{photo.id}}">
-                              <img src="{{photo.thumbnailToShow.src}}"
-                                   class="imageGroupFace image"
-                                   title="{{photo.title}}" >
-                              <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
-                              <img src="../../../resources/images/selected_blue.png"
-                                   class="notSelected"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}"
-                                   style="width: 40px; height: 40px" >
-                            </div>
-                           </div>
-                          </template>
-                        </template>
-                        
-                        <template if="{{dayMomentCategory}}">
-                          <template if="{{!insideGroup}}">
-                           <div class="mementoImage">
-                            <div on-click="{{showImage}}" data-id="{{photo.id}}">
-                              <img src="{{photo.thumbnailToShow.src}}"
-                                   class="imageGroupFace image"
-                                   title="{{photo.title}}" >
-                              <p id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
-                              <img src="../../../resources/images/selected_blue.png"
-                                   class="notSelected"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}"
-                                   style="width: 40px; height: 40px" >
-                            </div>
-                           </div>
-                          </template>
-                        </template>
-                        
-                        <template if="{{toningCategory}}">
-                          <template if="{{!insideGroup}}">
-                           <div class="mementoImage">
-                            <div on-click="{{showImage}}" data-id="{{photo.id}}">
-                              <img src="{{photo.thumbnailToShow.src}}"
-                                   class="imageGroupFace image"
-                                   title="{{photo.title}}" >
-                              <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
-                              <img src="../../../resources/images/selected_blue.png"
-                                   class="notSelected"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}"
-                                   style="width: 40px; height: 40px" >
-                            </div>
-                           </div>
-                          </template>
-                        </template>
-                      
-                        <template if="{{sameCategory}}">
-                          <template if="{{!insideGroup}}">
-                           <div class="mementoImage">
-                            <div on-click="{{showImage}}" data-id="{{photo.id}}">
-                              <img src="{{photo.thumbnailToShow.src}}"
-                                   class="imageGroupFace image"
-                                   title="{{photo.title}}" >
-                              <p id="text"><span class="label label-default">{{photo.returnSimilarGroup.giveMeAllPhotos.length}}</span></p>
-                              <img src="../../../resources/images/selected_blue.png"
-                                   class="notSelected"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}"
-                                   style="width: 40px; height: 40px" >
-                            </div>
-                           </div>
-                          </template>
-                        </template>
-                   
-                        <template if="{{!sameCategory && !toningCategory && !facesCategory && !dayMomentCategory}}">
-                          <div class="mementoImage">
-                            <div class="imageBoard">
-                              <img src="{{photo.thumbnailToShow.src}}"
-                                   class="image"
-                                   title="{{photo.title}}"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}" >
-                              <img src="../../../resources/images/selected_blue.png"
-                                   class="notSelected"
-                                   on-click="{{showImage}}"
-                                   data-id="{{photo.id}}"
-                                   style="width: 40px; height: 40px" >
+                                <template if="{{!insideGroup}}"> 
 
-                            </div>
-                          </div> 
-                        </template>
+                                    <template if="{{!toningCategory && !facesCategory && !dayMomentCategory && !sameCategory}}">
+                                      <div class="mementoImage">
+                                        <img src="{{photo.thumbnailToShow.src}}"
+                                             class="image"
+                                             title="{{photo.title}}"
+                                             on-click="{{showImage}}"
+                                             data-id="{{photo.id}}" >
+                                        <img src="../../../resources/images/selected_blue.png"
+                                             class="notSelected 40pxSquare"
+                                             on-click="{{showImage}}"
+                                             data-id="{{photo.id}}" >
+                                      </div>
+                                    </template>
+                                    
+                                    <template if="{{facesCategory || dayMomentCategory || toningCategory || sameCategory}}">
+                                      <div class="mementoImage">
+                                        <div on-click="{{showImage}}" data-id="{{photo.id}}">
+                                          <img src="{{photo.thumbnailToShow.src}}"
+                                               class="imageGroupFace image"
+                                               title="{{photo.title}}" >
+                                          <template if="{{facesCategory}}">
+                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                          </template>
+                                          <template if="{{dayMomentCategory}}">
+                                            <p id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
+                                          </template>
+                                          <template if="{{toningCategory}}">
+                                            <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
+                                          </template>
+                                          <template if="{{sameCategory}}">
+                                            <p id="text"><span class="label label-default">{{photo.returnSimilarGroup.giveMeAllPhotos.length}}</span></p>
+                                          </template>
+                                          <img src="../../../resources/images/selected_blue.png"
+                                               class="notSelected 40pxSquare"
+                                               on-click="{{showImage}}"
+                                               data-id="{{photo.id}}" >
+                                        </div>
+                                      </div>
+                                    </template>
+                                    
+                                  </template> 
 
                       </li>                 
                     </template> 
@@ -178,54 +130,19 @@
       </div> <!-- tabs here -->
     </section> <!-- firstSection -->
     
-    <section id="bottomZone">   
-      <div id="categories">
-        <div class="row">
-        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div id="centerText">
-            <!-- Faces -->
-            <template if="{{facesCategory}}">
-                <img src="../../../resources/images/people.png" 
-                     on-click="{{facesCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <template if="{{!facesCategory}}">
-                <img src="../../../resources/images/people_ns.png" 
-                     on-click="{{facesCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <!-- Faces -->
-            <!-- Day Moment  -->
-            <template if="{{dayMomentCategory}}">
-                <img src="../../../resources/images/time.png" 
-                     on-click="{{dayMomentCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <template if="{{!dayMomentCategory}}">
-                <img src="../../../resources/images/time_ns.png" 
-                     on-click="{{dayMomentCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <!-- Day Moment -->
-            <!-- Toning Photos -->
-            <template if="{{toningCategory}}">
-                <img src="../../../resources/images/toning.png" 
-                     on-click="{{toningCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <template if="{{!toningCategory}}">
-                <img src="../../../resources/images/toning_ns.png" 
-                     on-click="{{toningCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <!-- Toning -->
-            <!-- Same Photos -->
-            <template if="{{sameCategory}}">
-                <img src="../../../resources/images/similar.png" 
-                     on-click="{{similarCategoryExecution}}" id="categorySize"  /> 
-            </template>
-            <template if="{{!sameCategory}}">
-                <img src="../../../resources/images/similar_ns.png" 
-                     on-click="{{similarCategoryExecution}}" id="categorySize"  /> 
-            </template>
-          </div>
-        </div>
-       </div>
-      </div>
+    <section id="bottomZone"> 
+     <div id="categories">
+      <categories-manipulation-element 
+        facesCategoryExecutionFunction="{{facesCategoryExecutionFunction}}"
+        dayMomentCategoryExecutionFunction="{{dayMomentCategoryExecutionFunction}}"
+        toningCategoryExecutionFunction="{{toningCategoryExecutionFunction}}"
+        similarCategoryExecutionFunction="{{similarCategoryExecutionFunction}}"
+        sameCategory="{{sameCategory}}" 
+        facesCategory ="{{facesCategory}}"
+        dayMomentCategory="{{dayMomentCategory}}"
+        toningCategory="{{toningCategory}}">
+      </categories-manipulation-element>
+     </div>
 
       <div id="screenFooter"> <!-- screen footer -->
        <form class="form-inline" role="form"> <!-- form -->
@@ -280,44 +197,13 @@
                     Move <strong>{{selectedPhotos.length}} photos</strong> to 
                     </template>
                   </template>
-                  <div class="btn-group">
-                    <template if={{currentContainer.equals(summaryContainer)}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="STANDBY"
-                              class="btn btn-standby-container btn-md buttonMargin">Stand-by
-                      </button> 
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="EXCLUDED"
-                              class="btn btn-excluded-container btn-md buttonMargin">Excluded
-                      </button> 
-                    </template>
-                    <template if={{currentContainer.equals(standbyContainer)}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="SUMMARY"
-                              class="btn btn-summary-container btn-md buttonMargin">Summary
-                      </button> 
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="EXCLUDED"
-                              class="btn btn-excluded-container btn-md buttonMargin">Excluded
-                      </button> 
-                    </template>
-                    <template if={{currentContainer.equals(excludedContainer)}}>
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="SUMMARY"
-                              class="btn btn-summary-container btn-md buttonMargin">Summary
-                      </button> 
-                      <button type="button" id="Button130"
-                              on-click="{{moveToContainer}}"
-                              container="STANDBY"
-                              class="btn btn-standby-container btn-md buttonMargin">Stand-by
-                      </button> 
-                    </template>
-                  </div>
+                  
+                 <move-options moveToContainerFunction="{{moveToContainerFunction}}"
+                  currentContainer="{{currentContainer}}"
+                  summaryContainer="{{summaryContainer}}"
+                  standbyContainer="{{standbyContainer}}"
+                  excludedContainer="{{excludedContainer}}"></move-options>
+                  
                   container.
                  </div> 
                 </template> <!-- container to move -->  
