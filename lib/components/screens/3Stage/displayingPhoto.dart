@@ -41,6 +41,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   @observable var toningCategoryExecutionFunction;
   @observable var similarCategoryExecutionFunction;
   @observable var showImageFunction;
+  @observable bool markNewPhoto = false;
   /*
    * 
    */
@@ -63,6 +64,8 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   void photoChanged(){
     updatePhotoView(photo, lastGroupVisited);
   }
+  
+  bool toogleMarkNewPhoto() => markNewPhoto = !markNewPhoto;
   
   /**
    * 
@@ -219,6 +222,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     toningCategory = false;
     dayMomentCategory = false;
     clearAllCategoriesInDisplayMode();
+    toogleMarkNewPhoto();
   }
 
   /*
@@ -230,6 +234,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     dayMomentCategory = false;
     cleanGroups();
     clearAllCategoriesInDisplayMode();
+    toogleMarkNewPhoto();
   }
 
   /**
@@ -240,6 +245,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     toningCategory = true;
     dayMomentCategory = false;
     clearAllCategoriesInDisplayMode();
+    toogleMarkNewPhoto();
   }
 
   /*
@@ -251,6 +257,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     dayMomentCategory = false;
     cleanGroups();
     clearAllCategoriesInDisplayMode();
+    toogleMarkNewPhoto();
   }
 
   /**
@@ -261,6 +268,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     toningCategory = false;
     dayMomentCategory = true;
     clearAllCategoriesInDisplayMode();
+    toogleMarkNewPhoto();
   }
 
   /*
@@ -272,6 +280,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     dayMomentCategory = false;
     cleanGroups();
     clearAllCategoriesInDisplayMode();
+    toogleMarkNewPhoto();
   }
 
   /**
@@ -282,6 +291,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     toningCategory = false;
     dayMomentCategory = false;
     sameCategory = true;
+    toogleMarkNewPhoto();
   }
 
   /*
@@ -294,6 +304,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     dayMomentCategory = false;
     cleanGroups();
     clearSelectedCategories();
+    toogleMarkNewPhoto();
   }
 
   /*

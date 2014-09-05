@@ -81,8 +81,9 @@ class ClusteringManager extends Object with Observable {
    * 
    */
   Cluster chooseForTheBestFromList(List<Cluster> clusters) {
-    var listOfPhotos = _ManipulationOverClusters.clustersToPhotos(clusters),
-        photo = _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos),
+    var listOfPhotos = _ManipulationOverClusters.clustersToPhotos(clusters);
+        print("Number of photos:" + listOfPhotos.length.toString());
+        var photo = _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos),
         clusterToReturn = null;
 
     clusters.forEach((child) {

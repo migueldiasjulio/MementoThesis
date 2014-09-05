@@ -7,6 +7,7 @@ import 'package:observe/observe.dart';
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
 import 'dart:js' as js show JsObject, context;
+import '../../core/exif/exifData.dart';
 
 class Starter extends Object with Observable {
 
@@ -45,27 +46,27 @@ class Starter extends Object with Observable {
     sendPort.send(receivePort.sendPort);
 
     receivePort.listen((msg) {
-      var dateInformation = 0.0,
-          number = 0.0;
+      var number = 0.0;
 
       if(msg == "STOP"){ killFileReaders(); }
 
       for(File file in filesToProcess){
 
-        var photo = new Photo(Url.createObjectUrlFromBlob(file), file.name);
+        var photo = new Photo(Url.createObjectUrlFromBlob(file), file.name),
+            exifData;
 
         //var faceDetectorX = faceDetector.callMethod('comp',[photo]);
         //print(faceDetectorX.toString());
 
         photo.image.onLoad.listen((_) {
           exif.callMethod('getData',[photo.image, () {
-
-            var tags = exif.callMethod('getAllTags', [photo.image]);
-            var model = exif.callMethod('getTag', [photo.image, 'Model']);
-            var info = exif.callMethod('pretty', [photo.image]);
-            // TODO - Add the exif info to the photo
-            photo.setLastModifiedInformation(file.lastModifiedDate);
-            photo.setDataFromPhoto(dateInformation.ceilToDouble());
+            
+            var model = exif.callMethod('getTag', [photo.image, 'Model']),
+                dataCreation = exif.callMethod('getTag', [photo.image, 'DateTimeOriginal']);
+            
+            exifData = new ExifData(photo.id, file.lastModifiedDate, dataCreation);
+            photo.setExifData(exifData);
+            photo.setDataFromPhoto();
 
             _processedPhotos.add(photo);
             number++;

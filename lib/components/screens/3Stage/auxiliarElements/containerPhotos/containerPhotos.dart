@@ -29,6 +29,7 @@ class ContainerPhotos extends PolymerElement {
   @published bool dayMomentCategory;  
   @published bool needToCheckOverflow;
   @published Container currentContainer;
+  @published bool markNewPhoto;
   
   @observable bool isInOverflow = false;
   @observable bool firstTime = true;
@@ -45,7 +46,8 @@ class ContainerPhotos extends PolymerElement {
   }
   
   void markNewPhotoChanged(){
-    
+    print("CLICK DONE. CHECK NOW!");
+    markDisplayingPhoto();
   }
   
   /*
@@ -69,8 +71,13 @@ class ContainerPhotos extends PolymerElement {
   void markDisplayingPhoto() {
     var photoID = photo.id,
         element = $[photoID];
-    print("Element to mark: " + element.toString());
-    //_ThirdAuxFunctions.markPhotoWithElement(element);
+    if((container == currentContainer) ||
+       (facesCategory && insideGroup) || 
+       (dayMomentCategory && insideGroup) ||
+       (toningCategory && insideGroup)){
+      print("Element to mark: " + element.toString());
+      _ThirdAuxFunctions.markPhotoWithElement(element);
+    }
   }
   
   /*

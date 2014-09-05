@@ -50,6 +50,14 @@ class DayMomentCategory extends Category{
   }
   
   void work(List<Photo> photosToAnalyze){
-    //Nothing to do
+    photosToAnalyze.forEach((photo){
+      print("Photo hour: " + photo.returnExifData.hour.toString());
+      if(photo.returnExifData.hour > 7  && photo.returnExifData.hour < 20){
+        photo.setMomentOfDay(true);
+      }
+      else{
+        photo.setMomentOfDay(false); 
+      }
+    });
   }
 }

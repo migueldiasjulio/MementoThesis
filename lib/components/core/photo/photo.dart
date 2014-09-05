@@ -33,7 +33,6 @@ class Photo extends Image implements Comparable<Photo> {
   DayMomentGroupOfPhotos _dayMomentGroup = null;
   QualityGroupOfPhotos _qualityGroup = null;
   double _histogramValuesDifference = 0.0;
-  DateTime _lastModified = null;
 
   Photo(String src, String title)
       : id = "photo_${_COUNT++}",
@@ -99,8 +98,6 @@ class Photo extends Image implements Comparable<Photo> {
   QualityGroupOfPhotos get returnQualityGroup => _qualityGroup;
   double get histogramDiff => _histogramValuesDifference;
   ExifData get returnExifData => _exifData;
-  DateTime get lastModified => _lastModified;
-  String get lastModifiedString => _lastModified.toString();
 
   /*
    * CompareTo function. To compare this photo with other placed as argument
@@ -273,13 +270,6 @@ class Photo extends Image implements Comparable<Photo> {
    * 
    */
   List<Category> setCategories(List<Category> categories) => _categories = categories;
-  
-  /*
-   * 
-   */
-  void setLastModifiedInformation(DateTime dateTime) {
-    _lastModified = dateTime;
-  }
 
   /*
    * 
@@ -287,6 +277,8 @@ class Photo extends Image implements Comparable<Photo> {
   void setExifData(ExifData exifInfo) {
     _exifData = exifInfo;
   }
+  
+  bool setMomentOfDay(bool isDay) => _isDay = isDay;
 
   /*
    * 
@@ -298,8 +290,12 @@ class Photo extends Image implements Comparable<Photo> {
   /*
    * 
    */
-  void setDataFromPhoto(double newDataPhoto) {
-    _dataInformation = newDataPhoto;
+  void setDataFromPhoto() {
+    _dataInformation = _exifData.dateDoubleValue;
+  }
+  
+  void setSecondsDataInformation(double info){
+    _dataInformation = info;
   }
   
   /*

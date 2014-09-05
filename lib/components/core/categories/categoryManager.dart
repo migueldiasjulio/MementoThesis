@@ -11,6 +11,8 @@ import '../photo/photo.dart';
 import 'facesCategory.dart' as faces;
 import 'toningCategory.dart' as toning;
 import 'similarCategory.dart' as similar;
+import 'dayMomentCategory.dart' as dayMoment;
+import 'qualityCategory.dart' as quality;
 import 'category.dart';
 import 'package:observe/observe.dart';
 import '../auxiliarFunctions/pixelWorkflow.dart';
@@ -29,6 +31,8 @@ class CategoryManager extends Object with Observable {
     categories.add(faces.FacesCategory.get());
     categories.add(toning.ToningCategory.get());
     categories.add(similar.SimilarCategory.get());
+    categories.add(dayMoment.DayMomentCategory.get());
+    categories.add(quality.QualityCategory.get());
   }
 
   static CategoryManager get() {

@@ -1,6 +1,6 @@
 <link rel="import" href="../../../../../../../packages/polymer/polymer.html">
 <polymer-element name="last-screen-photos" 
-  attributes="needToCheckOverflow container photosToDisplay insideGroup sameCategory
+  attributes="needToCheckOverflow container photosToDisplay insideGroup sameCategory markNewPhoto
   showImageFunction toningCategory facesCategory dayMomentCategory photo currentContainer">
 
   <template>
@@ -24,7 +24,8 @@
                                       <img src="{{photo.miniThumbnailToShow.src}}"
                                            class="image"
                                            on-click="{{showImagePlease}}"
-                                           data-id="{{photo.id}}" >
+                                           data-id="{{photo.id}}"
+                                           id="{{photo.id}}" >
                                       <img src="../../../../../resources/images/selected_blue.png"
                                            class="notSelected"
                                            on-click="{{showImagePlease}}"
@@ -33,6 +34,7 @@
                                     </div>
                                    <!-- this gonna be an element -->
                                  </template>
+                                
                            
                                 <template if="{{!insideGroup}}">  <!-- im not inside a group -->
 
@@ -44,7 +46,8 @@
                                              class="image"
                                              title="{{photo.title}}"
                                              on-click="{{showImagePlease}}"
-                                             data-id="{{photo.id}}" >
+                                             data-id="{{photo.id}}"
+                                             id="{{photo.id}}" >
                                         <img src="../../../../../resources/images/selected_blue.png"
                                              class="notSelected"
                                              on-click="{{showImagePlease}}"
@@ -59,7 +62,7 @@
                                         <div on-click="{{showImagePlease}}" data-id="{{photo.id}}">
                                           <img src="{{photo.miniThumbnailToShow.src}}"
                                                class="imageGroupFace image"
-                                               title="{{photo.title}}" >
+                                               title="{{photo.title}}">
                                           <template if="{{facesCategory}}">
                                             <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
                                           </template>

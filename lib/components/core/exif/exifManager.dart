@@ -4,9 +4,28 @@ import '../photo/photo.dart';
 import 'dart:js';
 import 'package:observe/observe.dart';
 import 'package:js/js.dart' as js;
-import 'exifExtractor.dart';
 
-final _exifExtractor = ExifExtractor.get();
+class ReturnObject{
+  double valueToSave;
+  int year,
+      month,
+      day,
+      hour,
+      minutes,
+      seconds,
+      milliseconds;
+  ReturnObject(double valueToSave, int year, int month, int day, int hour,
+               int minutes, int seconds, int milliseconds){
+    this.valueToSave = valueToSave;
+    this.year = year;
+    this.month = month;
+    this.day = day;
+    this.hour = hour;
+    this.minutes = minutes;
+    this.seconds = seconds;
+    this.milliseconds = milliseconds;
+  } 
+}
 
 class ExifManager extends Object with Observable {
   
@@ -30,46 +49,28 @@ class ExifManager extends Object with Observable {
     return _instance;
   }
   
-  /*
-   * Get a specific Tag
-   */
-  String getTag(Photo photo, tag) {
-      if (photo.returnExifData == null) return '';
-      return '';
-      //return photo.exifData.returnTag(tag); TODO
-  }
-  
-  /**
-   * Extract EXIF Information 
-   */ 
-  double extractExifInformation(Photo photo){
-    var dateToReturn = 0.0;
-    
-    //TODO extracts exif information
-    //_exifExtractor.handleBinaryFile();
-    
-    //TODO return data normalized
-    dateToReturn = firstNormalization(new DateTime(2)); //TODO change this
-    
-    return dateToReturn;
-    
-  }
-  
-  
-  
   /**
    * Normalize Information 
    */ 
-  double firstNormalization(DateTime date){
-    var normalizationNumber = 0.0;
+  ReturnObject firstNormalization(DateTime date){
+    var normalizationNumber = 0.0,
+        year = date.year,
+        month = date.month,
+        day = date.day,
+        hour = date.hour,
+        minutes = date.minute,
+        seconds = date.second,
+        milliseconds = date.millisecond;
     
     //TODO do normalization
-    normalizationNumber = 0.0;
+    normalizationNumber = year*1000000.0 + month*100000.0 + day*1000.0 + 
+                          hour*100.0 + minutes *10.0 + seconds + milliseconds;
+    
     if(normalizationNumber > higherDateInformation){
-      higherDateInformation = normalizationNumber;
+      //higherDateInformation = normalizationNumber;
     }
     
-    return normalizationNumber;
+    return new ReturnObject(normalizationNumber,year, month, day, hour, minutes, seconds, milliseconds);
   }
   
   double calcNormalizationNumber(double firstNormalizationNumber){
@@ -78,8 +79,7 @@ class ExifManager extends Object with Observable {
   
   void secondNormalization(List<Photo> photos){
     for(Photo photo in photos){
-      print(calcNormalizationNumber(photo.dataFromPhoto)); //TODO
-      photo.setDataFromPhoto(calcNormalizationNumber(photo.dataFromPhoto));
+      photo.setSecondsDataInformation(calcNormalizationNumber(photo.dataFromPhoto));
     }  
   }
   
