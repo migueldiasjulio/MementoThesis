@@ -52,8 +52,8 @@ class ImportPhotos extends screenhelper.Screen {
   ReceivePort receivePort = new ReceivePort();
 
   /*
-   * 
-   */ 
+   *
+   */
   ImportPhotos.created() : super.created(){
     Modal.use();
     summaryCreation = Modal.wire($['summaryCreation']);
@@ -72,27 +72,27 @@ class ImportPhotos extends screenhelper.Screen {
     _dropZone.onDragEnter.listen((e) => _dropZone.classes.add('hover'));
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
-    
-    //photos.changes.listen((records) => changeToModified());  
+
+    //photos.changes.listen((records) => changeToModified());
   }
-  
+
   /*
-   * 
-   */ 
+   *
+   */
   void workIsCompleteModified(){
     print("THATS OK!");
   }
-  
+
   /*
-   * 
-   */ 
+   *
+   */
   void changeToModified(){
     modified = !modified;
   }
 
   /*
    * Entering View
-   */ 
+   */
   @override
   void enteredView() => super.enteredView();
 
@@ -124,9 +124,9 @@ class ImportPhotos extends screenhelper.Screen {
      ..dataTransfer.dropEffect = 'copy';
    }
 
-   /* 
+   /*
     * On Drop (drop zone)
-    * @param event - MouseEvent 
+    * @param event - MouseEvent
     */
    void _onDrop(MouseEvent event) {
      event..stopPropagation()..preventDefault();
@@ -138,44 +138,43 @@ class ImportPhotos extends screenhelper.Screen {
     * On file Input
     */
    void _onFileInputChange() => _onFilesSelected(_fileInput.files);
-   
+
    /*
-    * 
-    */ 
+    *
+    */
    void cancelImport(){
      _Starter.killFileReaders();
      hiddeLoading();
    }
-   
+
    /*
     *
     */
-   void _onFilesSelected(List<File> files) {  
-     var exif = new js.JsObject(js.context['EXIF'], []);
-     var faceDetector = new js.JsObject(js.context['FaceDetector'], []);
+   void _onFilesSelected(List<File> files) {
+    //var faceDetector = new js.JsObject(js.context['FaceDetector'], []);
     DB.addFilesToList(files);
-    
+
     var photoFiles = files.where((file) => file.type.startsWith('image')),
-        intNumber = photoFiles.length; 
-     
+        intNumber = photoFiles.length;
+
     if(intNumber > 0){
       organizeAndDisplayData(showingData);
       var dateInformation = 0.0,
           fileReaders = new List<FileReader>(),
           files = photoFiles.toList();
-      
+
       numberOfPhotosDefined = (photos.length + photoFiles.length).toString();
       numberOfPhotosImported = (photos.length + photoFiles.length).toString();
       numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
       showLoading();
-      startWorking(files, exif);
-    } 
+      startWorking(files);
+    }
    }
-   
+
    /*
-    * 
-    */ 
-   void startWorking(List<File> filesToProcess, js.JsObject exifInstance) {
+    *
+    */
+   void startWorking(List<File> filesToProcess) {
      receivePort = new ReceivePort();
 
      receivePort.listen((msg){
@@ -189,14 +188,14 @@ class ImportPhotos extends screenhelper.Screen {
          hiddeLoading();
        }
      });
-     
+
      //!HACK
      Isolate.spawnUri(
-             _Starter.runInIsolate(receivePort.sendPort, filesToProcess, exifInstance),
+             _Starter.runInIsolate(receivePort.sendPort, filesToProcess),
              [],
              receivePort.sendPort);
    }
-   
+
    /*
     * Increment number of summary photos
     */
@@ -224,15 +223,15 @@ class ImportPhotos extends screenhelper.Screen {
    }
 
    /*
-    * 
+    *
     */
    void runStartStuff(){
      _ScreenAdvisor.setScreenType(title);
    }
-   
+
    /*
-    * 
-    */ 
+    *
+    */
    void startWorkingOnSummary(List<Photo> photos, int numberDefinedInt) {
      receivePort = new ReceivePort();
 
@@ -244,7 +243,7 @@ class ImportPhotos extends screenhelper.Screen {
          goSummary();
        }
      });
-     
+
      //!HACK
      Isolate.spawnUri(
              _SummaryBuilder.runInIsolate(receivePort.sendPort, photos, numberDefinedInt),
@@ -264,30 +263,30 @@ class ImportPhotos extends screenhelper.Screen {
         startWorkingOnSummary(photos, numberDefinedInt);
       }
     }
-    
+
     /*
-     * 
+     *
      */
-    Future goSummary() => router.go("summary-manipulation", {}); 
-    
+    Future goSummary() => router.go("summary-manipulation", {});
+
     /*
      *  Cancel the Summary Creation
      */
     bool cancelSummaryCreation() => DB.cleanAllData();
-    
+
     /*
-     * 
-     */ 
+     *
+     */
     void showDataInformation(){
       toogleShowingData();
       changeToModified();
     }
-    
+
     /*
-     * 
+     *
      */
     void organizeAndDisplayData(showingData) => _firstAuxFunctions.organizeAndDisplayData(showingData);
-    
+
     /*
      * Modal function
      */
@@ -297,7 +296,7 @@ class ImportPhotos extends screenhelper.Screen {
     void hiddeLoading() => loading.hide();
     void showMessageNumberOverflow() => maximumPhotos.show();
     void hideMessageNumberOverflow() => maximumPhotos.hide();
-   
+
    /*
     * Open file uploader
     */
