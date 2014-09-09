@@ -31,28 +31,37 @@ class QualityCategory extends Category{
    QualityGroupOfPhotos badQuality = new QualityGroupOfPhotos();
    badQuality.setGroupName("Bad Quality");
    
-   /*
+
    photos.forEach((photo){
-     if(!photo.isColor){
-       if(blackAndWhitePhotos.giveMeAllPhotos.length == 0){
-         blackAndWhitePhotos.setGroupFace(photo);
+     if(photo.histogramDiff < 0.25){
+       if(goodQuality.giveMeAllPhotos.length == 0){
+         goodQuality.setGroupFace(photo);
        }
-       blackAndWhitePhotos.addToList(photo);
-       photo.setColorGroup(blackAndWhitePhotos); 
+       goodQuality.addToList(photo);
+       photo.setQualityGroup(goodQuality); 
      }
      else{
-       if(colorPhotos.giveMeAllPhotos.length == 0){
-         colorPhotos.setGroupFace(photo);
+       if(photo.histogramDiff > 0.25 && photo.histogramDiff < 0.70){
+         if(mediumQuality.giveMeAllPhotos.length == 0){
+           mediumQuality.setGroupFace(photo);
+         }
+         mediumQuality.addToList(photo);
+         photo.setQualityGroup(mediumQuality);
        }
-       colorPhotos.addToList(photo);
-       photo.setColorGroup(colorPhotos);
-     }
+       else{
+         if(badQuality.giveMeAllPhotos.length == 0){
+           badQuality.setGroupFace(photo);
+         }
+         badQuality.addToList(photo);
+         photo.setQualityGroup(badQuality);
+       }
+      }
    });
+   listToReturn.add(goodQuality);
+   listToReturn.add(mediumQuality);
+   listToReturn.add(badQuality);
    
-   listToReturn.add(colorPhotos);
-   listToReturn.add(blackAndWhitePhotos);
    return listToReturn; 
-   */
   }
   
   void work(List<Photo> photosToAnalyze){

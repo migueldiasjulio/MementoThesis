@@ -56,3 +56,139 @@ height: 20%;
   width: 20px;
   height: 20px;
 }
+
+.10pxSquare{
+  width: 10px;
+  height: 10px;
+}
+
+.5pxSquare{
+  width: 5px;
+  height: 5px;
+}
+
+.mementoImage figcaption {
+  background: rgba(0,0,0,0.7);
+  border-radius: 4px;
+  color: white;
+  display: table;
+  height: 25px;
+  width: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  vertical-align: middle; 
+  -webkit-transition: all 300ms;
+  -moz-transition: all 300ms;
+  transition: all 300ms;
+  -webkit-transition-delay: 100ms;
+  -moz-transition-delay: 100ms;
+  transition-delay: 100ms;
+}
+
+.mementoSpecialImage figcaption {
+  background: rgba(0,0,0,0.7);
+  border-radius: 4px;
+  color: white;
+  display: table;
+  height: 20px;
+  width: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  vertical-align: middle; 
+  -webkit-transition: all 300ms;
+  -moz-transition: all 300ms;
+  transition: all 300ms;
+  -webkit-transition-delay: 100ms;
+  -moz-transition-delay: 100ms;
+  transition-delay: 100ms;
+}
+
+.hideThis{
+  opacity: 0;
+}
+.mementoImage figcaption p {
+  position: relative;
+  font-size: 1.2em;
+  margin-left: auto;
+  vertical-align: middle;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;  
+}
+
+.mementoSpecialImage figcaption p {
+  position: relative;
+  font-size: 1.2em;
+  margin-left: auto;
+  vertical-align: middle;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;  
+}
+
+.mementoImage:hover figcaption p {
+  -moz-transform: translateY(20px);
+  -webkit-transform: translateY(20px);
+  transform: translateY(20px);
+}
+
+.mementoSpecialImage:hover figcaption p {
+  -moz-transform: translateY(20px);
+  -webkit-transform: translateY(20px);
+  transform: translateY(20px);
+}
+
+.mementoImage:hover figcaption {
+  opacity: 1;
+}
+
+.mementoSpecialImage:hover figcaption {
+  opacity: 1;
+}
+
+.displayingImage figcaption {
+  background: rgba(0,0,0,0.7);
+  border-radius: 4px;
+  color: white;
+  display: table;
+  height: 20px;
+  width: 160px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  vertical-align: middle; 
+  -webkit-transition: all 300ms;
+  -moz-transition: all 300ms;
+  transition: all 300ms;
+  -webkit-transition-delay: 100ms;
+  -moz-transition-delay: 100ms;
+  transition-delay: 100ms;
+}
+
+.displayingImage figcaption p {
+  position: relative;
+  font-size: 1.2em;
+  margin-left: auto;
+  vertical-align: middle;
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  transition: all 300ms ease-out;  
+}
+
+.displayingImage:hover figcaption p {
+  -moz-transform: translateY(20px);
+  -webkit-transform: translateY(20px);
+  transform: translateY(20px);
+}
+
+.displayingImage:hover figcaption {
+  opacity: 1;
+}

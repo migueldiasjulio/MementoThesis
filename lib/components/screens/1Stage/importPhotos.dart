@@ -18,6 +18,7 @@ import '../workers/starter.dart';
 import '../workers/summaryCreation.dart';
 import 'dart:isolate';
 import 'dart:js' as js show JsObject, context;
+import '../../core/exif/exifData.dart';
 
 /*
  * Import Photos Screen class
@@ -151,11 +152,14 @@ class ImportPhotos extends screenhelper.Screen {
     *
     */
    void _onFilesSelected(List<File> files) {
-    //var faceDetector = new js.JsObject(js.context['FaceDetector'], []);
+    
+    js.JsObject exif = js.context['EXIF'];
     DB.addFilesToList(files);
 
     var photoFiles = files.where((file) => file.type.startsWith('image')),
-        intNumber = photoFiles.length;
+        intNumber = photoFiles.length,
+        number = 0,
+        photosToAdd = new List<Photo>();
 
     if(intNumber > 0){
       organizeAndDisplayData(showingData);
@@ -167,7 +171,38 @@ class ImportPhotos extends screenhelper.Screen {
       numberOfPhotosImported = (photos.length + photoFiles.length).toString();
       numberOfPhotosLoaded = int.parse(numberOfPhotosDefined);
       showLoading();
-      startWorking(files);
+      
+      for(File file in photoFiles){
+
+        var photo = new Photo(Url.createObjectUrlFromBlob(file), file.name),
+            exifData;
+
+        //var faceDetectorX = faceDetector.callMethod('comp',[photo]);
+        //print(faceDetectorX.toString());
+
+        photo.image.onLoad.listen((_) {
+          exif.callMethod('getData',[photo.image, () {
+            
+            var model = exif.callMethod('getTag', [photo.image, 'Model']),
+                dataCreation = exif.callMethod('getTag', [photo.image, 'DateTimeOriginal']);
+            
+            exifData = new ExifData(photo.id, file.lastModifiedDate, dataCreation);
+            photo.setExifData(exifData);
+            photo.setDataFromPhoto();
+
+            photosToAdd.add(photo);
+            number++;
+
+            if(number == photoFiles.length){
+              photos.addAll(photosToAdd);
+              
+              DB.sortPhotos(photos);
+              hiddeLoading();
+            }
+          }]);
+        });
+      }
+      /*startWorking(files);*/
     }
    }
 

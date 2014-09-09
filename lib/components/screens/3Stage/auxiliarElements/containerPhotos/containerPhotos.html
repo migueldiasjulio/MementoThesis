@@ -1,4 +1,5 @@
 <link rel="import" href="../../../../../../../packages/polymer/polymer.html">
+<link rel="import" href="../../../polymerElements/figCaptionElement/figureCaption.html">
 <polymer-element name="last-screen-photos" 
   attributes="needToCheckOverflow container photosToDisplay insideGroup sameCategory markNewPhoto
   showImageFunction toningCategory facesCategory dayMomentCategory photo currentContainer">
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="../../../resources/mementoGrid.css">
   <link rel="stylesheet" href="../../../resources/mementoPosition.css"> 
   <link rel="stylesheet" href="../../../resources/mementoButtons.css">
+    <link rel="stylesheet" href="../../../resources/mementoSize.css">
     <link rel="stylesheet" href="../../../resources/arrowNavigation.css">
   
                           <template if="{{isInOverflow}}">
@@ -21,6 +23,7 @@
                                 <template if="{{insideGroup || !sameCategory}}">
                                   <!-- this gonna be an element -->
                                   <div class="mementoSpecialImage">
+                                    <figure>
                                       <img src="{{photo.miniThumbnailToShow.src}}"
                                            class="image"
                                            on-click="{{showImagePlease}}"
@@ -30,7 +33,11 @@
                                            class="notSelected"
                                            on-click="{{showImagePlease}}"
                                            data-id="{{photo.id}}"
-                                           style="width: 40px; height: 40px" >
+                                           style="width: 40px; height: 40px" >                                         
+                                      <figcaption class="hideThis">
+                                        <figure-caption-element photo="{{photo}}" size="20"></figure-caption-element>
+                                      </figcaption>   
+                                    </figure> 
                                     </div>
                                    <!-- this gonna be an element -->
                                  </template>
@@ -42,6 +49,7 @@
                                     <template if="{{!toningCategory && !facesCategory && !dayMomentCategory}}">
                                       <!-- this gonna be an element -->
                                       <div class="mementoSpecialImage">
+                                       <figure>
                                         <img src="{{photo.miniThumbnailToShow.src}}"
                                              class="image"
                                              title="{{photo.title}}"
@@ -53,6 +61,10 @@
                                              on-click="{{showImagePlease}}"
                                              data-id="{{photo.id}}"
                                              style="width: 40px; height: 40px" >
+                                        <figcaption class="hideThis">
+                                          <figure-caption-element photo="{{photo}}" size="20"></figure-caption-element>
+                                        </figcaption>   
+                                      </figure> 
                                       </div>
                                       <!-- this gonna be an element -->
                                     </template>
@@ -60,23 +72,23 @@
                                     <template if="{{facesCategory || dayMomentCategory || toningCategory}}">
                                       <div class="mementoSpecialImage">
                                         <div on-click="{{showImagePlease}}" data-id="{{photo.id}}">
-                                          <img src="{{photo.miniThumbnailToShow.src}}"
-                                               class="imageGroupFace image"
-                                               title="{{photo.title}}">
-                                          <template if="{{facesCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
-                                          </template>
-                                          <template if="{{dayMomentCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
-                                          </template>
-                                          <template if="{{toningCategory}}">
-                                            <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
-                                          </template>
-                                          <img src="../../../../../resources/images/selected_blue.png"
-                                               class="notSelected"
-                                               on-click="{{showImagePlease}}"
-                                               data-id="{{photo.id}}"
-                                               style="width: 40px; height: 40px" >
+                                            <img src="{{photo.miniThumbnailToShow.src}}"
+                                                 class="imageGroupFace image"
+                                                 title="{{photo.title}}">
+                                            <template if="{{facesCategory}}">
+                                              <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                            </template>
+                                            <template if="{{dayMomentCategory}}">
+                                              <p id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
+                                            </template>
+                                            <template if="{{toningCategory}}">
+                                              <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
+                                            </template>
+                                            <img src="../../../../../resources/images/selected_blue.png"
+                                                 class="notSelected"
+                                                 on-click="{{showImagePlease}}"
+                                                 data-id="{{photo.id}}"
+                                                 style="width: 40px; height: 40px" >
                                         </div>
                                       </div>
                                     </template>

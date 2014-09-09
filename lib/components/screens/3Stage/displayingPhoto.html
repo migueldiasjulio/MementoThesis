@@ -3,6 +3,7 @@
 <link rel="import" href="../polymerElements/nothingToShowMessage/nothingToShowMessage.html">
 <link rel="import" href="../polymerElements/movingElements/moveOptions.html">
 <link rel="import" href="../polymerElements/categories/categories.html">
+<link rel="import" href="../polymerElements/lastScreenPhotoInfo/lastPhoto.html">
 <link rel="import" href="auxiliarElements/containerPhotos/containerPhotos.html">
 <polymer-element name="displaying-photo"> 
 <template>
@@ -18,31 +19,53 @@
     <section id="firstSection">   
       <div class="row">
           <div class="col col-xs-1 col-sm-1 col-md-1 col-lg-1">
-            <button type="button" class="btn btn-summary btn-md"
-                    on-click="{{returnToSummary}}" >
-              <span class="glyphicon glyphicon-arrow-left"></span> Back
-            </button>
+            <div>
+              <button type="button" class="btn btn-summary btn-md"
+                      on-click="{{returnToSummary}}" >
+                <span class="glyphicon glyphicon-arrow-left"></span> Back
+              </button>
+            </div>
           </div>
-          <div class="col col-xs-10 col-sm-11 col-md-11 col-lg-11">
+          <div class="col col-xs-11 col-sm-11 col-md-11 col-lg-11">
               
-                <div id="centerText">
-                  <div class="btn-group">
-                    <template if="{{currentContainer.photosToDisplay.length > 1}}">
-                     <img src="../../../resources/images/back.png" 
-                     on-click="{{previousPhotoInList}}" 
-                     class="arrowCursor" id="arrowSize"  />
-                    </template>
-                    <img id="{{photo.id}}" class="imageDisplay imageDisplaying" src="{{photo.mainSrc}}" > 
-                    <template if="{{currentContainer.photosToDisplay.length > 1}}">
-                      <img src="../../../resources/images/forward.png" 
-                           on-click="{{nextPhotoInList}}" 
-                           class="arrowCursor" 
-                           id="arrowSize"  /> 
-                    </template>
-                  </div>                 
-                </div>
-             
-              <p id="centerText">{{photo.title}}</p>
+                  <div id="centerText">
+                  
+                   <form class="form-inline" role="form">
+                   
+                     <div class="row">
+                     
+                     <div class="col col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                     <div class="col col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                      <div class="btn-group">
+                        <template if="{{currentContainer.photosToDisplay.length > 1}}">
+                         <img src="../../../resources/images/back.png" 
+                         on-click="{{previousPhotoInList}}" 
+                         class="arrowCursor" id="arrowSize"  />
+                        </template>
+                            <img id="{{photo.id}}" class="imageDisplay imageDisplaying" src="{{photo.mainSrc}}" >
+                        <template if="{{currentContainer.photosToDisplay.length > 1}}">
+                          <img src="../../../resources/images/forward.png" 
+                               on-click="{{nextPhotoInList}}" 
+                               class="arrowCursor" 
+                               id="arrowSize"  /> 
+                        </template>
+                        <p id="centerText">{{photo.title}}</p> 
+                      </div>   
+                     </div>
+                     <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                      <div style="float: left;">
+                        <div style="margin-top: 40%"></div>
+                        <div>
+                          <last-photo-info-element photo="{{photo}}"></last-photo-info-element>
+                        </div>
+                        <div style="margin-top: 40%"></div>
+                      </div>
+                     </div>
+                     
+                     </div>        
+                   </form> 
+ 
+                  </div>    
           </div> <!-- image zone -->
       </div>
     </section> <!-- firstSection -->

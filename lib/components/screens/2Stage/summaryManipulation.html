@@ -2,6 +2,7 @@
 <link rel="import" href="../polymerElements/emptySpaceAndMessage/emptySpaceAndMessage.html">
 <link rel="import" href="../polymerElements/nothingToShowMessage/nothingToShowMessage.html">
 <link rel="import" href="../polymerElements/movingElements/moveOptions.html">
+<link rel="import" href="../polymerElements/figCaptionElement/figureCaption.html">
 <link rel="import" href="../polymerElements/categories/categoriesManipulation.html">
 <polymer-element name="summary-manipulation">
 <template>
@@ -40,9 +41,10 @@
        <template repeat="{{container in containers}}">
        <div class="{{container.name}}">
         <template if="{{insideGroup}}">
-          <img src="../../../resources/images/close.png"
-               on-click="{{getOutOfGroup}}"
-               class="topIndex 40pxSquare" >
+          <button type="button" class="btn btn-summary btn-md"
+                    on-click="{{getOutOfGroup}}" >
+              <span class="glyphicon glyphicon-arrow-left"></span> Back
+          </button>
           </template>
           <template if="{{currentContainer.photos.isEmpty}}">
             <empty-message></empty-message>
@@ -58,7 +60,8 @@
                       <li>
                       
                                 <template if="{{insideGroup}}">
-                                  <div class="mementoImage">
+                                  <div class="mementoImage">                            
+                                    <figure>  
                                       <img src="{{photo.thumbnailToShow.src}}"
                                            class="image"
                                            on-click="{{showImage}}"
@@ -67,6 +70,11 @@
                                            class="notSelected 40pxSquare"
                                            on-click="{{showImage}}"
                                            data-id="{{photo.id}}" >
+                                           
+                                      <figcaption class="hideThis">
+                                        <figure-caption-element photo="{{photo}}" size="25"></figure-caption-element>
+                                      </figcaption>   
+                                    </figure>   
                                     </div>
                                  </template>
                          
@@ -74,6 +82,9 @@
 
                                     <template if="{{!toningCategory && !facesCategory && !dayMomentCategory && !sameCategory}}">
                                       <div class="mementoImage">
+                                      
+                                      <figure>
+                                      
                                         <img src="{{photo.thumbnailToShow.src}}"
                                              class="image"
                                              title="{{photo.title}}"
@@ -83,6 +94,13 @@
                                              class="notSelected 40pxSquare"
                                              on-click="{{showImage}}"
                                              data-id="{{photo.id}}" >
+                                             
+                                      <figcaption class="hideThis">
+                                        <figure-caption-element photo="{{photo}}" size="25"></figure-caption-element>
+                                      </figcaption>
+                                      
+                                      </figure>
+                                      
                                       </div>
                                     </template>
                                     
@@ -107,7 +125,8 @@
                                           <img src="../../../resources/images/selected_blue.png"
                                                class="notSelected 40pxSquare"
                                                on-click="{{showImage}}"
-                                               data-id="{{photo.id}}" >
+                                               data-id="{{photo.id}}" >     
+                                                       
                                         </div>
                                       </div>
                                     </template>

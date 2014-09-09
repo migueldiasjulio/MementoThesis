@@ -1,0 +1,64 @@
+<link rel="import"
+  href="../../../../../../packages/polymer/polymer.html">
+<polymer-element name="figure-caption-element" attributes="photo size"> 
+<template>
+<link rel="stylesheet" href="../../resources/checkbox.css">
+<link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoPosition.css">
+<link rel="stylesheet" href="figureCaption.css">
+
+<form class="form-inline" role="form">
+  <div  id="centerText" class="btn-group">
+    <template if="{{photo.hasFaces}}">
+      <img src="../../../../resources/images/mini/with_faces.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{!photo.hasFaces}}">
+      <img src="../../../../resources/images/mini/without_faces.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{!photo.isDay}}">
+      <img src="../../../../resources/images/mini/night.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{photo.isDay}}">
+      <img src="../../../../resources/images/mini/day.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{!photo.isColor}}">
+      <img src="../../../../resources/images/mini/black_photo.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{photo.isColor}}">
+      <img src="../../../../resources/images/mini/color_photo.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{photo.lowQuality}}">
+      <img src="../../../../resources/images/mini/poor_quality.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{photo.mediumQuality}}">
+      <img src="../../../../resources/images/mini/medium_quality.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{photo.goodQuality}}">
+      <img src="../../../../resources/images/mini/good_quality.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{photo.hasSimilarPhotos}}">
+      <img src="../../../../resources/images/mini/with_similar.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+    <template if="{{!photo.hasSimilarPhotos}}">
+      <img src="../../../../resources/images/mini/without_similar.png" style="width: 25px; height: 25px;" 
+                                                                  class="25pxSquare">
+    </template>
+   </div>
+</form>
+
+
+
+
+</template> 
+<script type="application/dart" src="figureCaption.dart"></script> 
+</polymer-element>

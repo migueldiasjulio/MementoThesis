@@ -1,0 +1,15 @@
+@import url("../../../../../../packages/bootjack/css/bootstrap.min.css");
+@import url("../../../../../../packages/bootjack/css/bootstrap-theme.css");
+
+.block {
+display: block;
+}
+
+.left{
+  float: left;
+}
+
+ul{
+list-style-type: none;
+}
+

@@ -1,0 +1,96 @@
+<link rel="import"
+  href="../../../../../../packages/polymer/polymer.html">
+<polymer-element name="last-photo-info-element" attributes="photo"> 
+<template>
+<link rel="stylesheet" href="../../resources/checkbox.css">
+<link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoPosition.css">
+<link rel="stylesheet" href="lastPhoto.css">
+
+   <ul>
+   
+    <li>
+      <template if="{{photo.hasFaces}}">
+        <div class="btn-group left">
+          <img src="../../../../resources/images/mini/with_faces.png" style="width: 40px; height: 40px;">
+          With Faces 
+        </div>                                                    
+      </template>
+      <template if="{{!photo.hasFaces}}">
+        <div class="btn-group left">
+         <img src="../../../../resources/images/mini/without_faces.png" style="width: 40px; height: 40px;">
+         Without Faces  
+        </div>                                                           
+      </template>
+    </li>
+    
+    <li>
+      <template if="{{!photo.isDay}}">
+        <div class="btn-group left">
+          <img src="../../../../resources/images/mini/night.png" style="width: 40px; height: 40px;">
+          Night photo
+        </div>
+      </template>
+      <template if="{{photo.isDay}}">
+        <div class="btn-group left">
+          <img src="../../../../resources/images/mini/day.png" style="width: 40px; height: 40px;">
+          Day photo
+        </div>
+      </template>
+    </li>
+    
+    <li>
+      <template if="{{!photo.isColor}}">
+        <div class="btn-group left">
+          <img src="../../../../resources/images/mini/black_photo.png" style="width: 40px; height: 40px;">
+          Black and White Photo
+        </div>
+      </template>
+      <template if="{{photo.isColor}}">
+       <div class="btn-group left">
+        <img src="../../../../resources/images/mini/color_photo.png" style="width: 40px; height: 40px;">
+        Color Photo
+       </div>
+      </template>
+    </li>
+    
+    <li>
+      <template if="{{photo.lowQuality}}">
+       <div class="btn-group left">
+        <img src="../../../../resources/images/mini/poor_quality.png" style="width: 40px; height: 40px;">
+        Low quality photo
+       </div>
+      </template>
+      <template if="{{photo.mediumQuality}}">
+       <div class="btn-group left">
+        <img src="../../../../resources/images/mini/medium_quality.png" style="width: 40px; height: 40px;">
+        Medium quality photo
+       </div>
+      </template>
+      <template if="{{photo.goodQuality}}">
+       <div class="btn-group left">
+        <img src="../../../../resources/images/mini/good_quality.png" style="width: 40px; height: 40px;">
+        Good quality photo
+       </div>
+      </template>
+    </li>
+    
+    <li>
+      <template if="{{photo.hasSimilarPhotos}}">
+       <div class="btn-group left">
+        <img src="../../../../resources/images/mini/with_similar.png" style="width: 40px; height: 40px;">
+        Has similar photos
+       </div>
+      </template>
+      <template if="{{!photo.hasSimilarPhotos}}">
+       <div class="btn-group left">
+        <img src="../../../../resources/images/mini/without_similar.png" style="width: 40px; height: 40px;">
+        No similar photos
+       </div>
+      </template>
+    </li>
+    
+  </ul>
+</template> 
+<script type="application/dart" src="lastPhoto.dart"></script> 
+</polymer-element>

@@ -98,6 +98,30 @@ class Photo extends Image implements Comparable<Photo> {
   QualityGroupOfPhotos get returnQualityGroup => _qualityGroup;
   double get histogramDiff => _histogramValuesDifference;
   ExifData get returnExifData => _exifData;
+  bool get hasSimilarPhotos{
+    if(_similarPhotos.length > 0){
+      return true;
+    }
+    return false;
+  }
+  bool get lowQuality{
+    if(_histogramValuesDifference > 0.70){
+      return true;
+    }
+    return false;
+  }
+  bool get mediumQuality{
+    if(_histogramValuesDifference > 0.30 && _histogramValuesDifference < 0.70){
+      return true;
+    }
+    return false;
+  }
+  bool get goodQuality{
+    if(_histogramValuesDifference < 0.30){
+      return true;
+    }
+    return false;
+  }
 
   /*
    * CompareTo function. To compare this photo with other placed as argument
