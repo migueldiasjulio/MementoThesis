@@ -10,6 +10,7 @@ import '../../core/categories/facesCategory.dart' as faces;
 import '../../core/categories/toningCategory.dart' as toning;
 import '../../core/categories/similarCategory.dart' as similar;
 import '../../core/categories/dayMomentCategory.dart' as dayMoment;
+import '../../core/categories/qualityCategory.dart' as quality;
 import 'dart:html';
 import 'dart:core';
 import '../../core/photo/photo.dart';
@@ -18,6 +19,7 @@ import '../../core/photo/GroupOfPhotos/similarGroupOfPhotos.dart';
 import '../../core/photo/GroupOfPhotos/colorGroupOfPhotos.dart';
 import '../../core/photo/GroupOfPhotos/facesGroupOfPhotos.dart';
 import '../../core/photo/GroupOfPhotos/dayMomentGroupOfPhotos.dart';
+import '../../core/photo/GroupOfPhotos/qualityGroupOfPhotos.dart';
 import '../workers/downloader.dart';
 import 'package:bootjack/bootjack.dart';
 import 'dart:isolate';
@@ -117,12 +119,15 @@ abstract class SpecialScreen extends ScreenModule {
   @observable bool dayMomentCategory = false; 
   @observable bool insideGroup = false;
   @observable bool downloading = false;
+  @observable bool qualityCategory = false;
+  @observable bool normalMode = true;
   AnchorElement link = new AnchorElement();
   @observable get containers => DB.containers.values;
   @observable SimilarGroupOfPhotos similarGroupOfPhotosChoosed = new SimilarGroupOfPhotos();
   @observable ColorGroupOfPhotos colorGroupOfPhotosChoosed = new ColorGroupOfPhotos();
   @observable FacesGroupOfPhotos facesGroupOfPhotosChoosed = new FacesGroupOfPhotos();
   @observable DayMomentGroupOfPhotos dayMomentGroupOfPhotosChoosed = new DayMomentGroupOfPhotos();
+  @observable QualityGroupOfPhotos qualityGroupOfPhotosChoosed = new QualityGroupOfPhotos();
   @observable GroupOfPhotos lastGroupVisited = null;
   @observable Photo photo = null;
   ReceivePort receivePort = new ReceivePort();
@@ -131,9 +136,20 @@ abstract class SpecialScreen extends ScreenModule {
   final List<Category> selectedCategories =  toObservable([]); 
   Element _summaryContainer,
           _standByContainer,
-          _excludedContainer;
+          _excludedContainer,
+          _summaryLabel,
+          _standbyLabel,
+          _excludedLabel,
+          _summarySpan,
+          _standbySpan,
+          _excludedSpan;
   String screenTitle = "";
-  //@observable bool openExportModal = false;
+  @observable var moveToContainerFunction;
+  @observable var facesCategoryExecutionFunction;
+  @observable var dayMomentCategoryExecutionFunction;
+  @observable var toningCategoryExecutionFunction;
+  @observable var qualityCategoryExecutionFunction;
+  @observable var similarCategoryExecutionFunction;
   Modal exportMenu;
   
   SpecialScreen.created() : super.created() {
@@ -142,9 +158,16 @@ abstract class SpecialScreen extends ScreenModule {
     _summaryContainer = $['t-SUMMARY'];
     _standByContainer = $['t-STANDBY'];
     _excludedContainer = $['t-EXCLUDED'];
+    _summaryLabel = $['t-SUMMARY-label'];
+    _standbyLabel = $['t-STANDBY-label'];
+    _excludedLabel = $['t-EXCLUDED-label'];
+    _summarySpan = $['t-SUMMARY-span'];
+    _standbySpan = $['t-STANDBY-span'];
+    _excludedSpan = $['t-EXCLUDED-span'];
     similarGroupOfPhotosChoosed.setGroupName("Similar");
     colorGroupOfPhotosChoosed.setGroupName("Color");
     facesGroupOfPhotosChoosed.setGroupName("With Faces");
+    qualityGroupOfPhotosChoosed.setGroupName("Good Quality");
     dayMomentGroupOfPhotosChoosed.setGroupName("Day");
   }
   
@@ -178,12 +201,19 @@ abstract class SpecialScreen extends ScreenModule {
     _summaryContainer.attributes.remove('checked');
     _standByContainer.attributes.remove('checked');
     _excludedContainer.attributes.remove('checked'); 
+    _summaryLabel.attributes.remove('checked');
+    _standbyLabel.attributes.remove('checked');
+    _excludedLabel.attributes.remove('checked');
+    //_summarySpan.attributes.remove('checked');
+    //_standbySpan.attributes.remove('checked');
+    //_excludedSpan.attributes.remove('checked');
   }
   
   /*
    * Check destiny container
    */
   void checkDestination(String containerName){
+    removeCheckedAttribute();
     switch(containerName){
       case("SUMMARY"): 
         checkSummaryContainer();
@@ -204,8 +234,10 @@ abstract class SpecialScreen extends ScreenModule {
    */
   void checkSummaryContainer(){
     _summaryContainer.setAttribute("checked", "checked");
+    _summaryLabel.setAttribute("checked", "checked");
+    //_summarySpan.setAttribute("checked", "checked");
     currentContainer = summaryContainer;
-    cleanAll();
+    //cleanAll();
     checkOverflow();
   }
   
@@ -214,8 +246,10 @@ abstract class SpecialScreen extends ScreenModule {
    */
   void checkStandByContainer(){
     _standByContainer.setAttribute("checked", "checked");
+    _standbyLabel.setAttribute("checked", "checked");
+    //_standbySpan.setAttribute("checked", "checked");
     currentContainer = standbyContainer;
-    cleanAll();
+    //cleanAll();
     checkOverflow();
   }
   
@@ -224,8 +258,10 @@ abstract class SpecialScreen extends ScreenModule {
    */
   void checkExcludedContainer(){
     _excludedContainer.setAttribute("checked", "checked");
+    _excludedLabel.setAttribute("checked", "checked");
+    //_excludedSpan.setAttribute("checked", "checked");
     currentContainer = excludedContainer;
-    cleanAll();
+    //cleanAll();
     checkOverflow();
   }
 
@@ -317,9 +353,9 @@ abstract class SpecialScreen extends ScreenModule {
    */ 
   
   void updatePhotoView(Photo photo, GroupOfPhotos group){
-      summaryContainer.showPhotosWithCategories(selectedCategories, photo, group);
-      standbyContainer.showPhotosWithCategories(selectedCategories, photo, group);
-      excludedContainer.showPhotosWithCategories(selectedCategories, photo, group);
+      summaryContainer.showPhotosWithCategories(selectedCategories, photo, group, normalMode);
+      standbyContainer.showPhotosWithCategories(selectedCategories, photo, group, normalMode);
+      excludedContainer.showPhotosWithCategories(selectedCategories, photo, group, normalMode);
   }
   
   /*
@@ -333,6 +369,7 @@ abstract class SpecialScreen extends ScreenModule {
     toningCategory = false;
     sameCategory = false; 
     dayMomentCategory = false;
+    qualityCategory = false;
   }
   
   /*
@@ -374,6 +411,7 @@ abstract class SpecialScreen extends ScreenModule {
         lists = currentContainer.allContainerGroups(),
         listsAux = new List<List<GroupOfPhotos>>(),
         groupsToDelete = new List<GroupOfPhotos>();
+        
         listsAux.addAll(lists.toList());
         print("Teste 1C- Caso normal de move. Foto: " + photo.id.toString() + " a iniciar o processo.");
         List<GroupOfPhotos> groups = new List<GroupOfPhotos>();
@@ -382,7 +420,8 @@ abstract class SpecialScreen extends ScreenModule {
       groups.addAll(groupsX.toList());
       groups.forEach((group){
               //Se for cara do grupo
-              print("Teste 1C - Group: " + group.groupName.toString());
+              print("Teste 1C - Group: " + group.groupName.toString() + " with this number of ele: " 
+                  + group.giveMeAllPhotos.length.toString());
               if(group.groupFace != null){ //Retirar isto quando comecar a calcular fotos dia ou noite TODO
                 print("Group face: " + group.groupFace.id.toString());
                 if(group.groupFace.id == photo.id){
@@ -395,10 +434,6 @@ abstract class SpecialScreen extends ScreenModule {
                     photo.removeGroup(group);
                     group.chooseAnotherFace();
                     print("New Face");
-                    
-                    print("Removed");
-                    
-                    print("Finalizado!");
                   //Se nao tiver mais fotos apagar o grupo
                   }else{
                     print("Teste 1C3- Caso normal de move. Não existem mais fotos no grupo. Vou apagar o grupo");
@@ -423,6 +458,7 @@ abstract class SpecialScreen extends ScreenModule {
             if(remove){
               print("Estou a vir com a variavel remove");
               if(group.giveMeAllPhotos.contains(photo)){
+                print("REMOVENDO!");
                 currentContainer.removePhotoFromGroups(photo, group);
                 destinationContainer.tryToEnterInAGroupOrCreateANewOne(group, photo);
               }
@@ -446,15 +482,15 @@ abstract class SpecialScreen extends ScreenModule {
       //Se estivermos a ver os grupos e quisermos fazer move a um grupo inteiro
       if(allGroupsAreNull()){
         photos = new List<Photo>();
-        if(photo != null){sameCategory = false;}
+        if(photo != null && !normalMode){sameCategory = false;}
         photoCopy.forEach((groupFaceSelected){
           photos.addAll(groupFaceSelected.returnTheCorrectGroup(sameCategory, 
                                                                 toningCategory, 
                                                                 facesCategory,  
-                                                                dayMomentCategory).giveMeAllPhotos);
+                                                                dayMomentCategory, qualityCategory).giveMeAllPhotos);
         });
         photoCopy.clear();
-        if(photo != null){
+        if(photo != null && !normalMode){
           sameCategory = true;
           var similarPhotosOfDisplayedOne = photo.similarPhotos;
           photos.forEach((specialPhoto){
@@ -467,19 +503,18 @@ abstract class SpecialScreen extends ScreenModule {
         deleteFromAllGroups(container, selectedPhoto);
       });
       DB.moveFromTo(currentContainer.name, container.name, photoCopy);
-      container.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited);
-      if(photo != null){checkDestination(container.name); }
+      container.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited, normalMode);
+      checkDestination(container.name);
     }else{
-      print("Teste 1A- Caso normal de move. As fotos já foram movidas para o container de destino");
-      DB.moveFromTo(currentContainer.name, container.name, photos);
-      if(photo != null){checkDestination(container.name); }
-      print("Teste 1B- Caso normal de move. para cada foto que foi movida, remover dos grupos do actual container");
       photoCopy.forEach((selectedPhoto){
-        print("Iterating: " + selectedPhoto.id.toString());
         deleteFromAllGroups(container, selectedPhoto);
       }); 
-      container.showPhotosWithCategories(selectedCategories, photo, new GroupOfPhotos());
-    }//LASTSCREEN
+      print("Teste 1A- Caso normal de move. As fotos já foram movidas para o container de destino");
+      DB.moveFromTo(currentContainer.name, container.name, photos);
+      checkDestination(container.name); 
+      print("Teste 1B- Caso normal de move. para cada foto que foi movida, remover dos grupos do actual container");
+      container.showPhotosWithCategories(selectedCategories, photo, new GroupOfPhotos(), normalMode);
+    }
     
     disableSelection();
   }
@@ -502,6 +537,7 @@ abstract class SpecialScreen extends ScreenModule {
     facesGroupOfPhotosChoosed.clear();
     colorGroupOfPhotosChoosed.clear();
     dayMomentGroupOfPhotosChoosed.clear();
+    qualityGroupOfPhotosChoosed.clear();
     insideGroup = false;
   }
   
@@ -513,6 +549,7 @@ abstract class SpecialScreen extends ScreenModule {
      if(facesCategory){ groupToReturn = facesGroupOfPhotosChoosed; }
      if(dayMomentCategory){ groupToReturn = dayMomentGroupOfPhotosChoosed; }
      if(toningCategory){ groupToReturn = colorGroupOfPhotosChoosed; }
+     if(qualityCategory){ groupToReturn = qualityGroupOfPhotosChoosed; }
      if(!imOnLastScreen){
        if(sameCategory){ groupToReturn = similarGroupOfPhotosChoosed; }
      }
@@ -526,6 +563,7 @@ abstract class SpecialScreen extends ScreenModule {
     groups.add(facesGroupOfPhotosChoosed);
     groups.add(dayMomentGroupOfPhotosChoosed);
     groups.add(colorGroupOfPhotosChoosed);
+    groups.add(qualityGroupOfPhotosChoosed);
     groups.add(similarGroupOfPhotosChoosed);
     return groups;
   }
@@ -550,6 +588,15 @@ abstract class SpecialScreen extends ScreenModule {
       case "Black and White" : 
         colorGroupOfPhotosChoosed.addAllToList(group.giveMeAllPhotos);
         break;
+      case "Good Quality" : 
+        qualityGroupOfPhotosChoosed.addAllToList(group.giveMeAllPhotos);
+        break;
+      case "Medium Quality" : 
+        qualityGroupOfPhotosChoosed.addAllToList(group.giveMeAllPhotos);
+        break;
+      case "Bad Quality" : 
+        qualityGroupOfPhotosChoosed.addAllToList(group.giveMeAllPhotos);
+        break;
       case "Similar" : 
         similarGroupOfPhotosChoosed.addAllToList(group.giveMeAllPhotos);
         break;
@@ -564,8 +611,9 @@ abstract class SpecialScreen extends ScreenModule {
   void addAllCategoriesToInactive(){
     removeFromActiveCategory(faces.FacesCategory.get());
     removeFromActiveCategory(toning.ToningCategory.get());
-    removeFromActiveCategory(similar.SimilarCategory.get());  
-    removeFromActiveCategory(dayMoment.DayMomentCategory.get());  
+    removeFromActiveCategory(quality.QualityCategory.get()); 
+    removeFromActiveCategory(dayMoment.DayMomentCategory.get()); 
+    removeFromActiveCategory(similar.SimilarCategory.get()); 
   }
   
   void addActiveCategory(Category category) => selectedCategories.add(category); 
@@ -575,6 +623,7 @@ abstract class SpecialScreen extends ScreenModule {
   void facesCategoryExecution();
   void dayMomentCategoryExecution();
   void toningCategoryExecution();
+  void qualityCategoryExecution();
   void similarCategoryExecution();
   
   void enableFacesCategory(); 
@@ -639,6 +688,19 @@ abstract class SpecialScreen extends ScreenModule {
     updatePhotoView(photo, dayMomentGroupOfPhotosChoosed);
   }
   
-
+  void enableQualityCategory();
+  void disableQualityCategory();
   
+  void photosWithQualityCategory(Photo photo){
+    cleanGroups();
+    disableSelection();
+    if(qualityCategory){
+      disableQualityCategory();
+    }else{
+      enableQualityCategory();
+      addActiveCategory(quality.QualityCategory.get());
+    }
+    lastGroupVisited = qualityGroupOfPhotosChoosed;
+    updatePhotoView(photo, qualityGroupOfPhotosChoosed);
+  }
 }

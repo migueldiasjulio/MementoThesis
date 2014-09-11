@@ -49,16 +49,14 @@
                                class="arrowCursor" 
                                id="arrowSize"  /> 
                         </template>
-                        <p id="centerText">{{photo.title}}</p> 
+                        <p><strong>{{photo.title}}</strong></p>
                       </div>   
                      </div>
                      <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
                       <div style="float: left;">
-                        <div style="margin-top: 40%"></div>
-                        <div>
+                        <div style="margin-top: 40%">
                           <last-photo-info-element photo="{{photo}}"></last-photo-info-element>
                         </div>
-                        <div style="margin-top: 40%"></div>
                       </div>
                      </div>
                      
@@ -77,9 +75,12 @@
       facesCategory ="{{facesCategory}}"
       dayMomentCategory="{{dayMomentCategory}}"
       toningCategory="{{toningCategory}}"
+      qualityCategory="{{qualityCategory}}"
+      normalMode ="{{normalMode}}"
       facesCategoryExecutionFunction="{{facesCategoryExecutionFunction}}"
       dayMomentCategoryExecutionFunction="{{dayMomentCategoryExecutionFunction}}"
       toningCategoryExecutionFunction="{{toningCategoryExecutionFunction}}"
+      qualityCategoryExecutionFunction="{{qualityCategoryExecutionFunction}}"
       similarCategoryExecutionFunction="{{similarCategoryExecutionFunction}}">
       </categories-element>
      </div>
@@ -93,9 +94,9 @@
                                                                  opacity: 0;"
                                                                  on-click="{{selectContainer}}"
                                                                  data-container="{{container.name}}"/>
-          <label style="width: 200px" for="t-{{container.name}}" class="{{container.name}}">
+          <label id="t-{{container.name}}-label" style="width: 200px" for="t-{{container.name}}" class="{{container.name}}">
               {{container.name.toLowerCase()}}
-              <span style="float: right; margin-top: 10px;" id="span" class="badge">
+              <span style="float: right; margin-top: 10px;" id="t-{{container.name}}-span span" class="badge">
                 <strong style="padding:2px">{{container.photosToDisplay.length}}</strong>
               </span>
           </label>
@@ -108,9 +109,10 @@
             <!-- Tab content -->
             <div id="{{container.secondname}}" class="{{container.secondname}}">
               <template if="{{insideGroup}}">
-                <img src="../../../resources/images/close.png"
-                     on-click="{{getOutOfGroupInDisplayMode}}"
-                     class="topIndex 40pxSquare" >
+                <button style="z-index:9000000; position:absolute" type="button" class="btn btn-summary btn-md"
+                    on-click="{{getOutOfGroupInDisplayMode}}" >
+                    <span class="glyphicon glyphicon-arrow-left"></span> Back
+                </button>
               </template>
               <template id="firstTemplate" if="{{currentContainer.photos.isEmpty}}">
                   <empty-message></empty-message>
@@ -133,6 +135,8 @@
                           showImageFunction="{{showImageFunction}}"   
                           toningCategory="{{toningCategory}}"
                           facesCategory="{{facesCategory}}"
+                          qualityCategory="{{qualityCategory}}"
+                          normalMode="{{normalMode}}"
                           dayMomentCategory="{{dayMomentCategory}}"
                           needToCheckOverflow="{{needToCheckOverflow}}"
                           currentContainer="{{currentContainer}}"
@@ -192,10 +196,10 @@
             <div class="col col-xs-7 col-sm-8 col-md-9 col-lg-11">
               <template if="{{selectedPhotos.length > 0}}">
                 <div id="centerText">
-                  <template if="{{!insideGroup && !toningCategory && !facesCategory && !dayMomentCategory}}"> <!-- hack -->
+                  <template if="{{!insideGroup && !toningCategory && !facesCategory && !dayMomentCategory && !qualityCategory}}"> <!-- hack -->
                   Move <strong>{{selectedPhotos.length}} photos</strong> to
                   </template>
-                  <template if="{{facesCategory || toningCategory || dayMomentCategory}}">
+                  <template if="{{facesCategory || toningCategory || dayMomentCategory || qualityCategory}}">
                     <template if="{{!insideGroup}}">
                     Move <strong>{{selectedPhotos.length}} groups</strong> to 
                     </template>

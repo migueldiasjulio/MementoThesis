@@ -141,7 +141,6 @@ class FacesCategory extends Category{
       if(photo.hasFaces){
         if(withFaces.giveMeAllPhotos.length == 0){
           withFaces.setGroupFace(photo);
-          print("Group with Faces. Group face: " + photo.id.toString());
         }
         withFaces.addToList(photo);
         photo.setFacesGroup(withFaces); 
@@ -149,7 +148,6 @@ class FacesCategory extends Category{
       else{
         if(withoutFaces.giveMeAllPhotos.length == 0){
           withoutFaces.setGroupFace(photo);
-          print("Group without Faces. Group face: " + photo.id.toString());
         }
         withoutFaces.addToList(photo);
         photo.setFacesGroup(withoutFaces);

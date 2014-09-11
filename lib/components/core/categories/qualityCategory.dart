@@ -19,7 +19,7 @@ class QualityCategory extends Category{
     //TODO
   }
   
-  List<QualityGroupOfPhotos> workToningGroups(List<Photo> photos){
+  List<QualityGroupOfPhotos> workQualityGroups(List<Photo> photos){
    var listToReturn = new List<QualityGroupOfPhotos>();
     
    QualityGroupOfPhotos goodQuality = new QualityGroupOfPhotos();
@@ -33,7 +33,7 @@ class QualityCategory extends Category{
    
 
    photos.forEach((photo){
-     if(photo.histogramDiff < 0.25){
+     if(photo.histogramDiff <= 0.25){
        if(goodQuality.giveMeAllPhotos.length == 0){
          goodQuality.setGroupFace(photo);
        }
@@ -41,7 +41,7 @@ class QualityCategory extends Category{
        photo.setQualityGroup(goodQuality); 
      }
      else{
-       if(photo.histogramDiff > 0.25 && photo.histogramDiff < 0.70){
+       if(photo.histogramDiff > 0.25 && photo.histogramDiff <= 0.70){
          if(mediumQuality.giveMeAllPhotos.length == 0){
            mediumQuality.setGroupFace(photo);
          }

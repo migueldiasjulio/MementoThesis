@@ -36,7 +36,7 @@ class ImportPhotos extends screenhelper.Screen {
   factory ImportPhotos() => new Element.tag(TAG);
   final _exifManager = ExifManager.get();
   final ObservableList<Photo> photos = toObservable([]);
-  Modal summaryCreation,
+  Modal creation,
         loading,
         maximumPhotos;
   InputElement _fileInput;
@@ -50,6 +50,7 @@ class ImportPhotos extends screenhelper.Screen {
   int numberOfPhotosLoaded = 0;
   @observable bool modified = false;
   @observable bool workIsComplete = false;
+  @observable String creatingSummary = "Create Summary";
   ReceivePort receivePort = new ReceivePort();
 
   /*
@@ -57,7 +58,7 @@ class ImportPhotos extends screenhelper.Screen {
    */
   ImportPhotos.created() : super.created(){
     Modal.use();
-    summaryCreation = Modal.wire($['summaryCreation']);
+    creation = Modal.wire($['summaryCreation']);
     loading = Modal.wire($['loading']);
     maximumPhotos = Modal.wire($['maximumPhotos']);
 
@@ -124,7 +125,7 @@ class ImportPhotos extends screenhelper.Screen {
      ..preventDefault()
      ..dataTransfer.dropEffect = 'copy';
    }
-
+   
    /*
     * On Drop (drop zone)
     * @param event - MouseEvent
@@ -269,7 +270,9 @@ class ImportPhotos extends screenhelper.Screen {
     */
    void startWorkingOnSummary(List<Photo> photos, int numberDefinedInt) {
      receivePort = new ReceivePort();
-
+     _firstAuxFunctions.setIsolateVariables(receivePort.sendPort , photos, numberDefinedInt);
+     showSummaryBeenCreating();   
+     
      receivePort.listen((msg){
        if (msg is SendPort){
          msg.send("Alright");
@@ -281,7 +284,7 @@ class ImportPhotos extends screenhelper.Screen {
 
      //!HACK
      Isolate.spawnUri(
-             _SummaryBuilder.runInIsolate(receivePort.sendPort, photos, numberDefinedInt),
+             _SummaryBuilder.runInIsolate(),
              [],
              receivePort.sendPort);
    }
@@ -289,13 +292,15 @@ class ImportPhotos extends screenhelper.Screen {
    /*
     * Build Summary
     */
-    void buildSummary(){
+    void buildSummary(){ 
+      
+      creatingSummary = "Creating...";
       var numberDefinedInt = int.parse(numberOfPhotosDefined);
       if((numberDefinedInt > numberOfPhotosLoaded) || (numberDefinedInt <= 0)){
         showMessageNumberOverflow();
-      }else{
-        showSummaryBeenCreating();
+      }else{     
         startWorkingOnSummary(photos, numberDefinedInt);
+        //creatingSummary = "Create Summary";
       }
     }
 
@@ -325,8 +330,8 @@ class ImportPhotos extends screenhelper.Screen {
     /*
      * Modal function
      */
-    void showSummaryBeenCreating() => summaryCreation.show();
-    void hiddeSummaryBeenCreating() => summaryCreation.hide();
+    void showSummaryBeenCreating() => creation.show();
+    void hiddeSummaryBeenCreating() => creation.hide();
     void showLoading() => loading.show();
     void hiddeLoading() => loading.hide();
     void showMessageNumberOverflow() => maximumPhotos.show();

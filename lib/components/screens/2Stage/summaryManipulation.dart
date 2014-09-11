@@ -28,12 +28,6 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
           description = "Summary results";
   factory SummaryManipulation() => new Element.tag(TAG);
   bool firstTime = true;
-  @observable var moveToContainerFunction;
-  @observable var facesCategoryExecutionFunction;
-  @observable var dayMomentCategoryExecutionFunction;
-  @observable var toningCategoryExecutionFunction;
-  @observable var similarCategoryExecutionFunction;
-  
   
   /**
    * Building Summary Done
@@ -45,6 +39,7 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     facesCategoryExecutionFunction = facesCategoryExecution;
     dayMomentCategoryExecutionFunction = dayMomentCategoryExecution;
     toningCategoryExecutionFunction = toningCategoryExecution;
+    qualityCategoryExecutionFunction = qualityCategoryExecution;
     similarCategoryExecutionFunction = similarCategoryExecution;
   }
   
@@ -52,9 +47,9 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     _ScreenAdvisor.setScreenType(title);
     cleanAll();
     addAllCategoriesToInactive();
-    summaryContainer.showPhotosWithCategories(selectedCategories, null, null);
-    standbyContainer.showPhotosWithCategories(selectedCategories, null, null);
-    excludedContainer.showPhotosWithCategories(selectedCategories, null, null);
+    summaryContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
+    standbyContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
+    excludedContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
   }
   
   //Specific implementation for this screen
@@ -82,15 +77,17 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
     return similarGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty &&
            facesGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty &&
            colorGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty &&
+           qualityGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty &&
            dayMomentGroupOfPhotosChoosed.giveMeAllPhotos.isEmpty;
   }
   
   //Specific implementation for this screen
   bool isAnyCategoryOn(){
-    return sameCategory == true ||
-        toningCategory == true ||
-        facesCategory == true ||
-        dayMomentCategory == true;
+    return sameCategory ||
+        toningCategory ||
+        facesCategory  ||
+        qualityCategory ||
+        dayMomentCategory;
   }
 
   /*
@@ -105,10 +102,10 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
               Photo photo = DB.find(id);
               var correctGroup = giveMeTheRightGroupLookingToBools(false);
               correctGroup = photo.returnTheCorrectGroup(sameCategory, toningCategory, 
-                                                         facesCategory,  dayMomentCategory);
+                                                         facesCategory,  dayMomentCategory, qualityCategory);
               putItToTheRightGroup(correctGroup);
               print("Correct group: " + correctGroup.groupName.toString());
-              currentContainer.showPhotosWithCategories(selectedCategories, null, correctGroup);
+              currentContainer.showPhotosWithCategories(selectedCategories, null, correctGroup, normalMode);
       }else{
         displayPhoto(id);
       }
@@ -120,7 +117,7 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
         
         if(allGroupsAreNull() && isAnyCategoryOn()){
           firstChild = target.children.elementAt(0);
-          secondChild = target.children.elementAt(2); 
+          secondChild = target.children.last; 
         }else{
           firstChild = father.children.elementAt(0);
           secondChild = father.children.elementAt(1);   
@@ -135,7 +132,7 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
             secondChild.classes.add('notSelected');
             removeFromSelectedElements(firstChild, secondChild);
           }else{
-            removeFromSelectedElements(firstChild, null);
+            removeFromSelectedElements(firstChild, secondChild);
           }
           print("$id is selected? $isSelected");
         }
@@ -158,25 +155,28 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
   void facesCategoryExecution() => photosWithFacesCategory(null);
   void dayMomentCategoryExecution() => photosWithDayMomentCategory(null);
   void toningCategoryExecution() => photosWithToningCategory(null);
+  void qualityCategoryExecution() => photosWithQualityCategory(null);
   void similarCategoryExecution() => photosWithSameCategory(null);
   
+  
+  void enablingCategories(bool faces, bool toning, bool dayMoment, bool quality, bool same){
+    facesCategory = faces;
+    toningCategory = toning;
+    dayMomentCategory = dayMoment;
+    qualityCategory = quality;
+    sameCategory = same;
+  }
+    
   /**
    * Faces Category
    */ 
   void enableFacesCategory(){
-    facesCategory = true;
-    toningCategory = false;
-    sameCategory = false;
-    dayMomentCategory = false;
+    enablingCategories(true, false, false, false, false);
     clearSelectedCategories();
   }
   
   void disableFacesCategory(){
-    facesCategory = false;
-    toningCategory = false;
-    sameCategory = false;
-    dayMomentCategory = false;
-    cleanGroups();
+    cleanCategoriesStuff();
     clearSelectedCategories();
   }
   
@@ -184,19 +184,12 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
    * Toning Category
    */ 
   void enableColorCategory(){
-    facesCategory = false;
-    toningCategory = true;
-    sameCategory = false;
-    dayMomentCategory = false;
+    enablingCategories(false, true, false, false, false);
     clearSelectedCategories();
   }
   
   void disableColorCategory(){
-    facesCategory = false;
-    toningCategory = false;
-    sameCategory = false;
-    dayMomentCategory = false;
-    cleanGroups();
+    cleanCategoriesStuff();
     clearSelectedCategories();
   }
   
@@ -204,42 +197,40 @@ class SummaryManipulation extends screenhelper.SpecialScreen {
    * Same Category
    */ 
   void enableSameCategory(){
-    facesCategory = false;
-    toningCategory = false;
-    sameCategory = true;
-    dayMomentCategory = false;
+    enablingCategories(false, false, false, false, true);
     clearSelectedCategories();
   }
   
   void disableSameCategory(){
-    facesCategory = false;
-    toningCategory = false;
-    sameCategory = false;
-    dayMomentCategory = false;
-    cleanGroups();
+    cleanCategoriesStuff();
     clearSelectedCategories();
   }
   
   /**
-   * Same Category
+   * Day Moment Category
    */ 
   void enableDayMomentCategory(){
-    facesCategory = false;
-    toningCategory = false;
-    sameCategory = false;
-    dayMomentCategory = true;
+    enablingCategories(false, false, true, false, false);
     clearSelectedCategories();
   }
   
   void disableDayMomentCategory(){
-    facesCategory = false;
-    toningCategory = false;
-    sameCategory = false;
-    dayMomentCategory = false;
-    cleanGroups();
+    cleanCategoriesStuff();
     clearSelectedCategories();
   }
 
+  /**
+   * Day Moment Category
+   */ 
+  void enableQualityCategory(){
+    enablingCategories(false, false, false, true, false);
+    clearSelectedCategories();
+  }
+  
+  void disableQualityCategory(){
+    cleanCategoriesStuff();
+    clearSelectedCategories();
+  }
   /*
    * Setup Routes
    */

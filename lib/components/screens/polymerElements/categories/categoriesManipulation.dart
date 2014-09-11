@@ -22,10 +22,12 @@ class CategoriesManipulation extends PolymerElement {
   @published dayMomentCategoryExecution dayMomentCategoryExecutionFunction;
   @published toningCategoryExecution toningCategoryExecutionFunction;
   @published similarCategoryExecution similarCategoryExecutionFunction;
+  @published similarCategoryExecution qualityCategoryExecutionFunction;
   @published bool sameCategory;
   @published bool facesCategory;
   @published bool dayMomentCategory; 
   @published bool toningCategory;
+  @published bool qualityCategory;
   
   /*
    * 
@@ -37,6 +39,7 @@ class CategoriesManipulation extends PolymerElement {
   void facesCategoryExecutionPlease() => facesCategoryExecutionFunction();
   void dayMomentCategoryExecutionPlease() => dayMomentCategoryExecutionFunction();
   void toningCategoryExecutionPlease() => toningCategoryExecutionFunction();
+  void qualityCategoryExecutionPlease() => qualityCategoryExecutionFunction();
   void similarCategoryExecutionPlease() => similarCategoryExecutionFunction();
   
 }

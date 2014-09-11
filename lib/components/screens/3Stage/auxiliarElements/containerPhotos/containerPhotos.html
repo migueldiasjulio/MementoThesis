@@ -1,8 +1,8 @@
 <link rel="import" href="../../../../../../../packages/polymer/polymer.html">
 <link rel="import" href="../../../polymerElements/figCaptionElement/figureCaption.html">
 <polymer-element name="last-screen-photos" 
-  attributes="needToCheckOverflow container photosToDisplay insideGroup sameCategory markNewPhoto
-  showImageFunction toningCategory facesCategory dayMomentCategory photo currentContainer">
+  attributes="needToCheckOverflow container photosToDisplay insideGroup sameCategory qualityCategory markNewPhoto
+  normalMode showImageFunction toningCategory facesCategory dayMomentCategory photo currentContainer">
 
   <template>
   <link rel="stylesheet" href="containerPhotos.css">
@@ -20,7 +20,7 @@
                             <template repeat="{{photo in photosToDisplay}}">  
                               <li> 
                               
-                                <template if="{{insideGroup || !sameCategory}}">
+                                <template if="{{insideGroup || (normalMode && (!toningCategory && !facesCategory && !dayMomentCategory && !qualityCategory))}}">
                                   <!-- this gonna be an element -->
                                   <div class="mementoSpecialImage">
                                     <figure>
@@ -38,15 +38,14 @@
                                         <figure-caption-element photo="{{photo}}" size="20"></figure-caption-element>
                                       </figcaption>   
                                     </figure> 
-                                    </div>
+                                  </div>
                                    <!-- this gonna be an element -->
                                  </template>
                                 
                            
                                 <template if="{{!insideGroup}}">  <!-- im not inside a group -->
 
-                                  <template if="{{sameCategory}}">
-                                    <template if="{{!toningCategory && !facesCategory && !dayMomentCategory}}">
+                                    <template if="{{!toningCategory && !facesCategory && !dayMomentCategory && !qualityCategory && !normalMode}}">
                                       <!-- this gonna be an element -->
                                       <div class="mementoSpecialImage">
                                        <figure>
@@ -69,20 +68,23 @@
                                       <!-- this gonna be an element -->
                                     </template>
                                     
-                                    <template if="{{facesCategory || dayMomentCategory || toningCategory}}">
+                                    <template if="{{facesCategory || dayMomentCategory || toningCategory || qualityCategory}}">
                                       <div class="mementoSpecialImage">
                                         <div on-click="{{showImagePlease}}" data-id="{{photo.id}}">
                                             <img src="{{photo.miniThumbnailToShow.src}}"
                                                  class="imageGroupFace image"
                                                  title="{{photo.title}}">
                                             <template if="{{facesCategory}}">
-                                              <p id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
+                                              <p style="font-size: 99%;" id="text"><span class="label label-default">{{photo.returnFacesGroup.groupName}}</span></p>
                                             </template>
                                             <template if="{{dayMomentCategory}}">
-                                              <p id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
+                                              <p style="font-size: 99%;" id="text"><span class="label label-default">{{photo.returnDayMomentGroup.groupName}}</span></p>
                                             </template>
                                             <template if="{{toningCategory}}">
-                                              <p id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
+                                              <p style="font-size: 99%;" id="text"><span class="label label-default">{{photo.returnColorGroup.groupName}}</span></p>
+                                            </template>
+                                            <template if="{{qualityCategory}}">
+                                              <p style="font-size: 99%;" id="text"><span class="label label-default">{{photo.returnQualityGroup.groupName}}</span></p>
                                             </template>
                                             <img src="../../../../../resources/images/selected_blue.png"
                                                  class="notSelected"
@@ -92,7 +94,7 @@
                                         </div>
                                       </div>
                                     </template>
-                                  </template> 
+
                                 </template> 
                                  
                               </li>                 

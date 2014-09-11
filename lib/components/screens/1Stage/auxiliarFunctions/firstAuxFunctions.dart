@@ -2,6 +2,10 @@ library firstauxfunctions;
 
 import 'dart:html';
 import 'package:observe/observe.dart';
+import 'dart:isolate';
+import 'dart:html';
+import 'package:observe/observe.dart';
+import '../../../core/photo/photo.dart';
 
 class FirstAuxFunctions extends Object with Observable{
   
@@ -11,6 +15,9 @@ class FirstAuxFunctions extends Object with Observable{
   static FirstAuxFunctions _instance; 
   List<Element> elementsImported = new List<Element>();
   @observable bool changed = false;
+  SendPort sendPort = null;
+  List<Photo> photos = null;
+  int numberDefinedInt = null;
   FirstAuxFunctions._(); 
   
   /*
@@ -21,6 +28,15 @@ class FirstAuxFunctions extends Object with Observable{
       _instance = new FirstAuxFunctions._();
     }
     return _instance;
+  }
+  
+  /**
+   * Set all Isolate variables
+   */
+  void setIsolateVariables(SendPort port, List<Photo> listOfPhotos, int number){
+    sendPort = port;
+    photos = listOfPhotos;
+    numberDefinedInt = number;
   }
   
   /*

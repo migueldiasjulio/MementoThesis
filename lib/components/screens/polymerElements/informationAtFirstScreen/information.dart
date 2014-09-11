@@ -18,7 +18,11 @@ class InformationButtons extends AlgorithmOptions {
 
   /*
    * 
-   */ 
+   */
+  // This lets the CSS "bleed through" into the Shadow DOM of this element.
+  bool get applyAuthorStyles => true;
+  bool get preventDispose => true;
+  
   static const String TAG = "information-buttons";
   factory InformationButtons() => new Element.tag(TAG);
   MementoSettings _settings = MementoSettings.get();

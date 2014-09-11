@@ -1,10 +1,12 @@
 library summaryCreation;
 
 import 'dart:isolate';
-import 'dart:html';
 import 'package:observe/observe.dart';
 import '../../core/photo/photo.dart';
 import '../../core/database/dataBase.dart';
+import '../1Stage/auxiliarFunctions/firstAuxFunctions.dart';
+
+final _firstAuxFunctions = FirstAuxFunctions.get();
 
 class SummaryCreation extends Object with Observable {
   
@@ -19,8 +21,11 @@ class SummaryCreation extends Object with Observable {
     return _instance;
   }
    
-   runInIsolate(SendPort sendPort, List<Photo> photos, int numberDefinedInt) {
+   runInIsolate() {
      
+    SendPort sendPort = _firstAuxFunctions.sendPort;
+    List<Photo> photos = _firstAuxFunctions.photos;
+    int numberDefinedInt = _firstAuxFunctions.numberDefinedInt;
     //Stablishing connection 
     ReceivePort receivePort = new ReceivePort();
     sendPort.send(receivePort.sendPort);

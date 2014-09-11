@@ -16,8 +16,17 @@ class LastPhotoElement extends PolymerElement {
   
   /*
    * 
-   */ 
+   */
+  // This lets the CSS "bleed through" into the Shadow DOM of this element.
+  bool get applyAuthorStyles => true;
+  bool get preventDispose => true;
+  
   @published Photo photo;
+  
+  photoChanged(){
+    print("Changed!");
+    photo = photo;
+  }
 
   /*
    * 

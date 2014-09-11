@@ -4,6 +4,7 @@ import '../photo/photo.dart';
 import '../photo/GroupOfPhotos/similarGroupOfPhotos.dart';
 import '../photo/GroupOfPhotos/facesGroupOfPhotos.dart';
 import '../photo/GroupOfPhotos/colorGroupOfPhotos.dart';
+import '../photo/GroupOfPhotos/qualityGroupOfPhotos.dart';
 import '../photo/GroupOfPhotos/dayMomentGroupOfPhotos.dart';
 import '../photo/GroupOfPhotos/groupOfPhotos.dart';
 
@@ -14,6 +15,7 @@ import '../categories/category.dart';
 import '../categories/facesCategory.dart' as faces;
 import '../categories/dayMomentCategory.dart' as dayMoment;
 import '../categories/toningCategory.dart' as color;
+import '../categories/qualityCategory.dart' as quality;
 import '../categories/similarCategory.dart' as similar;
 
 import 'package:observe/observe.dart';
@@ -46,6 +48,7 @@ class Container extends Object with Observable {
   List<GroupOfPhotos> facesListGroupOfPhotos = new List<FacesGroupOfPhotos>();
   List<GroupOfPhotos> dayMomentListGroupOfPhotos = new List<DayMomentGroupOfPhotos>();
   List<GroupOfPhotos> colorListGroupOfPhotos = new List<ColorGroupOfPhotos>();
+  List<GroupOfPhotos> qualityListGroupOfPhotos = new List<QualityGroupOfPhotos>();
   List<GroupOfPhotos> similarListGroupOfPhotos = new List<SimilarGroupOfPhotos>();
 
   Container(this.name, this.secondname);
@@ -76,6 +79,7 @@ class Container extends Object with Observable {
     listToReturn.add(facesListGroupOfPhotos);
     listToReturn.add(dayMomentListGroupOfPhotos);
     listToReturn.add(colorListGroupOfPhotos);
+    listToReturn.add(qualityListGroupOfPhotos);
     listToReturn.add(similarListGroupOfPhotos);
 
     return listToReturn;
@@ -91,6 +95,7 @@ class Container extends Object with Observable {
     similarListGroupOfPhotos.clear();
     facesListGroupOfPhotos.clear();
     colorListGroupOfPhotos.clear();
+    qualityListGroupOfPhotos.clear();
     dayMomentListGroupOfPhotos.clear();
   }
   
@@ -132,6 +137,18 @@ class Container extends Object with Observable {
         clearTheRightGroup(group, colorListGroupOfPhotos);
         sortListGroupOfPhotos(colorListGroupOfPhotos);
         break;
+      case "Good Quality":
+        clearTheRightGroup(group, qualityListGroupOfPhotos);
+        sortListGroupOfPhotos(qualityListGroupOfPhotos);
+        break;
+      case "Medium Quality":
+        clearTheRightGroup(group, qualityListGroupOfPhotos);
+        sortListGroupOfPhotos(qualityListGroupOfPhotos);
+        break;
+      case "Bad Quality":
+        clearTheRightGroup(group, qualityListGroupOfPhotos);
+        sortListGroupOfPhotos(qualityListGroupOfPhotos);
+        break;
       case "Similar":
         similarListGroupOfPhotos.remove(group);
         sortListGroupOfPhotos(similarListGroupOfPhotos);
@@ -165,17 +182,17 @@ class Container extends Object with Observable {
         break;
       case "Night":
         listToSort = dayMomentListGroupOfPhotos;
-        facesListGroupOfPhotos.forEach((facesGroup) {
-          if (facesGroup.giveMeAllPhotos.contains(photo)) {
-            facesGroup.removeFromList(photo);
+        dayMomentListGroupOfPhotos.forEach((dayMomentGroup) {
+          if (dayMomentGroup.giveMeAllPhotos.contains(photo)) {
+            dayMomentGroup.removeFromList(photo);
           }
         });
         break;
       case "Day":
         listToSort = dayMomentListGroupOfPhotos;
-        facesListGroupOfPhotos.forEach((facesGroup) {
-          if (facesGroup.giveMeAllPhotos.contains(photo)) {
-            facesGroup.removeFromList(photo);
+        dayMomentListGroupOfPhotos.forEach((dayMomentGroup) {
+          if (dayMomentGroup.giveMeAllPhotos.contains(photo)) {
+            dayMomentGroup.removeFromList(photo);
           }
         });
         break;
@@ -192,6 +209,30 @@ class Container extends Object with Observable {
         colorListGroupOfPhotos.forEach((colorGroup) {
           if (colorGroup.giveMeAllPhotos.contains(photo)) {
             colorGroup.removeFromList(photo);
+          }
+        });
+        break;
+      case "Good Quality":
+        listToSort = qualityListGroupOfPhotos;
+        qualityListGroupOfPhotos.forEach((qualityGroup) {
+          if (qualityGroup.giveMeAllPhotos.contains(photo)) {
+            qualityGroup.removeFromList(photo);
+          }
+        });
+        break;
+      case "Medium Quality":
+        listToSort = qualityListGroupOfPhotos;
+        qualityListGroupOfPhotos.forEach((qualityGroup) {
+          if (qualityGroup.giveMeAllPhotos.contains(photo)) {
+            qualityGroup.removeFromList(photo);
+          }
+        });
+        break;
+      case "Bad Quality":
+        listToSort = qualityListGroupOfPhotos;
+        qualityListGroupOfPhotos.forEach((qualityGroup) {
+          if (qualityGroup.giveMeAllPhotos.contains(photo)) {
+            qualityGroup.removeFromList(photo);
           }
         });
         break;
@@ -217,6 +258,7 @@ class Container extends Object with Observable {
     sortListGroupOfPhotos(facesListGroupOfPhotos);
     sortListGroupOfPhotos(dayMomentListGroupOfPhotos);
     sortListGroupOfPhotos(colorListGroupOfPhotos);
+    sortListGroupOfPhotos(qualityListGroupOfPhotos);
     sortListGroupOfPhotos(similarListGroupOfPhotos);
   }
 
@@ -247,6 +289,15 @@ class Container extends Object with Observable {
         break;
       case "Black and White":
         listToReturn = colorListGroupOfPhotos;
+        break;
+      case "Good Quality":
+        listToReturn = qualityListGroupOfPhotos;
+        break;
+      case "Medium Quality":
+        listToReturn = qualityListGroupOfPhotos;
+        break;
+      case "Bad Quality":
+        listToReturn = qualityListGroupOfPhotos;
         break;
       case "Similar":
         listToReturn = similarListGroupOfPhotos;
@@ -321,6 +372,15 @@ class Container extends Object with Observable {
       case "Black and White":
         colorListGroupOfPhotos.add(group);
         break;
+      case "Good Quality":
+        qualityListGroupOfPhotos.add(group);
+        break;
+      case "Medium Quality":
+        qualityListGroupOfPhotos.add(group);
+        break;
+      case "Bad Quality":
+        qualityListGroupOfPhotos.add(group);
+        break;
       case "Similar":
         similarListGroupOfPhotos.add(group);
         break;
@@ -347,17 +407,14 @@ class Container extends Object with Observable {
     if ((listOfGroups == null) || (listOfGroups.length == 0)) {
       print("Vou ter que criar um grupo: " + groupOfPhotos.groupName.toString() + "pois ele ainda nao existe neste container");
       var newGroup = instanceTheCorrectGroup(groupOfPhotos);
-      print("Novo grupo criado do tipo: " + newGroup.groupName.toString());
       photo.addGroup(newGroup);
       newGroup.setGroupFace(photo);
       newGroup.addToList(photo);
       putItIntoTheCorrectList(newGroup);
-      //listOfGroups.add(newGroup); //TODO Problema esta aqui!
-      print("Acabei de adicionar a lista. Novo size: " + listOfGroups.length.toString());
     } else {
       print("Lista nao esta vazia");
       listOfGroups.forEach((group) {
-        if (groupOfPhotos.groupName == "Similar") {
+        if (groupOfPhotos.groupName == "Similar") {       
           print("Percorrendo as similar");
           var groupAllPhotos = new List<Photo>();
           groupAllPhotos.addAll(group.giveMeAllPhotos);
@@ -367,6 +424,7 @@ class Container extends Object with Observable {
               print("Sou uma das semelhantes em relacao a foto que ja aqui estava");
               photo.addGroup(group);
               group.addToList(photo);
+              group.sort();
             } else {
               var secondLevelPhotos = new List<Photo>();
               secondLevelPhotos.addAll(photoInsideGroup.similarPhotos);
@@ -375,10 +433,19 @@ class Container extends Object with Observable {
                   print("Sou semelhante a uma semelhante em relacao a foto que ja aqui estava");
                   photo.addGroup(group);
                   group.addToList(photo);
+                  group.sort();
                 }
               });
             }
           });
+          if((photo.returnSimilarGroup == null) && (listOfGroups.last == group)){
+            SimilarGroupOfPhotos similarGroup = new SimilarGroupOfPhotos();
+            similarGroup.setGroupName("Similar");
+            similarGroup.setGroupFace(photo);
+            similarGroup.addToList(photo);
+            photo.addGroup(similarGroup);
+            similarListGroupOfPhotos.add(similarGroup);
+          }
         } else {
           print("VOU ENTRAR AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           print("Group name to enter: " + group.groupName.toString());
@@ -388,6 +455,7 @@ class Container extends Object with Observable {
             }
             photo.addGroup(group);
             group.addToList(photo);
+            group.sort();
             print("Adicionado ao grupo: " + group.groupName.toString());
           }
         }
@@ -395,7 +463,7 @@ class Container extends Object with Observable {
       });
     }
 
-    sortListGroupOfPhotos(listOfGroupsAux);
+    sortEverything();
     print(">>>>>Lets try to enter in a group or create a new one<<<<<");
   }
   
@@ -451,12 +519,13 @@ class Container extends Object with Observable {
     return list.contains(group);
   }
 
-  void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto, GroupOfPhotos groupChoosed) {
+  void showPhotosWithCategories(List<Category> categories, Photo displayingPhoto, 
+                                GroupOfPhotos groupChoosed, bool normalMode) {
     photosToDisplay.clear();
     if (categories.length == 0) {
       photosToDisplay.addAll(photos); //CASO GERAL
     } else {
-      if (displayingPhoto != null) { //BIG SIZE PHOTO SCREEN
+      if (displayingPhoto != null && !normalMode) { //BIG SIZE PHOTO SCREEN
 
           if (photos.contains(displayingPhoto)) {
             photosToDisplay.add(displayingPhoto);
@@ -488,7 +557,7 @@ class Container extends Object with Observable {
       else {
         if (groupChoosed.giveMeAllPhotos.isEmpty && categories.isEmpty) {
           photosToDisplay.addAll(photos);
-        } else if (categories.isNotEmpty) {
+        } else if (categories.isNotEmpty){
           if (groupChoosed.giveMeAllPhotos.isNotEmpty && isFromThisContainer(groupChoosed)) {
             photosToDisplay.addAll(groupChoosed.giveMeAllPhotos);
           } else {
@@ -636,8 +705,10 @@ class Database extends Object with Observable {
 
     sortPhotos(container(origin).photos);
     sortPhotos(container(origin).photosToDisplay);
+    container(origin).sortEverything();
     sortPhotos(container(destination).photos);
     sortPhotos(container(destination).photosToDisplay);
+    container(destination).sortEverything();
   }
 
   /**
@@ -701,6 +772,7 @@ class Database extends Object with Observable {
     container.facesListGroupOfPhotos.addAll(faces.FacesCategory.get().workFacesGroups(container.photos));
     container.dayMomentListGroupOfPhotos.addAll(dayMoment.DayMomentCategory.get().workDayMomentGroups(container.photos));
     container.colorListGroupOfPhotos.addAll(color.ToningCategory.get().workToningGroups(container.photos));
+    container.qualityListGroupOfPhotos.addAll(quality.QualityCategory.get().workQualityGroups(container.photos));
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
     //sortPhotos(container.photos);
     container.sortEverything();
@@ -709,6 +781,7 @@ class Database extends Object with Observable {
     container.facesListGroupOfPhotos.addAll(faces.FacesCategory.get().workFacesGroups(container.photos));
     container.dayMomentListGroupOfPhotos.addAll(dayMoment.DayMomentCategory.get().workDayMomentGroups(container.photos));
     container.colorListGroupOfPhotos.addAll(color.ToningCategory.get().workToningGroups(container.photos));
+    container.qualityListGroupOfPhotos.addAll(quality.QualityCategory.get().workQualityGroups(container.photos));
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
     //sortPhotos(container.photos);
     container.sortEverything();
@@ -717,6 +790,7 @@ class Database extends Object with Observable {
     container.facesListGroupOfPhotos.addAll(faces.FacesCategory.get().workFacesGroups(container.photos));
     container.dayMomentListGroupOfPhotos.addAll(dayMoment.DayMomentCategory.get().workDayMomentGroups(container.photos));
     container.colorListGroupOfPhotos.addAll(color.ToningCategory.get().workToningGroups(container.photos));
+    container.qualityListGroupOfPhotos.addAll(quality.QualityCategory.get().workQualityGroups(container.photos));
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
     //sortPhotos(container.photos);
     container.sortEverything();

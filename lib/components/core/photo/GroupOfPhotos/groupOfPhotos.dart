@@ -18,6 +18,10 @@ class GroupOfPhotos implements Comparable<GroupOfPhotos> {
   GroupOfPhotos() {
     _allGroupPhotos = new List<Photo>();
   }
+  
+  void sort(){
+    _allGroupPhotos.sort();
+  }
 
   /*
    * 

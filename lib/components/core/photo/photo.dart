@@ -111,13 +111,13 @@ class Photo extends Image implements Comparable<Photo> {
     return false;
   }
   bool get mediumQuality{
-    if(_histogramValuesDifference > 0.30 && _histogramValuesDifference < 0.70){
+    if(_histogramValuesDifference > 0.25 && _histogramValuesDifference <= 0.70){
       return true;
     }
     return false;
   }
   bool get goodQuality{
-    if(_histogramValuesDifference < 0.30){
+    if(_histogramValuesDifference <= 0.25){
       return true;
     }
     return false;
@@ -260,7 +260,7 @@ class Photo extends Image implements Comparable<Photo> {
    * 
    */
   GroupOfPhotos returnTheCorrectGroup(bool sameCategory, bool toningCategory,
-                                      bool facesCategory, bool dayMomentCategory/*. bool qualityCategory*/) {
+                                      bool facesCategory, bool dayMomentCategory, bool qualityCategory) {
     var groupToReturn = null;
     if (sameCategory) {
       groupToReturn = returnSimilarGroup;
@@ -274,10 +274,9 @@ class Photo extends Image implements Comparable<Photo> {
     if (dayMomentCategory) {
       groupToReturn = returnDayMomentGroup;
     }
-    /*
     if (qualityCategory) {
       groupToReturn = returnQualityGroup;
-    }*/ //TODO
+    }
     return groupToReturn;
   }
 

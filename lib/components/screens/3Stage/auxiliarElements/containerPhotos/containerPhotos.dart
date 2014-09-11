@@ -18,6 +18,10 @@ typedef void showImage(Event event, var detail, var target);
 @CustomTag('last-screen-photos')
 class ContainerPhotos extends PolymerElement {
 
+  // This lets the CSS "bleed through" into the Shadow DOM of this element.
+  bool get applyAuthorStyles => true;
+  bool get preventDispose => true;
+  
   @published showImage showImageFunction;
   @published List<Photo> photosToDisplay;
   @published Container container; 
@@ -26,10 +30,12 @@ class ContainerPhotos extends PolymerElement {
   @published bool sameCategory; 
   @published bool toningCategory;
   @published bool facesCategory; 
+  @published bool qualityCategory;
   @published bool dayMomentCategory;  
   @published bool needToCheckOverflow;
   @published Container currentContainer;
   @published bool markNewPhoto;
+  @published bool normalMode;
   
   @observable bool isInOverflow = false;
   @observable bool firstTime = true;
@@ -46,7 +52,6 @@ class ContainerPhotos extends PolymerElement {
   }
   
   void markNewPhotoChanged(){
-    print("CLICK DONE. CHECK NOW!");
     markDisplayingPhoto();
   }
   
@@ -60,7 +65,6 @@ class ContainerPhotos extends PolymerElement {
   @override
   void enteredView(){
     super.enteredView();
-    print("ESTOU A ENTRAR AQUI");
     markDisplayingPhoto();
     
   }
@@ -71,12 +75,14 @@ class ContainerPhotos extends PolymerElement {
   void markDisplayingPhoto() {
     var photoID = photo.id,
         element = $[photoID];
-    if((container == currentContainer) ||
+    if((container == currentContainer) && (
        (facesCategory && insideGroup) || 
        (dayMomentCategory && insideGroup) ||
-       (toningCategory && insideGroup)){
+       (qualityCategory && insideGroup) ||
+       (toningCategory && insideGroup) ||
+       (normalMode && (!facesCategory && !dayMomentCategory && !toningCategory && !qualityCategory)))){
       print("Element to mark: " + element.toString());
-      _ThirdAuxFunctions.markPhotoWithElement(element);
+      if(element != null){_ThirdAuxFunctions.markPhotoWithElement(element);}
     }
   }
   
@@ -88,10 +94,8 @@ class ContainerPhotos extends PolymerElement {
         element = $[uListName];
 
     if ((element.offsetHeight < element.scrollHeight) || (element.offsetWidth < element.scrollWidth)) {
-      print("IS OVERFLOWING");
       isInOverflow = true;
     } else {
-      print("NO OVERFLOW AT ALL");
       isInOverflow = false;
     }
     
@@ -117,7 +121,5 @@ class ContainerPhotos extends PolymerElement {
         element = $[uListName];
     element.scrollLeft += 500;
   }
-  
-
   
 }

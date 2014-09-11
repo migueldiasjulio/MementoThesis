@@ -19,6 +19,11 @@ class HeaderElement extends AlgorithmOptions {
   /*
    * 
    */ 
+  
+  // This lets the CSS "bleed through" into the Shadow DOM of this element.
+  bool get applyAuthorStyles => true;
+  bool get preventDispose => true;
+  
   MementoSettings _settings = MementoSettings.get();
   final _ScreenAdvisor = ScreenAdvisor.get();
   Modal help, settings, about;

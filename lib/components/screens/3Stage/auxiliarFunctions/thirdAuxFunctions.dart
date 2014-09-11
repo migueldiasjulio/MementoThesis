@@ -37,7 +37,12 @@ class ThirdAuxFunctions extends Object with Observable{
       previousPhoto.classes.remove('choosed');
       selectedPhoto.classes.add('choosed');
     } else {
-      selectedPhoto.classes.add('choosed');
+      if(selectedPhoto != null){
+        if(selectedPhoto.classes.contains('selectedPhoto')){
+          selectedPhoto.classes.remove('choosed'); 
+        }
+        selectedPhoto.classes.add('choosed');
+      }
     }
   }
   

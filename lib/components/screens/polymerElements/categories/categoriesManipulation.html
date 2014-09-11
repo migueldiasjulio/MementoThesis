@@ -2,6 +2,7 @@
   
 <polymer-element name="categories-manipulation-element" 
 attributes="facesCategoryExecutionFunction dayMomentCategoryExecutionFunction toningCategoryExecutionFunction
+qualityCategoryExecutionFunction qualityCategory
 similarCategoryExecutionFunction sameCategory facesCategory dayMomentCategory toningCategory"> 
 <template>
 <link rel="stylesheet" href="categories.css">
@@ -45,6 +46,16 @@ similarCategoryExecutionFunction sameCategory facesCategory dayMomentCategory to
                      on-click="{{toningCategoryExecutionPlease}}" id="categorySize"  /> 
             </template>
             <!-- Toning -->
+            <!-- Quality -->
+              <template if="{{qualityCategory}}">
+                  <img src="../../../../resources/images/quality.png" 
+                       on-click="{{qualityCategoryExecutionPlease}}" id="categorySize"  /> 
+              </template>
+              <template if="{{!qualityCategory}}">
+                  <img src="../../../../resources/images/quality_ns.png" 
+                       on-click="{{qualityCategoryExecutionPlease}}" id="categorySize"  /> 
+              </template>
+              <!-- Quality -->
             <!-- Same Photos -->
             <template if="{{sameCategory}}">
                 <img src="../../../../resources/images/similar.png" 

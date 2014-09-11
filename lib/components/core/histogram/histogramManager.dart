@@ -84,9 +84,9 @@ class HistogramManager extends Object with Observable{
     difference = blackAndWhiteList.elementAt(1) - blackAndWhiteList.elementAt(0);
     difference = difference.abs();
     
-    print("Photo " + photo.title.toString() + ": Black percentage: " 
+    /*print("Photo " + photo.title.toString() + ": Black percentage: " 
         + blackAndWhiteList.elementAt(0).toString() + "% and Light percentage: " 
-        + blackAndWhiteList.elementAt(1).toString() + "%. Diff: " + difference.toString()); 
+        + blackAndWhiteList.elementAt(1).toString() + "%. Diff: " + difference.toString()); */
     
     photo.setHistogramDiff(difference); 
   }
