@@ -130,6 +130,7 @@ abstract class SpecialScreen extends ScreenModule {
   @observable QualityGroupOfPhotos qualityGroupOfPhotosChoosed = new QualityGroupOfPhotos();
   @observable GroupOfPhotos lastGroupVisited = null;
   @observable Photo photo = null;
+  @observable bool needToCheckOverflow = false;
   ReceivePort receivePort = new ReceivePort();
   final List<String> selectedPhotos = toObservable([]);
   final List<Element> selectedElements = toObservable([]);
@@ -171,25 +172,16 @@ abstract class SpecialScreen extends ScreenModule {
     dayMomentGroupOfPhotosChoosed.setGroupName("Day");
   }
   
-  
-  //bool toogleOpenExportModal() => openExportModal = !openExportModal;
+  /*
+   * 
+   */
+  bool toogleThNeedToCheckOverflow() => needToCheckOverflow = !needToCheckOverflow;
   
   /*
    * Decide witch container to lock
    */ 
   void decideContainerToLock(String photoId){
-    var photoContainer = DB.findContainer(photoId);
-    switch(photoContainer.containerName){
-      case("SUMMARY"): 
-        checkSummaryContainer();
-        break;
-      case("STANDBY"): 
-        checkStandByContainer();
-        break;
-      case("EXCLUDED"): 
-        checkExcludedContainer();
-        break;
-    }
+    checkDestination(DB.findContainer(photoId).name);
   }
     
   /*
@@ -197,13 +189,17 @@ abstract class SpecialScreen extends ScreenModule {
    * Checking Containers
    * 
    */
-  void removeCheckedAttribute(){
+  void removeCheckedAttribute(){    
     _summaryContainer.attributes.remove('checked');
     _standByContainer.attributes.remove('checked');
     _excludedContainer.attributes.remove('checked'); 
     _summaryLabel.attributes.remove('checked');
     _standbyLabel.attributes.remove('checked');
     _excludedLabel.attributes.remove('checked');
+    
+    print("Summary Container attributes: " + _summaryContainer.attributes.keys.toString());
+    print("Standby Container attributes: " + _standByContainer.attributes.keys.toString());
+    print("Excluded Container attributes: " + _excludedContainer.attributes.keys.toString());
   }
   
   /*
@@ -334,11 +330,20 @@ abstract class SpecialScreen extends ScreenModule {
    */
 
   void selectContainer(event, detail, target) {
+    print("Summary container attr: " + _summaryContainer.attributes.keys.toString());
+    print("Standby container attr: " + _standByContainer.attributes.keys.toString());
+    print("Excluded container attr: " + _excludedContainer.attributes.keys.toString());
     cleanGroups();
     currentContainer.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited, normalMode);
     currentContainer = DB.container(target.dataset["container"]);
     currentContainer.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited, normalMode);
     cleanSelection();
+    print("-----------------------------------------------------------------------");
+    checkDestination(currentContainer.name);
+    print("-----------------------------------------------------------------------");
+    print("Summary container attr: " + _summaryContainer.attributes.keys.toString());
+    print("Standby container attr: " + _standByContainer.attributes.keys.toString());
+    print("Excluded container attr: " + _excludedContainer.attributes.keys.toString());
   }
   
   /**
@@ -407,30 +412,22 @@ abstract class SpecialScreen extends ScreenModule {
         groupsToDelete = new List<GroupOfPhotos>();
         
         listsAux.addAll(lists.toList());
-        print("Teste 1C- Caso normal de move. Foto: " + photo.id.toString() + " a iniciar o processo.");
         List<GroupOfPhotos> groups = new List<GroupOfPhotos>();
         listsAux.forEach((groupsX){
       groups.clear();
       groups.addAll(groupsX.toList());
       groups.forEach((group){
               //Se for cara do grupo
-              print("Teste 1C - Group: " + group.groupName.toString() + " with this number of ele: " 
-                  + group.giveMeAllPhotos.length.toString());
               if(group.groupFace != null){ //Retirar isto quando comecar a calcular fotos dia ou noite TODO
-                print("Group face: " + group.groupFace.id.toString());
                 if(group.groupFace.id == photo.id){
-                  print("Teste 1C1- Caso normal de move. E cara deste grupo: " + group.groupName.toString());
                   remove = false;
                   //Se tiver mais fotos no grupo
                   if(group.giveMeAllPhotos.length > 1){
-                    print("Teste 1C2- Caso normal de move. Existem mais fotos no grupo. Nao vou apagar");
                     group.removeFromList(photo);
                     photo.removeGroup(group);
                     group.chooseAnotherFace();
-                    print("New Face");
                   //Se nao tiver mais fotos apagar o grupo
                   }else{
-                    print("Teste 1C3- Caso normal de move. Não existem mais fotos no grupo. Vou apagar o grupo");
                     groupsToDelete.add(group);
                     photo.removeGroup(group);
                   }
@@ -440,7 +437,6 @@ abstract class SpecialScreen extends ScreenModule {
               
             //Apagar grupos que houver para apagar
             if(groupsToDelete.length > 0){
-              print("Teste 1D- Caso normal de move. Apagar o grupo que fiquei de apagar");
               currentContainer.removeGroupFromList(groupsToDelete.first);
               groupsToDelete.clear();
               if(insideGroup){
@@ -450,9 +446,7 @@ abstract class SpecialScreen extends ScreenModule {
             }
   
             if(remove){
-              print("Estou a vir com a variavel remove");
               if(group.giveMeAllPhotos.contains(photo)){
-                print("REMOVENDO!");
                 currentContainer.removePhotoFromGroups(photo, group);
                 destinationContainer.tryToEnterInAGroupOrCreateANewOne(group, photo);
               }
@@ -502,12 +496,10 @@ abstract class SpecialScreen extends ScreenModule {
       photoCopy.forEach((selectedPhoto){
         deleteFromAllGroups(container, selectedPhoto);
       }); 
-      print("Teste 1A- Caso normal de move. As fotos já foram movidas para o container de destino");
       DB.moveFromTo(currentContainer.name, container.name, photos);
-      print("Teste 1B- Caso normal de move. para cada foto que foi movida, remover dos grupos do actual container");
       container.showPhotosWithCategories(selectedCategories, photo, new GroupOfPhotos(), normalMode);
     }
-    
+    toogleThNeedToCheckOverflow();
     disableSelection();
   }
 

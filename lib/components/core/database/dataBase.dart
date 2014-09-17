@@ -22,6 +22,7 @@ import 'package:observe/observe.dart';
 import 'dart:math' as Math;
 import 'dart:core';
 import 'dart:html';
+import 'dart:async';
 
 import '../exif/exifManager.dart';
 import '../hierarchyClustering/clusteringManager.dart';
@@ -743,17 +744,19 @@ class Database extends Object with Observable {
   /**
    * Build Summary
    */
-  bool buildSummary(List<Photo> photos, int numberOfPhotosDefined) {
+  Future buildSummary(List<Photo> photos, int numberOfPhotosDefined) {
+    var completer = new Completer();
     addNewElementsToDataBase(photos);
-    decideAlgorithm(numberOfPhotosDefined);
+    var function = decideAlgorithm(numberOfPhotosDefined);
     
-    return true;
+    completer.complete(function);
+    return completer.future;
   }
 
   /**
    * Decide which algorithm to use in the summary creation
    */
-  void decideAlgorithm(int numberOfPhotos) {
+  decideAlgorithm(int numberOfPhotos) {
     var function = _settings.whichAlgorithmInUse();
     extractCategories();
     switch (function) {

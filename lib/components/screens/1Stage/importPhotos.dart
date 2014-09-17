@@ -292,13 +292,20 @@ class ImportPhotos extends screenhelper.Screen {
     */
     void buildSummary(){ 
       
-      creatingSummary = "Creating...";
       var numberDefinedInt = int.parse(numberOfPhotosDefined);
       if((numberDefinedInt > numberOfPhotosLoaded) || (numberDefinedInt <= 0)){
         showMessageNumberOverflow();
-      }else{     
-        startWorkingOnSummary(photos, numberDefinedInt);
-        //creatingSummary = "Create Summary";
+      }else{ 
+        
+        //startWorkingOnSummary(photos, numberDefinedInt);
+        /**/
+        Future future = DB.buildSummary(photos, numberDefinedInt);
+        showSummaryBeenCreating();
+        future.then((content) {
+          hiddeSummaryBeenCreating();
+          goSummary();
+        });
+        
       }
     }
 

@@ -31,19 +31,25 @@ class ThirdAuxFunctions extends Object with Observable{
   }
   
   void markPhotoWithElement(Element element) {
+    print("Marking");
     previousPhoto = selectedPhoto;
     selectedPhoto = element;
-    if (previousPhoto != null) {
-      previousPhoto.classes.remove('choosed');
-      selectedPhoto.classes.add('choosed');
-    } else {
-      if(selectedPhoto != null){
-        if(selectedPhoto.classes.contains('selectedPhoto')){
-          selectedPhoto.classes.remove('choosed'); 
-        }
+    if(previousPhoto != selectedPhoto){
+      print("Different from previous!");
+      if (previousPhoto != null) {
+        print("Theres previous!");
+        previousPhoto.classes.remove('choosed');
         selectedPhoto.classes.add('choosed');
-      }
+      } else {
+        print("Theres no previous!");
+        if(selectedPhoto != null){
+          if(!selectedPhoto.classes.contains('selectedPhoto')){
+            selectedPhoto.classes.add('choosed'); 
+          }
+        }
+      } 
+    } else{
+      previousPhoto.classes.add('choosed');
     }
-  }
-  
+  } 
 }

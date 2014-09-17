@@ -40,11 +40,13 @@ class Downloader extends Object with Observable {
           summaryFiles = DB.giveMeAllSummaryFiles(),
           size = summaryPhotos.length,
           fileName = "",
+          file,
           imgData;
       for (int i = 0; i < size; i++) {
         fileName = summaryFiles.elementAt(i).name;
-        imgData = summaryPhotos.elementAt(i).mainSrc;
-        imgFolder.callMethod('file', [fileName, imgData]);
+        file = summaryFiles.elementAt(i);
+        imgData = summaryPhotos.elementAt(i).image.src;
+        imgFolder.callMethod('file', [fileName, imgData , ""]);
       }
 
       //zip.file("hello.txt").asUint8Array();

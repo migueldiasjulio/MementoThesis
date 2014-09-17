@@ -52,6 +52,7 @@ class ContainerPhotos extends PolymerElement {
   }
   
   void markNewPhotoChanged(){
+    print("MARK NEW PHOTO PLZ");
     markDisplayingPhoto();
   }
   
@@ -73,6 +74,7 @@ class ContainerPhotos extends PolymerElement {
    * Mark Displaying Photo
    */
   void markDisplayingPhoto() {
+    print("Entering mark function");
     var photoID = photo.id,
         element = $[photoID];
     if((container == currentContainer) && (
@@ -80,20 +82,22 @@ class ContainerPhotos extends PolymerElement {
        (dayMomentCategory && insideGroup) ||
        (qualityCategory && insideGroup) ||
        (toningCategory && insideGroup) ||
+       sameCategory ||
        (normalMode && (!facesCategory && !dayMomentCategory && !toningCategory && !qualityCategory)))){
       print("Element to mark: " + element.toString());
       if(element != null){_ThirdAuxFunctions.markPhotoWithElement(element);}
     }
   }
-  
+   
   /*
    * Checking if list in on onverflow
    */
   void checkOverflow() {
-    var uListName = "nav-" + container.secondname.toString(),
-        element = $[uListName];
+    var uListName = "nav-" + container.secondname.toString();
+        HtmlElement element = $[uListName];
 
     if ((element.offsetHeight < element.scrollHeight) || (element.offsetWidth < element.scrollWidth)) {
+      
       isInOverflow = true;
     } else {
       isInOverflow = false;

@@ -33,7 +33,6 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   factory DisplayingPhoto() => new Element.tag(TAG);
   Element _scrollableSummary, _scrollableStandby, _scrollableExcluded, _goLeft;
   MutationObserver observer;
-  @observable bool needToCheckOverflow = false;
   int countLeft = 0;
   int countRight = 0;
   @observable var showImageFunction;
@@ -41,6 +40,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   @observable Photo similarRelatedToThisOne = null;
   @observable var changeSimilarPhotoFunction;
   bool damnHackFirstTime = true;
+  Element lockedContainer = null;
   /*
    * 
    */
@@ -86,6 +86,8 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
       photo = DB.photoToDisplayPlease;
       similarRelatedToThisOne = photo;
       decideContainerToLock(photo.id);
+      toogleMarkNewPhoto();
+      checkOverflow();
     });
   }
   
@@ -113,13 +115,13 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
    * Run This on start
    */
   void runStartStuff() {
+    removeCheckedAttribute();
     _ScreenAdvisor.setScreenType(title);
     cleanAll();
     addAllCategoriesToInactive();
     summaryContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
     standbyContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
     excludedContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
-    checkOverflow();
     normalMode = true;    
   }
 
@@ -144,7 +146,6 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
    */
   void returnToSummary() {
     disableSelection();
-    removeCheckedAttribute();
     cleanElementSelected();
     removeCheckedAttribute();
     router.go("summary-manipulation", {});
@@ -154,17 +155,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
    * 
    */
   bool checkOverflow() => toogleThNeedToCheckOverflow();
-  
-  /*
-   * 
-   */
-  bool toogleThNeedToCheckOverflow() => needToCheckOverflow = !needToCheckOverflow;
-
-  /*
-   * 
-   */
-  void markPhotoWithElement(Element element) => _ThirdAuxFunctions.markPhotoWithElement(element);
-  
+    
   /*
    * 
    */
@@ -213,11 +204,26 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   /*
    * 
    */
-  void facesCategoryExecution() => photosWithFacesCategory(similarRelatedToThisOne);
-  void dayMomentCategoryExecution() => photosWithDayMomentCategory(similarRelatedToThisOne);
-  void toningCategoryExecution() => photosWithToningCategory(similarRelatedToThisOne);
-  void similarCategoryExecution() => photosWithSameCategory(similarRelatedToThisOne);
-  void qualityCategoryExecution() => photosWithQualityCategory(similarRelatedToThisOne);
+  void facesCategoryExecution(){
+   
+    photosWithFacesCategory(similarRelatedToThisOne);
+  }
+  
+  void dayMomentCategoryExecution(){
+    photosWithDayMomentCategory(similarRelatedToThisOne);
+  }
+  
+  void toningCategoryExecution(){
+    photosWithToningCategory(similarRelatedToThisOne);
+  }
+  
+  void similarCategoryExecution(){
+    photosWithSameCategory(similarRelatedToThisOne);
+  }
+  
+  void qualityCategoryExecution(){
+    photosWithQualityCategory(similarRelatedToThisOne);
+  }
 
   /*
    * 
@@ -400,10 +406,11 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
         putItToTheRightGroup(correctGroup);
         print("Correct group: " + correctGroup.groupName.toString());
         currentContainer.showPhotosWithCategories(selectedCategories, photo, correctGroup, normalMode);
+        toogleMarkNewPhoto();
       } else {
         print("Simplesmente click");
         photo = DB.find(target.attributes['data-id']);
-        markPhotoWithElement(target);
+        toogleMarkNewPhoto();
       }
     } else {
       var father = target.parent,
@@ -443,6 +450,7 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
         }
         print("$id is selected? $isSelected");
       }
+      toogleMarkNewPhoto();
     }
   }
 }
