@@ -75,7 +75,6 @@ class ImportPhotos extends screenhelper.Screen {
     _dropZone.onDragLeave.listen((e) => _dropZone.classes.remove('hover'));
     _dropZone.onDrop.listen(_onDrop);
 
-    //photos.changes.listen((records) => changeToModified());
   }
 
   /*
@@ -196,8 +195,7 @@ class ImportPhotos extends screenhelper.Screen {
 
             if(number == photoFiles.length){
               photos.addAll(photosToAdd);
-              
-              DB.sortPhotos(photos);
+              photos.sort();
               hiddeLoading();
             }
           }]);

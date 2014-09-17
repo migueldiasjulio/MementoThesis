@@ -1,94 +1,147 @@
 <link rel="import"
   href="../../../../../../packages/polymer/polymer.html">
-<polymer-element name="last-photo-info-element" attributes="photo"> 
+<polymer-element name="last-photo-info-element" attributes="photo sameCategory similarRelatedToThisOne
+changeSimilarPhotoFunction"> 
 <template>
 <link rel="stylesheet" href="../../resources/checkbox.css">
 <link rel="stylesheet" href="../../resources/mementoSize.css">
+<link rel="stylesheet" href="../../resources/mementoGrid.css">
 <link rel="stylesheet" href="../../resources/mementoPosition.css">
 <link rel="stylesheet" href="lastPhoto.css">
 
-   <ul> 
-    <li style="margin-top: 10px">
-      <template if="{{photo.hasFaces}}">
-        <div class="btn-group left">
-          <img src="../../../../resources/images/mini/with_faces.png" style="width: 40px; height: 40px;">
-          With Faces 
-        </div>                                                    
-      </template>
-      <template if="{{!photo.hasFaces}}">
-        <div class="btn-group left">
-         <img src="../../../../resources/images/mini/without_faces.png" style="width: 40px; height: 40px;">
-         Without Faces  
-        </div>                                                           
-      </template>
-    </li>
-    
-    <li>
-      <template if="{{!photo.isDay}}">
-        <div class="btn-group left">
-          <img src="../../../../resources/images/mini/night.png" style="width: 40px; height: 40px;">
-          At Night
-        </div>
-      </template>
-      <template if="{{photo.isDay}}">
-        <div class="btn-group left">
-          <img src="../../../../resources/images/mini/day.png" style="width: 40px; height: 40px;">
-          At Day
-        </div>
-      </template>
-    </li>
-    
-    <li>
-      <template if="{{!photo.isColor}}">
-        <div class="btn-group left">
-          <img src="../../../../resources/images/mini/black_photo.png" style="width: 40px; height: 40px;">
-          Black and White
-        </div>
-      </template>
-      <template if="{{photo.isColor}}">
-       <div class="btn-group left">
-        <img src="../../../../resources/images/mini/color_photo.png" style="width: 40px; height: 40px;">
-        Color
+   <ul style="width: 100%; height:100%">
+     <li style="width: 100%; height: 50%">
+      <div class="table-responsive" style="width: 100%; height:100%">
+        <table class="table" style="width: 100%; height:100%; overflow: scroll;">
+        
+            <tr style="width: 10%; height:100%;">
+              <td style="width: 50%; height:100%;">
+                <template if="{{photo.hasFaces}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/with_faces.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+                <template if="{{!photo.hasFaces}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/without_faces.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+              </td>
+              <td style="width: 50%; height:100%;">
+                <template if="{{photo.hasFaces}}">
+                  With Faces
+                </template>
+                <template if="{{!photo.hasFaces}}">
+                  Without Faces
+                </template>
+              </td>
+            </tr>
+            
+            <tr style="width: 10%; height:100%;">
+              <td style="width: 50%; height:100%;">
+                <template if="{{!photo.isDay}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/night.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+                <template if="{{photo.isDay}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/day.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+              </td>
+              <td style="width: 50%; height:100%;">
+                <template if="{{!photo.isDay}}">
+                  At Night
+                </template>
+                <template if="{{photo.isDay}}">
+                  At Day
+                </template>
+              </td>
+            </tr>
+            
+            <tr style="width: 10%; height:100%;">
+              <td style="width: 50%; height:100%;">
+                <template if="{{!photo.isColor}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/black_photo.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+                <template if="{{photo.isColor}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/color_photo.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+              </td>
+              <td style="width: 50%; height:100%;">
+                <template if="{{!photo.isColor}}">
+                  Black and White
+                </template>
+                <template if="{{photo.isColor}}">
+                  Color
+                </template>
+              </td>
+            </tr>
+            
+            <tr style="width: 10%; height:100%;">
+              <td style="width: 50%; height:100%;">
+                <template if="{{photo.lowQuality}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/poor_quality.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+                <template if="{{photo.mediumQuality}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/medium_quality.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+                <template if="{{photo.goodQuality}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/good_quality.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+              </td>
+              <td style="width: 50%; height:100%;">
+                <template if="{{photo.lowQuality}}">
+                  Low Quality
+                </template>
+                <template if="{{photo.mediumQuality}}">
+                  Medium Quality
+                </template>
+                <template if="{{photo.goodQuality}}">
+                  Good Quality
+                </template>
+              </td>
+            </tr>
+            
+            <tr style="width: 10%; height:100%;">
+              <td style="width: 50%; height:100%;">
+                <template if="{{photo.hasSimilarPhotos}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/with_similar.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+                <template if="{{!photo.hasSimilarPhotos}}">
+                  <img class="centerStuff" src="../../../../resources/images/mini/without_similar.png" 
+                  style="max-width: 30%; max-height: 30%">
+                </template>
+              </td>
+              <td style="width: 50%; height:100%;">
+                <template if="{{photo.hasSimilarPhotos}}">
+                  Has similar
+                </template>
+                <template if="{{!photo.hasSimilarPhotos}}">
+                  No similar
+                </template>
+              </td>
+            </tr>
+            
+            <tr style="width: 50%; height:100%;">
+              <td style="width: 50%; height:100%;">
+                <img class="centerStuff" src="../../../../resources/images/change_similar.png" 
+                style="max-width: 30%; max-height: 30%" on-click="{{changeSimilarPhotoFunctionExecution}}">
+                <p>Change Similar Photo</p>
+              </td>
+              <td style="width: 50%; height:100%;">
+                <img id="{{similarRelatedToThisOne.id}}" class="imageDisplaying" 
+                src="{{similarRelatedToThisOne.mainSrc}}" style="max-width: 60%; max-height: 60%" >
+              </td>
+            </tr>
+            
+        </table>
        </div>
-      </template>
-    </li>
-    
-    <li>
-      <template if="{{photo.lowQuality}}">
-       <div class="btn-group left">
-        <img src="../../../../resources/images/mini/poor_quality.png" style="width: 40px; height: 40px;">
-        Low quality
-       </div>
-      </template>
-      <template if="{{photo.mediumQuality}}">
-       <div class="btn-group left">
-        <img src="../../../../resources/images/mini/medium_quality.png" style="width: 40px; height: 40px;">
-        Medium quality
-       </div>
-      </template>
-      <template if="{{photo.goodQuality}}">
-       <div class="btn-group left">
-        <img src="../../../../resources/images/mini/good_quality.png" style="width: 40px; height: 40px;">
-        Good quality
-       </div>
-      </template>
-    </li>
-    
-    <li>
-      <template if="{{photo.hasSimilarPhotos}}">
-       <div class="btn-group left">
-        <img src="../../../../resources/images/mini/with_similar.png" style="width: 40px; height: 40px;">
-        Has similar photos
-       </div>
-      </template>
-      <template if="{{!photo.hasSimilarPhotos}}">
-       <div class="btn-group left">
-        <img src="../../../../resources/images/mini/without_similar.png" style="width: 40px; height: 40px;">
-        No similar photos
-       </div>
-      </template>
-    </li>
-    
+     </li> <!-- li table -->
+
   </ul>
 </template> 
 <script type="application/dart" src="lastPhoto.dart"></script> 

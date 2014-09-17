@@ -38,6 +38,9 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   int countRight = 0;
   @observable var showImageFunction;
   @observable bool markNewPhoto = false;
+  @observable Photo similarRelatedToThisOne = null;
+  @observable var changeSimilarPhotoFunction;
+  bool damnHackFirstTime = true;
   /*
    * 
    */
@@ -55,13 +58,21 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     toningCategoryExecutionFunction = toningCategoryExecution;
     similarCategoryExecutionFunction = similarCategoryExecution;
     qualityCategoryExecutionFunction = qualityCategoryExecution;
+    changeSimilarPhotoFunction = changeSimilarPhoto;
     showImageFunction = showImage;
+    
+    window.onKeyDown.listen((KeyboardEvent e) {
+      if(e.keyCode.toString() == "37"){previousPhotoInList();}
+      if(e.keyCode.toString() == "39"){nextPhotoInList(); }
+    });
   }
+  
+  
 
-  void photoChanged(){
-    var group = photo.returnTheCorrectGroup(false, toningCategory, facesCategory, 
-        dayMomentCategory, qualityCategory); //Forcing similarCategory to go false
-    updatePhotoView(photo, group);
+  void similarRelatedToThisOneChanged(){
+    var group = similarRelatedToThisOne.returnTheCorrectGroup(false, toningCategory, facesCategory, 
+            dayMomentCategory, qualityCategory); //Forcing similarCategory to go false
+        updatePhotoView(similarRelatedToThisOne, group);
   }
   
   bool toogleMarkNewPhoto() => markNewPhoto = !markNewPhoto;
@@ -73,10 +84,11 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   void setupRoutes(Route route) {
     route.addRoute(name: 'home', path: '', enter: (e) {
       photo = DB.photoToDisplayPlease;
+      similarRelatedToThisOne = photo;
       decideContainerToLock(photo.id);
     });
   }
-
+  
   /*
     route.addRoute(
         name: 'show',
@@ -108,19 +120,16 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     standbyContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
     excludedContainer.showPhotosWithCategories(selectedCategories, null, null, normalMode);
     checkOverflow();
-    //decideContainerToLock(photo.id);
-    normalMode = true;
-    
-    window.onKeyDown.listen((KeyboardEvent e) {
-      if(e.keyCode.toString() == "37"){previousPhotoInList();}
-      if(e.keyCode.toString() == "39"){nextPhotoInList(); }
-    });
-    
+    normalMode = true;    
   }
 
   void cleanAll() {
     disableSelection();
     cleanCategoriesStuff();
+  }
+  
+  void changeSimilarPhoto(){
+    similarRelatedToThisOne = photo;
   }
 
   /*
@@ -204,11 +213,11 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
   /*
    * 
    */
-  void facesCategoryExecution() => photosWithFacesCategory(photo);
-  void dayMomentCategoryExecution() => photosWithDayMomentCategory(photo);
-  void toningCategoryExecution() => photosWithToningCategory(photo);
-  void similarCategoryExecution() => photosWithSameCategory(photo);
-  void qualityCategoryExecution() => photosWithQualityCategory(photo);
+  void facesCategoryExecution() => photosWithFacesCategory(similarRelatedToThisOne);
+  void dayMomentCategoryExecution() => photosWithDayMomentCategory(similarRelatedToThisOne);
+  void toningCategoryExecution() => photosWithToningCategory(similarRelatedToThisOne);
+  void similarCategoryExecution() => photosWithSameCategory(similarRelatedToThisOne);
+  void qualityCategoryExecution() => photosWithQualityCategory(similarRelatedToThisOne);
 
   /*
    * 
@@ -382,7 +391,6 @@ class DisplayingPhoto extends screenhelper.SpecialScreen {
     var id = target.attributes["data-id"],
         isSelected;
     if (!selection) {
-      print("A entrar");
       if (isAnyCategoryOn() && allGroupsAreNull()) {
         insideGroup = true;
         Photo photo = DB.find(id);

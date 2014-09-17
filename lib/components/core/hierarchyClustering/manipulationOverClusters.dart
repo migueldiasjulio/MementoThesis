@@ -34,13 +34,22 @@ class ManipulationOverClusters extends Object with Observable {
   * Function to cut the cluster and add the biggest one
   * 
   */
-  void cutAndAddTheBiggest(List<Cluster> clusters) {
+  int cutAndAddTheBiggest(List<Cluster> clusters) {
+    var value = 0;
     var biggest = returnBiggestCluster(clusters),
         newClusterOne = biggest.getChildren().elementAt(0),
         newClusterTwo = biggest.getChildren().elementAt(1);
-    clusters.add(newClusterOne);
-    clusters.add(newClusterTwo);
-    clusters.remove(biggest);
+    if(newClusterOne.isLeaf() && newClusterTwo.isLeaf()){
+      value = 2;
+    }else 
+    if(newClusterOne.isLeaf() || newClusterTwo.isLeaf()){
+      value = 1;
+    }
+      clusters.add(newClusterOne);
+      clusters.add(newClusterTwo);
+      clusters.remove(biggest);
+
+    return value;
   }
 
   /**

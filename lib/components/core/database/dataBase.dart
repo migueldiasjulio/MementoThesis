@@ -341,6 +341,21 @@ class Container extends Object with Observable {
         blackAndWhite.setGroupName("Black and White");
         correctGroup = blackAndWhite;
         break;
+      case "Good Quality":
+        QualityGroupOfPhotos goodQuality = new QualityGroupOfPhotos();
+        goodQuality.setGroupName("Good Quality");
+        correctGroup = goodQuality;
+        break;
+      case "Medium Quality":
+        QualityGroupOfPhotos mediumQuality = new QualityGroupOfPhotos();
+        mediumQuality.setGroupName("Medium Quality");
+        correctGroup = mediumQuality;
+        break;
+      case "Bad Quality":
+        QualityGroupOfPhotos badQuality = new QualityGroupOfPhotos();
+        badQuality.setGroupName("Bad Quality");
+        correctGroup = badQuality;
+        break;
       case "Similar":
         SimilarGroupOfPhotos similar = new SimilarGroupOfPhotos();
         similar.setGroupName("Similar");
@@ -731,6 +746,7 @@ class Database extends Object with Observable {
   bool buildSummary(List<Photo> photos, int numberOfPhotosDefined) {
     addNewElementsToDataBase(photos);
     decideAlgorithm(numberOfPhotosDefined);
+    
     return true;
   }
 
@@ -774,7 +790,7 @@ class Database extends Object with Observable {
     container.colorListGroupOfPhotos.addAll(color.ToningCategory.get().workToningGroups(container.photos));
     container.qualityListGroupOfPhotos.addAll(quality.QualityCategory.get().workQualityGroups(container.photos));
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
-    //sortPhotos(container.photos);
+    sortPhotos(container.photos);
     container.sortEverything();
 
     container = containers.values.elementAt(1);
@@ -783,7 +799,7 @@ class Database extends Object with Observable {
     container.colorListGroupOfPhotos.addAll(color.ToningCategory.get().workToningGroups(container.photos));
     container.qualityListGroupOfPhotos.addAll(quality.QualityCategory.get().workQualityGroups(container.photos));
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
-    //sortPhotos(container.photos);
+    sortPhotos(container.photos);
     container.sortEverything();
 
     container = containers.values.elementAt(2);
@@ -792,7 +808,7 @@ class Database extends Object with Observable {
     container.colorListGroupOfPhotos.addAll(color.ToningCategory.get().workToningGroups(container.photos));
     container.qualityListGroupOfPhotos.addAll(quality.QualityCategory.get().workQualityGroups(container.photos));
     container.similarListGroupOfPhotos.addAll(similar.SimilarCategory.get().workSimilarCase(container.photos));
-    //sortPhotos(container.photos);
+    sortPhotos(container.photos);
     container.sortEverything();
   }
 

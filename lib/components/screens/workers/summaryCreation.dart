@@ -34,6 +34,7 @@ class SummaryCreation extends Object with Observable {
       
       if(msg == "STOP"){  }
       
+      photos.sort();
       DB.buildSummary(photos, numberDefinedInt);
       
       sendPort.send("Process is finished!");

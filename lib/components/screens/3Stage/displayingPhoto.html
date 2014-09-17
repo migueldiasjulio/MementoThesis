@@ -26,12 +26,9 @@
               </button>
             </div>
           </div>
-          <div class="col col-xs-11 col-sm-11 col-md-11 col-lg-11">
-              
-                  <div id="centerText">
-                  
-                   <form class="form-inline" role="form">
-                   
+          <div class="col col-xs-11 col-sm-11 col-md-11 col-lg-11">            
+                  <div id="centerText">           
+                   <form class="form-inline" role="form">      
                      <div class="row">
                      
                      <div class="col col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
@@ -40,24 +37,27 @@
                         <template if="{{currentContainer.photosToDisplay.length > 1}}">
                          <img src="../../../resources/images/back.png" 
                          on-click="{{previousPhotoInList}}" 
-                         class="arrowCursor" id="arrowSize"  />
+                         class="arrowCursor" style="width: 3%; height:3%"  />
                         </template>
-                            <img id="{{photo.id}}" class="imageDisplay imageDisplaying" src="{{photo.mainSrc}}" >
+                            <img id="{{photo.id}}" class="imageDisplay imageDisplaying" 
+                            on-click="{{changeSimilarPhoto}}" src="{{photo.mainSrc}}" >
                         <template if="{{currentContainer.photosToDisplay.length > 1}}">
                           <img src="../../../resources/images/forward.png" 
                                on-click="{{nextPhotoInList}}" 
                                class="arrowCursor" 
-                               id="arrowSize"  /> 
+                               style="width: 3%; height:3%" /> 
                         </template>
                         <p><strong>{{photo.title}}</strong></p>
                       </div>   
                      </div>
                      <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                      <div style="float: left;">
-                        <div style="margin-top: 40%">
-                          <last-photo-info-element photo="{{photo}}"></last-photo-info-element>
+                        <div style="width: 100%; height:100%">
+                          <last-photo-info-element style="width: 100%; height:100%" 
+                            photo="{{photo}}"
+                            similarRelatedToThisOne ="{{similarRelatedToThisOne}}"
+                            changeSimilarPhotoFunction="{{changeSimilarPhotoFunction}}"
+                            sameCategory="{{sameCategory}}"></last-photo-info-element>
                         </div>
-                      </div>
                      </div>
                      
                      </div>        
@@ -154,6 +154,7 @@
           </section>
          </div>
 
+     <!-- <section id="bottomZone"> -->
       <div id="screenFooterButtons"> <!-- screen footer -->
        <form class="form-inline" role="form"> <!-- form -->
           <template if="{{!selection}}">

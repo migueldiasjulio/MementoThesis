@@ -24,6 +24,7 @@ class ClusteringManager extends Object with Observable {
   Cluster clusterBuilt = null;
   List<Cluster> auxiliar = null;
   List<Cluster> secondAuxiliar = null;
+  int numberOfLeafsToTakeDown = 0;
 
   ClusteringManager._() {
     auxiliar = new List<Cluster>();
@@ -81,8 +82,8 @@ class ClusteringManager extends Object with Observable {
    * 
    */
   Cluster chooseForTheBestFromList(List<Cluster> clusters) {
-    var listOfPhotos = _ManipulationOverClusters.clustersToPhotos(clusters);
-        var photo = _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos),
+    var listOfPhotos = _ManipulationOverClusters.clustersToPhotos(clusters),
+        photo = _HistogramManager.returnPhotoWithBestExposureLevel(listOfPhotos),
         clusterToReturn = null;
 
     clusters.forEach((child) {
@@ -128,14 +129,14 @@ class ClusteringManager extends Object with Observable {
       auxiliar.clear();
     } else {
       //more than 2 and < total number of photos loaded
-      auxiliar.addAll(specialCaseCuttingTree(cluster, numberOfSummaryPhotos, new List<Cluster>()));
+      auxiliar.addAll(specialCaseCuttingTree(cluster, numberOfSummaryPhotos, 
+          new List<Cluster>()));
       var clustersAux = new List<Cluster>();
       clustersAux.addAll(auxiliar);
       selectedPhotos.addAll(specialChoose(clustersAux, numberOfSummaryPhotos));
       auxiliar.clear();
     }
 
-    //print("Selected Photos: " + selectedPhotos.toString());
     return selectedPhotos;
   }
 
@@ -236,12 +237,14 @@ class ClusteringManager extends Object with Observable {
         clusterPhotos = 0,
         calculations = 0;
 
-    clustersToGo.forEach((clusters) {
-      _ManipulationOverClusters.returnAllLeafsFromThisCluster(clusters);
-      clusterPhotos = _ManipulationOverClusters.auxiliar.length;
-      calculations = clusterPhotos - 2;
-      numberOfPhotos += calculations;
-      _ManipulationOverClusters.cleanAuxiliar();
+    clustersToGo.forEach((cluster) {
+      if(!cluster.isLeaf()){
+        _ManipulationOverClusters.returnAllLeafsFromThisCluster(cluster);
+        clusterPhotos = _ManipulationOverClusters.auxiliar.length;
+        calculations = clusterPhotos - 2;
+        numberOfPhotos += calculations;
+        _ManipulationOverClusters.cleanAuxiliar();
+      }
     });
 
     return (numberOfPhotos >= needAnotherOne);
@@ -255,53 +258,58 @@ class ClusteringManager extends Object with Observable {
   List<String> specialChoose(List<Cluster> clusters, int numberOfSummaryPhotos) {
     var photosToReturn = new List<Cluster>(),
         index = 0,
-        needAnotherOne = 0,
         clustersToGo = null;
+    var needAnotherOne = numberOfLeafsToTakeDown.abs();
+        numberOfLeafsToTakeDown = 0;
 
     for (Cluster cluster in clusters) {
-      var checkLater = false;
-      if (photosToReturn.length != numberOfSummaryPhotos) {
-        var aux = clusters.getRange((index + 1), (clusters.length));
-        clustersToGo = new List<Cluster>();
-        clustersToGo.addAll(aux);
-        if (needAnotherOne > 0) {
-          checkLater = true;
-        }
-
+      if(!cluster.isLeaf()){
+        var checkLater = false;
         if (photosToReturn.length != numberOfSummaryPhotos) {
-          var firstChild = chooseForTheBest(cluster);
-          auxiliar.remove(firstChild);
-          needAnotherOne += doTheWork(needAnotherOne, firstChild, photosToReturn, clustersToGo, true);
-
+          var aux = clusters.getRange((index + 1), (clusters.length));
+          clustersToGo = new List<Cluster>();
+          clustersToGo.addAll(aux);
+          if (needAnotherOne > 0) {
+            checkLater = true;
+          }
+  
           if (photosToReturn.length != numberOfSummaryPhotos) {
-            var secondChild = chooseForTheBestFromList(auxiliar);
-            auxiliar.remove(secondChild);
-            needAnotherOne += doTheWork(needAnotherOne, secondChild, photosToReturn, clustersToGo, false);
-
-            if (checkLater && auxiliar.isNotEmpty) {
-              var cycle = true,
-                  anotherChild = null;
-              anotherChild = chooseForTheBestFromList(auxiliar);
-              auxiliar.remove(anotherChild);
-              photosToReturn.add(anotherChild);
-              needAnotherOne--;
-              while (cycle && (photosToReturn.length != numberOfSummaryPhotos)) {
-                if (!thereAreConditionToGetThePhotos(needAnotherOne, clustersToGo) && auxiliar.isNotEmpty) {
-                  anotherChild = chooseForTheBestFromList(auxiliar);
-                  auxiliar.remove(anotherChild);
-                  photosToReturn.add(anotherChild);
-                  needAnotherOne--;
-                } else {
-                  cycle = false;
+            var firstChild = chooseForTheBest(cluster);
+            auxiliar.remove(firstChild);
+            needAnotherOne += doTheWork(needAnotherOne, firstChild, photosToReturn, clustersToGo, true);
+  
+            if (photosToReturn.length != numberOfSummaryPhotos) {
+              var secondChild = chooseForTheBestFromList(auxiliar);
+              auxiliar.remove(secondChild);
+              needAnotherOne += doTheWork(needAnotherOne, secondChild, photosToReturn, clustersToGo, false);
+  
+              if (checkLater && auxiliar.isNotEmpty) {
+                var cycle = true,
+                    anotherChild = null;
+                anotherChild = chooseForTheBestFromList(auxiliar);
+                auxiliar.remove(anotherChild);
+                photosToReturn.add(anotherChild);
+                needAnotherOne--;
+                while (cycle && (photosToReturn.length != numberOfSummaryPhotos)) {
+                  if (!thereAreConditionToGetThePhotos(needAnotherOne, clustersToGo) && auxiliar.isNotEmpty) {
+                    anotherChild = chooseForTheBestFromList(auxiliar);
+                    auxiliar.remove(anotherChild);
+                    photosToReturn.add(anotherChild);
+                    needAnotherOne--;
+                  } else {
+                    cycle = false;
+                  }
                 }
               }
             }
           }
+  
+          auxiliar.clear();
         }
-
-        auxiliar.clear();
+      }else{
+        photosToReturn.add(cluster);
       }
-      index++;
+        index++;  
     }
 
     return _ManipulationOverClusters.clustersToPhotosId(photosToReturn);
@@ -312,7 +320,8 @@ class ClusteringManager extends Object with Observable {
    * Cutting the built tree
    * 
    */
-  List<Cluster> specialCaseCuttingTree(Cluster cluster, int numberOfSummaryPhotos, List<Cluster> listToReturn) {
+  List<Cluster> specialCaseCuttingTree(Cluster cluster, int numberOfSummaryPhotos, 
+      List<Cluster> listToReturn) {
     var goal = numberOfSummaryPhotos / 2,
         numberOfClusters = 2,
         clusters = new List<Cluster>();
@@ -321,7 +330,7 @@ class ClusteringManager extends Object with Observable {
     clusters.add(cluster.children.elementAt(1));
 
     while (numberOfClusters != goal) {
-      _ManipulationOverClusters.cutAndAddTheBiggest(clusters);
+      numberOfLeafsToTakeDown += _ManipulationOverClusters.cutAndAddTheBiggest(clusters);
       numberOfClusters = clusters.length;
     }
     listToReturn.addAll(clusters);

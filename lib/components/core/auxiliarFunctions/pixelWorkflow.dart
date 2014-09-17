@@ -115,8 +115,8 @@ class PixelWorkflow extends Object with Observable {
         Blue = (blueValuesSum / numberOfIterations),
         average = (Red + Green + Blue) / 3;
 
-    var greyPercentage = grayPixel / numberOfIterations;
-    if (greyPercentage < 0.10) {
+    var greyPercentage = grayPixel/numberOfIterations;
+    if (greyPercentage < 0.20){
       photo.thisOneIsColor();
     }
 

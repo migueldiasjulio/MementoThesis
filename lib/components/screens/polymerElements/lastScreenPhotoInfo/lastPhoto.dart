@@ -11,6 +11,9 @@ import '../../../core/photo/photo.dart';
 /*
  * 
  */ 
+
+typedef void changeSimilarPhoto();
+
 @CustomTag('last-photo-info-element')
 class LastPhotoElement extends PolymerElement {
   
@@ -21,13 +24,18 @@ class LastPhotoElement extends PolymerElement {
   bool get applyAuthorStyles => true;
   bool get preventDispose => true;
   
+  @published bool sameCategory;
   @published Photo photo;
+  @published Photo similarRelatedToThisOne;
+  @published changeSimilarPhoto changeSimilarPhotoFunction;
+  
+  void changeSimilarPhotoFunctionExecution() => changeSimilarPhotoFunction();
   
   photoChanged(){
     print("Changed!");
     photo = photo;
   }
-
+  
   /*
    * 
    */ 

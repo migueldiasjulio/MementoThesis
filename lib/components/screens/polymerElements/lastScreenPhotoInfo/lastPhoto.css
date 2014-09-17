@@ -13,3 +13,10 @@ ul{
 list-style-type: none;
 }
 
+.25size{
+  width: 15%; 
+  height: 15%;
+}
+
+table {border: none;}
+

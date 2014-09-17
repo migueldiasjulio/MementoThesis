@@ -8,7 +8,7 @@ class MementoSettings {
    * 
    */ 
   static MementoSettings _instance;
-  var _function = Function.FunctionChoosed.FIRSTX;
+  var _function = Function.FunctionChoosed.HIERARCHICAL;
 
   /**
    * Singleton

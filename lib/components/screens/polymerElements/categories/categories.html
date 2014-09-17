@@ -57,13 +57,19 @@ similarCategoryExecutionFunction sameCategory facesCategory dayMomentCategory to
                        on-click="{{qualityCategoryExecutionPlease}}" id="categorySize"  /> 
               </template>
               <!-- Quality -->
-            <template if="{{sameCategory || !normalMode}}"> 
-              <img src="../../../../resources/images/similar.png" 
+            <template if="{{sameCategory || !normalMode}}">
+              <div class="tooltips">
+              <img src="../../../../resources/images/similar.png"
                    on-click="{{similarCategoryExecutionPlease}}" id="categorySize"  /> 
+              <span class="spanInformation">Based on image presented at table</span>
+              </div> 
             </template>
             <template if="{{!sameCategory}}">
-                <img src="../../../../resources/images/similar_ns.png" 
+              <div class="tooltips">
+                <img src="../../../../resources/images/similar_ns.png"
                      on-click="{{similarCategoryExecutionPlease}}" id="categorySize"  /> 
+                <span class="spanInformation">Based on image presented at table</span>
+              </div> 
             </template>
           </div>
         </div>

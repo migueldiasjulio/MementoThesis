@@ -204,9 +204,6 @@ abstract class SpecialScreen extends ScreenModule {
     _summaryLabel.attributes.remove('checked');
     _standbyLabel.attributes.remove('checked');
     _excludedLabel.attributes.remove('checked');
-    //_summarySpan.attributes.remove('checked');
-    //_standbySpan.attributes.remove('checked');
-    //_excludedSpan.attributes.remove('checked');
   }
   
   /*
@@ -235,9 +232,7 @@ abstract class SpecialScreen extends ScreenModule {
   void checkSummaryContainer(){
     _summaryContainer.setAttribute("checked", "checked");
     _summaryLabel.setAttribute("checked", "checked");
-    //_summarySpan.setAttribute("checked", "checked");
     currentContainer = summaryContainer;
-    //cleanAll();
     checkOverflow();
   }
   
@@ -247,9 +242,7 @@ abstract class SpecialScreen extends ScreenModule {
   void checkStandByContainer(){
     _standByContainer.setAttribute("checked", "checked");
     _standbyLabel.setAttribute("checked", "checked");
-    //_standbySpan.setAttribute("checked", "checked");
     currentContainer = standbyContainer;
-    //cleanAll();
     checkOverflow();
   }
   
@@ -259,9 +252,7 @@ abstract class SpecialScreen extends ScreenModule {
   void checkExcludedContainer(){
     _excludedContainer.setAttribute("checked", "checked");
     _excludedLabel.setAttribute("checked", "checked");
-    //_excludedSpan.setAttribute("checked", "checked");
     currentContainer = excludedContainer;
-    //cleanAll();
     checkOverflow();
   }
 
@@ -343,7 +334,10 @@ abstract class SpecialScreen extends ScreenModule {
    */
 
   void selectContainer(event, detail, target) {
+    cleanGroups();
+    currentContainer.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited, normalMode);
     currentContainer = DB.container(target.dataset["container"]);
+    currentContainer.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited, normalMode);
     cleanSelection();
   }
   
@@ -469,7 +463,7 @@ abstract class SpecialScreen extends ScreenModule {
   }
   
   /*
-   * Move to container
+   * Move to container function. This function is used by 2nd and 3rd screens
    */
   void moveToContainer(event, detail, target){
     var container = DB.container(target.attributes['container']),
@@ -504,14 +498,12 @@ abstract class SpecialScreen extends ScreenModule {
       });
       DB.moveFromTo(currentContainer.name, container.name, photoCopy);
       container.showPhotosWithCategories(selectedCategories, photo, lastGroupVisited, normalMode);
-      checkDestination(container.name);
     }else{
       photoCopy.forEach((selectedPhoto){
         deleteFromAllGroups(container, selectedPhoto);
       }); 
       print("Teste 1A- Caso normal de move. As fotos já foram movidas para o container de destino");
       DB.moveFromTo(currentContainer.name, container.name, photos);
-      checkDestination(container.name); 
       print("Teste 1B- Caso normal de move. para cada foto que foi movida, remover dos grupos do actual container");
       container.showPhotosWithCategories(selectedCategories, photo, new GroupOfPhotos(), normalMode);
     }

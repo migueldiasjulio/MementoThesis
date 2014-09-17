@@ -36,7 +36,7 @@ class ExifManager extends Object with Observable {
   /**
    *  Higher integer to represent data
    */ 
-  double higherDateInformation = 0.0;
+  double higherDateInformation = 1.0;
 
   ExifManager._() {
     //TODO
@@ -62,19 +62,16 @@ class ExifManager extends Object with Observable {
         seconds = date.second,
         milliseconds = date.millisecond;
     
-    //TODO do normalization
-    normalizationNumber = year*1000000.0 + month*100000.0 + day*1000.0 + 
-                          hour*100.0 + minutes *10.0 + seconds + milliseconds;
+    normalizationNumber = (year*10000000.0) + (month*1000000.0) + (day*100000.0) + 
+                          (hour*10000.0) + (minutes*100.0) + seconds;
     
-    if(normalizationNumber > higherDateInformation){
-      //higherDateInformation = normalizationNumber;
-    }
-    
+    if(normalizationNumber > higherDateInformation){higherDateInformation = normalizationNumber;}
+        
     return new ReturnObject(normalizationNumber,year, month, day, hour, minutes, seconds, milliseconds);
   }
   
   double calcNormalizationNumber(double firstNormalizationNumber){
-    return firstNormalizationNumber/higherDateInformation;
+     return firstNormalizationNumber/higherDateInformation;
   }
   
   void secondNormalization(List<Photo> photos){
